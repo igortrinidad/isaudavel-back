@@ -14,8 +14,8 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'admin',
-        'passwords' => 'users',
+        'guard' => 'professional',
+        'passwords' => 'professionals',
     ],
 
     /*
@@ -41,9 +41,9 @@ return [
             'provider' => 'users',
         ],
 
-        'admin' => [
+        'professional' => [
             'driver' => 'jwt',
-            'provider' => 'users',
+            'provider' => 'professionals',
         ],
 
         'client' => [
@@ -75,9 +75,9 @@ return [
     */
 
     'providers' => [
-        'users' => [
+        'professionals' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => App\Models\Professional::class,
         ],
 
         'clients' => [
@@ -112,8 +112,8 @@ return [
     */
 
     'passwords' => [
-        'users' => [
-            'provider' => 'users',
+        'professionals' => [
+            'provider' => 'professionals',
             'table' => 'password_resets',
             'expire' => 60,
         ],

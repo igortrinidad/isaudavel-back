@@ -7,6 +7,8 @@ use App\Models\Client;
 use App\Models\ClientSocialProvider;
 use App\Models\OracleSocialProvider;
 use App\Models\OracleUser;
+use App\Models\Professional;
+use App\Models\ProfessionalSocialProvider;
 use App\Models\User;
 use App\Models\UserSocialProvider;
 use Illuminate\Http\Request;
@@ -81,17 +83,17 @@ class SocialAuthController extends Controller
         }
 
         /*
-        * Handling with a admin user
+        * Handling with a professional user
         */
-        if($request->has('role') && $request->get('role') == 'admin'){
+        if($request->has('role') && $request->get('role') == 'professional'){
 
-            $userSocialProvider = UserSocialProvider::where('provider_id', $request->get('id'))->first();
+            $userSocialProvider = ProfessionalSocialProvider::where('provider_id', $request->get('id'))->first();
 
             if(!$userSocialProvider)
             {
                 if($request->has('user_email')){
 
-                    $user = User::whereEmail($request->get('user_email'))->first();
+                    $user = Professional::whereEmail($request->get('user_email'))->first();
 
                     if($user){
                         $user->socialProviders()->create([
@@ -106,7 +108,7 @@ class SocialAuthController extends Controller
                 if(!$request->has('user_email')){
 
                     //Create user
-                    $user = User::firstOrCreate([
+                    $user = Professional::firstOrCreate([
                         'name' => $request->get('first_name'),
                         'last_name' => $request->get('last_name'),
                         'email' => $request->get('email')
@@ -121,7 +123,7 @@ class SocialAuthController extends Controller
                 }
 
             }else{
-                $user = $userSocialProvider->user;
+                $user = $userSocialProvider->professional;
             }
         }
 
@@ -180,25 +182,4 @@ class SocialAuthController extends Controller
             'msg' => 'Unable to authenticate with Facebook.'
         ], 403);
     }
-
-    public function user(Request $request)
-    {
-        $user = \Auth::user();
-
-        $user = $user ? \Auth::guard('admin')->user() : \Auth::guard('client')->user();
-
-        return response()->json(['status' => 'success', 'data' => $user->load('socialProviders')]);
-    }
-
-    public function refresh()
-    {
-        $user = \Auth::user();
-
-        $user = $user ? \Auth::guard('admin')->user() : \Auth::guard('client')->user();
-        return response([
-            'status' => 'success',
-            'data' => $user->load('socialProviders')
-        ]);
-    }
-
 }

@@ -183,7 +183,6 @@ return [
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         Barryvdh\Cors\ServiceProvider::class,
         Spatie\Fractal\FractalServiceProvider::class,
-        Prettus\Repository\Providers\RepositoryServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
 
     ],
