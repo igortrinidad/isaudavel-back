@@ -3,9 +3,12 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>WESKD - Agendamento online para estúdios de pilates</title>
+        <title>iSaudavel - A sua saúde em boas mãos</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" href="/icons/icon_p.png" type="image/x-icon"/>
+        <link rel="shortcut icon" href="/icons/icon_g.png" type="image/x-icon"/>
 
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
@@ -13,9 +16,9 @@
         <meta property="fb:app_id" content="1854829291449231" />
         <meta property="og:locale" content="pt_BR">
         <meta property="og:url" content="https://weskd.com">
-        <meta property="og:title" content="WESKD">
-        <meta property="og:site_name" content="WESKD">
-        <meta property="og:description" content="WESKD é uma ferramenta para agendamento online para seu estúdio de pilates.">
+        <meta property="og:title" content="iSaudavel">
+        <meta property="og:site_name" content="iSaudavel">
+        <meta property="og:description" content="iSaudavel é uma ferramenta para conectar você e os melhores profissionais para cuidar da sua saúde.">
         <meta property="og:image" content="https://weskd.com/logos/LOGO-1-02.png">
         <meta property="og:image:type" content="image/png">
 
@@ -68,7 +71,7 @@
     	                </button>
     	                <a class="navbar-brand" href="#">
                             <img class="logo-1" src="logos/LOGO-1-04.png" alt="LOGO" width="120px">
-    	                    <img class="logo-2" src="logos/LOGO-1-02.png" alt="LOGO" width="120px">
+    	                    <img class="logo-2" src="logos/LOGO-1-01.png" alt="LOGO" width="120px">
     	                </a>
     	            </div>
 
@@ -87,8 +90,8 @@
     	            <div class="row">
     	                <div class="col-md-6">
     	                    <div class="block">
-    	                        <h1 class="wow fadeInDown">Controle sua agenda como nunca</h1>
-    	                        <p class="wow fadeInDown" data-wow-delay="0.3s">Uma agenda flexível para estúdios de pilates, personal trainners e profissionais em geral para que você e e seus clientes economizarem a coisa mais importante: <b>TEMPO</b>.</p>
+    	                        <h1 class="wow fadeInDown">Cuide da sua saúde como nunca</h1>
+    	                        <p class="wow fadeInDown" data-wow-delay="0.3s">Uma rede social para promover a sua saúde com auxílio dos melhores profissionais.</p>
     	                        <div class="wow fadeInDown" data-wow-delay="0.3s">
     	                        	<a class="btn btn-default btn-home" href="#contact" role="button">Quero saber mais</a>
     	                        </div>
@@ -145,7 +148,7 @@
                             <div class="block">
                                 <div class="heading wow fadeInUp">
                                     <h2>Seja o primeiro</h2>
-                                    <p>Inscreva-se para receber em primeira mão todos os detalhes dessa ferramenta e receba um <b>mega desconto exclusivo</b> no lançamento.</p>
+                                    <p>Inscreva-se para receber em primeira mão todos os detalhes dessa ferramenta criada para sua saúde e bem estar.</p>
                                 </div>
                             </div>
                         </div>
@@ -153,7 +156,8 @@
     						<div class="block text-left">
     							<div class="sub-heading">
     								<h4>Sobre</h4>
-    								<p>WESKD é uma ferramenta desenvolvida para estúdios de Pilates controlarem seus horários de aulas e atendimento de forma flexível, através de um aplicativo dedicado a economizar a coisa mais importante da vida: <B>TEMPO</B>.</p>
+    								<p><b>iSaudavel</b> é uma ferramenta para conectar você e os melhores profissionais para cuidar da sua saúde.</p>
+                                    <p>Uma rede social voltada para promover a sua saúde.</p>
     							</div>
     							<address class="address">
                                     
@@ -199,7 +203,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="block">
-                                <p>Copyright &copy; <a href="http://www.weskd.com">Weskd</a>| Todos os direitos reservados.</p>
+                                <p>Copyright &copy; <a href="http://www.isaudavel.com">iSaudavel</a>| Todos os direitos reservados.</p>
                             </div>
                         </div>
                     </div>
@@ -234,33 +238,6 @@
 
           ga('create', 'UA-70761422-5', 'auto');
           ga('send', 'pageview');
-        </script>
-
-        <script type="text/javascript">
-
-            var vm = new Vue({
-                el: '#app',
-                data: { 
-                    days: 12,
-                    hours: 0,
-                    minutes: 0,
-                    seconds: 0
-                },
-                mounted: function(){
-                    console.log('Vue rodando');
-                },
-                filters: {
-
-                },
-
-                computed: {
-                },
-                methods: {
-
-                }
-
-            });
-
         </script>
         
     </body>

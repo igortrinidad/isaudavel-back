@@ -336,7 +336,7 @@ a:active {
 
 #hero-area {
   padding:180px 0;
-    background: rgba(0, 0, 0, 0) linear-gradient(135deg, #F87136 0%, #F87136 100%) repeat scroll 0 0;
+    background: rgba(0, 0, 0, 0) linear-gradient(135deg, #88C657 0%, #6EC058 100%) repeat scroll 0 0;
 }
 #hero-area:before {
     content: "";
@@ -438,7 +438,7 @@ a:active {
     color: #fff;
 }
 .navbar-default.animated .navbar-nav > li.current > a {
-    color: #F87136;
+    color: #88C657;
 }
 #hero-area .navbar-default .navbar-nav {
     padding-top: 11px;
@@ -803,8 +803,8 @@ hr {
 }
 .btn-send {
     line-height: 48px;
-    border: 2px solid #F87136;
-    background: #F87136;
+    border: 2px solid #88C657;
+    background: #88C657;
     color: #fff;
     width: 100%;
     font-size: 11px;
