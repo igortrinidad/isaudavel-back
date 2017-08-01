@@ -19,24 +19,16 @@
         <meta property="og:title" content="iSaudavel">
         <meta property="og:site_name" content="iSaudavel">
         <meta property="og:description" content="iSaudavel é uma ferramenta para conectar você e os melhores profissionais para cuidar da sua saúde.">
-        <meta property="og:image" content="https://weskd.com/logos/LOGO-1-02.png">
+        <meta property="og:image" content="https://isaudavel.com/logos/LOGO-1-02.png">
         <meta property="og:image:type" content="image/png">
 
         
         <!-- Fonts -->
         <!-- Lato -->
         <link href='http://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 
-        <!-- CSS -->
-
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/font-awesome.min.css">
-        <link rel="stylesheet" href="css/owl.carousel.css">
-        <link rel="stylesheet" href="css/animate.css">
-        <link rel="stylesheet" href="css/main.css">
-        <!-- Responsive Stylesheet -->
-        <link rel="stylesheet" href="css/responsive.css">
+        <!-- Styles -->
+        <link rel="stylesheet" href="{{ elixir('build/prelaunch/css/build_vendors_custom.css') }}">
 
         <!-- Hotjar Tracking Code for https://weskd.com -->
         <script>
@@ -147,8 +139,8 @@
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="block">
                                 <div class="heading wow fadeInUp">
-                                    <h2>Seja o primeiro</h2>
-                                    <p>Inscreva-se para receber em primeira mão todos os detalhes dessa ferramenta criada para sua saúde e bem estar.</p>
+                                    <h2>Quero ser Saudável</h2>
+                                    <p>Inscreva-se para receber em primeira mão todos os detalhes dessa ferramenta criada para promover sua saúde e bem estar.</p>
                                 </div>
                             </div>
                         </div>
@@ -156,13 +148,14 @@
     						<div class="block text-left">
     							<div class="sub-heading">
     								<h4>Sobre</h4>
-    								<p><b>iSaudavel</b> é uma ferramenta para conectar você e os melhores profissionais para cuidar da sua saúde.</p>
-                                    <p>Uma rede social voltada para promover a sua saúde.</p>
+    								<p><b>iSaudavel</b> é uma rede social criada para conectar você com os melhores profissionais da área da saúde.</p>
     							</div>
-    							<address class="address">
-                                    
-    							</address>
     						</div>
+
+                            <div class="block text-left">
+                            <h4>Para você</h4>
+
+                            </div>
                         </div>
 
                         <div class="col-xs-12 col-sm-12 col-md-5 col-md-offset-1 wow fadeInUp" data-wow-delay="0.3s">
@@ -214,20 +207,7 @@
 
 
         <!-- Js -->
-        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
-        <script src="js/vendor/jquery-1.10.2.min.js"></script>
-        <script src="js/jquery.lwtCountdown-1.0.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/owl.carousel.min.js"></script>
-        <script src="js/jquery.validate.min.js"></script>
-        <script src="js/jquery.form.js"></script>
-        <script src="js/jquery.nav.js"></script>
-        <script src="js/jquery.sticky.js"></script>
-        <script src="js/plugins.js"></script>
-        <script src="js/wow.min.js"></script>
-        <script src="js/main.js"></script>
-        <script src="js/vue.js"></script>
-        <script src="js/moment.js"></script>
+        <script src="{{ elixir('build/prelaunch/js/build_vendors_custom.js') }}"></script>
 
         <!-- GOOGLE ANALYTICS -->
         <script>

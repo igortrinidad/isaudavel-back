@@ -1,6 +1,6 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
+    "name": "iSaudavel-backend",
+    "description": "iSaudavel - Sua saúde em boas mãos.",
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "type": "project",
