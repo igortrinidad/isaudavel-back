@@ -14,17 +14,9 @@ class ProfessionalController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $professionals = Professional::orderBy('name', 'asc')->paginate(10);
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return response()->json(custom_paginator($professionals));
     }
 
     /**
@@ -35,51 +27,74 @@ class ProfessionalController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->merge([
+            'password' => bcrypt($request->get('password')),
+            'remember_token' => str_random(10)
+        ]);
+
+        $professional = Professional::create($request->all());
+
+        return response()->json([
+            'message' => 'Professional created.',
+            'client' => $professional->fresh(['photos'])
+        ]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Professional  $professional
+     * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Professional $professional)
+    public function show($id)
     {
-        //
-    }
+        $professional = Professional::find($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Professional  $professional
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Professional $professional)
-    {
-        //
+        return response()->json(['data' => $professional]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Professional  $professional
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Professional $professional)
+    public function update(Request $request)
     {
-        //
+        if($request->has('password')){
+            $request->merge([
+                'password' => bcrypt($request->get('password')),
+            ]);
+        }
+
+        $professional = tap(Professional::find($request->get('id')))->update($request->all())->fresh();
+
+        return response()->json([
+            'message' => 'Professional updated.',
+            'client' => $professional
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Professional  $professional
+     * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Professional $professional)
+    public function destroy($id)
     {
-        //
+        $destroyed = Professional::destroy($id);
+
+        if($destroyed){
+            return response()->json([
+                'message' => 'Professional destroyed.',
+                'id' => $id
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Professional not found.',
+        ], 404);
+
     }
 }

@@ -22,12 +22,20 @@ Route::group(['prefix' => 'auth'], function () {
 /*
  * Professional
  */
-Route::group(['prefix' => 'professional', 'middleware' => 'auth:professional'], function () {
-    Route::get('/index', 'ProfessionalController@index');
-    Route::post('/show', 'ProfessionalController@show');
-    Route::post('/create', 'ProfessionalController@create');
-    Route::post('/update', 'ProfessionalController@update');
-    Route::post('/destroy', 'ProfessionalController@destroy');
+Route::group(['prefix' => 'professional'], function () {
+
+    //Professional protected routes
+    Route::group(['middleware' => 'auth:professional'], function () {
+
+        //Photo resources
+        Route::get('/photo/list', 'ProfessionalPhotoController@index');
+        Route::post('/photo/upload', 'ProfessionalPhotoController@store');
+        Route::post('/photo/update', 'ProfessionalPhotoController@update');
+        Route::get('/photo/destroy/{id}', 'ProfessionalPhotoController@destroy');
+
+        //profile update
+        Route::post('/update', 'ProfessionalController@update');
+    });
 });
 
 
@@ -39,6 +47,13 @@ Route::group(['prefix' => 'client'], function () {
 
     //Client protected routes
     Route::group(['middleware' => 'auth:client'], function () {
+
+
+        //Photo resources
+        Route::get('/photo/list', 'ClientPhotoController@index');
+        Route::post('/photo/upload', 'ClientPhotoController@store');
+        Route::post('/photo/update', 'ClientPhotoController@update');
+        Route::get('/photo/destroy/{id}', 'ClientPhotoController@destroy');
 
         //profile update
         Route::post('/update', 'ClientController@update');
@@ -67,7 +82,7 @@ Route::group(['prefix' => 'oracle'], function () {
             Route::get('/show/oracle/{id}', 'OracleUserController@show');
 
             //Store
-            Route::post('/store/professional', 'ProfessionalController@create');
+            Route::post('/store/professional', 'ProfessionalController@store');
             Route::post('/store/client', 'ClientController@store');
             Route::post('/store/oracle', 'OracleUserController@store');
 
@@ -85,17 +100,11 @@ Route::group(['prefix' => 'oracle'], function () {
             Route::get('/generateNewPass/professional/{email}', 'ProfessionalController@generateNewPass');
             Route::get('/generateNewPass/client/{email}', 'ClientController@generateNewPass');
             Route::get('/generateNewPass/oracle/{email}', 'OracleUserController@generateNewPass');
-
-
         });            
 
         //profile update
         Route::post('/user/update', 'OracleUserController@update');
-
-
-        Route::get('/statistics', 'OracleController@statistics');
     });
-
 });
 
 /*
@@ -107,5 +116,4 @@ Route::group(['prefix' => 'tools'], function(){
     Route::get('users/generateNewPass/professional/{email}', 'ProfessionalController@generateNewPass');
     Route::get('users/generateNewPass/client/{email}', 'ClientController@generateNewPass');
     Route::get('users/generateNewPass/oracle/{email}', 'OracleUserController@generateNewPass');
-
 });

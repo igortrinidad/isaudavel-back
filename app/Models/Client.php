@@ -32,7 +32,7 @@ class Client extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'last_name', 'email', 'password', 'bday', 'phone', 'target','current_xp', 'total_xp', 'level'
+        'name', 'last_name', 'email', 'password', 'bday', 'phone', 'target','current_xp', 'total_xp', 'level', 'remember_token'
     ];
 
     /**

@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 
 class ClientPhotoController extends Controller
 {
+
+
     /**
      * Display a listing of the resource.
      *
@@ -14,72 +16,81 @@ class ClientPhotoController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $photos = ClientPhoto::where('client_id', \Auth::user()->id)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return response()->json(custom_paginator($photos));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
-    }
+        $image = $request->file('image');
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\ClientPhoto  $clientPhoto
-     * @return \Illuminate\Http\Response
-     */
-    public function show(ClientPhoto $clientPhoto)
-    {
-        //
-    }
+        $fileName = bin2hex(random_bytes(16)) . '.' . $image->getClientOriginalExtension();
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\ClientPhoto  $clientPhoto
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(ClientPhoto $clientPhoto)
-    {
-        //
+        $filePath = 'client/photo/' . $fileName;
+
+        \Storage::disk('media')->put($filePath, file_get_contents($image), 'public');
+
+        $request->merge(['path' => $filePath, 'client_id' => \Auth::user()->id]);
+
+        $clientPhoto = ClientPhoto::create($request->all());
+
+        $response = [
+            'message' => 'Client photo created.',
+            'photo'    => $clientPhoto->fresh()->toArray(),
+        ];
+
+        return response()->json($response);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ClientPhoto  $clientPhoto
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ClientPhoto $clientPhoto)
+    public function update(Request $request)
     {
-        //
+        $photo = tap(ClientPhoto::find($request->get('id')))->update($request->all())->fresh();
+
+        return response()->json([
+            'message' => 'Client photo updated.',
+            'photo' => $photo
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\ClientPhoto  $clientPhoto
+     * @param  int $id
+     *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ClientPhoto $clientPhoto)
+    public function destroy($id)
     {
-        //
+        $photo = ClientPhoto::find($id);
+
+        \Storage::disk('media')->delete($photo->path);
+
+        $destroyed = $photo->delete();
+
+        if($destroyed){
+            return response()->json([
+                'message' => 'Client photo destroyed.',
+                'id' => $id
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Client photo not found.',
+        ], 404);
     }
 }

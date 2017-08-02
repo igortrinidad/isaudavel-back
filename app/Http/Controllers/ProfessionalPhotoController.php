@@ -14,72 +14,81 @@ class ProfessionalPhotoController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $photos = ProfessionalPhoto::where('professional_id', \Auth::user()->id)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return response()->json(custom_paginator($photos));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
-    }
+        $image = $request->file('image');
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\ProfessionalPhoto  $professionalPhoto
-     * @return \Illuminate\Http\Response
-     */
-    public function show(ProfessionalPhoto $professionalPhoto)
-    {
-        //
-    }
+        $fileName = bin2hex(random_bytes(16)) . '.' . $image->getClientOriginalExtension();
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\ProfessionalPhoto  $professionalPhoto
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(ProfessionalPhoto $professionalPhoto)
-    {
-        //
+        $filePath = 'professional/photo/' . $fileName;
+
+        \Storage::disk('media')->put($filePath, file_get_contents($image), 'public');
+
+        $request->merge(['path' => $filePath, 'professional_id' => \Auth::user()->id]);
+
+        $professionalPhoto = ProfessionalPhoto::create($request->all());
+
+        $response = [
+            'message' => 'Professional photo created.',
+            'photo'    => $professionalPhoto->fresh()->toArray(),
+        ];
+
+        return response()->json($response);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ProfessionalPhoto  $professionalPhoto
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ProfessionalPhoto $professionalPhoto)
+    public function update(Request $request)
     {
-        //
+        $photo = tap(ProfessionalPhoto::find($request->get('id')))->update($request->all())->fresh();
+
+        return response()->json([
+            'message' => 'Professional photo updated.',
+            'photo' => $photo
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\ProfessionalPhoto  $professionalPhoto
+     * @param  int $id
+     *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ProfessionalPhoto $professionalPhoto)
+    public function destroy($id)
     {
-        //
+        $photo = ProfessionalPhoto::find($id);
+
+        \Storage::disk('media')->delete($photo->path);
+
+        $destroyed = $photo->delete();
+
+        if($destroyed){
+            return response()->json([
+                'message' => 'Professional photo destroyed.',
+                'id' => $id
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Professional photo not found.',
+        ], 404);
     }
 }

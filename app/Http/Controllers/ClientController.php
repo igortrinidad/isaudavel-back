@@ -14,9 +14,9 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $clients = Client::paginate(10);
+        $clients = Client::orderBy('name', 'asc')->paginate(10);
 
-        return response()->json($clients);
+        return response()->json(custom_paginator($clients));
     }
 
     /**
@@ -27,11 +27,16 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
+        $request->merge([
+            'password' => bcrypt($request->get('password')),
+            'remember_token' => str_random(10)
+        ]);
+
         $client = Client::create($request->all());
 
         return response()->json([
             'message' => 'Client created.',
-            'client' => $client
+            'client' => $client->fresh(['photos'])
         ]);
     }
 
@@ -56,7 +61,13 @@ class ClientController extends Controller
      */
     public function update(Request $request)
     {
-        $client = Client::find($request->get('id'))->update($request->all());
+        if($request->has('password')){
+            $request->merge([
+                'password' => bcrypt($request->get('password')),
+            ]);
+        }
+
+        $client = tap(Client::find($request->get('id')))->update($request->all())->fresh();
 
         return response()->json([
             'message' => 'Client updated.',
@@ -72,11 +83,18 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        $client = Client::destroy($id);
+        $destroyed = Client::destroy($id);
+
+        if($destroyed){
+            return response()->json([
+                'message' => 'Client destroyed.',
+                'id' => $id
+            ]);
+        }
 
         return response()->json([
-            'message' => 'Client destroyed.',
-            'client' => $client
-        ]);
+            'message' => 'Client not found.',
+        ], 404);
+
     }
 }

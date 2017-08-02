@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Repositories\ClientRepository;
-use App\Repositories\UserRepository;
-use App\User;
+use App\Models\Client;
+use App\Models\Professional;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -24,35 +23,19 @@ class RegisterController extends Controller
     */
 
     /**
-     * @var UserRepository
-     */
-    private $userRepository;
-    /**
-     * @var ClientRepository
-     */
-    private $clientRepository;
-
-    /**
-     * Create a new controller instance.
-     *
-     * @param UserRepository $userRepository
-     * @param ClientRepository $clientRepository
-     */
-    public function __construct(UserRepository $userRepository, ClientRepository $clientRepository)
-    {
-
-        $this->userRepository = $userRepository;
-        $this->clientRepository = $clientRepository;
-    }
-
-    /**
      * Create a new user instance after a valid registration.
      * @param Request $request
      * @return mixed
      */
     public function register(Request $request)
     {
-        return $this->userRepository->create($request->all());
+
+        $request->merge([
+            'password' => bcrypt($request->get('password')),
+            'remember_token' => str_random(10)
+        ]);
+
+        return Professional::create($request->all());
     }
 
     /**
@@ -62,6 +45,11 @@ class RegisterController extends Controller
      */
     public function registerClient(Request $request)
     {
-        return $this->clientRepository->create($request->all());
+        $request->merge([
+            'password' => bcrypt($request->get('password')),
+            'remember_token' => str_random(10)
+        ]);
+
+        return Client::create($request->all());
     }
 }

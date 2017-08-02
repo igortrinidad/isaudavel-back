@@ -14,17 +14,9 @@ class OracleUserController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $oracles = OracleUser::orderBy('name', 'asc')->paginate(10);
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return response()->json(custom_paginator($oracles));
     }
 
     /**
@@ -35,51 +27,74 @@ class OracleUserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->merge([
+            'password' => bcrypt($request->get('password')),
+            'remember_token' => str_random(10)
+        ]);
+
+        $oracle = OracleUser::create($request->all());
+
+        return response()->json([
+            'message' => 'Oracle created.',
+            'client' => $oracle
+        ]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\OracleUser  $oracleUser
+     * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function show(OracleUser $oracleUser)
+    public function show($id)
     {
-        //
-    }
+        $oracle = OracleUser::find($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\OracleUser  $oracleUser
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(OracleUser $oracleUser)
-    {
-        //
+        return response()->json(['data' => $oracle]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\OracleUser  $oracleUser
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, OracleUser $oracleUser)
+    public function update(Request $request)
     {
-        //
+        if($request->has('password')){
+            $request->merge([
+                'password' => bcrypt($request->get('password')),
+            ]);
+        }
+
+        $oracle = tap(OracleUser::find($request->get('id')))->update($request->all())->fresh();
+
+        return response()->json([
+            'message' => 'Oracle updated.',
+            'client' => $oracle
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\OracleUser  $oracleUser
+     * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(OracleUser $oracleUser)
+    public function destroy($id)
     {
-        //
+        $destroyed = OracleUser::destroy($id);
+
+        if($destroyed){
+            return response()->json([
+                'message' => 'Oracle destroyed.',
+                'id' => $id
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Oracle not found.',
+        ], 404);
+
     }
 }

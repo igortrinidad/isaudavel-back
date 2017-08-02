@@ -32,7 +32,7 @@ class Professional extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'last_name', 'email', 'password', 'functions'
+        'name', 'last_name', 'email', 'password', 'functions', 'remember_token'
     ];
 
     /**
