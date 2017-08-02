@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProfessionalPhotosTable extends Migration
+class CreateCompanyPhotosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateProfessionalPhotosTable extends Migration
      */
     public function up()
     {
-        Schema::create('professional_photos', function (Blueprint $table) {
+        Schema::create('company_photos', function (Blueprint $table) {
             $table->uuid('id')->index();
-            $table->uuid('professional_id')->index();
+            $table->uuid('company_id')->index();
             $table->string('path');
             $table->boolean('is_profile')->default(false);
             $table->string('description')->nullable();
@@ -31,6 +31,6 @@ class CreateProfessionalPhotosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('professional_photos');
+        Schema::dropIfExists('company_photos');
     }
 }

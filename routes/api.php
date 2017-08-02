@@ -110,6 +110,19 @@ Route::group(['prefix' => 'oracle'], function () {
 /*
 * Unprotected Router
 */
+Route::group(['prefix' => 'company'], function(){
+
+    //Photo resources
+    Route::get('/photo/list/{id}', 'CompanyPhotosController@index');
+    Route::post('/photo/upload', 'CompanyPhotosController@store');
+    Route::post('/photo/update', 'CompanyPhotosController@update');
+    Route::get('/photo/destroy/{id}', 'CompanyPhotosController@destroy');
+});
+
+
+/*
+* Unprotected Router
+*/
 Route::group(['prefix' => 'tools'], function(){
 
     //Generate new Pass

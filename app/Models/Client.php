@@ -109,7 +109,6 @@ class Client extends Authenticatable implements JWTSubject
         return 'client';
     }
 
-
     /**
      * -------------------------------
      * Relationships
@@ -130,6 +129,14 @@ class Client extends Authenticatable implements JWTSubject
     public function photos()
     {
         return $this->hasMany(ClientPhoto::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function companies()
+    {
+        return $this->belongsToMany(Company::class, 'client_company');
     }
 
 }

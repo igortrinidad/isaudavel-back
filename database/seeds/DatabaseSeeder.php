@@ -53,7 +53,6 @@ class DatabaseSeeder extends Seeder
             'remember_token' => str_random(10),
         ]);
 
-
         factory(App\Models\Professional::class)->create([
             'name' => 'Igor',
             'last_name' => 'Trindade',

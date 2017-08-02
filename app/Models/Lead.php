@@ -4,13 +4,10 @@ namespace App\Models;
 
 use App\Models\Traits\Uuids;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
-use Prettus\Repository\Contracts\Transformable;
-use Prettus\Repository\Traits\TransformableTrait;
 
-class Lead extends Model implements Transformable
+class Lead extends Model
 {
-    use TransformableTrait, Uuids;
+     use Uuids;
 
     /**
      * The table associated with the model.

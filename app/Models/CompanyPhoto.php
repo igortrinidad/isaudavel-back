@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
 
-class ProfessionalPhoto extends Model
+class CompanyPhoto extends Model
 {
     use Uuids;
 
@@ -16,7 +16,7 @@ class ProfessionalPhoto extends Model
      *
      * @var string
      */
-    protected $table = 'professional_photos';
+    protected $table = 'company_photos';
 
     /**
      * Indicates if the IDs are auto-incrementing.
@@ -31,7 +31,7 @@ class ProfessionalPhoto extends Model
      * @var array
      */
     protected $fillable = [
-        'professional_id', 'path', 'is_profile', 'description'
+        'company_id', 'path', 'is_profile', 'description'
     ];
 
 
@@ -89,9 +89,9 @@ class ProfessionalPhoto extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function professional()
+    public function company()
     {
-        return $this->belongsTo(Professional::class);
+        return $this->belongsTo(Company::class);
     }
 
 }
