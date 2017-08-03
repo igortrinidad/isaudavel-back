@@ -31,7 +31,7 @@ class CompanyController extends Controller
 
         return response()->json([
             'message' => 'Company created.',
-            'client' => $company->fresh(['photos'])
+            'company' => $company->fresh(['photos'])
         ]);
     }
 
@@ -60,7 +60,7 @@ class CompanyController extends Controller
 
         return response()->json([
             'message' => 'Company updated.',
-            'client' => $company
+            'company' => $company
         ]);
     }
 

@@ -141,4 +141,12 @@ class Professional extends Authenticatable implements JWTSubject
         return $this->hasMany(ProfessionalPhoto::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'category_professional');
+    }
+
 }

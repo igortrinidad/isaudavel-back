@@ -15,6 +15,10 @@ class CompanyTableSeeder extends Seeder
 
         $professionals = \App\Models\Professional::all()->pluck('id');
 
+        $faker = \Faker\Factory::create('pt_BR');
+
+        $categories = \App\Models\Category::where('slug', '<>', 'all')->get()->pluck('id')->flatten()->toArray();
+
         $company_categories = [
             'is_pilates',
             'is_personal',
@@ -49,6 +53,11 @@ class CompanyTableSeeder extends Seeder
 
             $location['address']['name'] = $company_name;
 
+            $lat =  $location['address']['geolocation']['lat'];
+            $lng =  $location['address']['geolocation']['lng'];
+
+            unset($location['address']['geolocation']);
+
             \App\Models\Company::create( [
                 'owner_id' => $professional,
                 'is_active' => true,
@@ -57,15 +66,11 @@ class CompanyTableSeeder extends Seeder
                 'phone' => $faker->phoneNumber,
                 'address_is_available' => true,
                 'address' =>$location['address'],
+                'lat'=> $lat,
+                'lng'=> $lng,
                 'city' => $location['city'],
                 'state' => $location['state'],
                 'price' => rand(400, 700),
-                'is_pilates' => $company_category == 'is_pilates' ? true : false,
-                'is_personal' => $company_category == 'is_personal' ? true : false,
-                'is_physio' => $company_category == 'is_physio' ? true : false,
-                'is_nutrition' => $company_category == 'is_nutrition' ? true : false,
-                'is_massage' => $company_category == 'is_massage' ? true : false,
-                'is_healthy' => $company_category == 'is_healthy' ? true : false,
                 'rating' => rand(3, 5),
                 'informations' => json_decode('[]'),
                 'advance_schedule' => 24,
@@ -73,6 +78,14 @@ class CompanyTableSeeder extends Seeder
                 'points_to_earn_bonus' => rand(300, 500),
             ]);
 
+        }
+
+        $companies = \App\Models\Company::all();
+
+        //Attach categories
+        foreach ($companies as $company) {
+
+            $company->categories()->attach($faker->randomElements($categories, (rand(1,3))));
         }
 
     }

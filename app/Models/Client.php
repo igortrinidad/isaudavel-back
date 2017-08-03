@@ -139,4 +139,12 @@ class Client extends Authenticatable implements JWTSubject
         return $this->belongsToMany(Company::class, 'client_company');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function observations()
+    {
+        return $this->hasMany(ClientCompanyObservation::class);
+    }
+
 }

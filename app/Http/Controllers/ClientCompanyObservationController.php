@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Professional;
+use App\Models\ClientCompanyObservation;
 use Illuminate\Http\Request;
 
-class ProfessionalController extends Controller
+class ClientCompanyObservationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +14,9 @@ class ProfessionalController extends Controller
      */
     public function index()
     {
-        $professionals = Professional::orderBy('name', 'asc')->paginate(10);
+        $observations = ClientCompanyObservation::with('client', 'from')->paginate(10);
 
-        return response()->json(custom_paginator($professionals));
+        return response()->json(custom_paginator($observations));
     }
 
     /**
@@ -27,16 +27,11 @@ class ProfessionalController extends Controller
      */
     public function store(Request $request)
     {
-        $request->merge([
-            'password' => bcrypt($request->get('password')),
-            'remember_token' => str_random(10)
-        ]);
-
-        $professional = Professional::create($request->all());
+        $observation = ClientCompanyObservation::create($request->all());
 
         return response()->json([
-            'message' => 'Professional created.',
-            'professional' => $professional->fresh(['photos'])
+            'message' => 'Observation created.',
+            'observation' => $observation->fresh(['client', 'from'])
         ]);
     }
 
@@ -48,9 +43,9 @@ class ProfessionalController extends Controller
      */
     public function show($id)
     {
-        $professional = Professional::find($id);
+        $observation = ClientCompanyObservation::find($id);
 
-        return response()->json(['data' => $professional]);
+        return response()->json(['data' => $observation]);
     }
 
     /**
@@ -61,17 +56,11 @@ class ProfessionalController extends Controller
      */
     public function update(Request $request)
     {
-        if($request->has('password')){
-            $request->merge([
-                'password' => bcrypt($request->get('password')),
-            ]);
-        }
-
-        $professional = tap(Professional::find($request->get('id')))->update($request->all())->fresh();
+        $observation = tap(ClientCompanyObservation::find($request->get('id')))->update($request->all())->fresh();
 
         return response()->json([
-            'message' => 'Professional updated.',
-            'professional' => $professional
+            'message' => 'Observation updated.',
+            'observation' => $observation
         ]);
     }
 
@@ -83,17 +72,17 @@ class ProfessionalController extends Controller
      */
     public function destroy($id)
     {
-        $destroyed = Professional::destroy($id);
+        $destroyed = Activity::destroy($id);
 
         if($destroyed){
             return response()->json([
-                'message' => 'Professional destroyed.',
+                'message' => 'Observation destroyed.',
                 'id' => $id
             ]);
         }
 
         return response()->json([
-            'message' => 'Professional not found.',
+            'message' => 'Observation not found.',
         ], 404);
 
     }

@@ -36,7 +36,7 @@ class OracleUserController extends Controller
 
         return response()->json([
             'message' => 'Oracle created.',
-            'client' => $oracle
+            'oracle' => $oracle
         ]);
     }
 
@@ -71,7 +71,7 @@ class OracleUserController extends Controller
 
         return response()->json([
             'message' => 'Oracle updated.',
-            'client' => $oracle
+            'oracle' => $oracle
         ]);
     }
 

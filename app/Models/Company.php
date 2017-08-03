@@ -38,15 +38,11 @@ class Company extends Model
         'phone',
         'address_is_available',
         'address',
+        'lat',
+        'lng',
         'city',
         'state',
         'price',
-        'is_pilates',
-        'is_personal',
-        'is_physio',
-        'is_nutrition',
-        'is_massage',
-        'is_healthy',
         'rating',
         'informations',
         'advance_schedule',
@@ -62,15 +58,11 @@ class Company extends Model
      */
     protected $casts = [
         'is_active' => 'boolean',
-        'address' => 'json',
         'address_is_available' => 'boolean',
+        'address' => 'json',
+        'lat' => 'float',
+        'lng' => 'float',
         'price' => 'float',
-        'is_pilates'  => 'boolean',
-        'is_personal'  => 'boolean',
-        'is_physio'  => 'boolean',
-        'is_nutrition'  => 'boolean',
-        'is_massage'  => 'boolean',
-        'is_healthy' => 'boolean',
         'rating' => 'float',
         'informations' => 'json',
         'advance_schedule' => 'integer',
@@ -90,6 +82,14 @@ class Company extends Model
     public function owner()
     {
         return $this->belongsTo(Professional::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'category_company');
     }
 
     /**
@@ -116,6 +116,12 @@ class Company extends Model
         return $this->belongsToMany(Client::class, 'client_company');
     }
 
-
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function calendar_settings()
+    {
+        return $this->hasOne(CompanyCalendarSettings::class);
+    }
 
 }

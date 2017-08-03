@@ -22,15 +22,11 @@ class CreateCompaniesTable extends Migration
             $table->string('phone');
             $table->boolean('address_is_available');
             $table->json('address');
+            $table->float('lat', 10, 6);
+            $table->float('lng', 10, 6);
             $table->string('city');
             $table->string('state');
             $table->decimal('price', 15, 2);
-            $table->boolean('is_pilates');
-            $table->boolean('is_personal');
-            $table->boolean('is_physio');
-            $table->boolean('is_nutrition');
-            $table->boolean('is_massage');
-            $table->boolean('is_healthy');
             $table->float('rating');
             $table->json('informations');
             $table->integer('advance_schedule');

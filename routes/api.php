@@ -130,3 +130,48 @@ Route::group(['prefix' => 'tools'], function(){
     Route::get('users/generateNewPass/client/{email}', 'ClientController@generateNewPass');
     Route::get('users/generateNewPass/oracle/{email}', 'OracleUserController@generateNewPass');
 });
+
+
+Route::post('geo_test', function (Request $request) {
+
+    $user_lat = $request->get('lat');
+    $user_lng = $request->get('lng');
+
+    $companies = \DB::select(DB::raw("SELECT *,
+                    (ATAN(
+                    SQRT(
+                        POW(COS(RADIANS(companies.lat)) * SIN(RADIANS(companies.lng) - RADIANS('$user_lng')), 2) +
+                        POW(COS(RADIANS('$user_lat')) * SIN(RADIANS(companies.lat)) - 
+                       SIN(RADIANS('$user_lat')) * cos(RADIANS(companies.lat)) * cos(RADIANS(companies.lng) - RADIANS('$user_lng')), 2)
+                    ),
+                    SIN(RADIANS('$user_lat')) * 
+                    SIN(RADIANS(companies.lat)) + 
+                    COS(RADIANS('$user_lat')) * 
+                    COS(RADIANS(companies.lat)) * 
+                    COS(RADIANS(companies.lng) - RADIANS('$user_lng'))
+                    ) * 6371000) as distance_m
+                    FROM companies
+                    ORDER BY distance_m ASC"));
+
+    $companies = collect($companies);
+
+    //format response
+    $nearby_companies = $companies->map(function ($item, $key) {
+
+        // meter to km
+        $distance_km = round(($item->distance_m / 1000) , 2);
+
+        //decode address from json
+        $address = json_decode($item->address);
+
+        $item = collect($item);
+
+        //add fields on item
+        $item->put('address', $address);
+        $item->put('distance_km', $distance_km);
+
+        return $item->all();
+    });
+
+    return response()->json($nearby_companies->all());
+});

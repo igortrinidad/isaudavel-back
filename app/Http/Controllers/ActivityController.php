@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Professional;
+use App\Models\Activity;
 use Illuminate\Http\Request;
 
-class ProfessionalController extends Controller
+class ActivityController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +14,9 @@ class ProfessionalController extends Controller
      */
     public function index()
     {
-        $professionals = Professional::orderBy('name', 'asc')->paginate(10);
+        $activities = Activity::with('client', 'confirmed_by')->paginate(10);
 
-        return response()->json(custom_paginator($professionals));
+        return response()->json(custom_paginator($activities));
     }
 
     /**
@@ -27,16 +27,11 @@ class ProfessionalController extends Controller
      */
     public function store(Request $request)
     {
-        $request->merge([
-            'password' => bcrypt($request->get('password')),
-            'remember_token' => str_random(10)
-        ]);
-
-        $professional = Professional::create($request->all());
+        $activity = Activity::create($request->all());
 
         return response()->json([
-            'message' => 'Professional created.',
-            'professional' => $professional->fresh(['photos'])
+            'message' => 'Activity created.',
+            'activity' => $activity->fresh(['client', 'confirmed_by'])
         ]);
     }
 
@@ -48,9 +43,9 @@ class ProfessionalController extends Controller
      */
     public function show($id)
     {
-        $professional = Professional::find($id);
+        $activity = Activity::find($id);
 
-        return response()->json(['data' => $professional]);
+        return response()->json(['data' => $activity]);
     }
 
     /**
@@ -61,17 +56,11 @@ class ProfessionalController extends Controller
      */
     public function update(Request $request)
     {
-        if($request->has('password')){
-            $request->merge([
-                'password' => bcrypt($request->get('password')),
-            ]);
-        }
-
-        $professional = tap(Professional::find($request->get('id')))->update($request->all())->fresh();
+        $activity = tap(Activity::find($request->get('id')))->update($request->all())->fresh();
 
         return response()->json([
-            'message' => 'Professional updated.',
-            'professional' => $professional
+            'message' => 'Activity updated.',
+            'activity' => $activity
         ]);
     }
 
@@ -83,17 +72,17 @@ class ProfessionalController extends Controller
      */
     public function destroy($id)
     {
-        $destroyed = Professional::destroy($id);
+        $destroyed = Activity::destroy($id);
 
         if($destroyed){
             return response()->json([
-                'message' => 'Professional destroyed.',
+                'message' => 'Activity destroyed.',
                 'id' => $id
             ]);
         }
 
         return response()->json([
-            'message' => 'Professional not found.',
+            'message' => 'Activity not found.',
         ], 404);
 
     }
