@@ -1,0 +1,17 @@
+#!/bin/bash
+
+commits=(`git log -1 --pretty=%s`)
+
+for commit in "${commits[@]}"
+do
+ 	if [ $commit == "--npm" ]; then
+        
+        npm install
+
+        wait
+
+        echo "Npm installed succesfull"
+
+    fi
+done
+

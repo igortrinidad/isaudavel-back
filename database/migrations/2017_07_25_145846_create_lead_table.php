@@ -18,7 +18,7 @@ class CreateLeadTable extends Migration
             $table->string('name');
             $table->string('email');
             $table->string('phone');
-            $table->string('type');
+            $table->string('type')->default('prelaunch');
             $table->string('stage')->default(1);
             $table->boolean('is_client')->default(0);
             $table->timestamps();

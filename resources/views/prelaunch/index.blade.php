@@ -148,7 +148,7 @@
     						<div class="block text-left">
     							<div class="sub-heading">
     								<h4>Sobre</h4>
-    								<p><b>iSaudavel</b> é uma rede social criada para conectar você com os melhores profissionais da área da saúde.</p>
+    								<p><b>iSaudavel</b> é uma rede social criada para conectar você com os melhores profissionais, integrando as principais informações sobre você entre os profissionais envolvidos na promoção de sua saúde e bem estar.</p>
     							</div>
     						</div>
 
