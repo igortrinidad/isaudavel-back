@@ -24,7 +24,7 @@
                     <p><br></p>
 
                     <!-- INIT MAIN -->
-                    <table width="540px" cellspacing="0" border="0" align="center">
+                    <table width="540px" cellspacing="0" border="0" align="center" style="padding: 10px 10px 30px 10px">
                         <tbody>
 
                         <!-- HEADER LOGO WE PLANNER -->
