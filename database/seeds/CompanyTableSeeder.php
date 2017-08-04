@@ -13,7 +13,11 @@ class CompanyTableSeeder extends Seeder
     {
         $faker = \Faker\Factory::create('pt_BR');
 
-        $professionals = \App\Models\Professional::all()->pluck('id');
+        $professionals = \App\Models\Professional::all()->take(10)->pluck('id')->flatten()->toArray();
+
+        $other_professionals = \App\Models\Professional::all()->pluck('id')->flatten()->toArray();
+
+        $other_professionals = array_diff_assoc($other_professionals,$professionals );
 
         $faker = \Faker\Factory::create('pt_BR');
 
@@ -47,8 +51,6 @@ class CompanyTableSeeder extends Seeder
 
             $company_name  =  $faker->company;
 
-            $company_category = $faker->randomElement($company_categories);
-
             $location =  $faker->randomElement($locations);
 
             $location['address']['name'] = $company_name;
@@ -58,7 +60,7 @@ class CompanyTableSeeder extends Seeder
 
             unset($location['address']['geolocation']);
 
-            \App\Models\Company::create( [
+            $company = \App\Models\Company::create( [
                 'owner_id' => $professional,
                 'is_active' => true,
                 'name' => $company_name,
@@ -78,6 +80,12 @@ class CompanyTableSeeder extends Seeder
                 'points_to_earn_bonus' => rand(300, 500),
             ]);
 
+            //attach admin on company
+            $company->professionals()->attach($professional, ['is_admin' => true]);
+
+            // attach other professionals (exept admins)
+            $company->professionals()->attach($faker->randomElements($other_professionals, rand(1,3)));
+
         }
 
         $companies = \App\Models\Company::all();
@@ -86,6 +94,13 @@ class CompanyTableSeeder extends Seeder
         foreach ($companies as $company) {
 
             $company->categories()->attach($faker->randomElements($categories, (rand(1,3))));
+
+            //Avatar
+            \App\Models\CompanyPhoto::create([
+                'company_id' => $company->id,
+                'is_profile' => true,
+                'path' => 'company/photo/842ec5c61d9728ddc0e03cf882b5e372.png',
+            ]);
         }
 
     }

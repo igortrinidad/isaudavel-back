@@ -49,7 +49,7 @@ class Client extends Authenticatable implements JWTSubject
      *
      * @var array
      */
-    protected $appends = ['full_name', 'blank_password', 'role'];
+    protected $appends = ['full_name', 'blank_password', 'role', 'avatar'];
 
     /**
      * -------------------------------
@@ -107,6 +107,16 @@ class Client extends Authenticatable implements JWTSubject
     public function getRoleAttribute()
     {
         return 'client';
+    }
+
+    /*
+    * Avatar
+    */
+    public function getAvatarAttribute()
+    {
+        $photo = ClientPhoto::where('client_id', $this->id)->where('is_profile', true)->first();
+
+        return $photo->fresh()->photo_url;
     }
 
     /**

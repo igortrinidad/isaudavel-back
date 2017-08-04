@@ -58,7 +58,7 @@ class Professional extends Authenticatable implements JWTSubject
      *
      * @var array
      */
-    protected $appends = ['full_name', 'blank_password', 'role'];
+    protected $appends = ['full_name', 'blank_password', 'role', 'avatar', 'current_rating'];
 
     /**
      * -------------------------------
@@ -118,6 +118,27 @@ class Professional extends Authenticatable implements JWTSubject
         return 'professional';
     }
 
+    /*
+    * Avatar
+    */
+    public function getAvatarAttribute()
+    {
+        $photo = ProfessionalPhoto::where('professional_id', $this->id)->where('is_profile', true)->first();
+
+        return $photo->fresh()->photo_url;
+    }
+
+    /*
+   * Avatar
+   */
+    public function getCurrentRatingAttribute()
+    {
+        $rating = ProfessionalRating::where('professional_id', $this->id)->get()->avg('rating');
+
+        // Round up or down Eg: ratings >= x.5 are rounded up and < x.5 are rounded down
+        return ceil(round($rating,1));
+    }
+
 
     /**
      * -------------------------------
@@ -147,6 +168,14 @@ class Professional extends Authenticatable implements JWTSubject
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'category_professional');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function ratings()
+    {
+        return $this->hasMany(ProfessionalRating::class);
     }
 
 }

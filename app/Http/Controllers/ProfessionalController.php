@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Professional;
 use Illuminate\Http\Request;
 
@@ -96,5 +97,30 @@ class ProfessionalController extends Controller
             'message' => 'Professional not found.',
         ], 404);
 
+    }
+
+    /**
+     * Search professionals by given category
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function searchByCategory(Request $request)
+    {
+        $professionals = Professional::whereHas('categories', function($query) use($request){
+
+            if($request->get('category') === 'all'){
+                $query->where('slug', '<>', 'all');
+            }
+
+            if($request->get('category') != 'all'){
+                $query->where('slug', $request->get('category'));
+            }
+
+        })->with(['categories' => function($query){
+            $query->select('name');
+        }])->orderBy('name', 'asc')->get();
+
+        return response()->json(['count' => $professionals->count(), 'data' => $professionals]);
     }
 }

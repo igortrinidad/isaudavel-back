@@ -70,6 +70,31 @@ class Company extends Model
         'points_to_earn_bonus'  => 'integer'
     ];
 
+
+    /**
+     * The accessors to append to the model's array.
+     *
+     * @var array
+     */
+    protected $appends = ['avatar'];
+
+    /**
+     * -------------------------------
+     * Custom fields
+     * -------------------------------
+     */
+
+    /*
+    * Avatar
+    */
+    public function getAvatarAttribute()
+    {
+        $photo = CompanyPhoto::where('company_id', $this->id)->where('is_profile', true)->first();
+
+        return $photo->fresh()->photo_url;
+    }
+
+
     /**
      * -------------------------------
      * Relationships

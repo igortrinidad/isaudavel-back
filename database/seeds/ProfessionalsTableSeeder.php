@@ -39,15 +39,39 @@ class ProfessionalsTableSeeder extends Seeder
             'remember_token' => str_random(10),
         ]);
 
-        factory(App\Models\Professional::class, 10)->create();
+        factory(App\Models\Professional::class, 30)->create();
 
         $professionals = \App\Models\Professional::all();
 
-        //Attach categories
+        $clients = \App\Models\Client::all()->pluck('id')->flatten()->toArray();
+
         foreach($professionals as $professional){
 
-            $professional->categories()->attach($faker->randomElements($categories, (rand(1,3))));
+            //Attach categories
+            $professional->categories()->attach($faker->randomElements($categories, rand(1,3)));
+
+            //Avatar
+            \App\Models\ProfessionalPhoto::create([
+                'professional_id' => $professional->id,
+                'is_profile' => true,
+                'path' => 'professional/photo/90fab19c51090aabb7a6d630a5b1803b.jpg',
+            ]);
+
+            //Professional Rating
+            $clients_rating = $faker->randomElements($clients, rand(1,3));
+            foreach ($clients_rating as $client) {
+
+                \App\Models\ProfessionalRating::create([
+                    'client_id' => $client,
+                    'professional_id' => $professional->id,
+                    'rating' => rand(1,5),
+                    'content' => $faker->sentence(15)
+                ]);
+
+            }
+
         }
+
 
     }
 }

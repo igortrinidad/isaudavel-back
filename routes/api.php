@@ -36,6 +36,9 @@ Route::group(['prefix' => 'professional'], function () {
         //profile update
         Route::post('/update', 'ProfessionalController@update');
     });
+
+    //Open routes
+    Route::post('/category/search', 'ProfessionalController@searchByCategory');
 });
 
 
@@ -117,6 +120,10 @@ Route::group(['prefix' => 'company'], function(){
     Route::post('/photo/upload', 'CompanyPhotosController@store');
     Route::post('/photo/update', 'CompanyPhotosController@update');
     Route::get('/photo/destroy/{id}', 'CompanyPhotosController@destroy');
+
+
+    Route::post('/search/location', 'CompanyController@searchByLocation');
+    Route::post('/search/category', 'CompanyController@searchByCategory');
 });
 
 
@@ -137,23 +144,21 @@ Route::post('geo_test', function (Request $request) {
     $user_lat = $request->get('lat');
     $user_lng = $request->get('lng');
 
-    $companies = \DB::select(DB::raw("SELECT *,
-                    (ATAN(
-                    SQRT(
-                        POW(COS(RADIANS(companies.lat)) * SIN(RADIANS(companies.lng) - RADIANS('$user_lng')), 2) +
-                        POW(COS(RADIANS('$user_lat')) * SIN(RADIANS(companies.lat)) - 
-                       SIN(RADIANS('$user_lat')) * cos(RADIANS(companies.lat)) * cos(RADIANS(companies.lng) - RADIANS('$user_lng')), 2)
-                    ),
-                    SIN(RADIANS('$user_lat')) * 
-                    SIN(RADIANS(companies.lat)) + 
-                    COS(RADIANS('$user_lat')) * 
-                    COS(RADIANS(companies.lat)) * 
-                    COS(RADIANS(companies.lng) - RADIANS('$user_lng'))
-                    ) * 6371000) as distance_m
-                    FROM companies
-                    ORDER BY distance_m ASC"));
+    $companies = \App\Models\Company::select(\DB::raw("*, 
+                (ATAN(SQRT(POW(COS(RADIANS(companies.lat)) * SIN(RADIANS(companies.lng)
+                 - RADIANS('$user_lng')), 2) +POW(COS(RADIANS('$user_lat')) * 
+                 SIN(RADIANS(companies.lat)) - SIN(RADIANS('$user_lat')) * cos(RADIANS(companies.lat)) * 
+                 cos(RADIANS(companies.lng) - RADIANS('$user_lng')), 2)),SIN(RADIANS('$user_lat')) * 
+                 SIN(RADIANS(companies.lat)) + COS(RADIANS('$user_lat')) * COS(RADIANS(companies.lat)) * 
+                 COS(RADIANS(companies.lng) - RADIANS('$user_lng'))) * 6371000) as distance_m"))
+                    ->with(['professionals' => function($query){
+                        $query->select('id', 'name', 'last_name')
+                            ->with(['categories' => function($query){
+                            $query->select('name');
+                        }])->orderBy('name', 'asc');
+                    }])
+                    ->get();
 
-    $companies = collect($companies);
 
     //format response
     $nearby_companies = $companies->map(function ($item, $key) {
@@ -161,13 +166,9 @@ Route::post('geo_test', function (Request $request) {
         // meter to km
         $distance_km = round(($item->distance_m / 1000) , 2);
 
-        //decode address from json
-        $address = json_decode($item->address);
-
         $item = collect($item);
 
         //add fields on item
-        $item->put('address', $address);
         $item->put('distance_km', $distance_km);
 
         return $item->all();

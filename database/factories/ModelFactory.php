@@ -41,7 +41,11 @@ $factory->define(App\Models\Client::class, function () use($faker){
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('password'),
         'phone' => $faker->cellphoneNumber,
+        'bday' => $faker->dateTimeBetween($startDate = '-40 years', $endDate ='-18 years'),
         'remember_token' => str_random(10),
+        'current_xp' => rand(3500, 5000),
+        'total_xp' => rand(50000, 150000),
+        'level' => rand(50, 99),
     ];
 });
 
