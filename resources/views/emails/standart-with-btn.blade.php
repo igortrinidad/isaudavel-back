@@ -15,8 +15,8 @@
    <span class="hover-edit-container">
    <i class="zmdi zmdi-edit"></i>
    </span>
-    <table width="100%" border="0" cellspacing="0" cellpadding="30" background=""
-           style="background-color: rgb(241, 243, 244); color: rgb(85, 85, 85);">
+    <table width="100%" border="0" cellspacing="0" cellpadding="20" background=""
+           style="background-color: #88C657; color: rgb(85, 85, 85); padding-bottom: 50px;">
         <tbody>
         <tr>
             <td>
@@ -24,7 +24,7 @@
                     <p><br></p>
 
                     <!-- INIT MAIN -->
-                    <table width="540px" cellspacing="0" border="0" align="center" style="padding: 10px 10px 30px 10px">
+                    <table width="440px" cellspacing="0" border="0" align="center">
                         <tbody>
 
                         <!-- HEADER LOGO WE PLANNER -->
@@ -136,6 +136,16 @@
                             </td>
                         </tr>
                         @endif
+
+                        <tr>
+                            <td style="padding: 20px 20px 0px 20px; text-align: center; max-width: 80% !important; background-color: rgb(255, 255, 255); color: rgb(85, 85, 85);"
+                                align="center">
+                                <p style="text-align: center; "><span style="font-size: 14px;">
+                                </span>
+                                </p>
+
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                     <!-- INIT FOOTER WEPLANNER -->
@@ -144,7 +154,7 @@
                         cellpadding="0" 
                         border="0" 
                         align="center" 
-                        width="540px"
+                        width="440px"
                         style="mso-table-lspace:0; mso-table-rspace:0; border-collapse:collapse; border-spacing:0; margin:0 auto; table-layout:fixed; max-width:100%; background-color: #EDECEC"
                         role="presentation">
                         <tbody>
@@ -154,10 +164,11 @@
                                     <hr>
                                     <span style="font-size: 12px; font-style: italic; font-weight: 80;">
                                         <p>
-                                            © 2017 We-Planner Soluções Tecnológicas - <a href="https://isaudavel.com">iSaudavel</a>
+                                            © 2017 <a href="https://isaudavel.com" target="_blank">iSaudavel.com - sua saúde em boas mãos!</a>
                                         </p>
                                         <P>
                                         <!-- texto de informações -->
+                                            We Planner Soluções Técnológicas
                                         </p>
                                     </span>
                                 </td>

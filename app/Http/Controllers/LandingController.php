@@ -42,15 +42,15 @@ class LandingController extends Controller
         $data = [];
         $data['align'] = 'left';
 
-        $data['messageTitle'] = 'LEAD WESKD';
+        $data['messageTitle'] = 'LEAD iSaudavel';
         $data['messageOne'] = 'Nome: ' . $request['name'];
         $data['messageTwo'] = 'Email: ' . $request['email'];
         $data['messageThree'] = 'Phone: ' . $request['phone'];
-        $data['messageSubject'] = 'WESKD: Acabamos de receber um lead no WESKD';
+        $data['messageSubject'] = 'iSaudavel: Acabamos de receber um lead no iSaudavel';
 
         \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data){
-            $message->from('no-reply@weplaces.com.br', 'Landing WESKD');
-            $message->to('contato@maisbartenders.com.br', 'WESKD')->subject($data['messageSubject']);
+            $message->from('no-reply@isaudavel.com', 'Landing iSaudavel');
+            $message->to('contato@maisbartenders.com.br', 'iSaudavel')->subject($data['messageSubject']);
         });
 
         return 'Mensagem enviada com sucesso';

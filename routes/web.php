@@ -13,3 +13,9 @@
 
 Route::get('/', 'LandingController@index');
 Route::post('/leadStoreForm', 'LandingController@leadStoreForm');
+
+
+
+Route::get('/settings/test-email/{template}', function ($template) {
+    return view($template);
+});
