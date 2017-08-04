@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title></title>
+    <title>iSaudavel.com</title>
 </head>
 <body width="100%" style="height:100%; margin:0; padding:0; width:100%" height="100%">
 
@@ -31,7 +31,7 @@
                         <tr>
                             <td style="padding: 50px 50px 50px 50px; text-align: center; max-width: 80% !important; background-color: rgb(255, 255, 255); color: rgb(85, 85, 85); "
                                 align="center">
-                                <img src="https://s3.amazonaws.com/weskd-assets/logos/LOGO-1-01.png"
+                                <img src="https://s3.amazonaws.com/isaudavel-assets/logos/i_saudavel-LOGO-01.png"
                                      width="200" alt="Logo" border="0" style="-ms-interpolation-mode:bicubic">
                             </td>
                         </tr>
@@ -154,10 +154,10 @@
                                     <hr>
                                     <span style="font-size: 12px; font-style: italic; font-weight: 80;">
                                         <p>
-                                            © 2017 We-Planner Soluções Tecnológicas - <a href="https://weskd.com">WESKD</a>
+                                            © 2017 We-Planner Soluções Tecnológicas - <a href="https://isaudavel.com">iSaudavel</a>
                                         </p>
                                         <P>
-                                            SE VOCÊ RECEBEU ESTA COMUNICAÇÃO POR ENGANO, por favor, não a encaminhe a ninguém (pode conter informação confidencial ou privilegiada), por favor, apague todas as cópias da mensagem, incluindo todos anexos e notifique o remetente imediatamente. Obrigado por sua cooperação. Os termos acima reflectem um possível acordo comercial, são fornecidos exclusivamente como base para desenvolvimentos futuros e não se destinam a ser, nem constituem qualquer obrigação juridicamente vinculativa. Nenhuma obrigação juridicamente vinculativa deverá ser criada, pressuposta ou inferida até que haja um acordo final assinado por escrito por todas as partes envolvidas.
+                                        <!-- texto de informações -->
                                         </p>
                                     </span>
                                 </td>
