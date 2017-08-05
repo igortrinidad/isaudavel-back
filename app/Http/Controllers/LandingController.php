@@ -53,6 +53,20 @@ class LandingController extends Controller
             $message->to('contato@maisbartenders.com.br', 'iSaudavel')->subject($data['messageSubject']);
         });
 
+        //Email
+        $data = [];
+        $data['align'] = 'left';
+
+        $data['messageTitle'] = 'Olá, ' . $request['name'];
+        $data['messageOne'] = 'Obrigado por se inscrever em nossa lista, em breve você receberá informações exclusivas sobre essa novidade que estamos preparando com muito carinho para você.';
+        $data['messageTwo'] = 'Nos vemos em breve!' . $request['email'];
+        $data['messageSubject'] = $request['name'] . 'obrigado por se inscrever !';
+
+        \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data){
+            $message->from('no-reply@isaudavel.com', 'iSaudavel - sua saúde em boas mãos.');
+            $message->to($request['email'], $request['name'])->subject($data['messageSubject']);
+        });
+
         return 'Mensagem enviada com sucesso';
 
     }
