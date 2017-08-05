@@ -56,11 +56,10 @@ class LandingController extends Controller
         //Email
         $data = [];
         $data['align'] = 'left';
-
         $data['messageTitle'] = 'Olá, ' . $request['name'];
         $data['messageOne'] = 'Obrigado por se inscrever em nossa lista, em breve você receberá informações exclusivas sobre essa novidade que estamos preparando com muito carinho para você.';
-        $data['messageTwo'] = 'Nos vemos em breve!' . $request['email'];
-        $data['messageSubject'] = $request['name'] . 'obrigado por se inscrever !';
+        $data['messageTwo'] = 'Nos vemos em breve!';
+        $data['messageSubject'] = $request['name'] . ' obrigado por se inscrever !';
 
         \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $request){
             $message->from('no-reply@isaudavel.com', 'iSaudavel - sua saúde em boas mãos.');
