@@ -62,7 +62,7 @@ class LandingController extends Controller
         $data['messageTwo'] = 'Nos vemos em breve!' . $request['email'];
         $data['messageSubject'] = $request['name'] . 'obrigado por se inscrever !';
 
-        \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data){
+        \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $request){
             $message->from('no-reply@isaudavel.com', 'iSaudavel - sua saúde em boas mãos.');
             $message->to($request['email'], $request['name'])->subject($data['messageSubject']);
         });
