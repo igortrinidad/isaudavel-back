@@ -26,7 +26,7 @@ class ProfessionalsTableSeeder extends Seeder
         factory(App\Models\Professional::class)->create([
             'name' => 'Igor',
             'last_name' => 'Trindade',
-            'email' => 'contato@maisbartenders.com.br',
+            'email' => 'igorlucast@hotmail.com',
             'password' => bcrypt('password'),
             'remember_token' => str_random(10),
         ]);
