@@ -4,19 +4,20 @@ namespace App\Models;
 
 use App\Models\Traits\Uuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 
 
-class Activity extends Model
+class Trainning extends Model
 {
-    use Uuids;
+    use Uuids, SoftDeletes;
 
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'activities';
+    protected $table = 'trainnings';
 
     /**
      * Indicates if the IDs are auto-incrementing.
@@ -31,7 +32,12 @@ class Activity extends Model
      * @var array
      */
     protected $fillable = [
-        'client_id','is_confirmed', 'xp_earned', 'confirmed_by_id', 'confirmed_by_type', 'confirmed_at'
+        'client_id',
+        'created_by_id',
+        'created_by_type',
+        'dow',
+        'exercises',
+        'observation'
     ];
 
     /**
@@ -39,7 +45,7 @@ class Activity extends Model
      *
      * @var array
      */
-    protected $casts = ['is_confirmed' => 'boolean'];
+    protected $casts = ['exercises' => 'json'];
 
     /**
      * -------------------------------
@@ -58,9 +64,10 @@ class Activity extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
-    public function confirmed_by()
+    public function from()
     {
-        return $this->morphTo(null, 'confirmed_by_type', 'confirmed_by_id');
+        return $this->morphTo(null, 'created_by_type', 'created_by_id');
     }
+
 
 }

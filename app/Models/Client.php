@@ -116,7 +116,7 @@ class Client extends Authenticatable implements JWTSubject
     {
         $photo = ClientPhoto::where('client_id', $this->id)->where('is_profile', true)->first();
 
-        return $photo->fresh()->photo_url;
+        return $photo ? $photo->fresh()->photo_url : null;
     }
 
     /**
@@ -155,6 +155,14 @@ class Client extends Authenticatable implements JWTSubject
     public function observations()
     {
         return $this->hasMany(ClientCompanyObservation::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function trainnings()
+    {
+        return $this->hasMany(Trainning::class);
     }
 
 }

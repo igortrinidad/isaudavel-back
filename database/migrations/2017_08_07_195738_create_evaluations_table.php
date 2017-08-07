@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateActivitiesTable extends Migration
+class CreateEvaluationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,12 @@ class CreateActivitiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('activities', function (Blueprint $table) {
+        Schema::create('evaluations', function (Blueprint $table) {
             $table->uuid('id')->index();
             $table->uuid('client_id')->index();
-            $table->boolean('is_confirmed')->default(false);
-            $table->integer('xp_earned');
-            $table->uuid('confirmed_by_id')->nullable()->index();
-            $table->string('confirmed_by_type')->nullable();
-            $table->dateTime('confirmed_at')->nullable();
+            $table->uuid('professional_id')->index();
+            $table->json('items');
+            $table->text('observation');
             $table->timestamps();
             $table->primary('id');
         });
@@ -33,6 +31,6 @@ class CreateActivitiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('activities');
+        Schema::dropIfExists('evaluations');
     }
 }

@@ -61,6 +61,14 @@ class Professional extends Authenticatable implements JWTSubject
     protected $appends = ['full_name', 'blank_password', 'role', 'avatar', 'current_rating'];
 
     /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    protected $with = ['categories'];
+
+
+    /**
      * -------------------------------
      * JWT Auth
      * -------------------------------
@@ -125,7 +133,7 @@ class Professional extends Authenticatable implements JWTSubject
     {
         $photo = ProfessionalPhoto::where('professional_id', $this->id)->where('is_profile', true)->first();
 
-        return $photo->fresh()->photo_url;
+        return $photo ? $photo->fresh()->photo_url : null;
     }
 
     /*
@@ -167,7 +175,7 @@ class Professional extends Authenticatable implements JWTSubject
      */
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'category_professional');
+        return $this->belongsToMany(Category::class, 'category_professional')->select('id', 'name', 'slug');
     }
 
     /**

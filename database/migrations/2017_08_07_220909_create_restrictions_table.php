@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateActivitiesTable extends Migration
+class CreateRestrictionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateActivitiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('activities', function (Blueprint $table) {
+        Schema::create('restrictions', function (Blueprint $table) {
             $table->uuid('id')->index();
             $table->uuid('client_id')->index();
-            $table->boolean('is_confirmed')->default(false);
-            $table->integer('xp_earned');
-            $table->uuid('confirmed_by_id')->nullable()->index();
-            $table->string('confirmed_by_type')->nullable();
-            $table->dateTime('confirmed_at')->nullable();
+            $table->uuid('from_id')->index();
+            $table->string('from_type');
+            $table->string('type');
+            $table->string('restriction');
+            $table->text('observation');
             $table->timestamps();
             $table->primary('id');
         });
@@ -33,6 +33,6 @@ class CreateActivitiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('activities');
+        Schema::dropIfExists('restrictions');
     }
 }

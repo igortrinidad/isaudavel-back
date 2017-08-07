@@ -97,6 +97,15 @@ class DatabaseSeeder extends Seeder
         $this->call(CompanyCalendarSettingsTableSeeder::class);
         $this->call(ClientCompanySeeder::class);
 
+
+        /*
+        * Clients
+        */
+        $this->call(ActivitiesTableSeeder::class);
+        $this->call(TrainningsTableSeeder::class);
+        $this->call(ClientEvaluationsTableSeeder::class);
+        $this->call(ClientRestrictionsTableSeeder::class);
+
         $this->command->info('Finished database seeder');
     }
 }

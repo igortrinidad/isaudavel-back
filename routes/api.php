@@ -33,6 +33,31 @@ Route::group(['prefix' => 'professional'], function () {
         Route::post('/photo/update', 'ProfessionalPhotoController@update');
         Route::get('/photo/destroy/{id}', 'ProfessionalPhotoController@destroy');
 
+        //Activity resources
+        Route::post('/activity/create', 'ActivityController@store');
+        Route::post('/activity/update', 'ActivityController@update');
+        Route::get('/activity/destroy/{id}', 'ActivityController@destroy');
+
+        //trainning resources
+        Route::get('/trainning/list/{id}', 'TrainningController@index');
+        Route::post('/trainning/create', 'TrainningController@store');
+        Route::post('/trainning/update', 'TrainningController@update');
+        Route::get('/trainning/destroy/{id}', 'TrainningController@destroy');
+
+        //Evaluation resources
+        Route::post('/evaluation/create', 'EvaluationController@store');
+        Route::post('/evaluation/update', 'EvaluationController@update');
+        Route::get('/evaluation/destroy/{id}', 'EvaluationController@destroy');
+
+        //Evaluation photos
+        Route::post('/evaluation/photo/upload', 'EvaluationPhotoController@store');
+        Route::get('/evaluation/photo/destroy/{id}', 'EvaluationPhotoController@destroy');
+
+        //restrictions resources
+        Route::post('/restriction/create', 'RestrictionController@store');
+        Route::post('/restriction/update', 'RestrictionController@update');
+        Route::get('/restriction/destroy/{id}', 'RestrictionController@destroy');
+
         //profile update
         Route::post('/update', 'ProfessionalController@update');
     });
@@ -51,12 +76,32 @@ Route::group(['prefix' => 'client'], function () {
     //Client protected routes
     Route::group(['middleware' => 'auth:client'], function () {
 
-
         //Photo resources
         Route::get('/photo/list', 'ClientPhotoController@index');
         Route::post('/photo/upload', 'ClientPhotoController@store');
         Route::post('/photo/update', 'ClientPhotoController@update');
         Route::get('/photo/destroy/{id}', 'ClientPhotoController@destroy');
+
+        //activity resources
+        Route::get('/activity/list', 'ActivityController@index');
+        Route::post('/activity/create', 'ActivityController@store');
+        Route::post('/activity/update', 'ActivityController@update');
+        Route::get('/activity/destroy/{id}', 'ActivityController@destroy');
+
+        //trainning resources
+        Route::get('/trainning/list/{id}', 'TrainningController@index');
+        Route::post('/trainning/create', 'TrainningController@store');
+        Route::post('/trainning/update', 'TrainningController@update');
+        Route::get('/trainning/destroy/{id}', 'TrainningController@destroy');
+
+        //restrictions resources
+        Route::get('/restriction/list/{id}', 'RestrictionController@index');
+        Route::post('/restriction/create', 'RestrictionController@store');
+        Route::post('/restriction/update', 'RestrictionController@update');
+        Route::get('/restriction/destroy/{id}', 'RestrictionController@destroy');
+
+        //evaluation resources
+        Route::get('/evaluation/list/{id}', 'EvaluationController@index');
 
         //profile update
         Route::post('/update', 'ClientController@update');

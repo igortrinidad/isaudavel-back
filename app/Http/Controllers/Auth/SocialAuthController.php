@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Auth;
 
 
 use App\Models\Client;
+use App\Models\ClientPhoto;
 use App\Models\ClientSocialProvider;
 use App\Models\OracleSocialProvider;
 use App\Models\OracleUser;
 use App\Models\Professional;
+use App\Models\ProfessionalPhoto;
 use App\Models\ProfessionalSocialProvider;
 use App\Models\User;
 use App\Models\UserSocialProvider;
@@ -75,6 +77,8 @@ class SocialAuthController extends Controller
                         'access_token' =>$request->get('access_token'),
                         'photo_url' => $request->get('photo_url')
                     ]);
+
+                    $this->uploadClientAvatar($user->id, $request->get('photo_url'));
                 }
 
             }else{
@@ -102,6 +106,7 @@ class SocialAuthController extends Controller
                             'access_token' =>$request->get('access_token'),
                             'photo_url' => $request->get('photo_url')
                         ]);
+
                     }
                 }
 
@@ -120,6 +125,8 @@ class SocialAuthController extends Controller
                         'access_token' =>$request->get('access_token'),
                         'photo_url' => $request->get('photo_url')
                     ]);
+
+                    $this->uploadProfessionalAvatar($user->id, $request->get('photo_url'));
                 }
 
             }else{
@@ -181,5 +188,31 @@ class SocialAuthController extends Controller
             'code' => 'ErrorGettingSocialUser',
             'msg' => 'Unable to authenticate with Facebook.'
         ], 403);
+    }
+
+    function uploadClientAvatar($client_id, $photo_url){
+
+        $fileName = bin2hex(random_bytes(16)) . '.jpg';
+
+        $filePath = 'client/photo/' . $fileName;
+
+        \Storage::disk('media')->put($filePath, file_get_contents($photo_url), 'public');
+
+        $data = ['path' => $filePath, 'client_id' => $client_id, 'is_profile' => true, 'is_public' => true];
+
+        return ClientPhoto::create($data);
+    }
+
+    function uploadProfessionalAvatar($professional_id, $photo_url){
+
+        $fileName = bin2hex(random_bytes(16)) . '.jpg';
+
+        $filePath = 'client/photo/' . $fileName;
+
+        \Storage::disk('media')->put($filePath, file_get_contents($photo_url), 'public');
+
+        $data = ['path' => $filePath, 'professional_id' => $professional_id, 'is_profile' => true];
+
+        return ProfessionalPhoto::create($data);
     }
 }
