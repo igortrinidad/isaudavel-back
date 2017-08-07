@@ -34,7 +34,7 @@ class DatabaseSeeder extends Seeder
         factory(App\Models\Client::class)->create([
             'name' => 'Igor',
             'last_name' => 'Trindade',
-            'email' => 'contato@maisbartenders.com.br',
+            'email' => 'igorlucast@hotmail.com',
             'bday' => '1987-06-18',
             'password' => bcrypt('password'),
             'remember_token' => str_random(10),
@@ -72,7 +72,7 @@ class DatabaseSeeder extends Seeder
         factory(App\Models\OracleUser::class)->create([
             'name' => 'Igor',
             'last_name' => 'Trindade',
-            'email' => 'contato@maisbartenders.com.br',
+            'email' => 'igorlucast@hotmail.com',
             'password' => bcrypt('password'),
             'remember_token' => str_random(10),
         ]);
