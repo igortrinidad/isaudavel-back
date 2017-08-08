@@ -105,6 +105,7 @@ class DatabaseSeeder extends Seeder
         $this->call(TrainningsTableSeeder::class);
         $this->call(ClientEvaluationsTableSeeder::class);
         $this->call(ClientRestrictionsTableSeeder::class);
+        $this->call(ClientExamsTableSeeder::class);
 
         $this->command->info('Finished database seeder');
     }

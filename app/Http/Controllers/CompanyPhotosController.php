@@ -29,7 +29,9 @@ class CompanyPhotosController extends Controller
      */
     public function store(Request $request)
     {
-        $image = $request->file('image');
+        $is_profile = $request->get('is_profile') == 'true' ? true : false;
+
+        $image = $request->file('file');
 
         $fileName = bin2hex(random_bytes(16)) . '.' . $image->getClientOriginalExtension();
 
@@ -37,7 +39,7 @@ class CompanyPhotosController extends Controller
 
         \Storage::disk('media')->put($filePath, file_get_contents($image), 'public');
 
-        $request->merge(['path' => $filePath]);
+        $request->merge(['path' => $filePath, 'is_profile' => $is_profile]);
 
         $companyPhoto = CompanyPhoto::create($request->all());
 

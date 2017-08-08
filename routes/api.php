@@ -58,6 +58,17 @@ Route::group(['prefix' => 'professional'], function () {
         Route::post('/restriction/update', 'RestrictionController@update');
         Route::get('/restriction/destroy/{id}', 'RestrictionController@destroy');
 
+
+        //Exam resources
+        Route::get('/exam/list/{id}', 'ExamController@index');
+        Route::post('/exam/create', 'ExamController@store');
+        Route::post('/exam/update', 'ExamController@update');
+        Route::get('/exam/destroy/{id}', 'ExamController@destroy');
+
+        //Exam attachments
+        Route::post('/exam/attachment/upload', 'ExamAttachmentController@store');
+        Route::get('/exam/attachment/destroy/{id}', 'ExamAttachmentController@destroy');
+
         //profile update
         Route::post('/update', 'ProfessionalController@update');
     });
@@ -99,6 +110,16 @@ Route::group(['prefix' => 'client'], function () {
         Route::post('/restriction/create', 'RestrictionController@store');
         Route::post('/restriction/update', 'RestrictionController@update');
         Route::get('/restriction/destroy/{id}', 'RestrictionController@destroy');
+
+        //Exam resources
+        Route::get('/exam/list/{id}', 'ExamController@index');
+        Route::post('/exam/create', 'ExamController@store');
+        Route::post('/exam/update', 'ExamController@update');
+        Route::get('/exam/destroy/{id}', 'ExamController@destroy');
+
+        //Exam attachments
+        Route::post('/exam/attachment/upload', 'ExamAttachmentController@store');
+        Route::get('/exam/attachment/destroy/{id}', 'ExamAttachmentController@destroy');
 
         //evaluation resources
         Route::get('/evaluation/list/{id}', 'EvaluationController@index');
