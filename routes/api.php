@@ -44,6 +44,13 @@ Route::group(['prefix' => 'professional'], function () {
         Route::post('/trainning/update', 'TrainningController@update');
         Route::get('/trainning/destroy/{id}', 'TrainningController@destroy');
 
+        //diet resources
+        Route::get('/diet/list/{id}', 'DietController@index');
+        Route::get('/diet/list/destroyeds/{id}', 'DietController@listdestroyeds');
+        Route::post('/diet/create', 'DietController@store');
+        Route::post('/diet/update', 'DietController@update');
+        Route::get('/diet/destroy/{id}', 'DietController@destroy');
+
         //Evaluation resources
         Route::post('/evaluation/create', 'EvaluationController@store');
         Route::post('/evaluation/update', 'EvaluationController@update');
@@ -104,6 +111,14 @@ Route::group(['prefix' => 'client'], function () {
         Route::post('/trainning/create', 'TrainningController@store');
         Route::post('/trainning/update', 'TrainningController@update');
         Route::get('/trainning/destroy/{id}', 'TrainningController@destroy');
+
+        //diet resources
+        Route::get('/diet/list/{id}', 'DietController@index');
+        Route::get('/diet/list/destroyeds/{id}', 'DietController@listdestroyeds');
+        Route::post('/diet/create', 'DietController@store');
+        Route::post('/diet/update', 'DietController@update');
+        Route::get('/diet/destroy/{id}', 'DietController@destroy');
+        Route::get('/diet/undestroy/{id}', 'DietController@undestroy');
 
         //restrictions resources
         Route::get('/restriction/list/{id}', 'RestrictionController@index');
