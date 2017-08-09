@@ -26,12 +26,6 @@ class CreateCompaniesTable extends Migration
             $table->float('lng', 10, 6);
             $table->string('city');
             $table->string('state');
-            $table->decimal('price', 15, 2);
-            $table->float('rating');
-            $table->json('informations');
-            $table->integer('advance_schedule');
-            $table->integer('advance_reschedule');
-            $table->integer('points_to_earn_bonus');
             $table->timestamps();
             $table->primary('id');
         });

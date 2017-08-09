@@ -29,6 +29,7 @@ class CompanyPhotosController extends Controller
      */
     public function store(Request $request)
     {
+
         $is_profile = $request->get('is_profile') == 'true' ? true : false;
 
         $image = $request->file('file');

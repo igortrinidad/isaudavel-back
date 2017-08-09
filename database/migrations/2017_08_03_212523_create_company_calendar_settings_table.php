@@ -19,6 +19,9 @@ class CreateCompanyCalendarSettingsTable extends Migration
             $table->boolean('calendar_is_public');
             $table->boolean('calendar_is_active');
             $table->boolean('workday_is_active');
+            $table->integer('advance_schedule');
+            $table->integer('advance_reschedule');
+            $table->integer('points_to_earn_bonus');
             $table->json('available_dates_range');
             $table->json('available_days_config');
             $table->timestamps();

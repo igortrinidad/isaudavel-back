@@ -14,9 +14,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $activities = Category::paginate(10);
+        $categories = Category::paginate(10);
 
-        return response()->json(custom_paginator($activities));
+        return response()->json(custom_paginator($categories));
     }
 
     /**
@@ -85,5 +85,17 @@ class CategoryController extends Controller
             'message' => 'Category not found.',
         ], 404);
 
+    }
+
+    /**
+     * Display a listing of the resource for select.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function forSelect()
+    {
+        $categories = Category::select('id', 'name', 'slug')->get();
+
+        return response()->json($categories);
     }
 }

@@ -11,10 +11,10 @@ class CategoriesTableSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\Category::create([
+       /* \App\Models\Category::create([
             'name' => 'Todos',
             'slug' => 'all'
-        ]);
+        ]);*/
 
         \App\Models\Category::create([
             'name' => 'Pilates',

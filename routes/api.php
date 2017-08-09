@@ -27,6 +27,27 @@ Route::group(['prefix' => 'professional'], function () {
     //Professional protected routes
     Route::group(['middleware' => 'auth:professional'], function () {
 
+        //Categories
+        Route::get('/category/list', 'CategoryController@forSelect');
+
+        //Company
+        Route::group(['prefix' => 'company'], function(){
+
+
+            //Evaluation resources
+            Route::post('/create', 'CompanyController@store');
+            Route::post('/update', 'CompanyController@update');
+            Route::get('/destroy/{id}', 'CompanyController@destroy');
+
+            //Photo resources
+            Route::get('/photo/list/{id}', 'CompanyPhotosController@index');
+            Route::post('/photo/upload', 'CompanyPhotosController@store');
+            Route::post('/photo/update', 'CompanyPhotosController@update');
+            Route::get('/photo/destroy/{id}', 'CompanyPhotosController@destroy');
+
+        });
+
+
         //Photo resources
         Route::get('/photo/list', 'ProfessionalPhotoController@index');
         Route::post('/photo/upload', 'ProfessionalPhotoController@store');
@@ -195,14 +216,6 @@ Route::group(['prefix' => 'oracle'], function () {
 * Unprotected Router
 */
 Route::group(['prefix' => 'company'], function(){
-
-    //Photo resources
-    Route::get('/photo/list/{id}', 'CompanyPhotosController@index');
-    Route::post('/photo/upload', 'CompanyPhotosController@store');
-    Route::post('/photo/update', 'CompanyPhotosController@update');
-    Route::get('/photo/destroy/{id}', 'CompanyPhotosController@destroy');
-
-
     Route::post('/search/location', 'CompanyController@searchByLocation');
     Route::post('/search/category', 'CompanyController@searchByCategory');
 });

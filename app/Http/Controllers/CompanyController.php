@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
+use App\Models\CompanyCalendarSettings;
+use App\Models\CompanyPhoto;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
@@ -29,9 +31,27 @@ class CompanyController extends Controller
     {
         $company = Company::create($request->all());
 
+        // attach categories
+        $company->categories()->attach($request->get('categories'));
+
+        //attach owner as professional with admin rights
+        $company->professionals()->attach($request->get('owner_id'), ['is_admin' => true]);
+
+        // Create the callendar settings
+        factory(CompanyCalendarSettings::class)->create([
+            'company_id' => $company->id,
+        ]);
+
+        //update photos
+        if (array_key_exists('photos', $request->all())) {
+            foreach ($request->get('photos') as $photo) {
+                CompanyPhoto::find($photo['id'])->update($photo);
+            }
+        }
+
         return response()->json([
             'message' => 'Company created.',
-            'company' => $company->fresh(['photos'])
+            'company' => $company->fresh(['photos', 'professionals', 'categories'])
         ]);
     }
 

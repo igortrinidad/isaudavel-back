@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Storage;
 
 class Company extends Model
 {
-    use Uuids;
 
     /**
      * The table associated with the model.
@@ -31,6 +30,7 @@ class Company extends Model
      * @var array
      */
     protected $fillable = [
+        'id',
         'owner_id',
         'is_active',
         'name',
@@ -42,12 +42,6 @@ class Company extends Model
         'lng',
         'city',
         'state',
-        'price',
-        'rating',
-        'informations',
-        'advance_schedule',
-        'advance_reschedule',
-        'points_to_earn_bonus',
     ];
 
 
@@ -62,12 +56,6 @@ class Company extends Model
         'address' => 'json',
         'lat' => 'float',
         'lng' => 'float',
-        'price' => 'float',
-        'rating' => 'float',
-        'informations' => 'json',
-        'advance_schedule' => 'integer',
-        'advance_reschedule'  => 'integer',
-        'points_to_earn_bonus'  => 'integer'
     ];
 
 
@@ -91,9 +79,8 @@ class Company extends Model
     {
         $photo = CompanyPhoto::where('company_id', $this->id)->where('is_profile', true)->first();
 
-        return $photo->fresh()->photo_url;
+        return $photo ? $photo->fresh()->photo_url : null;
     }
-
 
     /**
      * -------------------------------

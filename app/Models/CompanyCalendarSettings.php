@@ -35,9 +35,12 @@ class CompanyCalendarSettings extends Model
         'calendar_is_public',
         'calendar_is_active',
         'workday_is_active',
+        'advance_schedule',
+        'advance_reschedule',
+        'points_to_earn_bonus',
         'available_dates_range',
+        'available_days_config'
     ];
-
 
     /**
      * The attributes that should be cast to native types.
@@ -47,7 +50,7 @@ class CompanyCalendarSettings extends Model
     protected $casts = [
         'calendar_is_public' => 'boolean',
         'calendar_is_active' => 'boolean',
-        'workday_is_active' => 'boolean',
+        'workday_is_active' =>  'boolean',
         'available_dates_range' => 'json',
         'available_days_config' => 'json'
     ];

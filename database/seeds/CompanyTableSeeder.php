@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Webpatser\Uuid\Uuid;
 
 class CompanyTableSeeder extends Seeder
 {
@@ -61,6 +62,7 @@ class CompanyTableSeeder extends Seeder
             unset($location['address']['geolocation']);
 
             $company = \App\Models\Company::create( [
+                'id' => Uuid::generate()->string,
                 'owner_id' => $professional,
                 'is_active' => true,
                 'name' => $company_name,
@@ -71,13 +73,7 @@ class CompanyTableSeeder extends Seeder
                 'lat'=> $lat,
                 'lng'=> $lng,
                 'city' => $location['city'],
-                'state' => $location['state'],
-                'price' => rand(400, 700),
-                'rating' => rand(3, 5),
-                'informations' => json_decode('[]'),
-                'advance_schedule' => 24,
-                'advance_reschedule' => rand(2, 3),
-                'points_to_earn_bonus' => rand(300, 500),
+                'state' => $location['state']
             ]);
 
             //attach admin on company
