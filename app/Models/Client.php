@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Traits\Uuids;
+use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject as JWTSubject;
@@ -119,6 +120,14 @@ class Client extends Authenticatable implements JWTSubject
         return $photo ? $photo->fresh()->photo_url : null;
     }
 
+    /*
+     * Format to display
+     */
+    public function getBdayAttribute($bday)
+    {
+        return Carbon::parse($bday)->format('d/m/Y');
+    }
+
     /**
      * -------------------------------
      * Relationships
@@ -165,4 +174,17 @@ class Client extends Authenticatable implements JWTSubject
         return $this->hasMany(Trainning::class);
     }
 
+
+    /** Overide some attributes on update
+     * @param array $attributes
+     * @param array $options
+     * @return bool
+     */
+    public function update(array $attributes = [], array $options = [])
+    {
+        if(array_key_exists('bday', $attributes)){
+            $attributes['bday'] = Carbon::createFromFormat('d/m/Y', $attributes['bday'])->toDateString();
+        }
+        return parent::update($attributes, $options);
+    }
 }

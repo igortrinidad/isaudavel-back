@@ -32,7 +32,7 @@ Route::group(['prefix' => 'professional'], function () {
 
         //Company
         Route::group(['prefix' => 'company'], function(){
-            
+
             //Company resources
             Route::get('/my_companies', 'CompanyController@professionalCompanies');
             Route::post('/create', 'CompanyController@store');
@@ -45,6 +45,9 @@ Route::group(['prefix' => 'professional'], function () {
             Route::post('/photo/upload', 'CompanyPhotosController@store');
             Route::post('/photo/update', 'CompanyPhotosController@update');
             Route::get('/photo/destroy/{id}', 'CompanyPhotosController@destroy');
+
+            //Rating
+            Route::get('/rating/list/{id}', 'CompanyRatingController@index');
 
         });
 
@@ -99,6 +102,9 @@ Route::group(['prefix' => 'professional'], function () {
         //Exam attachments
         Route::post('/exam/attachment/upload', 'ExamAttachmentController@store');
         Route::get('/exam/attachment/destroy/{id}', 'ExamAttachmentController@destroy');
+
+        //Rating
+        Route::get('/rating/list/{id}', 'ProfessionalRatingController@index');
 
         //profile update
         Route::get('/profile/show/{id}', 'ProfessionalController@show');
@@ -163,11 +169,22 @@ Route::group(['prefix' => 'client'], function () {
         Route::post('/exam/attachment/upload', 'ExamAttachmentController@store');
         Route::get('/exam/attachment/destroy/{id}', 'ExamAttachmentController@destroy');
 
+        //Company rating
+        Route::post('/company/rating/create', 'CompanyRatingController@store');
+        Route::post('/company/rating/update', 'CompanyRatingController@update');
+        Route::get('/company/rating/destroy/{id}', 'CompanyRatingController@destroy');
+
+        //Professional rating
+        Route::post('/professional/rating/create', 'ProfessionalRatingController@store');
+        Route::post('/professional/rating/update', 'ProfessionalRatingController@update');
+        Route::get('/professional/rating/destroy/{id}', 'ProfessionalRatingController@destroy');
+
         //evaluation resources
         Route::get('/evaluation/list/{id}', 'EvaluationController@index');
 
         //profile update
         Route::post('/profile/update', 'ClientController@update');
+        Route::get('/profile/show/{id}', 'ClientController@show');
     });
 });
 

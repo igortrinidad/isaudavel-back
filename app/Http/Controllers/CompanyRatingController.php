@@ -10,21 +10,17 @@ class CompanyRatingController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        //
-    }
+        $ratings = CompanyRating::where('company_id', $id)
+            ->with('client')
+            ->orderBy('created_at')
+            ->get();
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return response()->json(['ratings' => $ratings]);
     }
 
     /**
@@ -35,51 +31,63 @@ class CompanyRatingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rating = CompanyRating::create($request->all());
+
+        return response()->json([
+            'message' => 'Company rating created.',
+            'rating' => $rating->fresh()
+        ]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\CompanyRating  $companyRating
+     * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function show(CompanyRating $companyRating)
+    public function show($id)
     {
-        //
-    }
+        $rating = CompanyRating::find($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\CompanyRating  $companyRating
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(CompanyRating $companyRating)
-    {
-        //
+        return response()->json(['data' => $rating]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\CompanyRating  $companyRating
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CompanyRating $companyRating)
+    public function update(Request $request)
     {
-        //
+        $rating = tap(CompanyRating::find($request->get('id')))->update($request->all())->fresh();
+
+        return response()->json([
+            'message' => 'Company rating updated.',
+            'rating' => $rating
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\CompanyRating  $companyRating
+     * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CompanyRating $companyRating)
+    public function destroy($id)
     {
-        //
+        $destroyed = CompanyRating::destroy($id);
+
+        if($destroyed){
+            return response()->json([
+                'message' => 'Company rating destroyed.',
+                'id' => $id
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Company rating not found.',
+        ], 404);
+
     }
 }
