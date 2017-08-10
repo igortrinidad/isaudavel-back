@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
 
-class ProfessionalRating extends Model
+class CompanyRating extends Model
 {
     use Uuids;
 
@@ -16,7 +16,7 @@ class ProfessionalRating extends Model
      *
      * @var string
      */
-    protected $table = 'professional_ratings';
+    protected $table = 'company_ratings';
 
     /**
      * Indicates if the IDs are auto-incrementing.
@@ -32,7 +32,7 @@ class ProfessionalRating extends Model
      */
     protected $fillable = [
         'client_id',
-        'professional_id',
+        'company',
         'rating',
         'content'
     ];
@@ -46,9 +46,9 @@ class ProfessionalRating extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function professional()
+    public function company()
     {
-        return $this->belongsTo(Professional::class);
+        return $this->belongsTo(Company::class);
     }
 
     /**

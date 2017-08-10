@@ -22,6 +22,22 @@ class CompanyController extends Controller
     }
 
     /**
+     * Display a listing companies owned by professional.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function professionalCompanies()
+    {
+        $companies = Company::whereHas('professionals', function ($query){
+            $query->where('professional_id', \Auth::user()->id);
+        })->with(['categories' => function($query){
+            $query->select('id', 'name', 'slug');
+        }, 'professionals.categories'])->get();
+
+        return response()->json(['companies' => $companies]);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

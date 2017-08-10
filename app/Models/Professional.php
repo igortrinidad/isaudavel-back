@@ -186,4 +186,16 @@ class Professional extends Authenticatable implements JWTSubject
         return $this->hasMany(ProfessionalRating::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function companies()
+    {
+        return $this->belongsToMany(Company::class, 'company_professional')
+            ->select('id', 'name')
+            ->with(['categories' => function ($query) {
+                $query->select('id', 'name', 'slug');
+            }])->withPivot('is_admin');
+    }
+
 }
