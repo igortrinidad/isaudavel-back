@@ -32,14 +32,12 @@ Route::group(['prefix' => 'professional'], function () {
 
         //Company
         Route::group(['prefix' => 'company'], function(){
-
-
-            //Evaluation resources
-            Route::get('/show/{id}', 'CompanyController@show');
+            
             //Company resources
             Route::get('/my_companies', 'CompanyController@professionalCompanies');
             Route::post('/create', 'CompanyController@store');
             Route::post('/update', 'CompanyController@update');
+            Route::get('/show/{id}', 'CompanyController@show');
             Route::get('/destroy/{id}', 'CompanyController@destroy');
 
             //Photo resources
