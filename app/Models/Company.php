@@ -83,7 +83,7 @@ class Company extends Model
             $photo = CompanyPhoto::where('company_id', $this->id)->first();
         }
 
-        return $photo ? $photo->fresh()->photo_url : null;
+        return $photo ? $photo->fresh()->photo_url : 'https://s3.amazonaws.com/isaudavel-assets/logos/i_saudavel-LOGO-03.png';
     }
 
     /**
