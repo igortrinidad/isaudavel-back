@@ -61,7 +61,7 @@ class ClientController extends Controller
      */
     public function update(Request $request)
     {
-        if($request->has('password')){
+        if($request->has('password') && !empty($request['password'])){
             $request->merge([
                 'password' => bcrypt($request->get('password')),
             ]);
