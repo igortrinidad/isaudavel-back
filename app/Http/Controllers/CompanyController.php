@@ -63,9 +63,9 @@ class CompanyController extends Controller
      */
     public function show($id)
     {
-        $company = Company::find($id);
+        $company = Company::with(['professionals', 'photos', 'clients'])->find($id);
 
-        return response()->json(['data' => $company]);
+        return response()->json(['company' => $company]);
     }
 
     /**

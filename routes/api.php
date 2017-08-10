@@ -35,6 +35,7 @@ Route::group(['prefix' => 'professional'], function () {
 
 
             //Evaluation resources
+            Route::get('/show/{id}', 'CompanyController@show');
             Route::post('/create', 'CompanyController@store');
             Route::post('/update', 'CompanyController@update');
             Route::get('/destroy/{id}', 'CompanyController@destroy');

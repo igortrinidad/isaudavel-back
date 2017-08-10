@@ -79,6 +79,10 @@ class Company extends Model
     {
         $photo = CompanyPhoto::where('company_id', $this->id)->where('is_profile', true)->first();
 
+        if(!$photo){
+            $photo = CompanyPhoto::where('company_id', $this->id)->first();
+        }
+
         return $photo ? $photo->fresh()->photo_url : null;
     }
 
