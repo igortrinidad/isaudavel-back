@@ -20,6 +20,8 @@ class CompanyTableSeeder extends Seeder
 
         $other_professionals = array_diff_assoc($other_professionals,$professionals );
 
+        $clients = \App\Models\Client::all()->pluck('id')->flatten()->toArray();
+
         $faker = \Faker\Factory::create('pt_BR');
 
         $categories = \App\Models\Category::where('slug', '<>', 'all')->get()->pluck('id')->flatten()->toArray();
@@ -97,7 +99,23 @@ class CompanyTableSeeder extends Seeder
                 'is_profile' => true,
                 'path' => 'company/photo/842ec5c61d9728ddc0e03cf882b5e372.png',
             ]);
+
+
+            //Rating
+            $clients_rating = $faker->randomElements($clients, rand(1,3));
+            foreach ($clients_rating as $client) {
+
+                \App\Models\CompanyRating::create([
+                    'client_id' => $client,
+                    'company_id' => $company->id,
+                    'rating' => rand(1,5),
+                    'content' => $faker->sentence(15)
+                ]);
+
+            }
         }
+
+
 
     }
 }

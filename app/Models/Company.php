@@ -64,7 +64,7 @@ class Company extends Model
      *
      * @var array
      */
-    protected $appends = ['avatar'];
+    protected $appends = ['avatar', 'current_rating'];
 
     /**
      * -------------------------------
@@ -84,6 +84,17 @@ class Company extends Model
         }
 
         return $photo ? $photo->fresh()->photo_url : null;
+    }
+
+    /*
+    * Rating
+    */
+    public function getCurrentRatingAttribute()
+    {
+        $rating = CompanyRating::where('company_id', $this->id)->get()->avg('rating');
+
+        // Round up or down Eg: ratings >= x.5 are rounded up and < x.5 are rounded down
+        return ceil(round($rating,1));
     }
 
     /**
@@ -121,7 +132,7 @@ class Company extends Model
      */
     public function professionals()
     {
-        return $this->belongsToMany(Professional::class, 'company_professional');
+        return $this->belongsToMany(Professional::class, 'company_professional')->withPivot('is_admin');
     }
 
     /**
@@ -138,6 +149,13 @@ class Company extends Model
     public function calendar_settings()
     {
         return $this->hasOne(CompanyCalendarSettings::class);
+    }
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function ratings()
+    {
+        return $this->hasMany(CompanyRating::class);
     }
 
 }
