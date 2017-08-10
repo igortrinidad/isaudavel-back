@@ -37,6 +37,7 @@ class Company extends Model
         'website',
         'phone',
         'address_is_available',
+        'is_delivery',
         'address',
         'lat',
         'lng',
@@ -53,6 +54,7 @@ class Company extends Model
     protected $casts = [
         'is_active' => 'boolean',
         'address_is_available' => 'boolean',
+        'is_delivery' => 'boolean',
         'address' => 'json',
         'lat' => 'float',
         'lng' => 'float',
@@ -94,6 +96,7 @@ class Company extends Model
         $rating = CompanyRating::where('company_id', $this->id)->get()->avg('rating');
 
         // Round up or down Eg: ratings >= x.5 are rounded up and < x.5 are rounded down
+
         return ceil(round($rating,1));
     }
 

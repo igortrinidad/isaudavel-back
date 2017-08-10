@@ -133,7 +133,11 @@ class Professional extends Authenticatable implements JWTSubject
     {
         $photo = ProfessionalPhoto::where('professional_id', $this->id)->where('is_profile', true)->first();
 
-        return $photo ? $photo->fresh()->photo_url : null;
+        if(!$photo){
+            $photo = ProfessionalPhoto::where('professional_id', $this->id)->first();
+        }
+
+        return $photo ? $photo->fresh()->photo_url : 'https://s3.amazonaws.com/isaudavel-assets/logos/i_saudavel-LOGO-03.png';
     }
 
     /*

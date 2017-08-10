@@ -49,9 +49,9 @@ class ProfessionalController extends Controller
      */
     public function show($id)
     {
-        $professional = Professional::find($id);
+        $professional = Professional::with(['photos', 'categories', 'companies'])->find($id);
 
-        return response()->json(['data' => $professional]);
+        return response()->json(['professional' => $professional]);
     }
 
     /**
@@ -62,13 +62,18 @@ class ProfessionalController extends Controller
      */
     public function update(Request $request)
     {
-        if($request->has('password')){
+        if($request->has('password') && !empty($request['password'])){
             $request->merge([
                 'password' => bcrypt($request->get('password')),
             ]);
         }
 
         $professional = tap(Professional::find($request->get('id')))->update($request->all())->fresh();
+
+        // Detach categories
+        $professional->categories()->detach();
+        // attach categories
+        $professional->categories()->attach($request->get('categories'));
 
         return response()->json([
             'message' => 'Professional updated.',

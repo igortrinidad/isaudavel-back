@@ -29,7 +29,10 @@ class ProfessionalPhotoController extends Controller
      */
     public function store(Request $request)
     {
-        $image = $request->file('image');
+
+        $is_profile = $request->get('is_profile') == 'true' ? true : false;
+
+        $image = $request->file('file');
 
         $fileName = bin2hex(random_bytes(16)) . '.' . $image->getClientOriginalExtension();
 
@@ -37,13 +40,13 @@ class ProfessionalPhotoController extends Controller
 
         \Storage::disk('media')->put($filePath, file_get_contents($image), 'public');
 
-        $request->merge(['path' => $filePath, 'professional_id' => \Auth::user()->id]);
+        $request->merge(['path' => $filePath, 'is_profile' => $is_profile]);
 
-        $professionalPhoto = ProfessionalPhoto::create($request->all());
+        $companyPhoto = ProfessionalPhoto::create($request->all());
 
         $response = [
-            'message' => 'Professional photo created.',
-            'photo'    => $professionalPhoto->fresh()->toArray(),
+            'message' => 'Company photo created.',
+            'photo'    => $companyPhoto->fresh()->toArray(),
         ];
 
         return response()->json($response);

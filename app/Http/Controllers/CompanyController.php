@@ -79,7 +79,7 @@ class CompanyController extends Controller
      */
     public function show($id)
     {
-        $company = Company::with(['professionals', 'photos', 'clients'])->find($id);
+        $company = Company::with(['professionals', 'photos', 'clients', 'categories'])->find($id);
 
         return response()->json(['company' => $company]);
     }
@@ -93,6 +93,11 @@ class CompanyController extends Controller
     public function update(Request $request)
     {
         $company = tap(Company::find($request->get('id')))->update($request->all())->fresh();
+
+        // Detach categories
+        $company->categories()->detach();
+        // attach categories
+        $company->categories()->attach($request->get('categories'));
 
         return response()->json([
             'message' => 'Company updated.',
@@ -134,7 +139,7 @@ class CompanyController extends Controller
         $user_lat = $request->get('lat');
         $user_lng = $request->get('lng');
 
-        $companies = \App\Models\Company::select(\DB::raw("*, 
+        $companies = Company::select(\DB::raw("*, 
                 (ATAN(SQRT(POW(COS(RADIANS(companies.lat)) * SIN(RADIANS(companies.lng)
                  - RADIANS('$user_lng')), 2) +POW(COS(RADIANS('$user_lat')) * 
                  SIN(RADIANS(companies.lat)) - SIN(RADIANS('$user_lat')) * cos(RADIANS(companies.lat)) * 
@@ -146,15 +151,16 @@ class CompanyController extends Controller
                     ->with(['categories' => function($query){
                         $query->select('name');
                     }])->orderBy('name', 'asc');
-            }])->whereHas('categories', function($query) use($request){
+            }])->where('name', 'LIKE', '%' . $request->get('search') . '%' )
+                ->whereHas('categories', function($query) use($request){
 
-                if($request->get('category') === 'all'){
-                    $query->where('slug', '<>', 'all');
-                }
+                    if($request->get('category') === 'all'){
+                        $query->where('slug', '<>', 'all');
+                    }
 
-                if($request->get('category') != 'all'){
-                    $query->where('slug', $request->get('category'));
-                }
+                    if($request->get('category') != 'all'){
+                        $query->where('slug', $request->get('category'));
+                    }
 
             })->with(['categories' => function($query){
                 $query->select('name');

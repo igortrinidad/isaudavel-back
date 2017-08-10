@@ -101,7 +101,8 @@ Route::group(['prefix' => 'professional'], function () {
         Route::get('/exam/attachment/destroy/{id}', 'ExamAttachmentController@destroy');
 
         //profile update
-        Route::post('/update', 'ProfessionalController@update');
+        Route::get('/profile/show/{id}', 'ProfessionalController@show');
+        Route::post('/profile/update', 'ProfessionalController@update');
     });
 
     //Open routes

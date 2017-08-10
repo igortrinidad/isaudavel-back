@@ -20,7 +20,8 @@ class CreateCompaniesTable extends Migration
             $table->string('name');
             $table->string('website')->nullable();
             $table->string('phone');
-            $table->boolean('address_is_available');
+            $table->boolean('address_is_available')->default(0);
+            $table->boolean('is_delivery')->default(0);
             $table->json('address');
             $table->float('lat', 10, 6);
             $table->float('lng', 10, 6);
