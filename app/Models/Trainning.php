@@ -36,7 +36,7 @@ class Trainning extends Model
         'created_by_id',
         'created_by_type',
         'dow',
-        'exercises',
+        'series',
         'observation'
     ];
 
@@ -45,7 +45,7 @@ class Trainning extends Model
      *
      * @var array
      */
-    protected $casts = ['exercises' => 'json'];
+    protected $casts = ['series' => 'json'];
 
     /**
      * -------------------------------

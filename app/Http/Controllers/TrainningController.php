@@ -21,6 +21,19 @@ class TrainningController extends Controller
     }
 
     /**
+     * Display a listing of the resource destroyeds.
+     *
+     * @param $id
+     * @return \Illuminate\Http\Response
+     */
+    public function listdestroyeds($id)
+    {
+        $trainnings = Trainning::where('client_id', $id)->with('from')->onlyTrashed()->get();
+
+        return response()->json(['trainnings_destroyeds' => $trainnings]);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -87,6 +100,25 @@ class TrainningController extends Controller
 
         return response()->json([
             'message' => 'Trainning not found.',
+        ], 404);
+
+    }
+
+    public function undestroy($id)
+    {
+        $undestroyed = Trainning::withTrashed()
+        ->where('id', $id)
+        ->restore();
+
+        if($undestroyed){
+            return response()->json([
+                'message' => 'trainning undestroyed.',
+                'id' => $id
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'trainning not found.',
         ], 404);
 
     }

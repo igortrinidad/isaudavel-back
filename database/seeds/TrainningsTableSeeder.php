@@ -22,7 +22,9 @@ class TrainningsTableSeeder extends Seeder
                 'created_by_id' => $faker->randomElement($professionals),
                 'created_by_type' => \App\Models\Professional::class,
                 'dow' => rand(0, 6),
-                'exercises' => json_decode('[{"name":"Supino","status":"completed","interval":{"quantity":"10","label":"segundos"},"method":[{"quantity":10,"label":"Repetições","load":"10kg"},{"quantity":10,"label":"Repetições","load":"10kg"}]},{"name":"Esteira","status":"not-completed","interval":{"quantity":"1","label":"minuto"},"method":[{"quantity":10,"label":"Minutos","load":"5km"},{"quantity":5,"label":"Minutos","load":"8km"}]}]'),
+                /*
+                'series' => json_decode('[{"name":"Supino","status":"completed","interval":{"quantity":"10","label":"segundos"},"method":[{"quantity":10,"label":"Repetições","load":"10kg"},{"quantity":10,"label":"Repetições","load":"10kg"}]},{"name":"Esteira","status":"not-completed","interval":{"quantity":"1","label":"minuto"},"method":[{"quantity":10,"label":"Minutos","load":"5km"},{"quantity":5,"label":"Minutos","load":"8km"}]}]'),*/
+                'series' => json_decode('[]'),
                 'observation' => 'No pain, no gain'
             ]);
         }

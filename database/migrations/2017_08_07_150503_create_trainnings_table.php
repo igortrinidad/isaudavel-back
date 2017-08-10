@@ -19,7 +19,7 @@ class CreateTrainningsTable extends Migration
             $table->uuid('created_by_id');
             $table->string('created_by_type');
             $table->integer('dow');
-            $table->json('exercises');
+            $table->json('series');
             $table->text('observation');
             $table->timestamps();
             $table->softDeletes();
