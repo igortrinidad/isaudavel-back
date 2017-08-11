@@ -48,9 +48,9 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        $client = Client::find($id);
+        $client = Client::with(['photos'])->find($id);
 
-        return response()->json(['data' => $client]);
+        return response()->json(['client' => $client]);
     }
 
     /**

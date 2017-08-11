@@ -6,6 +6,7 @@ use App\Models\Traits\Uuids;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject as JWTSubject;
+use Carbon\Carbon;
 
 
 class Client extends Authenticatable implements JWTSubject
@@ -107,6 +108,26 @@ class Client extends Authenticatable implements JWTSubject
     public function getRoleAttribute()
     {
         return 'client';
+    }
+
+    /*
+     * Change bday to get of db
+     */
+    public function getBdayAttribute($value)
+    {
+        return date('d/m/Y', strtotime($value));
+    }
+
+    /*
+     * Change bday to set on db
+     */
+    public function setBdayAttribute($value)
+    {
+        if(!isset($value)){
+            $value = '00/00/0000';
+        }
+
+        $this->attributes['bday'] = Carbon::createFromFormat('d/m/Y', $value)->toDateString();
     }
 
     /*

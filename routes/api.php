@@ -167,6 +167,7 @@ Route::group(['prefix' => 'client'], function () {
         Route::get('/evaluation/list/{id}', 'EvaluationController@index');
 
         //profile update
+        Route::get('/profile/show/{id}', 'ClientController@show');
         Route::post('/profile/update', 'ClientController@update');
     });
 });
