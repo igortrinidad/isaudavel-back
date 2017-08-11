@@ -15,7 +15,7 @@ class ExamController extends Controller
      */
     public function index($id)
     {
-        $exams = Exam::where('client_id', $id)->with('from', 'attachments')->get();
+        $exams = Exam::where('client_id', $id)->with('from')->get();
 
         return response()->json(['exams' => $exams]);
     }

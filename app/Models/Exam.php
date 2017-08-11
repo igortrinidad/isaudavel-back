@@ -46,7 +46,7 @@ class Exam extends Model
      *
      * @var array
      */
-    protected $appends = ['type_label'];
+    protected $appends = ['attachment_url'];
 
 
     /**
@@ -56,21 +56,23 @@ class Exam extends Model
      */
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getTypeLabelAttribute()
+    public function getAttachmentUrlAttribute()
     {
-        if ($this->type == 'image') {
-            return 'Imagem';
+        if ($this->attributes['path']) {
+            return $this->getFileUrl($this->attributes['path']);
         }
 
-        if ($this->type == 'blood') {
-            return 'Sangue';
-        }
+    }
 
-        if ($this->type == 'physical') {
-            return 'Físico';
-        }
+    /**
+     * @param $key
+     * @return string
+     */
+    private function getFileUrl($key)
+    {
+        return (string)Storage::disk('media')->url($key);
     }
 
     /**
@@ -95,11 +97,4 @@ class Exam extends Model
         return $this->morphTo(null, 'created_by_type', 'created_by_id');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function attachments()
-    {
-        return $this->hasMany(ExamAttachment::class);
-    }
 }
