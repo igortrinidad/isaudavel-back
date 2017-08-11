@@ -123,4 +123,17 @@ class ExamController extends Controller
         ], 404);
 
     }
+
+    /**
+     * Display a listing of the resource destroyeds.
+     *
+     * @param $id
+     * @return \Illuminate\Http\Response
+     */
+    public function listdestroyeds($id)
+    {
+        $exams = Exam::where('client_id', $id)->with('from')->onlyTrashed()->get();
+
+        return response()->json(['exams_destroyeds' => $exams]);
+    }
 }

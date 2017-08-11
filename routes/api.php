@@ -166,6 +166,7 @@ Route::group(['prefix' => 'client'], function () {
         Route::post('/exam/create', 'ExamController@store');
         Route::post('/exam/update', 'ExamController@update');
         Route::get('/exam/destroy/{id}', 'ExamController@destroy');
+        Route::get('/exam/list/destroyeds/{id}', 'ExamController@listdestroyeds');
 
         //TEST
         Route::post('/exam/storetwo', 'ExamController@storetwo');
