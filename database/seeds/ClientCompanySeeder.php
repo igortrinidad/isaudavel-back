@@ -19,7 +19,13 @@ class ClientCompanySeeder extends Seeder
 
         foreach ($clients as $client) {
             //Attach companies
-            $client->companies()->attach($faker->randomElements($companies, (rand(1,3))));
+            $client->companies()->attach($faker->randomElements($companies, rand(1,3)),
+                [
+                    'is_confirmed' => true,
+                    'confirmed_by_id' => $client->id,
+                    'confirmed_by_type' => get_class($client),
+                    'confirmed_at' => \Carbon\Carbon::now()
+                ]);
 
             //Avatar
             \App\Models\ClientPhoto::create([

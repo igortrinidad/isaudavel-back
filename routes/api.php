@@ -49,6 +49,9 @@ Route::group(['prefix' => 'professional'], function () {
             //Rating
             Route::get('/rating/list/{id}', 'CompanyRatingController@index');
 
+            //Client
+            Route::post('/clients', 'ClientController@companyClients');
+
         });
 
 
@@ -107,6 +110,15 @@ Route::group(['prefix' => 'professional'], function () {
 
         //Rating
         Route::get('/rating/list/{id}', 'ProfessionalRatingController@index');
+
+        //Client
+        Route::group(['prefix' => 'client'], function(){
+
+            //Client
+            Route::post('/create', 'ClientController@store');
+            Route::post('/search', 'ClientController@search');
+            Route::post('/solicitation', 'ClientController@companySolicitation');
+        });
 
         //profile update
         Route::get('/profile/show/{id}', 'ProfessionalController@show');
@@ -200,6 +212,7 @@ Route::group(['prefix' => 'client'], function () {
         Route::post('/profile/update', 'ClientController@update');
         Route::get('/profile/show/{id}', 'ClientController@show');
     });
+
 });
 
 /*

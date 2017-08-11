@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use App\Models\ClientPhoto;
+use Carbon\Carbon;
+use function foo\func;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ClientController extends Controller
 {
@@ -20,6 +23,98 @@ class ClientController extends Controller
         return response()->json(custom_paginator($clients));
     }
 
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function companyClients(Request $request)
+    {
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+
+        $per_page = 10;
+
+        $clients = Client::whereHas('companies', function ($query) use($request){
+            $query->where('company_id', $request->get('company_id'));
+        })->orderBy('name')->get();
+
+        $verified_clients = [];
+        foreach ($clients as $client){
+            //check if is a company client
+            $is_client = $client->companies->contains($request->get('company_id'));
+
+            //check if is confirmed
+            $is_confirmed = $client->companies()
+                ->wherePivot('company_id', '=',$request->get('company_id'))
+                ->wherePivot('is_confirmed', '=', true)->count();
+
+            $client['is_client'] = $is_client;
+            $client['is_confirmed'] = $is_confirmed ? true : false;
+            $verified_clients[] = $client->setHidden(['companies']);
+        }
+
+        $verified_clients = collect($verified_clients);
+
+        $currentPageItems = $verified_clients->slice(($currentPage - 1) * $per_page, $per_page);
+
+        $paged_clients =  new LengthAwarePaginator($currentPageItems->flatten(), count($verified_clients), $per_page);
+
+        return response()->json(custom_paginator($paged_clients, 'clients'));
+    }
+
+    /**
+     * Client Search.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+
+        $per_page = 10;
+
+        $search = explode(' ', $request->get('search'));
+
+        $clients = Client::where(function ($query) use ($search, $request) {
+            $query->where('name', 'LIKE', '%' . $request->get('search') . '%');
+            $query->orWhere('last_name', 'LIKE', '%' . $request->get('search') . '%');
+            $query->orWhere('email', 'LIKE', '%' . $request->get('search') . '%');
+
+            //for full name
+            $query->orWhereIn('name', $search);
+            $query->orWhere(function ($query) use ($search) {
+                $query->whereIn('last_name', $search);
+            });
+
+        })->get();
+
+        $verified_clients = [];
+        foreach ($clients as $client){
+            //check if is a company client
+            $is_client = $client->companies->contains($request->get('company_id'));
+
+            //check if is confirmed
+            $is_confirmed = $client->companies()
+                ->wherePivot('company_id', '=',$request->get('company_id'))
+                ->wherePivot('is_confirmed', '=', true)->count();
+
+            $client['is_client'] = $is_client;
+            $client['is_confirmed'] = $is_confirmed ? true : false;
+            $verified_clients[] = $client->setHidden(['companies']);
+        }
+
+        $verified_clients = collect($verified_clients);
+
+        $currentPageItems = $verified_clients->slice(($currentPage - 1) * $per_page, $per_page);
+
+        $paged_clients =  new LengthAwarePaginator($currentPageItems->flatten(), count($verified_clients), $per_page);
+
+        return response()->json(custom_paginator($paged_clients, 'clients'));
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -28,12 +123,27 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
+        //see cause this dont work inside model create
+        $request['bday'] = Carbon::createFromFormat('d/m/Y', $request['bday'])->toDateString();
+
         $request->merge([
             'password' => bcrypt($request->get('password')),
             'remember_token' => str_random(10)
         ]);
 
+
         $client = Client::create($request->all());
+
+        //If is a company creating a client attach automatically
+        if($request->has('company_id') && $request->get('company_id')){
+            $client->companies()->attach($request->get('company_id'),
+                [
+                    'is_confirmed' => true,
+                    'confirmed_by_id' => \Auth::user()->id,
+                    'confirmed_by_type' => get_class(\Auth::user()),
+                    'confirmed_at' => Carbon::now()
+                ]);
+        }
 
         return response()->json([
             'message' => 'Client created.',
@@ -106,4 +216,31 @@ class ClientController extends Controller
         ], 404);
 
     }
+
+    /**
+     * Company requests client solicitation
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function companySolicitation(Request $request)
+    {
+        $client = Client::find($request->get('client_id'));
+
+        if($client){
+
+            $client->companies()->attach($request->get('company_id'), ['is_confirmed' => false]);
+
+            return response()->json(['message' => 'OK']);
+        }
+
+        if(!$client){
+            return response()->json([
+                'message' => 'Client not found.',
+            ], 404);
+        }
+
+    }
+
+
 }
