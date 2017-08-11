@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Professional;
+use App\Models\ProfessionalPhoto;
 use Illuminate\Http\Request;
 
 class ProfessionalController extends Controller
@@ -68,16 +69,21 @@ class ProfessionalController extends Controller
             ]);
         }
 
-        $professional = tap(Professional::find($request->get('id')))->update($request->all())->fresh();
+        $professional = tap(Professional::find($request->get('id')))->update($request->all());
 
-        // Detach categories
-        $professional->categories()->detach();
-        // attach categories
-        $professional->categories()->attach($request->get('categories'));
+        // Sync categories
+        $professional->categories()->sync($request->get('categories'));
+
+        //update photos
+        if (array_key_exists('photos', $request->all())) {
+            foreach ($request->get('photos') as $photo) {
+                ProfessionalPhoto::find($photo['id'])->update($photo);
+            }
+        }
 
         return response()->json([
             'message' => 'Professional updated.',
-            'professional' => $professional
+            'professional' => $professional->fresh()
         ]);
     }
 

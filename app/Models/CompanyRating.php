@@ -32,7 +32,7 @@ class CompanyRating extends Model
      */
     protected $fillable = [
         'client_id',
-        'company',
+        'company_id',
         'rating',
         'content'
     ];

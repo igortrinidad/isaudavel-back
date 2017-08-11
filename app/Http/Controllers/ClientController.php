@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\ClientPhoto;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
@@ -48,7 +49,8 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        $client = Client::with(['photos'])->find($id);
+
+        $client = Client::find($id)->load(['photos']);
 
         return response()->json(['client' => $client]);
     }
@@ -65,6 +67,13 @@ class ClientController extends Controller
             $request->merge([
                 'password' => bcrypt($request->get('password')),
             ]);
+        }
+
+        //update photos
+        if (array_key_exists('photos', $request->all())) {
+            foreach ($request->get('photos') as $photo) {
+                ClientPhoto::find($photo['id'])->update($photo);
+            }
         }
 
         $client = tap(Client::find($request->get('id')))->update($request->all())->fresh();

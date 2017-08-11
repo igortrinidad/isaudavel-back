@@ -92,16 +92,21 @@ class CompanyController extends Controller
      */
     public function update(Request $request)
     {
-        $company = tap(Company::find($request->get('id')))->update($request->all())->fresh();
+        $company = tap(Company::find($request->get('id')))->update($request->all());
 
-        // Detach categories
-        $company->categories()->detach();
-        // attach categories
-        $company->categories()->attach($request->get('categories'));
+        //Sync categories
+        $company->categories()->sync($request->get('categories'));
+
+        //update photos
+        if (array_key_exists('photos', $request->all())) {
+            foreach ($request->get('photos') as $photo) {
+                CompanyPhoto::find($photo['id'])->update($photo);
+            }
+        }
 
         return response()->json([
             'message' => 'Company updated.',
-            'company' => $company
+            'company' => $company->fresh()
         ]);
     }
 
