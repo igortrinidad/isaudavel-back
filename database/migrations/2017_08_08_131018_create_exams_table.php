@@ -16,10 +16,13 @@ class CreateExamsTable extends Migration
         Schema::create('exams', function (Blueprint $table) {
             $table->uuid('id')->index();
             $table->uuid('client_id')->index();
-            $table->uuid('from_id')->index();
-            $table->string('from_type');
+            $table->uuid('created_by_id')->index();
+            $table->string('created_by_type');
             $table->string('type');
             $table->text('observation');
+            $table->string('path')->nullable();
+            $table->string('filename')->nullable();
+            $table->string('extension')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->primary('id');

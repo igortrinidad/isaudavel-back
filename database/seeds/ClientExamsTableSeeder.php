@@ -20,8 +20,8 @@ class ClientExamsTableSeeder extends Seeder
             \App\Models\Exam::create([
                 'client_id' => $client,
                 'type' => 'image',
-                'from_id' => $faker->randomElement($professionals),
-                'from_type' => \App\Models\Professional::class,
+                'created_by_id' => $faker->randomElement($professionals),
+                'created_by_type' => \App\Models\Professional::class,
                 'observation' => 'Machucou um pouco, nada muito sério... nem precisou amputar.'
             ]);
         }

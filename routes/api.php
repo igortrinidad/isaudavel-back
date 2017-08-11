@@ -98,6 +98,8 @@ Route::group(['prefix' => 'professional'], function () {
         Route::post('/exam/create', 'ExamController@store');
         Route::post('/exam/update', 'ExamController@update');
         Route::get('/exam/destroy/{id}', 'ExamController@destroy');
+        //TEST
+        Route::post('/exam/storetwo', 'ExamController@storetwo');
 
         //Exam attachments
         Route::post('/exam/attachment/upload', 'ExamAttachmentController@store');
@@ -164,6 +166,9 @@ Route::group(['prefix' => 'client'], function () {
         Route::post('/exam/create', 'ExamController@store');
         Route::post('/exam/update', 'ExamController@update');
         Route::get('/exam/destroy/{id}', 'ExamController@destroy');
+
+        //TEST
+        Route::post('/exam/storetwo', 'ExamController@storetwo');
 
         //Exam attachments
         Route::post('/exam/attachment/upload', 'ExamAttachmentController@store');

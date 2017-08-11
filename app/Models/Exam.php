@@ -32,10 +32,13 @@ class Exam extends Model
      */
     protected $fillable = [
         'client_id',
-        'from_id',
-        'from_type',
+        'created_by_id',
+        'created_by_type',
         'type',
-        'observation'
+        'observation',
+        'path',
+        'filename',
+        'extension'
     ];
 
     /**
@@ -89,7 +92,7 @@ class Exam extends Model
      */
     public function from()
     {
-        return $this->morphTo(null, 'from_type', 'from_id');
+        return $this->morphTo(null, 'created_by_type', 'created_by_id');
     }
 
     /**

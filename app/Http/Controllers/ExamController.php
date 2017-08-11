@@ -39,6 +39,39 @@ class ExamController extends Controller
         ]);
     }
 
+
+    public function storetwo(Request $request)
+    {
+
+        $request->merge(['created_by_id' => \Auth::user()->id, 'created_by_type' => get_class(\Auth::user())]);
+
+        $file = $request->file('file');
+
+        $fileName = bin2hex(random_bytes(16)) . '.' . $file->getClientOriginalExtension();
+
+        $filePath = 'client/exam/' . $fileName;
+        $originalName = $file->getClientOriginalName();
+        $extension = $file->getClientOriginalExtension();
+
+        \Storage::disk('media')->put($filePath, file_get_contents($file), 'public');
+
+        $request->merge([
+            'client_id' => $request->get('client_id'), 
+            'type' => $request->get('type'), 
+            'obversation' => $request->get('obversation'),
+            'path' => $filePath, 
+            'filename' => $originalName, 
+            'extension' => $extension
+        ]);
+
+        $exam = Exam::create($request->all());
+
+        return response()->json([
+            'message' => 'Exam created.',
+            'exam' => $exam->fresh(['from'])
+        ]);
+    }
+
     /**
      * Display the specified resource.
      *
