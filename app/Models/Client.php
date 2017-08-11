@@ -109,25 +109,6 @@ class Client extends Authenticatable implements JWTSubject
         return 'client';
     }
 
-    /*
-     * Change bday to get of db
-     */
-    public function getBdayAttribute($value)
-    {
-        return date('d/m/Y', strtotime($value));
-    }
-
-    /*
-     * Change bday to set on db
-     */
-    public function setBdayAttribute($value)
-    {
-        if(!isset($value)){
-            $value = '00/00/0000';
-        }
-
-        $this->attributes['bday'] = Carbon::createFromFormat('d/m/Y', $value)->toDateString();
-    }
 
     /*
     * Avatar
@@ -145,6 +126,18 @@ class Client extends Authenticatable implements JWTSubject
     public function getBdayAttribute($bday)
     {
         return Carbon::parse($bday)->format('d/m/Y');
+    }
+
+    /*
+     * Change bday to set on db
+     */
+    public function setBdayAttribute($value)
+    {
+        if(!isset($value)){
+            $value = '00/00/0000';
+        }
+
+        $this->attributes['bday'] = Carbon::createFromFormat('d/m/Y', $value)->toDateString();
     }
 
     /**
