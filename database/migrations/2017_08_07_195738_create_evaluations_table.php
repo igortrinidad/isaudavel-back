@@ -16,10 +16,12 @@ class CreateEvaluationsTable extends Migration
         Schema::create('evaluations', function (Blueprint $table) {
             $table->uuid('id')->index();
             $table->uuid('client_id')->index();
-            $table->uuid('professional_id')->index();
+            $table->uuid('created_by_id')->index();
+            $table->string('created_by_type');
             $table->json('items');
             $table->text('observation');
             $table->timestamps();
+            $table->softDeletes();
             $table->primary('id');
         });
     }

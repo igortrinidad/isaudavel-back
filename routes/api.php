@@ -187,6 +187,13 @@ Route::group(['prefix' => 'client'], function () {
 
         //evaluation resources
         Route::get('/evaluation/list/{id}', 'EvaluationController@index');
+        Route::post('/evaluation/store', 'EvaluationController@store');
+        Route::post('/evaluation/update', 'EvaluationController@update');
+        Route::get('/evaluation/destroy/{id}', 'EvaluationController@destroy');
+        Route::get('/evaluation/list/destroyeds/{id}', 'EvaluationController@listdestroyeds');
+
+        Route::post('/evaluation/photo/upload', 'EvaluationPhotoController@store');
+        Route::get('/evaluation/photo/destroy/{id}', 'EvaluationPhotoController@destroy');
 
         //profile update
         Route::get('/profile/show/{id}', 'ClientController@show');

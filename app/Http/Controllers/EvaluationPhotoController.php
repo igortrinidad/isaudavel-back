@@ -27,13 +27,13 @@ class EvaluationPhotoController extends Controller
      */
     public function store(Request $request)
     {
-        $image = $request->file('image');
+        $file = $request->file('file');
 
-        $fileName = bin2hex(random_bytes(16)) . '.' . $image->getClientOriginalExtension();
+        $fileName = bin2hex(random_bytes(16)) . '.' . $file->getClientOriginalExtension();
 
         $filePath = 'evaluation/photo/' . $fileName;
 
-        \Storage::disk('media')->put($filePath, file_get_contents($image), 'public');
+        \Storage::disk('media')->put($filePath, file_get_contents($file), 'public');
 
         $request->merge(['path' => $filePath]);
 

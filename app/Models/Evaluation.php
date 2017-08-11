@@ -5,11 +5,12 @@ namespace App\Models;
 use App\Models\Traits\Uuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 
 class Evaluation extends Model
 {
-    use Uuids;
+    use Uuids, SoftDeletes;
 
     /**
      * The table associated with the model.
@@ -32,7 +33,8 @@ class Evaluation extends Model
      */
     protected $fillable = [
         'client_id',
-        'professional_id',
+        'created_by_id',
+        'created_by_type',
         'items',
         'observation'
     ];
@@ -59,12 +61,13 @@ class Evaluation extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
-    public function professional()
+    public function from()
     {
-        return $this->belongsTo(Professional::class);
+        return $this->morphTo(null, 'created_by_type', 'created_by_id');
     }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -72,5 +75,6 @@ class Evaluation extends Model
     {
         return $this->hasMany(EvaluationPhoto::class);
     }
+    
 
 }

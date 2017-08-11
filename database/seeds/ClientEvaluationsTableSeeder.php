@@ -19,7 +19,8 @@ class ClientEvaluationsTableSeeder extends Seeder
         foreach ($clients as $client) {
             \App\Models\Evaluation::create([
                 'client_id' => $client,
-                'professional_id' => $faker->randomElement($professionals),
+                'created_by_id' => $faker->randomElement($professionals),
+                'created_by_type' => \App\Models\Professional::class,
                 'items' => json_decode('[{"label":"Peso","value":76,"target":74},{"label":"Gordura corporal","value":15,"target":13},{"label":"IMC","value":24.4,"target":23}]'),
                 'observation' => 'Este cara está saradão iSaudavel.'
             ]);

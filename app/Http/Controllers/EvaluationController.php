@@ -15,12 +15,12 @@ class EvaluationController extends Controller
      */
     public function index($id)
     {
-        $trainnings = Evaluation::where('client_id', $id)
-            ->with('professional', 'photos')
+        $evaluations = Evaluation::where('client_id', $id)
+            ->with('from')
             ->orderBy('created_at')
             ->get();
 
-        return response()->json(['evaluations' => $trainnings]);
+        return response()->json(['evaluations' => $evaluations]);
     }
 
     /**
@@ -31,10 +31,34 @@ class EvaluationController extends Controller
      */
     public function store(Request $request)
     {
+
+        if(!empty($request->file('file'))){
+
+            $file = $request->file('file');
+
+            $fileName = bin2hex(random_bytes(16)) . '.' . $file->getClientOriginalExtension();
+
+            $filePath = 'client/evaluations/' . $fileName;
+
+            \Storage::disk('media')->put($filePath, file_get_contents($file), 'public');
+
+            $request->merge([
+                'path' => $filePath,
+            ]);
+        }
+
+        $request->merge([
+            'client_id' => $request->get('client_id'), 
+            'items' => json_encode($request->get('items')), 
+            'observation' => $request->get('observation'),
+            'created_by_id' => \Auth::user()->id,
+            'created_by_type' => get_class(\Auth::user())
+        ]);
+
         $evaluation = Evaluation::create($request->all());
 
         return response()->json([
-            'message' => 'Evaluation created.',
+            'message' => 'evaluation created.',
             'evaluation' => $evaluation->fresh(['from'])
         ]);
     }
@@ -89,5 +113,18 @@ class EvaluationController extends Controller
             'message' => 'Evaluation not found.',
         ], 404);
 
+    }
+
+    /**
+     * Display a listing of the resource destroyeds.
+     *
+     * @param $id
+     * @return \Illuminate\Http\Response
+     */
+    public function listdestroyeds($id)
+    {
+        $exams = Evaluation::where('client_id', $id)->with('from')->onlyTrashed()->get();
+
+        return response()->json(['exams_destroyeds' => $exams]);
     }
 }
