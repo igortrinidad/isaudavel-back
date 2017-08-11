@@ -128,17 +128,6 @@ class Client extends Authenticatable implements JWTSubject
         return Carbon::parse($bday)->format('d/m/Y');
     }
 
-    /*
-     * Change bday to set on db
-     */
-    public function setBdayAttribute($value)
-    {
-        if(!isset($value)){
-            $value = '00/00/0000';
-        }
-
-        $this->attributes['bday'] = Carbon::createFromFormat('d/m/Y', $value)->toDateString();
-    }
 
     /**
      * -------------------------------
