@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Exam;
+use App\Models\ExamAttachment;
 use Illuminate\Http\Request;
 
 class ExamController extends Controller
@@ -15,7 +16,7 @@ class ExamController extends Controller
      */
     public function index($id)
     {
-        $exams = Exam::where('client_id', $id)->with('from')->get();
+        $exams = Exam::where('client_id', $id)->with(['from', 'attachments'])->get();
 
         return response()->json(['exams' => $exams]);
     }
@@ -29,48 +30,26 @@ class ExamController extends Controller
     public function store(Request $request)
     {
 
-        $request->merge(['created_by_id' => \Auth::user()->id, 'created_by_type' => get_class(\Auth::user())]);
-
-        $exam = Exam::create($request->all());
-
-        return response()->json([
-            'message' => 'Exam created.',
-            'exam' => $exam->fresh(['from'])
-        ]);
-    }
-
-
-    public function storetwo(Request $request)
-    {
-
-        $request->merge(['created_by_id' => \Auth::user()->id, 'created_by_type' => get_class(\Auth::user())]);
-
-        $file = $request->file('file');
-
-        $fileName = bin2hex(random_bytes(16)) . '.' . $file->getClientOriginalExtension();
-
-        $filePath = 'client/exam/' . $fileName;
-        $originalName = $file->getClientOriginalName();
-        $extension = $file->getClientOriginalExtension();
-
-        \Storage::disk('media')->put($filePath, file_get_contents($file), 'public');
-
         $request->merge([
-            'client_id' => $request->get('client_id'), 
-            'type' => $request->get('type'), 
-            'obversation' => $request->get('obversation'),
-            'path' => $filePath, 
-            'filename' => $originalName, 
-            'extension' => $extension
+            'created_by_id' => \Auth::user()->id,
+            'created_by_type' => get_class(\Auth::user())
         ]);
 
         $exam = Exam::create($request->all());
 
+        //update attachments
+        if (array_key_exists('attachments', $request->all())) {
+            foreach ($request->get('attachments') as $photo) {
+                ExamAttachment::find($photo['id'])->update($photo);
+            }
+        }
+
         return response()->json([
-            'message' => 'Exam created.',
+            'message' => 'exam created.',
             'exam' => $exam->fresh(['from'])
         ]);
     }
+
 
     /**
      * Display the specified resource.
@@ -135,5 +114,30 @@ class ExamController extends Controller
         $exams = Exam::where('client_id', $id)->with('from')->onlyTrashed()->get();
 
         return response()->json(['exams_destroyeds' => $exams]);
+    }
+
+    /**
+     * Restore a evaluation.
+     *
+     * @param $id
+     * @return \Illuminate\Http\Response
+     */
+    public function undestroy($id)
+    {
+        $undestroyed = Exam::withTrashed()
+        ->where('id', $id)
+        ->restore();
+
+        if($undestroyed){
+            return response()->json([
+                'message' => 'Exam undestroyed.',
+                'id' => $id
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Exam not found.',
+        ], 404);
+
     }
 }

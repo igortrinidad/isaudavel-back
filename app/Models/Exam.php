@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Traits\Uuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
@@ -10,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 
 class Exam extends Model
 {
-    use Uuids, SoftDeletes;
+    use SoftDeletes;
 
     /**
      * The table associated with the model.
@@ -32,6 +31,7 @@ class Exam extends Model
      * @var array
      */
     protected $fillable = [
+        'id',
         'client_id',
         'created_by_id',
         'created_by_type',
@@ -96,6 +96,14 @@ class Exam extends Model
     public function from()
     {
         return $this->morphTo(null, 'created_by_type', 'created_by_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function attachments()
+    {
+        return $this->hasMany(ExamAttachment::class);
     }
 
 }

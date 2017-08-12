@@ -175,13 +175,11 @@ Route::group(['prefix' => 'client'], function () {
 
         //Exam resources
         Route::get('/exam/list/{id}', 'ExamController@index');
-        Route::post('/exam/create', 'ExamController@store');
+        Route::post('/exam/store', 'ExamController@store');
         Route::post('/exam/update', 'ExamController@update');
         Route::get('/exam/destroy/{id}', 'ExamController@destroy');
+        Route::get('/exam/undestroy/{id}', 'ExamController@undestroy');
         Route::get('/exam/list/destroyeds/{id}', 'ExamController@listdestroyeds');
-
-        //TEST
-        Route::post('/exam/storetwo', 'ExamController@storetwo');
 
         //Exam attachments
         Route::post('/exam/attachment/upload', 'ExamAttachmentController@store');
@@ -202,6 +200,7 @@ Route::group(['prefix' => 'client'], function () {
         Route::post('/evaluation/store', 'EvaluationController@store');
         Route::post('/evaluation/update', 'EvaluationController@update');
         Route::get('/evaluation/destroy/{id}', 'EvaluationController@destroy');
+        Route::get('/evaluation/undestroy/{id}', 'EvaluationController@undestroy');
         Route::get('/evaluation/list/destroyeds/{id}', 'EvaluationController@listdestroyeds');
 
         Route::post('/evaluation/photo/upload', 'EvaluationPhotoController@store');

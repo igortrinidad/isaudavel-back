@@ -19,7 +19,7 @@ class CreateEvaluationsTable extends Migration
             $table->uuid('created_by_id')->index();
             $table->string('created_by_type');
             $table->json('items');
-            $table->text('observation');
+            $table->text('observation')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->primary('id');

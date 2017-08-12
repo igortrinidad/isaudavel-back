@@ -113,8 +113,33 @@ class EvaluationController extends Controller
      */
     public function listdestroyeds($id)
     {
-        $exams = Evaluation::where('client_id', $id)->with('from')->onlyTrashed()->get();
+        $evaluations = Evaluation::where('client_id', $id)->with(['from', 'photos'])->onlyTrashed()->get();
 
-        return response()->json(['exams_destroyeds' => $exams]);
+        return response()->json(['evaluations_destroyeds' => $evaluations]);
+    }
+
+    /**
+     * Restore a evaluation.
+     *
+     * @param $id
+     * @return \Illuminate\Http\Response
+     */
+    public function undestroy($id)
+    {
+        $undestroyed = Evaluation::withTrashed()
+        ->where('id', $id)
+        ->restore();
+
+        if($undestroyed){
+            return response()->json([
+                'message' => 'Evaluation undestroyed.',
+                'id' => $id
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Evaluation not found.',
+        ], 404);
+
     }
 }

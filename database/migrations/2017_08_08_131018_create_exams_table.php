@@ -18,11 +18,8 @@ class CreateExamsTable extends Migration
             $table->uuid('client_id')->index();
             $table->uuid('created_by_id')->index();
             $table->string('created_by_type');
-            $table->string('type');
-            $table->text('observation');
-            $table->string('path')->nullable();
-            $table->string('filename')->nullable();
-            $table->string('extension')->nullable();
+            $table->string('type')->nullable();
+            $table->text('observation')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->primary('id');
