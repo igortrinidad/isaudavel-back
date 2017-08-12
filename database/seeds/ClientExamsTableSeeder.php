@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Webpatser\Uuid\Uuid;
 
 class ClientExamsTableSeeder extends Seeder
 {
@@ -18,6 +19,7 @@ class ClientExamsTableSeeder extends Seeder
 
         foreach ($clients as $client) {
             \App\Models\Exam::create([
+                'id' => Uuid::generate()->string,
                 'client_id' => $client,
                 'type' => 'image',
                 'created_by_id' => $faker->randomElement($professionals),
