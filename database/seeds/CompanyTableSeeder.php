@@ -68,8 +68,10 @@ class CompanyTableSeeder extends Seeder
                 'owner_id' => $professional,
                 'is_active' => true,
                 'name' => $company_name,
+                'slug' => $faker->domainName,
                 'website' => $faker->domainName,
                 'phone' => $faker->phoneNumber,
+                'description' => $faker->text,
                 'address_is_available' => true,
                 'address' =>$location['address'],
                 'lat'=> $lat,
@@ -97,7 +99,7 @@ class CompanyTableSeeder extends Seeder
             \App\Models\CompanyPhoto::create([
                 'company_id' => $company->id,
                 'is_profile' => true,
-                'path' => 'company/photo/842ec5c61d9728ddc0e03cf882b5e372.png',
+                'path' => 'assets/isaudavel_holder850.png',
             ]);
 
 

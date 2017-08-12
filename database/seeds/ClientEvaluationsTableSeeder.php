@@ -34,7 +34,7 @@ class ClientEvaluationsTableSeeder extends Seeder
         foreach ($evaluations as $evaluation) {
             \App\Models\EvaluationPhoto::create([
                 'evaluation_id' => $evaluation,
-                'path' => 'evaluation/photo/8db26b4e742e31c5ff0735c2cc66da09.jpg'
+                'path' => 'assets/isaudavel_holder850.png'
             ]);
         }
     }

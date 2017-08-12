@@ -32,7 +32,7 @@ class ClientCompanySeeder extends Seeder
                 'client_id' => $client->id,
                 'is_profile' => true,
                 'is_public' => true,
-                'path' => 'client/photo/0835f70489e8337b130ee5b5f4c01a61.jpg',
+                'path' => 'assets/isaudavel_holder850.png',
             ]);
         }
     }

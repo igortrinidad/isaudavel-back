@@ -54,7 +54,7 @@ class ProfessionalsTableSeeder extends Seeder
             \App\Models\ProfessionalPhoto::create([
                 'professional_id' => $professional->id,
                 'is_profile' => true,
-                'path' => 'professional/photo/90fab19c51090aabb7a6d630a5b1803b.jpg',
+                'path' => 'assets/isaudavel_holder850.png',
             ]);
 
             //Professional Rating

@@ -31,10 +31,6 @@ class CategoriesTableSeeder extends Seeder
             'slug' => 'fisioterapia'
         ]);
 
-        \App\Models\Category::create([
-            'name' => 'Massagem',
-            'slug' => 'massagem'
-        ]);
 
         \App\Models\Category::create([
             'name' => 'Nutrição',
@@ -42,8 +38,18 @@ class CategoriesTableSeeder extends Seeder
         ]);
 
         \App\Models\Category::create([
-            'name' => 'Saúde',
-            'slug' => 'saude'
+            'name' => 'Crossfit',
+            'slug' => 'crossfit'
+        ]);
+
+        \App\Models\Category::create([
+            'name' => 'Massagem e estética',
+            'slug' => 'massagem-estetica'
+        ]);
+
+        \App\Models\Category::create([
+            'name' => 'Acupuntura',
+            'slug' => 'acupuntura'
         ]);
     }
 }

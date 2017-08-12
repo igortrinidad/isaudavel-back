@@ -18,8 +18,10 @@ class CreateCompaniesTable extends Migration
             $table->uuid('owner_id')->index();
             $table->boolean('is_active');
             $table->string('name');
+            $table->string('slug');
             $table->string('website')->nullable();
             $table->string('phone');
+            $table->text('description');
             $table->boolean('address_is_available')->default(0);
             $table->boolean('is_delivery')->default(0);
             $table->json('address');

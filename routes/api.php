@@ -265,6 +265,7 @@ Route::group(['prefix' => 'oracle'], function () {
 * Unprotected Router
 */
 Route::group(['prefix' => 'company'], function(){
+    Route::get('/show/{slug}', 'CompanyController@show_public');
     Route::post('/search/location', 'CompanyController@searchByLocation');
     Route::post('/search/category', 'CompanyController@searchByCategory');
 });

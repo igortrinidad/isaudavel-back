@@ -117,7 +117,7 @@ class Client extends Authenticatable implements JWTSubject
     {
         $photo = ClientPhoto::where('client_id', $this->id)->where('is_profile', true)->first();
 
-        return $photo ? $photo->fresh()->photo_url : 'https://s3.amazonaws.com/isaudavel-assets/logos/i_saudavel-LOGO-03.png';
+        return $photo ? $photo->fresh()->photo_url : 'https://s3.amazonaws.com/isaudavel-assets/img/isaudavel_holder550.png';
     }
 
     /*

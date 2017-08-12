@@ -34,9 +34,9 @@ class ClientExamsTableSeeder extends Seeder
         foreach ($exams as $exam) {
             \App\Models\ExamAttachment::create([
                 'exam_id' => $exam,
-                'path' => 'exam/attachment/96df6ab0d2bd471121a336d10e28789e.jpg',
-                'filename' => 'x-ray.jpg',
-                'extension' => 'jpg'
+                'path' => 'assets/isaudavel_holder850.png',
+                'filename' => 'x-ray.png',
+                'extension' => 'png'
             ]);
         }
     }

@@ -85,6 +85,19 @@ class CompanyController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show_public($slug)
+    {
+        $company = Company::with(['professionals', 'photos', 'categories'])->where('slug', $slug)->first();
+
+        return response()->json(['company' => $company]);
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
