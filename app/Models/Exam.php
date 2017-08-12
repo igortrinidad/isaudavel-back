@@ -36,45 +36,8 @@ class Exam extends Model
         'created_by_id',
         'created_by_type',
         'type',
-        'observation',
-        'path',
-        'filename',
-        'extension'
-    ];
-
-    /**
-     * The accessors to append to the model's array.
-     *
-     * @var array
-     */
-    protected $appends = ['attachment_url'];
-
-
-    /**
-     * -------------------------------
-     * Custom fields
-     * -------------------------------
-     */
-
-    /**
-     * @return string
-     */
-    public function getAttachmentUrlAttribute()
-    {
-        if ($this->attributes['path']) {
-            return $this->getFileUrl($this->attributes['path']);
-        }
-
-    }
-
-    /**
-     * @param $key
-     * @return string
-     */
-    private function getFileUrl($key)
-    {
-        return (string)Storage::disk('media')->url($key);
-    }
+        'observation'
+        ];
 
     /**
      * -------------------------------
