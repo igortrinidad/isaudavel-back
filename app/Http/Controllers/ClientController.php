@@ -124,6 +124,16 @@ class ClientController extends Controller
     public function store(Request $request)
     {
         //see cause this dont work inside model create
+
+        $checkClient = Client::where('email', $request->get('email'))->first();
+
+        if($checkClient){
+            return response()->json([
+                'message' => 'Client already exist.',
+                'status' => 422
+            ]);
+        }
+
         $request['bday'] = Carbon::createFromFormat('d/m/Y', $request['bday'])->toDateString();
 
         $request->merge([

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Traits\Uuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -10,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Evaluation extends Model
 {
-    use Uuids, SoftDeletes;
+    use SoftDeletes;
 
     /**
      * The table associated with the model.
@@ -32,6 +31,7 @@ class Evaluation extends Model
      * @var array
      */
     protected $fillable = [
+        'id',
         'client_id',
         'created_by_id',
         'created_by_type',

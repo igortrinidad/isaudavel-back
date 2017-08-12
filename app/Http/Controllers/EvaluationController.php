@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Evaluation;
+use App\Models\EvaluationPhoto;
 use Illuminate\Http\Request;
 
 class EvaluationController extends Controller
@@ -16,7 +17,7 @@ class EvaluationController extends Controller
     public function index($id)
     {
         $evaluations = Evaluation::where('client_id', $id)
-            ->with('from')
+            ->with(['from', 'photos'])
             ->orderBy('created_at')
             ->get();
 
@@ -32,30 +33,19 @@ class EvaluationController extends Controller
     public function store(Request $request)
     {
 
-        if(!empty($request->file('file'))){
-
-            $file = $request->file('file');
-
-            $fileName = bin2hex(random_bytes(16)) . '.' . $file->getClientOriginalExtension();
-
-            $filePath = 'client/evaluations/' . $fileName;
-
-            \Storage::disk('media')->put($filePath, file_get_contents($file), 'public');
-
-            $request->merge([
-                'path' => $filePath,
-            ]);
-        }
-
         $request->merge([
-            'client_id' => $request->get('client_id'), 
-            'items' => json_encode($request->get('items')), 
-            'observation' => $request->get('observation'),
             'created_by_id' => \Auth::user()->id,
             'created_by_type' => get_class(\Auth::user())
         ]);
 
         $evaluation = Evaluation::create($request->all());
+
+        //update photos
+        if (array_key_exists('photos', $request->all())) {
+            foreach ($request->get('photos') as $photo) {
+                EvaluationPhoto::find($photo['id'])->update($photo);
+            }
+        }
 
         return response()->json([
             'message' => 'evaluation created.',
