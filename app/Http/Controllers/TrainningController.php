@@ -15,7 +15,7 @@ class TrainningController extends Controller
      */
     public function index($id)
     {
-        $trainnings = Trainning::where('client_id', $id)->with('from')->get();
+        $trainnings = Trainning::where('client_id', $id)->with('from')->orderBy('updated_at', 'DESC')->get();
 
         return response()->json(['trainnings' => $trainnings]);
     }

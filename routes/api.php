@@ -91,9 +91,12 @@ Route::group(['prefix' => 'professional'], function () {
         Route::get('/evaluation/photo/destroy/{id}', 'EvaluationPhotoController@destroy');
 
         //restrictions resources
+        Route::get('/restriction/list/{id}', 'RestrictionController@index');
+        Route::get('/restriction/list/destroyeds/{id}', 'RestrictionController@listdestroyeds');
         Route::post('/restriction/create', 'RestrictionController@store');
         Route::post('/restriction/update', 'RestrictionController@update');
         Route::get('/restriction/destroy/{id}', 'RestrictionController@destroy');
+        Route::get('/restriction/undestroy/{id}', 'RestrictionController@undestroy');
 
 
         //Exam resources
@@ -169,9 +172,11 @@ Route::group(['prefix' => 'client'], function () {
 
         //restrictions resources
         Route::get('/restriction/list/{id}', 'RestrictionController@index');
+        Route::get('/restriction/list/destroyeds/{id}', 'RestrictionController@listdestroyeds');
         Route::post('/restriction/create', 'RestrictionController@store');
         Route::post('/restriction/update', 'RestrictionController@update');
         Route::get('/restriction/destroy/{id}', 'RestrictionController@destroy');
+        Route::get('/restriction/undestroy/{id}', 'RestrictionController@undestroy');
 
         //Exam resources
         Route::get('/exam/list/{id}', 'ExamController@index');

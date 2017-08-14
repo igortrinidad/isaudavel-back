@@ -16,12 +16,13 @@ class CreateRestrictionsTable extends Migration
         Schema::create('restrictions', function (Blueprint $table) {
             $table->uuid('id')->index();
             $table->uuid('client_id')->index();
-            $table->uuid('from_id')->index();
-            $table->string('from_type');
             $table->string('type');
             $table->string('restriction');
             $table->text('observation');
+            $table->uuid('created_by_id')->index();
+            $table->string('created_by_type');
             $table->timestamps();
+            $table->softDeletes();
             $table->primary('id');
         });
     }

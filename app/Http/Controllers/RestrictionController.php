@@ -15,12 +15,22 @@ class RestrictionController extends Controller
      */
     public function index($id)
     {
-        $restrictions = Restriction::where('client_id', $id)
-            ->with('from')
-            ->orderBy('created_at')
-            ->get();
+        $restrictions = Restriction::where('client_id', $id)->with('from')->orderBy('updated_at', 'DESC')->get();
 
         return response()->json(['restrictions' => $restrictions]);
+    }
+
+    /**
+     * Display a listing of the resource destroyeds.
+     *
+     * @param $id
+     * @return \Illuminate\Http\Response
+     */
+    public function listdestroyeds($id)
+    {
+        $restrictions = Restriction::where('client_id', $id)->with('from')->onlyTrashed()->get();
+
+        return response()->json(['restrictions_destroyeds' => $restrictions]);
     }
 
     /**
@@ -31,6 +41,9 @@ class RestrictionController extends Controller
      */
     public function store(Request $request)
     {
+
+        $request->merge(['created_by_id' => \Auth::user()->id, 'created_by_type' => get_class(\Auth::user())]);
+
         $restriction = Restriction::create($request->all());
 
         return response()->json([
@@ -49,7 +62,7 @@ class RestrictionController extends Controller
     {
         $restriction = Restriction::find($id);
 
-        return response()->json(['data' => $restriction]);
+        return response()->json(['restriction' => $restriction]);
     }
 
     /**
@@ -81,6 +94,25 @@ class RestrictionController extends Controller
         if($destroyed){
             return response()->json([
                 'message' => 'Restriction destroyed.',
+                'id' => $id
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Restriction not found.',
+        ], 404);
+
+    }
+
+    public function undestroy($id)
+    {
+        $undestroyed = Restriction::withTrashed()
+        ->where('id', $id)
+        ->restore();
+
+        if($undestroyed){
+            return response()->json([
+                'message' => 'Restriction undestroyed.',
                 'id' => $id
             ]);
         }

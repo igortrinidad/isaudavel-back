@@ -5,11 +5,11 @@ namespace App\Models;
 use App\Models\Traits\Uuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Restriction extends Model
 {
-    use Uuids;
+    use Uuids, SoftDeletes;
 
     /**
      * The table associated with the model.
@@ -32,8 +32,8 @@ class Restriction extends Model
      */
     protected $fillable = [
         'client_id',
-        'from_id',
-        'from_type',
+        'created_by_id',
+        'created_by_type',
         'type',
         'restriction',
         'observation'
@@ -90,7 +90,7 @@ class Restriction extends Model
      */
     public function from()
     {
-        return $this->morphTo(null, 'from_type', 'from_id');
+        return $this->morphTo(null, 'created_by_type', 'created_by_id');
     }
 
 }

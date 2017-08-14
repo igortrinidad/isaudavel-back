@@ -19,8 +19,8 @@ class ClientRestrictionsTableSeeder extends Seeder
         foreach ($clients as $client) {
             \App\Models\Restriction::create([
                 'client_id' => $client,
-                'from_id' => $faker->randomElement($professionals),
-                'from_type' => \App\Models\Professional::class,
+                'created_by_id' => $faker->randomElement($professionals),
+                'created_by_type' => \App\Models\Professional::class,
                 'type' => 'medication',
                 'restriction' => 'Dipirona',
                 'observation' => 'Alergia'
@@ -28,8 +28,8 @@ class ClientRestrictionsTableSeeder extends Seeder
 
             \App\Models\Restriction::create([
                 'client_id' => $client,
-                'from_id' => $faker->randomElement($professionals),
-                'from_type' => \App\Models\Professional::class,
+                'created_by_id' => $faker->randomElement($professionals),
+                'created_by_type' => \App\Models\Professional::class,
                 'type' => 'food',
                 'restriction' => 'Hamburger de Siri',
                 'observation' => 'Alergia'
@@ -37,8 +37,8 @@ class ClientRestrictionsTableSeeder extends Seeder
 
             \App\Models\Restriction::create([
                 'client_id' => $client,
-                'from_id' => $faker->randomElement($professionals),
-                'from_type' => \App\Models\Professional::class,
+                'created_by_id' => $faker->randomElement($professionals),
+                'created_by_type' => \App\Models\Professional::class,
                 'type' => 'exercise',
                 'restriction' => 'Duplo carpado invertido',
                 'observation' => 'Deve ser evitado pois quase levou a morte do paciente.'
