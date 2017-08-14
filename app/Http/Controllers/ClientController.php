@@ -252,5 +252,36 @@ class ClientController extends Controller
 
     }
 
+    /**
+     *  Client accept company solicitation
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function acceptCompanySolicitation(Request $request)
+    {
+        $client = Client::find($request->get('professional_id'));
+
+        if($client){
+
+            $client->companies()->updateExistingPivot($request->get('company_id'),
+                [
+                    'is_confirmed' => true,
+                    'confirmed_by_id' => \Auth::user()->id,
+                    'confirmed_by_type' => get_class(\Auth::user()),
+                    'confirmed_at' => Carbon::now()
+                ]);
+
+            return response()->json(['message' => 'OK']);
+        }
+
+        if(!$client){
+            return response()->json([
+                'message' => 'Client not found.',
+            ], 404);
+        }
+
+    }
+
 
 }

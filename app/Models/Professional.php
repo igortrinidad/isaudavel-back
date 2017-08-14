@@ -32,7 +32,7 @@ class Professional extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'last_name', 'email', 'password', 'functions', 'remember_token'
+        'name', 'last_name', 'email', 'phone', 'password', 'remember_token'
     ];
 
     /**
@@ -41,7 +41,7 @@ class Professional extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $casts = [
-        'functions' => 'json'
+
     ];
 
     /**
@@ -65,7 +65,7 @@ class Professional extends Authenticatable implements JWTSubject
      *
      * @var array
      */
-    protected $with = ['categories'];
+    protected $with = ['categories', 'companies'];
 
 
     /**
@@ -199,7 +199,7 @@ class Professional extends Authenticatable implements JWTSubject
             ->select('id', 'name')
             ->with(['categories' => function ($query) {
                 $query->select('id', 'name', 'slug');
-            }])->withPivot('is_admin');
+            }])->withPivot('is_admin', 'is_confirmed');
     }
 
 }

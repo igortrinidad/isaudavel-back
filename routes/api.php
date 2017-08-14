@@ -20,6 +20,16 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 /*
+ * Routes for both roles (client and professional)
+ */
+Route::group(['middleware' => 'both.auth'], function () {
+
+    //
+
+});
+
+
+/*
  * Professional
  */
 Route::group(['prefix' => 'professional'], function () {
@@ -51,6 +61,25 @@ Route::group(['prefix' => 'professional'], function () {
 
             //Client
             Route::post('/clients', 'ClientController@companyClients');
+            Route::post('/professionals', 'ProfessionalController@companyProfessionals');
+
+            //Client
+            Route::group(['prefix' => 'client'], function(){
+
+                Route::post('/create', 'ClientController@store');
+                Route::post('/search', 'ClientController@search');
+                Route::post('/solicitation', 'ClientController@companySolicitation');
+            });
+
+            //Professional
+            Route::group(['prefix' => 'professional'], function(){
+
+                Route::post('/create', 'ProfessionalController@store');
+                Route::post('/search', 'ProfessionalController@search');
+                Route::post('/solicitation', 'ProfessionalController@companySolicitation');
+                Route::post('/accept_solicitation', 'ProfessionalController@acceptCompanySolicitation');
+
+            });
 
         });
 
@@ -114,14 +143,6 @@ Route::group(['prefix' => 'professional'], function () {
         //Rating
         Route::get('/rating/list/{id}', 'ProfessionalRatingController@index');
 
-        //Client
-        Route::group(['prefix' => 'client'], function(){
-
-            //Client
-            Route::post('/create', 'ClientController@store');
-            Route::post('/search', 'ClientController@search');
-            Route::post('/solicitation', 'ClientController@companySolicitation');
-        });
 
         //profile update
         Route::get('/profile/show/{id}', 'ProfessionalController@show');
@@ -132,12 +153,14 @@ Route::group(['prefix' => 'professional'], function () {
     Route::post('/category/search', 'ProfessionalController@searchByCategory');
 });
 
-
 /*
  * Clients
  */
 Route::group(['prefix' => 'client'], function () {
     Route::post('/auth/login', 'Auth\ClientLoginController@login');
+
+    //test client professional middleware
+    Route::get('/show/{id}', 'ClientController@show')->middleware('check.professional');
 
     //Client protected routes
     Route::group(['middleware' => 'auth:client'], function () {
@@ -216,6 +239,7 @@ Route::group(['prefix' => 'client'], function () {
         Route::post('/profile/update', 'ClientController@update');
         Route::get('/profile/show/{id}', 'ClientController@show');
     });
+
 
 });
 

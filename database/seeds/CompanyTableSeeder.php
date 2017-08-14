@@ -68,7 +68,7 @@ class CompanyTableSeeder extends Seeder
                 'owner_id' => $professional,
                 'is_active' => true,
                 'name' => $company_name,
-                'slug' => $faker->domainName,
+                'slug' => str_slug($company_name, '-'),
                 'website' => $faker->domainName,
                 'phone' => $faker->phoneNumber,
                 'description' => $faker->text,
@@ -81,10 +81,21 @@ class CompanyTableSeeder extends Seeder
             ]);
 
             //attach admin on company
-            $company->professionals()->attach($professional, ['is_admin' => true]);
+            $company->professionals()->attach($professional, [
+                'is_admin' => true,
+                'is_confirmed' => true,
+                'confirmed_by_id' => $professional,
+                'confirmed_by_type' => \App\Models\Professional::class,
+                'confirmed_at' => \Carbon\Carbon::now()
+            ]);
 
             // attach other professionals (exept admins)
-            $company->professionals()->attach($faker->randomElements($other_professionals, rand(1,3)));
+            $company->professionals()->attach($faker->randomElements($other_professionals, rand(1,3)),[
+                'is_confirmed' => true,
+                'confirmed_by_id' => $professional,
+                'confirmed_by_type' => \App\Models\Professional::class,
+                'confirmed_at' => \Carbon\Carbon::now()
+            ]);
 
         }
 

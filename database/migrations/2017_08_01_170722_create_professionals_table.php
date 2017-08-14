@@ -18,8 +18,8 @@ class CreateProfessionalsTable extends Migration
             $table->string('name');
             $table->string('last_name');
             $table->string('email')->unique();
+            $table->string('phone')->nullable();
             $table->string('password')->nullable();
-            $table->json('functions')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->primary('id');
