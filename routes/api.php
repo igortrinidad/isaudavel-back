@@ -244,7 +244,8 @@ Route::group(['prefix' => 'client'], function () {
         //Company resources
         Route::group(['prefix' => 'company'], function() {
 
-            Route::get('/my_companies', 'CompanyController@clientCompanies');
+            Route::get('/list', 'CompanyController@clientCompanies');
+            Route::get('/full_list', 'CompanyController@companiesFullList');
 
             //rating
             Route::post('/rating/create', 'CompanyRatingController@store');
