@@ -149,6 +149,14 @@ class Company extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function subscriptions()
+    {
+        return $this->hasMany(ClientSubscription::class);
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function calendar_settings()

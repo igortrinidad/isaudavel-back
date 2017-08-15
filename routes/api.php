@@ -78,6 +78,15 @@ Route::group(['prefix' => 'professional'], function () {
                 Route::post('/solicitation', 'ClientController@companySolicitation');
                 Route::post('/remove_solicitation', 'ClientController@removeCompanySolicitation');
                 Route::post('/accept_solicitation', 'ClientController@acceptCompanySolicitation');
+
+            });
+
+            //Subscription
+            Route::group(['prefix' => 'subscription'], function(){
+
+                Route::post('/store', 'ClientSubscriptionController@store');
+                Route::post('/update', 'ClientSubscriptionController@store');
+                Route::post('/index', 'ClientSubscriptionController@index');
             });
 
             //Professional
