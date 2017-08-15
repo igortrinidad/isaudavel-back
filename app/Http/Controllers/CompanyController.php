@@ -38,7 +38,7 @@ class CompanyController extends Controller
     }
 
     /**
-     * Display a listing companies owned by professional.
+     * Display a listing with client companies paged
      *
      * @return \Illuminate\Http\Response
      */
@@ -47,6 +47,21 @@ class CompanyController extends Controller
         $companies = \Auth::user()->companies()->with('categories')->withPivot('is_confirmed', 'requested_by_client')->orderBy('name')->paginate(10);
 
         return response()->json(custom_paginator($companies, 'companies'));
+    }
+
+    /**
+     * Display a listing wuth all client companies.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function companiesFullList()
+    {
+        $companies = \Auth::user()->companies()->select('id', 'name', 'slug')
+            ->with(['categories' => function($query){
+                $query->select('id', 'name', 'slug');
+            }])->withPivot('is_confirmed', 'requested_by_client')->orderBy('name')->get();
+
+        return response()->json(['companies' => $companies]);
     }
 
     /**

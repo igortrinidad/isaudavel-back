@@ -253,7 +253,13 @@ class ClientController extends Controller
 
             $client->companies()->attach($request->get('company_id'), ['is_confirmed' => false, 'requested_by_client' => $requested_by_client]);
 
-            return response()->json(['message' => 'OK']);
+            //load relation to return
+            $client_company = $client->companies()->select('id', 'name', 'slug')
+                ->wherePivot('company_id', '=',$request->get('company_id'))
+                ->withPivot('is_confirmed', 'requested_by_client')
+                ->first();
+
+            return response()->json(['message' => 'OK', 'company' => $client_company]);
         }
 
         if(!$client){
