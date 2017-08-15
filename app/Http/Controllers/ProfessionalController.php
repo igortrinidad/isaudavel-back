@@ -323,4 +323,29 @@ class ProfessionalController extends Controller
         }
 
     }
+
+    /**
+     *  Professional remove company solicitation
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function removeCompanySolicitation(Request $request)
+    {
+        $professional = Professional::find($request->get('professional_id'));
+
+        if($professional){
+
+            $professional->companies()->detach($request->get('company_id'));
+
+            return response()->json(['message' => 'OK']);
+        }
+
+        if(!$professional){
+            return response()->json([
+                'message' => 'Professional not found.',
+            ], 404);
+        }
+
+    }
 }

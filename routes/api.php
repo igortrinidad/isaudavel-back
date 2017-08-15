@@ -76,6 +76,8 @@ Route::group(['prefix' => 'professional'], function () {
                 Route::post('/create', 'ClientController@store');
                 Route::post('/search', 'ClientController@search');
                 Route::post('/solicitation', 'ClientController@companySolicitation');
+                Route::post('/remove_solicitation', 'ClientController@removeCompanySolicitation');
+                Route::post('/accept_solicitation', 'ClientController@acceptCompanySolicitation');
             });
 
             //Professional
@@ -85,6 +87,7 @@ Route::group(['prefix' => 'professional'], function () {
                 Route::post('/search', 'ProfessionalController@search');
                 Route::post('/solicitation', 'ProfessionalController@companySolicitation');
                 Route::post('/accept_solicitation', 'ProfessionalController@acceptCompanySolicitation');
+                Route::post('/remove_solicitation', 'ProfessionalController@removeCompanySolicitation');
 
             });
 
@@ -156,6 +159,8 @@ Route::group(['prefix' => 'professional'], function () {
         Route::post('/profile/update', 'ProfessionalController@update');
     });
 
+    Route::get('/show/{id}', 'ProfessionalController@show');
+
     //Open routes
     Route::post('/category/search', 'ProfessionalController@searchByCategory');
 });
@@ -220,11 +225,6 @@ Route::group(['prefix' => 'client'], function () {
         Route::post('/exam/attachment/upload', 'ExamAttachmentController@store');
         Route::get('/exam/attachment/destroy/{id}', 'ExamAttachmentController@destroy');
 
-        //Company rating
-        Route::post('/company/rating/create', 'CompanyRatingController@store');
-        Route::post('/company/rating/update', 'CompanyRatingController@update');
-        Route::get('/company/rating/destroy/{id}', 'CompanyRatingController@destroy');
-
         //Professional rating
         Route::post('/professional/rating/create', 'ProfessionalRatingController@store');
         Route::post('/professional/rating/update', 'ProfessionalRatingController@update');
@@ -240,6 +240,22 @@ Route::group(['prefix' => 'client'], function () {
 
         Route::post('/evaluation/photo/upload', 'EvaluationPhotoController@store');
         Route::get('/evaluation/photo/destroy/{id}', 'EvaluationPhotoController@destroy');
+
+        //Company resources
+        Route::group(['prefix' => 'company'], function() {
+
+            Route::get('/my_companies', 'CompanyController@clientCompanies');
+
+            //rating
+            Route::post('/rating/create', 'CompanyRatingController@store');
+            Route::post('/rating/update', 'CompanyRatingController@update');
+            Route::get('/rating/destroy/{id}', 'CompanyRatingController@destroy');
+
+            Route::post('/solicitation', 'ClientController@companySolicitation');
+            Route::post('/accept_solicitation', 'ClientController@acceptCompanySolicitation');
+            Route::post('/remove_solicitation', 'ClientController@removeCompanySolicitation');
+        });
+
 
         //profile update
         Route::get('/profile/show/{id}', 'ClientController@show');
