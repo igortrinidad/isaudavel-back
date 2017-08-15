@@ -38,6 +38,18 @@ class CompanyController extends Controller
     }
 
     /**
+     * Display a listing companies owned by professional.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function clientCompanies()
+    {
+        $companies = \Auth::user()->companies()->with('categories')->withPivot('is_confirmed', 'requested_by_client')->orderBy('name')->paginate(10);
+
+        return response()->json(custom_paginator($companies, 'companies'));
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
