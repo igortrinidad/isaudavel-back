@@ -50,6 +50,13 @@ Route::group(['prefix' => 'professional'], function () {
             Route::get('/show/{id}', 'CompanyController@show');
             Route::get('/destroy/{id}', 'CompanyController@destroy');
 
+            //Plan resources
+            Route::get('/plan/list/{id}', 'PlanController@index');
+            Route::post('/plan/store', 'PlanController@store');
+            Route::post('/plan/update', 'PlanController@update');
+            Route::get('/plan/show/{id}', 'PlanController@show');
+            Route::get('/plan/destroy/{id}', 'PlanController@destroy');
+
             //Photo resources
             Route::get('/photo/list/{id}', 'CompanyPhotosController@index');
             Route::post('/photo/upload', 'CompanyPhotosController@store');

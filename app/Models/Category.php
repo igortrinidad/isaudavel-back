@@ -57,5 +57,13 @@ class Category extends Model
         return $this->belongsToMany(Company::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function plans()
+    {
+        return $this->belongsToMany(Plan::class);
+    }
+
 
 }
