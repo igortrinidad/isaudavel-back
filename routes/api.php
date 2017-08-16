@@ -73,6 +73,7 @@ Route::group(['prefix' => 'professional'], function () {
             //Client
             Route::group(['prefix' => 'client'], function(){
 
+                Route::post('/show', 'ClientController@showCompany');
                 Route::post('/create', 'ClientController@store');
                 Route::post('/search', 'ClientController@search');
                 Route::post('/solicitation', 'ClientController@companySolicitation');
@@ -85,7 +86,7 @@ Route::group(['prefix' => 'professional'], function () {
             Route::group(['prefix' => 'subscription'], function(){
 
                 Route::post('/store', 'ClientSubscriptionController@store');
-                Route::post('/update', 'ClientSubscriptionController@store');
+                Route::post('/update', 'ClientSubscriptionController@update');
                 Route::post('/index', 'ClientSubscriptionController@index');
             });
 

@@ -24,6 +24,7 @@ class CrTbClientSubscriptions extends Migration
             $table->date('expire_at');
             $table->boolean('auto_renew');
             $table->boolean('is_active');
+            $table->json('workdays');
             $table->timestamps();
             $table->primary('id');
         });

@@ -2,21 +2,22 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Uuids;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 
-class Exam extends Model
+class ClientSubscription extends Model
 {
-    use SoftDeletes;
+    use Uuids;
 
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'exams';
+    protected $table = 'client_subscriptions';
 
     /**
      * Indicates if the IDs are auto-incrementing.
@@ -35,16 +36,18 @@ class Exam extends Model
         'company_id',
         'client_id',
         'plan_id',
-        'quantit',
+        'quantity',
         'value',
         'start_at',
         'expire_at',
         'auto_renew',
         'is_active',
+        'workdays',
         'created_at',
         'updated_at'
     ];
 
+    protected $casts = ['workdays' => 'json'];
 
 
     /**
@@ -75,6 +78,46 @@ class Exam extends Model
     public function plan()
     {
         return $this->belongsTo(Plan::class);
+    }
+
+    /*
+     * Format to display
+     */
+    public function getExpireAtAttribute($expire)
+    {
+        return Carbon::parse($expire)->format('d/m/Y');
+    }
+
+    /*
+     * Change the Date attribute
+     */
+    public function setExpireAtAttribute($value)
+    {
+        if(!isset($value)){
+            $value = '00/00/0000';
+        }
+
+        $this->attributes['expire_at'] = Carbon::createFromFormat('d/m/Y', $value)->toDateString();;
+    }
+
+    /*
+     * Format to display
+     */
+    public function getStartAtAttribute($start)
+    {
+        return Carbon::parse($start)->format('d/m/Y');
+    }
+
+    /*
+     * Change the Date attribute
+     */
+    public function setStartAtAttribute($value)
+    {
+        if(!isset($value)){
+            $value = '00/00/0000';
+        }
+
+        $this->attributes['start_at'] = Carbon::createFromFormat('d/m/Y', $value)->toDateString();;
     }
 
 

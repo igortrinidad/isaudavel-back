@@ -21,6 +21,19 @@ class ClientSubscriptionController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $subscription = ClientSubscription::find($id);
+
+        return response()->json(['subscription' => $subscription]);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -35,20 +48,6 @@ class ClientSubscriptionController extends Controller
             'message' => 'Subscription created.',
             'subscription' => $subscription->fresh()
         ]);
-    }
-
-
-    /**
-     * Display the specified resource.
-     *
-     * @param $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $subscription = ClientSubscription::find($id);
-
-        return response()->json(['subscription' => $subscription]);
     }
 
     /**
