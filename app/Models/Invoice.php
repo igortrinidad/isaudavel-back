@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 
 
-class ClientSubscription extends Model
+class Invoice extends Model
 {
     use Uuids;
 
@@ -17,7 +17,7 @@ class ClientSubscription extends Model
      *
      * @var string
      */
-    protected $table = 'client_subscriptions';
+    protected $table = 'invoices';
 
     /**
      * Indicates if the IDs are auto-incrementing.
@@ -34,35 +34,25 @@ class ClientSubscription extends Model
     protected $fillable = [
         'id',
         'company_id',
-        'client_id',
-        'plan_id',
-        'quantity',
+        'subscription_id',
         'value',
-        'start_at',
         'expire_at',
-        'auto_renew',
-        'is_active',
-        'workdays',
+        'is_confirmed',
+        'confirmed_at',
+        'is_canceled',
+        'canceled_at',
+        'history',
         'created_at',
         'updated_at'
     ];
 
-    protected $casts = ['workdays' => 'json'];
-
+    protected $casts = ['history' => 'json', 'is_canceled' => 'boolean', 'is_confirmed' => 'boolean'];
 
     /**
      * -------------------------------
      * Relationships
      * -------------------------------
      */
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function client()
-    {
-        return $this->belongsTo(Client::class);
-    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -75,24 +65,23 @@ class ClientSubscription extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function plan()
+    public function schedules()
     {
-        return $this->belongsTo(Plan::class);
+        return $this->hasMany(Schedule::class);
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function invoices()
+    public function subscription()
     {
-        return $this->hasMany(Invoice::class, 'subscription_id');
+        return $this->belongsTo(ClientSubscription::class, 'id', 'subscription_id');
     }
-
 
     /*
      * Format to display
      */
-    public function getExpireAtAttribute($expire)
+    public function getConfirmedAtAttribute($expire)
     {
         return Carbon::parse($expire)->format('d/m/Y');
     }
@@ -100,33 +89,33 @@ class ClientSubscription extends Model
     /*
      * Change the Date attribute
      */
-    public function setExpireAtAttribute($value)
+    public function setConfirmedAtAttribute($value)
     {
         if(!isset($value)){
             $value = '00/00/0000';
         }
 
-        $this->attributes['expire_at'] = Carbon::createFromFormat('d/m/Y', $value)->toDateString();;
+        $this->attributes['confirmed_at'] = Carbon::createFromFormat('d/m/Y', $value)->toDateString();;
     }
 
     /*
      * Format to display
      */
-    public function getStartAtAttribute($start)
+    public function getCanceledAtAttribute($expire)
     {
-        return Carbon::parse($start)->format('d/m/Y');
+        return Carbon::parse($expire)->format('d/m/Y');
     }
 
     /*
      * Change the Date attribute
      */
-    public function setStartAtAttribute($value)
+    public function setCanceledAtAttribute($value)
     {
         if(!isset($value)){
             $value = '00/00/0000';
         }
 
-        $this->attributes['start_at'] = Carbon::createFromFormat('d/m/Y', $value)->toDateString();;
+        $this->attributes['canceled_at'] = Carbon::createFromFormat('d/m/Y', $value)->toDateString();;
     }
 
 
