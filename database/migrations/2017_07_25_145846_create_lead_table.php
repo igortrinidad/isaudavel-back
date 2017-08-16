@@ -13,6 +13,7 @@ class CreateLeadTable extends Migration
      */
     public function up()
     {
+        /*
         Schema::create('leads', function (Blueprint $table) {
             $table->uuid('id');
             $table->string('name');
@@ -24,6 +25,7 @@ class CreateLeadTable extends Migration
             $table->timestamps();
             $table->primary('id');
         });
+        */
     }
 
     /**
@@ -33,6 +35,6 @@ class CreateLeadTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('leads');
+        //Schema::dropIfExists('leads');
     }
 }
