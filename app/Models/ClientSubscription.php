@@ -46,6 +46,7 @@ class ClientSubscription extends Model
         'created_at',
         'updated_at'
     ];
+    
 
     protected $casts = ['workdays' => 'json'];
 
