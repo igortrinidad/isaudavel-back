@@ -50,8 +50,13 @@ class ClientController extends Controller
                 ->wherePivot('company_id', '=',$request->get('company_id'))
                 ->wherePivot('is_confirmed', '=', true)->count();
 
-            $client['is_client'] = $is_client;
+            $requested_by_client = $client->companies()
+                ->wherePivot('company_id', '=',$request->get('company_id'))
+                ->wherePivot('requested_by_client', '=', true)->count();
+
+            $client['is_client'] = $is_client ? true : false;
             $client['is_confirmed'] = $is_confirmed ? true : false;
+            $client['requested_by_client'] = $requested_by_client ? true : false;
             $verified_clients[] = $client->setHidden(['companies']);
         }
 
@@ -101,8 +106,13 @@ class ClientController extends Controller
                 ->wherePivot('company_id', '=',$request->get('company_id'))
                 ->wherePivot('is_confirmed', '=', true)->count();
 
-            $client['is_client'] = $is_client;
+            $requested_by_client = $client->companies()
+                ->wherePivot('company_id', '=',$request->get('company_id'))
+                ->wherePivot('requested_by_client', '=', true)->count();
+
+            $client['is_client'] = $is_client ? true : false;
             $client['is_confirmed'] = $is_confirmed ? true : false;
+            $client['requested_by_client'] = $requested_by_client ? true : false;
             $verified_clients[] = $client->setHidden(['companies']);
         }
 
@@ -254,13 +264,21 @@ class ClientController extends Controller
      */
     public function companySolicitation(Request $request)
     {
+        $requested_by_client = $request->get('requested_by_client');
+
         $client = Client::find($request->get('client_id'));
 
         if($client){
 
-            $client->companies()->attach($request->get('company_id'), ['is_confirmed' => false]);
+            $client->companies()->attach($request->get('company_id'), ['is_confirmed' => false, 'requested_by_client' => $requested_by_client]);
 
-            return response()->json(['message' => 'OK']);
+            //load relation to return
+            $client_company = $client->companies()->select('id', 'name', 'slug')
+                ->wherePivot('company_id', '=',$request->get('company_id'))
+                ->withPivot('is_confirmed', 'requested_by_client')
+                ->first();
+
+            return response()->json(['message' => 'OK', 'company' => $client_company]);
         }
 
         if(!$client){
@@ -279,7 +297,7 @@ class ClientController extends Controller
      */
     public function acceptCompanySolicitation(Request $request)
     {
-        $client = Client::find($request->get('professional_id'));
+        $client = Client::find($request->get('client_id'));
 
         if($client){
 
@@ -290,6 +308,39 @@ class ClientController extends Controller
                     'confirmed_by_type' => get_class(\Auth::user()),
                     'confirmed_at' => Carbon::now()
                 ]);
+
+
+            //load relation to return
+            $client_company = $client->companies()->select('id', 'name', 'slug')
+                ->wherePivot('company_id', '=',$request->get('company_id'))
+                ->withPivot('is_confirmed', 'requested_by_client')
+                ->first();
+
+            return response()->json(['message' => 'OK', 'company' => $client_company]);
+        }
+
+        if(!$client){
+            return response()->json([
+                'message' => 'Client not found.',
+            ], 404);
+        }
+
+    }
+
+
+    /**
+     *  Client remove company solicitation
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function removeCompanySolicitation(Request $request)
+    {
+        $client = Client::find($request->get('client_id'));
+
+        if($client){
+
+            $client->companies()->detach($request->get('company_id'));
 
             return response()->json(['message' => 'OK']);
         }
