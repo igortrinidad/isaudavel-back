@@ -30,7 +30,7 @@ class CategoryCalendarSettingController extends Controller
 
         return response()->json([
             'message' => 'Calendar setting created.',
-            'diet' => $calendar_setting
+            'calendar_setting' => $calendar_setting
         ]);
     }
 

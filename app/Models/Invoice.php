@@ -3,12 +3,11 @@
 namespace App\Models;
 
 use App\Models\Traits\Uuids;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 
 
-class ClientSubscription extends Model
+class Invoice extends Model
 {
     use Uuids;
 
@@ -17,7 +16,7 @@ class ClientSubscription extends Model
      *
      * @var string
      */
-    protected $table = 'client_subscriptions';
+    protected $table = 'invoices';
 
     /**
      * Indicates if the IDs are auto-incrementing.
@@ -32,40 +31,36 @@ class ClientSubscription extends Model
      * @var array
      */
     protected $fillable = [
-        'id',
         'company_id',
-        'client_id',
-        'plan_id',
-        'quantity',
+        'subscription_id',
         'value',
-        'start_at',
         'expire_at',
-        'auto_renew',
-        'is_active',
-        'workdays',
-        'created_at',
-        'updated_at'
+        'is_confirmed',
+        'confirmed_at',
+        'is_canceled',
+        'canceled_at',
+        'history'
     ];
 
-    protected $casts = ['workdays' => 'json'];
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'value' => 'double',
+        'is_confirmed' => 'boolean',
+        'is_canceled' => 'boolean',
+        'history' => 'json'
+    ];
 
-
-    protected $with = ['invoices'];
-
+    protected $with = ['schedules'];
 
     /**
      * -------------------------------
      * Relationships
      * -------------------------------
      */
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function client()
-    {
-        return $this->belongsTo(Client::class);
-    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -78,19 +73,23 @@ class ClientSubscription extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function plan()
+    public function subscription()
     {
-        return $this->belongsTo(Plan::class);
+        return $this->belongsTo(ClientSubscription::class);
     }
 
-    public function invoices()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function schedules()
     {
-        return $this->hasMany(Invoice::class, 'subscription_id', 'id');
+        return $this->hasMany(Schedule::class);
     }
+
 
     /*
-     * Format to display
-     */
+        * Format to display
+        */
     public function getExpireAtAttribute($expire)
     {
         return Carbon::parse($expire)->format('d/m/Y');
@@ -106,26 +105,6 @@ class ClientSubscription extends Model
         }
 
         $this->attributes['expire_at'] = Carbon::createFromFormat('d/m/Y', $value)->toDateString();;
-    }
-
-    /*
-     * Format to display
-     */
-    public function getStartAtAttribute($start)
-    {
-        return Carbon::parse($start)->format('d/m/Y');
-    }
-
-    /*
-     * Change the Date attribute
-     */
-    public function setStartAtAttribute($value)
-    {
-        if (!isset($value)) {
-            $value = '00/00/0000';
-        }
-
-        $this->attributes['start_at'] = Carbon::createFromFormat('d/m/Y', $value)->toDateString();;
     }
 
 

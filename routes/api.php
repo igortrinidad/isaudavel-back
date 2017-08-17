@@ -107,8 +107,16 @@ Route::group(['prefix' => 'professional'], function () {
 
 
             //Professional calendar settings
+            Route::post('/professional/calendar_settings/list', 'ProfessionalCalendarSettingController@index');
             Route::post('/professional/calendar_settings', 'ProfessionalCalendarSettingController@show');
             Route::post('/professional/calendar_settings/update', 'ProfessionalCalendarSettingController@update');
+
+
+            //Invoice
+            Route::group(['prefix' => 'invoice'], function(){
+                Route::post('/store', 'InvoiceController@store');
+                Route::post('/update', 'InvoiceController@update');
+            });
 
         });
 

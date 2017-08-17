@@ -180,7 +180,7 @@ class ClientController extends Controller
     public function show($id)
     {
 
-        $client = Client::find($id)->load(['photos', 'subscriptions.plan']);
+        $client = Client::find($id)->load(['photos', 'subscriptions.plan', 'subscriptions.invoices']);
 
         return response()->json(['client' => $client]);
     }
