@@ -47,9 +47,18 @@ class ClientSubscription extends Model
         'updated_at'
     ];
 
-    protected $casts = ['workdays' => 'json'];
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = ['workdays' => 'json', 'is_active' => 'boolean', 'auto_renew' => 'boolean'  ];
 
-
+    /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
     protected $with = ['invoices'];
 
 
