@@ -55,6 +55,11 @@ class Invoice extends Model
         'history' => 'json'
     ];
 
+    /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
     protected $with = ['schedules'];
 
     /**

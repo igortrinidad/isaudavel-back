@@ -47,6 +47,14 @@ class Plan extends Model
 
 
     /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = ['limit_quantity' => 'boolean', 'is_active' => 'boolean', 'is_starred' => 'boolean'];
+
+
+    /**
      * -------------------------------
      * Relationships
      * -------------------------------

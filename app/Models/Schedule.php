@@ -44,6 +44,13 @@ class Schedule extends Model
         'reschedule_at',
     ];
 
+    /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    protected $with = ['professional'];
+
 
     /**
      * -------------------------------
