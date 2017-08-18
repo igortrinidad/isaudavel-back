@@ -15,7 +15,7 @@ class PlanController extends Controller
      */
     public function index($id)
     {
-        $plans = Plan::where('company_id', $id)->get();
+        $plans = Plan::with('category')->where('company_id', $id)->get();
 
         return response()->json(['plans' => $plans]);
     }

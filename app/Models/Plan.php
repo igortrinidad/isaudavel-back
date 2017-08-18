@@ -63,7 +63,7 @@ class Plan extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function cotegory()
+    public function category()
     {
         return $this->belongsTo(Category::class);
     }
