@@ -50,6 +50,9 @@ class ClientSubscription extends Model
     protected $casts = ['workdays' => 'json'];
 
 
+    protected $with = ['invoices'];
+
+
     /**
      * -------------------------------
      * Relationships
@@ -80,14 +83,10 @@ class ClientSubscription extends Model
         return $this->belongsTo(Plan::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function invoices()
     {
-        return $this->hasMany(Invoice::class, 'subscription_id');
+        return $this->hasMany(Invoice::class, 'subscription_id', 'id');
     }
-
 
     /*
      * Format to display
@@ -102,7 +101,7 @@ class ClientSubscription extends Model
      */
     public function setExpireAtAttribute($value)
     {
-        if(!isset($value)){
+        if (!isset($value)) {
             $value = '00/00/0000';
         }
 
@@ -122,7 +121,7 @@ class ClientSubscription extends Model
      */
     public function setStartAtAttribute($value)
     {
-        if(!isset($value)){
+        if (!isset($value)) {
             $value = '00/00/0000';
         }
 

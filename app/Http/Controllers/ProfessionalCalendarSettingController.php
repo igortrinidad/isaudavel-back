@@ -12,9 +12,16 @@ class ProfessionalCalendarSettingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $professional_calendar_settings = ProfessionalCalendarSetting::where('company_id', $request->get('company_id'))
+            ->where('category_id', $request->get('category_id'))->with(['professional' => function($query){
+                $query->select('id', 'name', 'last_name');
+            }])->get();
+
+        return response()->json(['professional_calendar_settings' => $professional_calendar_settings]);
+
+
     }
 
 
@@ -30,7 +37,7 @@ class ProfessionalCalendarSettingController extends Controller
 
         return response()->json([
             'message' => 'Calendar setting created.',
-            'diet' => $calendar_setting
+            'calendar_setting' => $calendar_setting
         ]);
     }
 
@@ -47,7 +54,7 @@ class ProfessionalCalendarSettingController extends Controller
             [
                 'company_id' => $request->get('company_id'),
                 'category_id' => $request->get('category_id'),
-                'professional_id' => $request->get('category_id')
+                'professional_id' => $request->get('professional_id')
             ], ['is_active' => false, 'workdays' => json_decode('[]')]);
 
         return response()->json(['calendar_setting' => $calendar_setting->fresh()]);

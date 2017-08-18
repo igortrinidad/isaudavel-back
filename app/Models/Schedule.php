@@ -3,9 +3,8 @@
 namespace App\Models;
 
 use App\Models\Traits\Uuids;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 
 
 class Schedule extends Model
@@ -32,18 +31,17 @@ class Schedule extends Model
      * @var array
      */
     protected $fillable = [
-        'id',
         'company_id',
         'professional_id',
         'invoice_id',
+        'subscription_id',
         'date',
         'time',
-        'confirmed_by',
+        'points_earned',
         'confirmed_at',
+        'confirmed_by',
         'reschedule_by',
         'reschedule_at',
-        'created_at',
-        'updated_at'
     ];
 
 
@@ -74,55 +72,24 @@ class Schedule extends Model
      */
     public function invoice()
     {
-        return $this->belongsTo(Invoice::class, 'subscription_id');
+        return $this->belongsTo(Invoice::class);
     }
 
-    /*
-     * Format to display
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function getConfirmedAtAttribute($expire)
+    public function subscription()
     {
-        return Carbon::parse($expire)->format('d/m/Y');
+        return $this->belongsTo(ClientSubscription::class);
     }
 
-    /*
-     * Change the Date attribute
-     */
-    public function setConfirmedAtAttribute($value)
-    {
-        if(!isset($value)){
-            $value = '00/00/0000';
-        }
-
-        $this->attributes['confirmed_at'] = Carbon::createFromFormat('d/m/Y', $value)->toDateString();;
-    }
 
     /*
-     * Format to display
-     */
-    public function getRescheduleAtAttribute($expire)
+        * Format to display
+        */
+    public function getDateAttribute($date)
     {
-        return Carbon::parse($expire)->format('d/m/Y');
-    }
-
-    /*
-     * Change the Date attribute
-     */
-    public function setRescheduleAtAttribute($value)
-    {
-        if(!isset($value)){
-            $value = '00/00/0000';
-        }
-
-        $this->attributes['reschedule_at'] = Carbon::createFromFormat('d/m/Y', $value)->toDateString();;
-    }
-
-    /*
-     * Format to display
-     */
-    public function getDateAttribute($start)
-    {
-        return Carbon::parse($start)->format('d/m/Y');
+        return Carbon::parse($date)->format('d/m/Y');
     }
 
     /*
@@ -130,12 +97,11 @@ class Schedule extends Model
      */
     public function setDateAttribute($value)
     {
-        if(!isset($value)){
+        if (!isset($value)) {
             $value = '00/00/0000';
         }
 
         $this->attributes['date'] = Carbon::createFromFormat('d/m/Y', $value)->toDateString();;
     }
-
 
 }

@@ -3,9 +3,8 @@
 namespace App\Models;
 
 use App\Models\Traits\Uuids;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 
 
 class Invoice extends Model
@@ -41,12 +40,22 @@ class Invoice extends Model
         'confirmed_at',
         'is_canceled',
         'canceled_at',
-        'history',
-        'created_at',
-        'updated_at'
+        'history'
     ];
 
-    protected $casts = ['history' => 'json', 'is_canceled' => 'boolean', 'is_confirmed' => 'boolean'];
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'value' => 'double',
+        'is_confirmed' => 'boolean',
+        'is_canceled' => 'boolean',
+        'history' => 'json'
+    ];
+
+    protected $with = ['schedules'];
 
     /**
      * -------------------------------
@@ -65,23 +74,24 @@ class Invoice extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function schedules()
+    public function subscription()
     {
-        return $this->hasMany(Schedule::class);
+        return $this->belongsTo(ClientSubscription::class);
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function subscription()
+    public function schedules()
     {
-        return $this->belongsTo(ClientSubscription::class, 'id', 'subscription_id');
+        return $this->hasMany(Schedule::class);
     }
 
+
     /*
-     * Format to display
-     */
-    public function getConfirmedAtAttribute($expire)
+        * Format to display
+        */
+    public function getExpireAtAttribute($expire)
     {
         return Carbon::parse($expire)->format('d/m/Y');
     }
@@ -89,33 +99,13 @@ class Invoice extends Model
     /*
      * Change the Date attribute
      */
-    public function setConfirmedAtAttribute($value)
+    public function setExpireAtAttribute($value)
     {
-        if(!isset($value)){
+        if (!isset($value)) {
             $value = '00/00/0000';
         }
 
-        $this->attributes['confirmed_at'] = Carbon::createFromFormat('d/m/Y', $value)->toDateString();;
-    }
-
-    /*
-     * Format to display
-     */
-    public function getCanceledAtAttribute($expire)
-    {
-        return Carbon::parse($expire)->format('d/m/Y');
-    }
-
-    /*
-     * Change the Date attribute
-     */
-    public function setCanceledAtAttribute($value)
-    {
-        if(!isset($value)){
-            $value = '00/00/0000';
-        }
-
-        $this->attributes['canceled_at'] = Carbon::createFromFormat('d/m/Y', $value)->toDateString();;
+        $this->attributes['expire_at'] = Carbon::createFromFormat('d/m/Y', $value)->toDateString();;
     }
 
 
