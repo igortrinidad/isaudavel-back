@@ -47,7 +47,7 @@ class PlanController extends Controller
      */
     public function show($id)
     {
-        $plan = Plan::find($id);
+        $plan = Plan::with('category')->find($id);
 
         return response()->json(['plan' => $plan]);
     }
