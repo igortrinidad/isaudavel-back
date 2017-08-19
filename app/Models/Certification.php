@@ -73,6 +73,26 @@ class Certification extends Model
 
     }
 
+    /*
+    * Format to display
+    */
+    public function getGrantedAtAttribute($expire)
+    {
+        return Carbon::parse($expire)->format('d/m/Y');
+    }
+
+    /*
+     * Change the Date attribute
+     */
+    public function setGrantedAtAttribute($value)
+    {
+        if (!isset($value)) {
+            $value = '00/00/0000';
+        }
+
+        $this->attributes['granted_at'] = Carbon::createFromFormat('d/m/Y', $value)->toDateString();;
+    }
+
     /**
      * -------------------------------
      * Relationships
