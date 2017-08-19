@@ -29,7 +29,7 @@ class CertificationController extends Controller
     public function store(Request $request)
     {
 
-        if(isset($request->file('file')) && !empty($request->file('file'))){
+        if($request->hasFile('file')){
             $file = $request->file('file');
 
             $originalName = $file->getClientOriginalName();
@@ -45,6 +45,8 @@ class CertificationController extends Controller
             $request->merge(['path' => $filePath, 'filename' => $originalName, 'extension' => $extension]);
             
         }
+
+            
 
         $certification = Certification::create($request->all());
 
@@ -77,7 +79,7 @@ class CertificationController extends Controller
     public function update(Request $request)
     {
 
-        if(isset($request->file('file')) && !empty($request->file('file'))){
+        if($request->hasFile('file')){
             $file = $request->file('file');
 
             $originalName = $file->getClientOriginalName();
@@ -91,9 +93,8 @@ class CertificationController extends Controller
 
             //merge file path on request
             $request->merge(['path' => $filePath, 'filename' => $originalName, 'extension' => $extension]);
-            
         }
-
+            
         $certification = tap(Certification::find($request->get('id')))->update($request->all())->fresh();
 
         return response()->json([

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 
 class Certification extends Model
 {
-    use Uudis;
+    use Uuids;
 
     /**
      * The table associated with the model.
@@ -19,16 +19,23 @@ class Certification extends Model
     protected $table = 'certifications';
 
     /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = false;
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'id',
         'professional_id',
         'name',
         'institution',
-        'date',
+        'description',
+        'granted_at',
         'priority',
         'path',
         'filename',
@@ -36,6 +43,35 @@ class Certification extends Model
         'created_at',
         'updated_at'
         ];
+
+    /**
+     * The accessors to append to the model's array.
+     *
+     * @var array
+     */
+    protected $appends = ['photo_url'];
+        
+    /**
+     * @return string
+     */
+    public function getPhotoUrlAttribute()
+    {
+        if ($this->attributes['path']) {
+            return $this->getFileUrl($this->attributes['path']);
+        }
+
+    }
+
+    /**
+     * @param $key
+     * @return string
+     */
+    private function getFileUrl($key)
+    {
+
+        return (string)Storage::disk('media')->url($key);
+
+    }
 
     /**
      * -------------------------------

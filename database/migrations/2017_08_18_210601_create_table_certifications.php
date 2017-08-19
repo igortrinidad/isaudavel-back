@@ -18,7 +18,7 @@ class CreateTableCertifications extends Migration
             $table->uuid('professional_id')->index();
             $table->string('name');
             $table->string('institution');
-            $table->date('date')->nullable();
+            $table->date('granted_at')->nullable();
             $table->text('description')->nullable();
             $table->tinyInteger('priority')->default(0);
             $table->string('path')->nullable();

@@ -120,6 +120,11 @@ Route::group(['prefix' => 'professional'], function () {
 
         });
 
+        //Certifications
+        Route::get('/certification/list/{id}', 'CertificationController@index');
+        Route::post('/certification/store', 'CertificationController@store');
+        Route::post('/certification/update', 'CertificationController@update');
+        Route::get('/certification/destroy/{id}', 'CertificationController@destroy');
 
         //Photo resources
         Route::get('/photo/list', 'ProfessionalPhotoController@index');
