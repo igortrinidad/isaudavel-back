@@ -18,7 +18,7 @@ class CreateInvoicesTable extends Migration
             $table->uuid('company_id')->index();
             $table->uuid('subscription_id')->index();
             $table->decimal('value', 15,2);
-            $table->dateTime('expire_at');
+            $table->date('expire_at');
             $table->boolean('is_confirmed')->default(0);
             $table->dateTime('confirmed_at')->nullable();
             $table->boolean('is_canceled')->default(0);

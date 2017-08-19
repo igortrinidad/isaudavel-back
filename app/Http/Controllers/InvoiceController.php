@@ -17,7 +17,10 @@ class InvoiceController extends Controller
      */
     public function index(Request $request)
     {
-        $invoices = Invoice::where('company_id', $request->get('company_id'))->with(['subscription.client', 'subscription.plan', 'schedules'])
+        $invoices = Invoice::where('company_id', $request->get('company_id'))
+        ->where('expire_at', '>', $request->get('init'))
+        ->where('expire_at', '<', $request->get('end'))
+        ->with(['subscription.client', 'subscription.plan', 'schedules'])
             ->whereHas('subscription', function($query) use ($request){
                 $query->whereHas('client', function($querytow) use ($request){
                     $querytow->where('name', 'LIKE', '%' . $request->get('search') . '%');
