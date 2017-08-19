@@ -15,9 +15,17 @@ class InvoiceController extends Controller
      * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index(Request $request)
     {
-       //
+        $invoices = Invoice::where('company_id', $request->get('company_id'))->with(['subscription.client', 'subscription.plan', 'schedules'])
+            ->whereHas('subscription', function($query) use ($request){
+                $query->whereHas('client', function($querytow) use ($request){
+                    $querytow->where('name', 'LIKE', '%' . $request->get('search') . '%');
+                    $querytow->orWhere('email', $request->get('search'));
+                });
+        })->orderBy('expire_at', 'ASC')->limit(20)->get();
+
+        return response()->json(['invoices' => $invoices]);
     }
 
     /**

@@ -114,6 +114,7 @@ Route::group(['prefix' => 'professional'], function () {
 
             //Invoice
             Route::group(['prefix' => 'invoice'], function(){
+                Route::post('/list', 'InvoiceController@index');
                 Route::post('/store', 'InvoiceController@store');
                 Route::post('/update', 'InvoiceController@update');
             });
@@ -123,7 +124,7 @@ Route::group(['prefix' => 'professional'], function () {
         //Certifications
         Route::get('/certification/list/{id}', 'CertificationController@index');
         Route::post('/certification/store', 'CertificationController@store');
-        Route::post('/certification/update', 'CertificationController@update');
+        //Route::post('/certification/update', 'CertificationController@update');
         Route::get('/certification/destroy/{id}', 'CertificationController@destroy');
 
         //Photo resources
