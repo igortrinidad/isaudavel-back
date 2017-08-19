@@ -44,7 +44,7 @@ class CompanyController extends Controller
      */
     public function clientCompanies()
     {
-        $companies = \Auth::user()->companies()->with('categories')->withPivot('is_confirmed', 'requested_by_client')->orderBy('name')->paginate(10);
+        $companies = \Auth::user()->companies()->with(['categories'])->withPivot('is_confirmed', 'requested_by_client')->orderBy('name')->paginate(10);
 
         return response()->json(custom_paginator($companies, 'companies'));
     }
@@ -119,7 +119,7 @@ class CompanyController extends Controller
      */
     public function show_public($slug)
     {
-        $company = Company::with(['professionals', 'photos', 'categories'])->where('slug', $slug)->first();
+        $company = Company::with(['professionals', 'photos', 'categories', 'plans', 'last_ratings'])->where('slug', $slug)->first();
 
         return response()->json(['company' => $company]);
     }

@@ -181,7 +181,7 @@ class ProfessionalController extends Controller
      */
     public function show($id)
     {
-        $professional = Professional::with(['photos', 'categories', 'companies'])->find($id);
+        $professional = Professional::with(['photos', 'categories', 'companies', 'certifications'])->find($id);
 
         return response()->json(['professional' => $professional]);
     }

@@ -68,7 +68,7 @@ class Company extends Model
      *
      * @var array
      */
-    protected $appends = ['avatar', 'current_rating'];
+    protected $appends = ['avatar', 'current_rating', 'total_rating'];
 
     /**
      * -------------------------------
@@ -107,7 +107,19 @@ class Company extends Model
 
         // Round up or down Eg: ratings >= x.5 are rounded up and < x.5 are rounded down
 
-        return ceil(round($rating,1));
+        return $rating;
+    }
+
+    /*
+    * Rating
+    */
+    public function getTotalRatingAttribute()
+    {
+        $ratings = CompanyRating::where('company_id', $this->id)->get()->count();
+
+        // Round up or down Eg: ratings >= x.5 are rounded up and < x.5 are rounded down
+
+        return $ratings;
     }
 
     /**
@@ -130,6 +142,14 @@ class Company extends Model
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'category_company');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function plans()
+    {
+        return $this->hasMany(Plan::class);
     }
 
     /**
@@ -177,6 +197,19 @@ class Company extends Model
     public function ratings()
     {
         return $this->hasMany(CompanyRating::class);
+    }
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function last_ratings()
+    {
+        return $this->hasMany(CompanyRating::class)
+            ->orderBy('created_at', 'DESC')
+            ->with(['client' => function ($query) {
+                $query->select('id', 'name', 'last_name');
+            }])->limit(5);
     }
 
 }
