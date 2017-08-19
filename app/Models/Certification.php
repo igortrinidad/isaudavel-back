@@ -90,7 +90,7 @@ class Certification extends Model
             $value = '00/00/0000';
         }
 
-        $this->attributes['granted_at'] = Carbon::createFromFormat('d/m/Y', $value)->toDateString();;
+        $this->attributes['granted_at'] = Carbon::createFromFormat('d/m/Y', $value)->toDateString();
     }
 
     /**
