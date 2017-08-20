@@ -219,7 +219,7 @@ class Professional extends Authenticatable implements JWTSubject
             ->select('id', 'name', 'slug')
             ->with(['categories' => function ($query) {
                 $query->select('id', 'name', 'slug');
-            }])->withPivot('is_admin', 'is_confirmed');
+            }])->withPivot('is_admin', 'is_confirmed', 'is_public');
     }
 
 

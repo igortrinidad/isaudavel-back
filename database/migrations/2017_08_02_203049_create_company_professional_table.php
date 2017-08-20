@@ -18,6 +18,7 @@ class CreateCompanyProfessionalTable extends Migration
             $table->uuid('professional_id');
             $table->boolean('is_admin')->default(false);
             $table->boolean('is_confirmed')->default(0);
+            $table->boolean('is_public')->default(0);
             $table->uuid('confirmed_by_id')->nullable();
             $table->string('confirmed_by_type')->nullable();
             $table->dateTime('confirmed_at')->nullable();

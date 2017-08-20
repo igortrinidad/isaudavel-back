@@ -41,7 +41,6 @@ class ProfessionalController extends Controller
         })->orderBy('name')->get();
 
 
-
         $verified_professionals = [];
         foreach ($professionals as $professional){
             //check if is a company professional
@@ -52,12 +51,17 @@ class ProfessionalController extends Controller
                 ->wherePivot('company_id', '=',$request->get('company_id'))
                 ->wherePivot('is_confirmed', '=', true)->count();
 
+            $is_public = $professional->companies()
+                ->wherePivot('company_id', '=',$request->get('company_id'))
+                ->wherePivot('is_public', '=', true)->count();
+
             $is_admin = $professional->companies()
                 ->wherePivot('company_id', '=',$request->get('company_id'))
                 ->wherePivot('is_admin', '=', true)->count();
 
             $professional['is_professional'] = $is_professional;
             $professional['is_confirmed'] = $is_confirmed ? true : false;
+            $professional['is_public'] = $is_public ? true : false;
             $professional['is_admin'] = $is_admin ? true : false;
             $verified_professionals[] = $professional->setHidden(['companies']);
         }
@@ -216,6 +220,32 @@ class ProfessionalController extends Controller
             'message' => 'Professional updated.',
             'professional' => $professional->fresh()
         ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function updateProfessionalCompanyRelationship(Request $request)
+    {
+
+        $professional = Professional::find($request->get('professional_id'));
+
+        $professional->companies()->detach($request->get('company_id'));
+
+        $professional->companies()->attach($request->get('company_id'),
+                [
+                    'is_admin' => $request->get('is_admin'),
+                    'is_confirmed' => $request->get('is_confirmed'),
+                    'is_public' => $request->get('is_public'),
+                ]);
+
+        return response()->json([
+            'message' => 'Relationship of professional - company updated.',
+        ]);
+
     }
 
     /**

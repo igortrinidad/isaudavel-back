@@ -119,7 +119,7 @@ class CompanyController extends Controller
      */
     public function show_public($slug)
     {
-        $company = Company::with(['professionals', 'photos', 'categories', 'plans', 'last_ratings'])->where('slug', $slug)->first();
+        $company = Company::with(['public_confirmed_professionals', 'photos', 'categories', 'plans', 'last_ratings'])->where('slug', $slug)->first();
 
         return response()->json(['company' => $company]);
     }

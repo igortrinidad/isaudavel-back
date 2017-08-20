@@ -98,6 +98,7 @@ Route::group(['prefix' => 'professional'], function () {
                 Route::post('/solicitation', 'ProfessionalController@companySolicitation');
                 Route::post('/accept_solicitation', 'ProfessionalController@acceptCompanySolicitation');
                 Route::post('/remove_solicitation', 'ProfessionalController@removeCompanySolicitation');
+                Route::post('/updateProfessionalCompanyRelationship', 'ProfessionalController@updateProfessionalCompanyRelationship');
 
             });
 

@@ -165,7 +165,18 @@ class Company extends Model
      */
     public function professionals()
     {
-        return $this->belongsToMany(Professional::class, 'company_professional')->withPivot('is_admin');
+        return $this->belongsToMany(Professional::class, 'company_professional')->withPivot(['is_admin', 'is_public']);
+    }
+
+        /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function public_confirmed_professionals()
+    {
+        return $this->belongsToMany(Professional::class, 'company_professional')
+            ->wherePivot('is_public', 1)
+            ->wherePivot('is_confirmed', 1)
+            ->withPivot(['is_admin', 'is_public']);
     }
 
     /**
