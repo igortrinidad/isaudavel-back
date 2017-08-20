@@ -300,6 +300,29 @@ Route::group(['prefix' => 'client'], function () {
 
 });
 
+
+/*
+* Unprotected Router
+*/
+Route::group(['prefix' => 'company'], function(){
+    Route::get('/show/{slug}', 'CompanyController@show_public');
+    Route::post('/search/location', 'CompanyController@searchByLocation');
+    Route::post('/search/category', 'CompanyController@searchByCategory');
+    Route::get('/category/list', 'CategoryController@forSelect');
+});
+
+
+/*
+* Unprotected Router
+*/
+Route::group(['prefix' => 'tools'], function(){
+
+    //Generate new Pass
+    Route::get('users/generateNewPass/professional/{email}', 'ProfessionalController@generateNewPass');
+    Route::get('users/generateNewPass/client/{email}', 'ClientController@generateNewPass');
+    Route::get('users/generateNewPass/oracle/{email}', 'OracleUserController@generateNewPass');
+});
+
 /*
  * Oracle
  */
@@ -345,27 +368,6 @@ Route::group(['prefix' => 'oracle'], function () {
         //profile update
         Route::post('/user/update', 'OracleUserController@update');
     });
-});
-
-/*
-* Unprotected Router
-*/
-Route::group(['prefix' => 'company'], function(){
-    Route::get('/show/{slug}', 'CompanyController@show_public');
-    Route::post('/search/location', 'CompanyController@searchByLocation');
-    Route::post('/search/category', 'CompanyController@searchByCategory');
-});
-
-
-/*
-* Unprotected Router
-*/
-Route::group(['prefix' => 'tools'], function(){
-
-    //Generate new Pass
-    Route::get('users/generateNewPass/professional/{email}', 'ProfessionalController@generateNewPass');
-    Route::get('users/generateNewPass/client/{email}', 'ClientController@generateNewPass');
-    Route::get('users/generateNewPass/oracle/{email}', 'OracleUserController@generateNewPass');
 });
 
 
