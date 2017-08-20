@@ -78,7 +78,7 @@ class CompanyController extends Controller
         $company->categories()->attach($request->get('categories'));
 
         //attach owner as professional with admin rights
-        $company->professionals()->attach($request->get('owner_id'), ['is_admin' => true]);
+        $company->professionals()->attach($request->get('owner_id'), ['is_admin' => true, 'is_confirmed' => true]);
 
         // Create the callendar settings
         factory(CompanyCalendarSettings::class)->create([

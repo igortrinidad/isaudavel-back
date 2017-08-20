@@ -58,7 +58,7 @@ class Professional extends Authenticatable implements JWTSubject
      *
      * @var array
      */
-    protected $appends = ['full_name', 'blank_password', 'role', 'avatar', 'current_rating'];
+    protected $appends = ['full_name', 'blank_password', 'role', 'avatar', 'current_rating', 'total_rating'];
 
     /**
      * The relations to eager load on every query.
@@ -148,7 +148,19 @@ class Professional extends Authenticatable implements JWTSubject
         $rating = ProfessionalRating::where('professional_id', $this->id)->get()->avg('rating');
 
         // Round up or down Eg: ratings >= x.5 are rounded up and < x.5 are rounded down
-        return ceil(round($rating,1));
+        return round($rating,1);
+    }
+
+        /*
+    * Rating
+    */
+    public function getTotalRatingAttribute()
+    {
+        $ratings = ProfessionalRating::where('professional_id', $this->id)->get()->count();
+
+        // Round up or down Eg: ratings >= x.5 are rounded up and < x.5 are rounded down
+
+        return $ratings;
     }
 
 
@@ -208,6 +220,19 @@ class Professional extends Authenticatable implements JWTSubject
             ->with(['categories' => function ($query) {
                 $query->select('id', 'name', 'slug');
             }])->withPivot('is_admin', 'is_confirmed');
+    }
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function last_ratings()
+    {
+        return $this->hasMany(ProfessionalRating::class)
+            ->orderBy('created_at', 'DESC')
+            ->with(['client' => function ($query) {
+                $query->select('id', 'name', 'last_name');
+            }])->limit(5);
     }
 
 }

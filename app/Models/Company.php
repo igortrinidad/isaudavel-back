@@ -107,7 +107,7 @@ class Company extends Model
 
         // Round up or down Eg: ratings >= x.5 are rounded up and < x.5 are rounded down
 
-        return $rating;
+        return round($rating,1);
     }
 
     /*
