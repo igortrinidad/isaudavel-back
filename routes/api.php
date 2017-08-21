@@ -208,7 +208,7 @@ Route::group(['prefix' => 'client'], function () {
     //test client professional middleware
     Route::get('/show/{id}', 'ClientController@show')->middleware('check.professional');
 
-    //Client protected routes
+    //Client protected routes 
     Route::group(['middleware' => 'auth:client'], function () {
 
         //Photo resources
@@ -268,6 +268,7 @@ Route::group(['prefix' => 'client'], function () {
         Route::get('/evaluation/list/{id}', 'EvaluationController@index');
         Route::post('/evaluation/store', 'EvaluationController@store');
         Route::post('/evaluation/update', 'EvaluationController@update');
+        Route::post('/evaluation/history/index', 'EvaluationController@indexHistory');
         Route::get('/evaluation/destroy/{id}', 'EvaluationController@destroy');
         Route::get('/evaluation/undestroy/{id}', 'EvaluationController@undestroy');
         Route::get('/evaluation/list/destroyeds/{id}', 'EvaluationController@listdestroyeds');

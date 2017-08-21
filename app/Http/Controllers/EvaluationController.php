@@ -142,4 +142,39 @@ class EvaluationController extends Controller
         ], 404);
 
     }
+
+    /**
+     * history of indexs.
+     *
+     * @param $index - the label type
+     * @return \Illuminate\Http\Response
+     */
+    public function indexHistory(Request $request)
+    {
+        $query = '"label": "' .$request->get('index'). '"'; 
+
+        $evaluations = Evaluation::where('client_id', $request->get('client_id'))
+        ->where('items', 'like', '%' . $request->get('index') . '%')
+        ->get();
+
+        $data = new Class{};
+        $data->labels = [];
+        $data->value = [];
+        $data->target = [];
+
+        foreach($evaluations as $eval){
+            array_push($data->labels, $eval->created_at);
+
+            foreach($eval->items as $item){
+                if($item['label'] == $request->get('index')){
+                    array_push($data->value, $item['value']);
+                    array_push($data->target, $item['target']);
+                }
+            }
+
+        }
+
+        return response()->json(['evaluations' => $data]);
+
+    }
 }
