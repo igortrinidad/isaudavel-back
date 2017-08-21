@@ -37,7 +37,8 @@ class Trainning extends Model
         'created_by_type',
         'dow',
         'series',
-        'observation'
+        'observation',
+        'heart_rate'
     ];
 
     /**

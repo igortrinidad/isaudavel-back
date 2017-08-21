@@ -21,6 +21,7 @@ class CreateTrainningsTable extends Migration
             $table->integer('dow');
             $table->json('series');
             $table->text('observation')->nullable();
+            $table->string('heart_rate')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->primary('id');
