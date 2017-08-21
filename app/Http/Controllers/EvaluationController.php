@@ -14,9 +14,9 @@ class EvaluationController extends Controller
      * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index(Request $request)
     {
-        $evaluations = Evaluation::where('client_id', $id)
+        $evaluations = Evaluation::where('client_id', $request->get('client_id'))
             ->with(['from', 'photos'])
             ->orderBy('created_at')
             ->get();
@@ -59,7 +59,7 @@ class EvaluationController extends Controller
      * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
         $evaluation = Evaluation::find($id);
 
@@ -88,14 +88,14 @@ class EvaluationController extends Controller
      * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $destroyed = Evaluation::destroy($id);
+        $destroyed = Evaluation::destroy($request->get('evaluation_id'));
 
         if($destroyed){
             return response()->json([
                 'message' => 'Evaluation destroyed.',
-                'id' => $id
+                'id' => $request->get('evaluation_id')
             ]);
         }
 
@@ -111,9 +111,9 @@ class EvaluationController extends Controller
      * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function listdestroyeds($id)
+    public function listdestroyeds(Request $request)
     {
-        $evaluations = Evaluation::where('client_id', $id)->with(['from', 'photos'])->onlyTrashed()->get();
+        $evaluations = Evaluation::where('client_id', $request->get('client_id') )->with(['from', 'photos'])->onlyTrashed()->get();
 
         return response()->json(['evaluations_destroyeds' => $evaluations]);
     }
@@ -124,16 +124,16 @@ class EvaluationController extends Controller
      * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function undestroy($id)
+    public function undestroy(Request $request)
     {
         $undestroyed = Evaluation::withTrashed()
-        ->where('id', $id)
+        ->where('id', $request->get('evaluation_id'))
         ->restore();
 
         if($undestroyed){
             return response()->json([
                 'message' => 'Evaluation undestroyed.',
-                'id' => $id
+                'id' => $request->get('evaluation_id')
             ]);
         }
 

@@ -55,7 +55,7 @@ class EvaluationPhotoController extends Controller
      */
     public function update(Request $request)
     {
-        $photo = tap(EvaluationPhoto::find($request->get('id')))->update($request->all())->fresh();
+        $photo = tap(EvaluationPhoto::find($request->get('evaluation_photo_id')))->update($request->all())->fresh();
 
         return response()->json([
             'message' => 'Evaluation photo updated.',
@@ -70,9 +70,9 @@ class EvaluationPhotoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $photo = EvaluationPhoto::find($id);
+        $photo = EvaluationPhoto::find($request->get('evaluation_photo_id'));
 
         \Storage::disk('media')->delete($photo->path);
 
@@ -81,7 +81,7 @@ class EvaluationPhotoController extends Controller
         if($destroyed){
             return response()->json([
                 'message' => 'Evaluation photo destroyed.',
-                'id' => $id
+                'id' => $request->get('evaluation_photo_id')
             ]);
         }
 

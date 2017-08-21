@@ -236,12 +236,12 @@ Route::group(['prefix' => 'client'], function () {
         Route::get('/diet/undestroy/{id}', 'DietController@undestroy');
 
         //restrictions resources
-        Route::get('/restriction/list/{id}', 'RestrictionController@index');
-        Route::get('/restriction/list/destroyeds/{id}', 'RestrictionController@listdestroyeds');
+        Route::post('/restriction/list', 'RestrictionController@index');
+        Route::post('/restriction/list/destroyeds', 'RestrictionController@listdestroyeds');
         Route::post('/restriction/create', 'RestrictionController@store');
         Route::post('/restriction/update', 'RestrictionController@update');
-        Route::get('/restriction/destroy/{id}', 'RestrictionController@destroy');
-        Route::get('/restriction/undestroy/{id}', 'RestrictionController@undestroy');
+        Route::post('/restriction/destroy', 'RestrictionController@destroy');
+        Route::post('/restriction/undestroy', 'RestrictionController@undestroy');
 
         //Exam resources
         Route::get('/exam/list/{id}', 'ExamController@index');
@@ -256,16 +256,16 @@ Route::group(['prefix' => 'client'], function () {
         Route::get('/exam/attachment/destroy/{id}', 'ExamAttachmentController@destroy');
 
         //evaluation resources
-        Route::get('/evaluation/list/{id}', 'EvaluationController@index');
+        Route::post('/evaluation/list', 'EvaluationController@index');
         Route::post('/evaluation/store', 'EvaluationController@store');
         Route::post('/evaluation/update', 'EvaluationController@update');
         Route::post('/evaluation/history/index', 'EvaluationController@indexHistory');
-        Route::get('/evaluation/destroy/{id}', 'EvaluationController@destroy');
-        Route::get('/evaluation/undestroy/{id}', 'EvaluationController@undestroy');
-        Route::get('/evaluation/list/destroyeds/{id}', 'EvaluationController@listdestroyeds');
+        Route::post('/evaluation/destroy', 'EvaluationController@destroy');
+        Route::post('/evaluation/undestroy', 'EvaluationController@undestroy');
+        Route::post('/evaluation/list/destroyeds', 'EvaluationController@listdestroyeds');
 
         Route::post('/evaluation/photo/upload', 'EvaluationPhotoController@store');
-        Route::get('/evaluation/photo/destroy/{id}', 'EvaluationPhotoController@destroy');
+        Route::post('/evaluation/photo/destroy', 'EvaluationPhotoController@destroy');
 
 
     });

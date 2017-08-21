@@ -13,9 +13,9 @@ class RestrictionController extends Controller
      * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index(Request $request)
     {
-        $restrictions = Restriction::where('client_id', $id)->with('from')->orderBy('updated_at', 'DESC')->get();
+        $restrictions = Restriction::where('client_id', $request->get('client_id'))->with('from')->orderBy('updated_at', 'DESC')->get();
 
         return response()->json(['restrictions' => $restrictions]);
     }
@@ -26,9 +26,9 @@ class RestrictionController extends Controller
      * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function listdestroyeds($id)
+    public function listdestroyeds(Request $request)
     {
-        $restrictions = Restriction::where('client_id', $id)->with('from')->onlyTrashed()->get();
+        $restrictions = Restriction::where('client_id', $request->get('client_id'))->with('from')->onlyTrashed()->get();
 
         return response()->json(['restrictions_destroyeds' => $restrictions]);
     }
@@ -58,9 +58,9 @@ class RestrictionController extends Controller
      * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
-        $restriction = Restriction::find($id);
+        $restriction = Restriction::find($request->get('client_id'));
 
         return response()->json(['restriction' => $restriction]);
     }
@@ -73,7 +73,7 @@ class RestrictionController extends Controller
      */
     public function update(Request $request)
     {
-        $restriction = tap(Restriction::find($request->get('id')))->update($request->all())->fresh();
+        $restriction = tap(Restriction::find($request->get('restriction_id')))->update($request->all())->fresh();
 
         return response()->json([
             'message' => 'Restriction updated.',
@@ -87,14 +87,14 @@ class RestrictionController extends Controller
      * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $destroyed = Restriction::destroy($id);
+        $destroyed = Restriction::destroy($request->get('restriction_id'));
 
         if($destroyed){
             return response()->json([
                 'message' => 'Restriction destroyed.',
-                'id' => $id
+                'id' => $request->get('restriction_id')
             ]);
         }
 
@@ -104,16 +104,16 @@ class RestrictionController extends Controller
 
     }
 
-    public function undestroy($id)
+    public function undestroy(Request $request)
     {
         $undestroyed = Restriction::withTrashed()
-        ->where('id', $id)
+        ->where('id', $request->get('restriction_id'))
         ->restore();
 
         if($undestroyed){
             return response()->json([
                 'message' => 'Restriction undestroyed.',
-                'id' => $id
+                'id' => $request->get('restriction_id')
             ]);
         }
 
