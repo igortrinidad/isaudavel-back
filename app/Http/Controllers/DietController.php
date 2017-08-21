@@ -13,9 +13,9 @@ class DietController extends Controller
      * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index(Request $request)
     {
-        $diets = Diet::where('client_id', $id)->with('from')->get();
+        $diets = Diet::where('client_id', $request->get('client_id'))->with('from')->get();
 
         return response()->json(['diets' => $diets]);
     }
@@ -26,9 +26,9 @@ class DietController extends Controller
      * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function listdestroyeds($id)
+    public function listdestroyeds(Request $request)
     {
-        $diets = Diet::where('client_id', $id)->with('from')->onlyTrashed()->get();
+        $diets = Diet::where('client_id', $request->get('client_id'))->with('from')->onlyTrashed()->get();
 
         return response()->json(['diets_destroyeds' => $diets]);
     }
@@ -58,9 +58,9 @@ class DietController extends Controller
      * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
-        $diet = Diet::find($id);
+        $diet = Diet::find($request->get('diet_id'));
 
         return response()->json(['data' => $diet]);
     }
@@ -87,14 +87,14 @@ class DietController extends Controller
      * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $destroyed = Diet::destroy($id);
+        $destroyed = Diet::destroy($request->get('diet_id'));
 
         if($destroyed){
             return response()->json([
                 'message' => 'diet destroyed.',
-                'id' => $id
+                'id' => $request->get('diet_id')
             ]);
         }
 
@@ -110,16 +110,16 @@ class DietController extends Controller
      * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function undestroy($id)
+    public function undestroy(Request $request)
     {
         $undestroyed = Diet::withTrashed()
-        ->where('id', $id)
+        ->where('id', $request->get('diet_id'))
         ->restore();
 
         if($undestroyed){
             return response()->json([
                 'message' => 'diet undestroyed.',
-                'id' => $id
+                'id' => $request->get('diet_id')
             ]);
         }
 

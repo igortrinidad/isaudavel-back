@@ -59,7 +59,7 @@ class ExamAttachmentController extends Controller
      */
     public function update(Request $request)
     {
-        $attachment = tap(ExamAttachment::find($request->get('id')))->update($request->all())->fresh();
+        $attachment = tap(ExamAttachment::find($request->get('exam_attachment_id')))->update($request->all())->fresh();
 
         return response()->json([
             'message' => 'Attachment updated.',
@@ -74,9 +74,9 @@ class ExamAttachmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $attachment = ExamAttachment::find($id);
+        $attachment = ExamAttachment::find($request->get('exam_attachment_id'));
 
         \Storage::disk('media')->delete($attachment->path);
 
@@ -85,7 +85,7 @@ class ExamAttachmentController extends Controller
         if($destroyed){
             return response()->json([
                 'message' => 'Attachment destroyed.',
-                'id' => $id
+                'id' => $request->get('exam_attachment_id')
             ]);
         }
 

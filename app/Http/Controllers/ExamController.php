@@ -14,9 +14,9 @@ class ExamController extends Controller
      * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index(Request $request)
     {
-        $exams = Exam::where('client_id', $id)->with(['from', 'attachments'])->get();
+        $exams = Exam::where('client_id', $request->get('client_id'))->with(['from', 'attachments'])->get();
 
         return response()->json(['exams' => $exams]);
     }
@@ -57,9 +57,9 @@ class ExamController extends Controller
      * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
-        $exam = Exam::find($id);
+        $exam = Exam::find($request->get('exam_id'));
 
         return response()->json(['data' => $exam]);
     }
@@ -86,14 +86,14 @@ class ExamController extends Controller
      * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $destroyed = Exam::destroy($id);
+        $destroyed = Exam::destroy($request->get('exam_id'));
 
         if($destroyed){
             return response()->json([
                 'message' => 'Exam destroyed.',
-                'id' => $id
+                'id' => $request->get('exam_id')
             ]);
         }
 
@@ -109,9 +109,9 @@ class ExamController extends Controller
      * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function listdestroyeds($id)
+    public function listdestroyeds(Request $request)
     {
-        $exams = Exam::where('client_id', $id)->with('from')->onlyTrashed()->get();
+        $exams = Exam::where('client_id', $request->get('client_id'))->with('from')->onlyTrashed()->get();
 
         return response()->json(['exams_destroyeds' => $exams]);
     }
@@ -122,16 +122,16 @@ class ExamController extends Controller
      * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function undestroy($id)
+    public function undestroy(Request $request)
     {
         $undestroyed = Exam::withTrashed()
-        ->where('id', $id)
+        ->where('id', $request->get('exam_id'))
         ->restore();
 
         if($undestroyed){
             return response()->json([
                 'message' => 'Exam undestroyed.',
-                'id' => $id
+                'id' => $request->get('exam_id')
             ]);
         }
 

@@ -219,7 +219,7 @@ Route::group(['prefix' => 'client'], function () {
          //activity resources
         Route::get('/activity/list', 'ActivityController@index');
 
-        //trainning resources
+        //trainning resources OK
         Route::post('/trainning/list', 'TrainningController@index');
         Route::post('/trainning/list/destroyeds', 'TrainningController@listdestroyeds');
         Route::post('/trainning/create', 'TrainningController@store');
@@ -228,14 +228,14 @@ Route::group(['prefix' => 'client'], function () {
         Route::post('/trainning/undestroy', 'TrainningController@undestroy');
 
         //diet resources
-        Route::get('/diet/list/{id}', 'DietController@index');
-        Route::get('/diet/list/destroyeds/{id}', 'DietController@listdestroyeds');
+        Route::post('/diet/list', 'DietController@index');
+        Route::post('/diet/list/destroyeds', 'DietController@listdestroyeds');
         Route::post('/diet/create', 'DietController@store');
         Route::post('/diet/update', 'DietController@update');
-        Route::get('/diet/destroy/{id}', 'DietController@destroy');
-        Route::get('/diet/undestroy/{id}', 'DietController@undestroy');
+        Route::post('/diet/destroy', 'DietController@destroy');
+        Route::post('/diet/undestroy', 'DietController@undestroy');
 
-        //restrictions resources
+        //restrictions resources OK
         Route::post('/restriction/list', 'RestrictionController@index');
         Route::post('/restriction/list/destroyeds', 'RestrictionController@listdestroyeds');
         Route::post('/restriction/create', 'RestrictionController@store');
@@ -244,18 +244,18 @@ Route::group(['prefix' => 'client'], function () {
         Route::post('/restriction/undestroy', 'RestrictionController@undestroy');
 
         //Exam resources
-        Route::get('/exam/list/{id}', 'ExamController@index');
+        Route::post('/exam/list', 'ExamController@index');
         Route::post('/exam/store', 'ExamController@store');
         Route::post('/exam/update', 'ExamController@update');
-        Route::get('/exam/destroy/{id}', 'ExamController@destroy');
-        Route::get('/exam/undestroy/{id}', 'ExamController@undestroy');
-        Route::get('/exam/list/destroyeds/{id}', 'ExamController@listdestroyeds');
+        Route::post('/exam/destroy', 'ExamController@destroy');
+        Route::post('/exam/undestroy', 'ExamController@undestroy');
+        Route::post('/exam/list/destroyeds', 'ExamController@listdestroyeds');
 
         //Exam attachments
         Route::post('/exam/attachment/upload', 'ExamAttachmentController@store');
-        Route::get('/exam/attachment/destroy/{id}', 'ExamAttachmentController@destroy');
+        Route::post('/exam/attachment/destroy', 'ExamAttachmentController@destroy');
 
-        //evaluation resources
+        //evaluation resources OK
         Route::post('/evaluation/list', 'EvaluationController@index');
         Route::post('/evaluation/store', 'EvaluationController@store');
         Route::post('/evaluation/update', 'EvaluationController@update');
@@ -275,7 +275,7 @@ Route::group(['prefix' => 'client'], function () {
 
 
         //Client Profile update
-        Route::get('/profile/show/{id}', 'ClientController@show');
+        Route::post('/profile/show', 'ClientController@show');
         Route::post('/profile/update', 'ClientController@update');
         Route::get('/profile/show/{id}', 'ClientController@show');
 
