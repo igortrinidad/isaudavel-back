@@ -24,7 +24,17 @@ class ClientCompanySeeder extends Seeder
                     'is_confirmed' => true,
                     'confirmed_by_id' => $client->id,
                     'confirmed_by_type' => get_class($client),
-                    'confirmed_at' => \Carbon\Carbon::now()
+                    'confirmed_at' => \Carbon\Carbon::now(),
+                    'trainnings_show' => true,
+                    'trainnings_edit' => true,
+                    'diets_show' => true,
+                    'diets_edit' => true,
+                    'evaluations_show' => true,
+                    'evaluations_edit' => true,
+                    'restrictions_show' => true,
+                    'restrictions_edit' => true,
+                    'exams_show' => true,
+                    'exams_edit' => true,
                 ]);
 
             //Avatar

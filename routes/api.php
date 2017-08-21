@@ -309,6 +309,8 @@ Route::group(['prefix' => 'client'], function () {
             Route::post('/solicitation', 'ClientController@companySolicitation');
             Route::post('/accept_solicitation', 'ClientController@acceptCompanySolicitation');
             Route::post('/remove_solicitation', 'ClientController@removeCompanySolicitation');
+
+            Route::post('/update_relationship', 'ClientController@updateCompanyRelationship');
         });
 
     });

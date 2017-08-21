@@ -161,7 +161,17 @@ class ClientController extends Controller
                     'is_confirmed' => true,
                     'confirmed_by_id' => \Auth::user()->id,
                     'confirmed_by_type' => get_class(\Auth::user()),
-                    'confirmed_at' => Carbon::now()
+                    'confirmed_at' => Carbon::now(),
+                    'trainnings_show' => true,
+                    'trainnings_edit' => true,
+                    'diets_show' => true,
+                    'diets_edit' => true,
+                    'evaluations_show' => true,
+                    'evaluations_edit' => true,
+                    'restrictions_show' => true,
+                    'restrictions_edit' => true,
+                    'exams_show' => true,
+                    'exams_edit' => true,
                 ]);
         }
 
@@ -343,6 +353,31 @@ class ClientController extends Controller
             $client->companies()->detach($request->get('company_id'));
 
             return response()->json(['message' => 'OK']);
+        }
+
+        if(!$client){
+            return response()->json([
+                'message' => 'Client not found.',
+            ], 404);
+        }
+
+    }
+
+    /**
+     *  Update client company relationship
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function updateCompanyRelationship(Request $request)
+    {
+        $client = Client::find($request->get('client_id'));
+
+        if($client){
+
+            $client->companies()->updateExistingPivot($request->get('company_id'), $request->all());
+
+            return response()->json(['message' => 'Relationship updated']);
         }
 
         if(!$client){

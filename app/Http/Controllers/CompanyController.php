@@ -44,7 +44,10 @@ class CompanyController extends Controller
      */
     public function clientCompanies()
     {
-        $companies = \Auth::user()->companies()->with(['categories'])->withPivot('is_confirmed', 'requested_by_client')->orderBy('name')->paginate(10);
+        $companies = \Auth::user()->companies()->with(['categories'])
+            ->withPivot('is_confirmed', 'requested_by_client', 'trainnings_show', 'trainnings_edit', 'diets_show', 'diets_edit',
+                'evaluations_show', 'evaluations_edit', 'restrictions_show', 'restrictions_edit', 'exams_show', 'exams_edit')
+            ->orderBy('name')->paginate(10);
 
         return response()->json(custom_paginator($companies, 'companies'));
     }
