@@ -13,9 +13,9 @@ class TrainningController extends Controller
      * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index(Request $request)
     {
-        $trainnings = Trainning::where('client_id', $id)->with('from')->orderBy('updated_at', 'DESC')->get();
+        $trainnings = Trainning::where('client_id', $request->get('client_id'))->with('from')->orderBy('updated_at', 'DESC')->get();
 
         return response()->json(['trainnings' => $trainnings]);
     }
@@ -26,9 +26,9 @@ class TrainningController extends Controller
      * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function listdestroyeds($id)
+    public function listdestroyeds(Request $request)
     {
-        $trainnings = Trainning::where('client_id', $id)->with('from')->onlyTrashed()->get();
+        $trainnings = Trainning::where('client_id', $request->get('client_id'))->with('from')->onlyTrashed()->get();
 
         return response()->json(['trainnings_destroyeds' => $trainnings]);
     }
@@ -87,14 +87,14 @@ class TrainningController extends Controller
      * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $destroyed = Trainning::destroy($id);
+        $destroyed = Trainning::destroy($request->get('trainning_id'));
 
         if($destroyed){
             return response()->json([
                 'message' => 'Trainning destroyed.',
-                'id' => $id
+                'id' => $request->get('trainning_id')
             ]);
         }
 
@@ -104,16 +104,16 @@ class TrainningController extends Controller
 
     }
 
-    public function undestroy($id)
+    public function undestroy(Request $request)
     {
         $undestroyed = Trainning::withTrashed()
-        ->where('id', $id)
+        ->where('id', $request->get('trainning_id'))
         ->restore();
 
         if($undestroyed){
             return response()->json([
                 'message' => 'trainning undestroyed.',
-                'id' => $id
+                'id' => $request->get('trainning_id')
             ]);
         }
 

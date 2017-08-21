@@ -19,6 +19,11 @@ class CheckProfessional
         $user = \Auth::user();
         $user = $user ? \Auth::guard('professional')->user() : \Auth::guard('client')->user();
 
+        if(!$user){
+            return response()->json(['error' => 'Forbiden.'], 403);
+        }
+
+        \Config::set('auth.defaults.guard', $user->role);
 
         if($user->role == 'professional'){
 
@@ -38,11 +43,10 @@ class CheckProfessional
             }
         }
 
-
-        if($user->role == 'client' && $user->id == $request->route('id')){
+        if($user->role == 'client' && $user->id == $request->get('client_id')){
             return $next($request);
         }
 
-        return response()->json(['error' => 'Forbiden.'], 403);
+        
     }
 }

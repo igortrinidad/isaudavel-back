@@ -211,7 +211,7 @@ Route::group(['prefix' => 'client'], function () {
     Route::group(['middleware' => 'check.professional'], function () {
 
         //Client
-        Route::get('/show/{id}', 'ClientController@show');
+        Route::post('/show', 'ClientController@show');
 
         //Photo resources
         Route::get('/photo/list', 'ClientPhotoController@index');
@@ -220,12 +220,12 @@ Route::group(['prefix' => 'client'], function () {
         Route::get('/activity/list', 'ActivityController@index');
 
         //trainning resources
-        Route::get('/trainning/list/{id}', 'TrainningController@index');
-        Route::get('/trainning/list/destroyeds/{id}', 'TrainningController@listdestroyeds');
+        Route::post('/trainning/list', 'TrainningController@index');
+        Route::post('/trainning/list/destroyeds', 'TrainningController@listdestroyeds');
         Route::post('/trainning/create', 'TrainningController@store');
         Route::post('/trainning/update', 'TrainningController@update');
-        Route::get('/trainning/destroy/{id}', 'TrainningController@destroy');
-        Route::get('/trainning/undestroy/{id}', 'TrainningController@undestroy');
+        Route::post('/trainning/destroy', 'TrainningController@destroy');
+        Route::post('/trainning/undestroy', 'TrainningController@undestroy');
 
         //diet resources
         Route::get('/diet/list/{id}', 'DietController@index');

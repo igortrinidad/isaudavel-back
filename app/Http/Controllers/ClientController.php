@@ -177,10 +177,10 @@ class ClientController extends Controller
      * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
 
-        $client = Client::find($id)->load(['photos', 'subscriptions.plan', 'subscriptions.invoices']);
+        $client = Client::find($request->get('client_id'))->load(['photos', 'subscriptions.plan', 'subscriptions.invoices']);
 
         return response()->json(['client' => $client]);
     }
