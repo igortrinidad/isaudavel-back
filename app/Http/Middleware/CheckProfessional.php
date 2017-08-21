@@ -19,23 +19,28 @@ class CheckProfessional
         $user = \Auth::user();
         $user = $user ? \Auth::guard('professional')->user() : \Auth::guard('client')->user();
 
-        if ($user->role != 'professional') {
-            return response()->json(['error' => 'Forbiden.'], 403);
+
+        if($user->role == 'professional'){
+
+            //get professional companies
+            $professional_companies = $user->companies()->get()->pluck('id')->flatten()->toArray();
+
+            //get client
+            $client = Client::find($request->route('id'));
+
+            $client_companies = $client->companies()->get()->pluck('id')->flatten();
+
+            foreach($professional_companies as $company){
+
+                if ($client_companies->contains($company)) {
+                    return $next($request);
+                }
+            }
         }
 
-        //get professional companies
-        $professional_companies = $user->companies()->get()->pluck('id')->flatten()->toArray();
 
-        //get client
-        $client = Client::find($request->route('id'));
-
-        $client_companies = $client->companies()->get()->pluck('id')->flatten();
-
-        foreach($professional_companies as $company){
-
-            if ($client_companies->contains($company)) {
-                return $next($request);
-            }
+        if($user->role == 'client' && $user->id == $request->route('id')){
+            return $next($request);
         }
 
         return response()->json(['error' => 'Forbiden.'], 403);

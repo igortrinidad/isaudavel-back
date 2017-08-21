@@ -206,22 +206,18 @@ Route::group(['prefix' => 'client'], function () {
     Route::post('/auth/login', 'Auth\ClientLoginController@login');
 
     //test client professional middleware
-    Route::get('/show/{id}', 'ClientController@show')->middleware('check.professional');
 
-    //Client protected routes 
-    Route::group(['middleware' => 'auth:client'], function () {
+    //Shared between professional and client
+    Route::group(['middleware' => 'check.professional'], function () {
+
+        //Client
+        Route::get('/show/{id}', 'ClientController@show');
 
         //Photo resources
         Route::get('/photo/list', 'ClientPhotoController@index');
-        Route::post('/photo/upload', 'ClientPhotoController@store');
-        Route::post('/photo/update', 'ClientPhotoController@update');
-        Route::get('/photo/destroy/{id}', 'ClientPhotoController@destroy');
 
-        //activity resources
+         //activity resources
         Route::get('/activity/list', 'ActivityController@index');
-        Route::post('/activity/create', 'ActivityController@store');
-        Route::post('/activity/update', 'ActivityController@update');
-        Route::get('/activity/destroy/{id}', 'ActivityController@destroy');
 
         //trainning resources
         Route::get('/trainning/list/{id}', 'TrainningController@index');
@@ -259,11 +255,6 @@ Route::group(['prefix' => 'client'], function () {
         Route::post('/exam/attachment/upload', 'ExamAttachmentController@store');
         Route::get('/exam/attachment/destroy/{id}', 'ExamAttachmentController@destroy');
 
-        //Professional rating
-        Route::post('/professional/rating/create', 'ProfessionalRatingController@store');
-        Route::post('/professional/rating/update', 'ProfessionalRatingController@update');
-        Route::get('/professional/rating/destroy/{id}', 'ProfessionalRatingController@destroy');
-
         //evaluation resources
         Route::get('/evaluation/list/{id}', 'EvaluationController@index');
         Route::post('/evaluation/store', 'EvaluationController@store');
@@ -275,6 +266,34 @@ Route::group(['prefix' => 'client'], function () {
 
         Route::post('/evaluation/photo/upload', 'EvaluationPhotoController@store');
         Route::get('/evaluation/photo/destroy/{id}', 'EvaluationPhotoController@destroy');
+
+
+    });
+
+    //Client protected routes 
+    Route::group(['middleware' => 'auth:client'], function () {
+
+
+        //Client Profile update
+        Route::get('/profile/show/{id}', 'ClientController@show');
+        Route::post('/profile/update', 'ClientController@update');
+        Route::get('/profile/show/{id}', 'ClientController@show');
+
+        //Photo resources
+        Route::post('/photo/upload', 'ClientPhotoController@store');
+        Route::post('/photo/update', 'ClientPhotoController@update');
+        Route::get('/photo/destroy/{id}', 'ClientPhotoController@destroy');
+
+        //activity resources
+        Route::post('/activity/create', 'ActivityController@store');
+        Route::post('/activity/update', 'ActivityController@update');
+        Route::get('/activity/destroy/{id}', 'ActivityController@destroy');
+
+        //Professional rating
+        Route::post('/professional/rating/create', 'ProfessionalRatingController@store');
+        Route::post('/professional/rating/update', 'ProfessionalRatingController@update');
+        Route::get('/professional/rating/destroy/{id}', 'ProfessionalRatingController@destroy');
+
 
         //Company resources
         Route::group(['prefix' => 'company'], function() {
@@ -292,11 +311,6 @@ Route::group(['prefix' => 'client'], function () {
             Route::post('/remove_solicitation', 'ClientController@removeCompanySolicitation');
         });
 
-
-        //profile update
-        Route::get('/profile/show/{id}', 'ClientController@show');
-        Route::post('/profile/update', 'ClientController@update');
-        Route::get('/profile/show/{id}', 'ClientController@show');
     });
 
 
