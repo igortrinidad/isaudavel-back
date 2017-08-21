@@ -62,7 +62,8 @@ class ProfessionalsTableSeeder extends Seeder
             foreach ($clients_rating as $client) {
 
                 \App\Models\ProfessionalRating::create([
-                    'client_id' => $client,
+                    'from_id' => $client,
+                    'from_type' => \App\Models\Client::class,
                     'professional_id' => $professional->id,
                     'rating' => rand(1,5),
                     'content' => $faker->sentence(15)

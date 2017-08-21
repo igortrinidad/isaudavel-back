@@ -15,7 +15,8 @@ class CreateCompanyRatingsTable extends Migration
     {
         Schema::create('company_ratings', function (Blueprint $table) {
             $table->uuid('id')->index();
-            $table->uuid('client_id')->index();
+            $table->uuid('from_id')->index();
+            $table->string('from_type');
             $table->uuid('company_id')->index();
             $table->integer('rating');
             $table->text('content');

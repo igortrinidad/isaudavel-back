@@ -218,7 +218,7 @@ class Company extends Model
     {
         return $this->hasMany(CompanyRating::class)
             ->orderBy('created_at', 'DESC')
-            ->with(['client' => function ($query) {
+            ->with(['from' => function ($query) {
                 $query->select('id', 'name', 'last_name');
             }])->limit(5);
     }

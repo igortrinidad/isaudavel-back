@@ -119,7 +119,8 @@ class CompanyTableSeeder extends Seeder
             foreach ($clients_rating as $client) {
 
                 \App\Models\CompanyRating::create([
-                    'client_id' => $client,
+                    'from_id' => $client,
+                    'from_type' => \App\Models\Client::class,
                     'company_id' => $company->id,
                     'rating' => rand(1,5),
                     'content' => $faker->sentence(15)

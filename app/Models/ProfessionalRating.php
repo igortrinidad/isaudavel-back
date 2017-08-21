@@ -31,7 +31,8 @@ class ProfessionalRating extends Model
      * @var array
      */
     protected $fillable = [
-        'client_id',
+        'from_id',
+        'from_type',
         'professional_id',
         'rating',
         'content'
@@ -48,15 +49,16 @@ class ProfessionalRating extends Model
      */
     public function professional()
     {
-        return $this->belongsTo(Professional::class);
+        return $this->belongsTo(Professional::class)->select('id', 'name', 'last_name');
     }
 
+
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
-    public function client()
+    public function from()
     {
-        return $this->belongsTo(Client::class);
+        return $this->morphTo(null, 'from_type', 'from_id');
     }
 
 }
