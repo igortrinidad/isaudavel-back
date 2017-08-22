@@ -163,7 +163,6 @@ class Professional extends Authenticatable implements JWTSubject
         return $ratings;
     }
 
-
     /**
      * -------------------------------
      * Relationships
@@ -229,6 +228,34 @@ class Professional extends Authenticatable implements JWTSubject
     public function last_ratings()
     {
         return $this->hasMany(ProfessionalRating::class)
+            ->orderBy('created_at', 'DESC')
+            ->with(['client' => function ($query) {
+                $query->select('id', 'name', 'last_name');
+            }])->limit(5);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function recomendations_sent()
+    {
+        return $this->morphMany(Recomendation::class, 'from');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function recomendations_received()
+    {
+        return $this->morphMany(Recomendation::class, 'to');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function last_recomendations()
+    {
+        return $this->morphMany(Recomendation::class, 'to')
             ->orderBy('created_at', 'DESC')
             ->with(['from' => function ($query) {
                 $query->select('id', 'name', 'last_name');

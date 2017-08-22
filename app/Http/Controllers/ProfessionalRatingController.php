@@ -31,14 +31,11 @@ class ProfessionalRatingController extends Controller
      */
     public function store(Request $request)
     {
-        //attach from on request
-        $request->merge(['from_id' => \Auth::user()->id, 'from_type' => get_class(\Auth::user())]);
-
         $rating = ProfessionalRating::create($request->all());
 
         return response()->json([
             'message' => 'Professional rating created.',
-            'rating' => $rating->fresh(['from']),
+            'rating' => $rating->fresh(['client']),
             'professional' => $rating->professional->setHidden(['companies','categories','blank_password'])
         ]);
     }

@@ -24,15 +24,7 @@ Route::group(['prefix' => 'auth'], function () {
  */
 Route::group(['middleware' => 'both.auth'], function () {
 
-    //Professional rating
-    Route::post('/professional/rating/create', 'ProfessionalRatingController@store');
-    Route::post('/professional/rating/update', 'ProfessionalRatingController@update');
-    Route::get('/professional/rating/destroy/{id}', 'ProfessionalRatingController@destroy');
-
-    //rating
-    Route::post('/company/rating/create', 'CompanyRatingController@store');
-    Route::post('/company/rating/update', 'CompanyRatingController@update');
-    Route::get('/company/rating/destroy/{id}', 'CompanyRatingController@destroy');
+    //
 
 });
 
@@ -195,6 +187,13 @@ Route::group(['prefix' => 'professional'], function () {
         //Rating
         Route::get('/rating/list/{id}', 'ProfessionalRatingController@index');
 
+        //Recomendations
+        Route::get('/recomendation/received/{id}', 'RecomendationController@receivedList');
+        Route::get('/recomendation/sent/{id}', 'RecomendationController@sentList');
+        Route::post('/recomendation/create', 'RecomendationController@store');
+        Route::post('/recomendation/update', 'RecomendationController@update');
+        Route::get('/recomendation/destroy/{id}', 'RecomendationController@destroy');
+
 
         //profile update
         Route::get('/profile/show/{id}', 'ProfessionalController@show');
@@ -310,7 +309,19 @@ Route::group(['prefix' => 'client'], function () {
             Route::post('/remove_solicitation', 'ClientController@removeCompanySolicitation');
 
             Route::post('/update_relationship', 'ClientController@updateCompanyRelationship');
+
+            //rating
+            Route::post('/rating/create', 'CompanyRatingController@store');
+            Route::post('/rating/update', 'CompanyRatingController@update');
+            Route::get('/rating/destroy/{id}', 'CompanyRatingController@destroy');
         });
+
+        //Professional rating
+        Route::post('/professional/rating/create', 'ProfessionalRatingController@store');
+        Route::post('/professional/rating/update', 'ProfessionalRatingController@update');
+        Route::get('/professional/rating/destroy/{id}', 'ProfessionalRatingController@destroy');
+
+
 
     });
 

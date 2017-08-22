@@ -83,7 +83,7 @@ class Company extends Model
     {
         $photo = CompanyPhoto::where('company_id', $this->id)->where('is_profile', true)->first();
 
-        if(!$photo){
+        if (!$photo) {
             $photo = CompanyPhoto::where('company_id', $this->id)->first();
         }
 
@@ -107,7 +107,7 @@ class Company extends Model
 
         // Round up or down Eg: ratings >= x.5 are rounded up and < x.5 are rounded down
 
-        return round($rating,1);
+        return round($rating, 1);
     }
 
     /*
@@ -168,7 +168,7 @@ class Company extends Model
         return $this->belongsToMany(Professional::class, 'company_professional')->withPivot(['is_admin', 'is_public']);
     }
 
-        /**
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function public_confirmed_professionals()
@@ -202,6 +202,7 @@ class Company extends Model
     {
         return $this->hasOne(CompanyCalendarSettings::class);
     }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -217,6 +218,27 @@ class Company extends Model
     public function last_ratings()
     {
         return $this->hasMany(CompanyRating::class)
+            ->orderBy('created_at', 'DESC')
+            ->with(['client' => function ($query) {
+                $query->select('id', 'name', 'last_name');
+            }])->limit(5);
+    }
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function recomendations()
+    {
+        return $this->morphMany(Recomendation::class, 'to');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function last_recomendations()
+    {
+        return $this->morphMany(Recomendation::class, 'to')
             ->orderBy('created_at', 'DESC')
             ->with(['from' => function ($query) {
                 $query->select('id', 'name', 'last_name');

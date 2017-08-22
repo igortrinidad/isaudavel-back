@@ -42,6 +42,9 @@ class ProfessionalsTableSeeder extends Seeder
         factory(App\Models\Professional::class, 30)->create();
 
         $professionals = \App\Models\Professional::all();
+        
+        $other_professionals = \App\Models\Professional::all()->pluck('id')->flatten()->toArray();
+
 
         $clients = \App\Models\Client::all()->pluck('id')->flatten()->toArray();
 
@@ -62,10 +65,25 @@ class ProfessionalsTableSeeder extends Seeder
             foreach ($clients_rating as $client) {
 
                 \App\Models\ProfessionalRating::create([
-                    'from_id' => $client,
-                    'from_type' => \App\Models\Client::class,
+                    'client_id' => $client,
                     'professional_id' => $professional->id,
                     'rating' => rand(1,5),
+                    'content' => $faker->sentence(15)
+                ]);
+
+            }
+
+            $other_professionals = array_diff_assoc($other_professionals, [$professional->id]);
+
+            $professionals_recomendations = $faker->randomElements($other_professionals, rand(1, 3));
+
+            foreach ($professionals_recomendations as $professionals_recomendation) {
+
+                \App\Models\Recomendation::create([
+                    'from_id' => $professionals_recomendation,
+                    'from_type' => \App\Models\Professional::class,
+                    'to_id' => $professional->id,
+                    'to_type' => \App\Models\Professional::class,
                     'content' => $faker->sentence(15)
                 ]);
 

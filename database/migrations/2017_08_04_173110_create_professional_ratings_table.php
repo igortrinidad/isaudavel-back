@@ -15,8 +15,7 @@ class CreateProfessionalRatingsTable extends Migration
     {
         Schema::create('professional_ratings', function (Blueprint $table) {
             $table->uuid('id')->index();
-            $table->uuid('from_id')->index();
-            $table->string('from_type');
+            $table->uuid('client_id')->index();
             $table->uuid('professional_id')->index();
             $table->integer('rating');
             $table->text('content');

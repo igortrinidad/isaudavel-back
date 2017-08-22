@@ -207,7 +207,7 @@ class SocialAuthController extends Controller
 
         $fileName = bin2hex(random_bytes(16)) . '.jpg';
 
-        $filePath = 'client/photo/' . $fileName;
+        $filePath = 'professional/photo/' . $fileName;
 
         \Storage::disk('media')->put($filePath, file_get_contents($photo_url), 'public');
 

@@ -31,14 +31,11 @@ class CompanyRatingController extends Controller
      */
     public function store(Request $request)
     {
-        //attach from on request
-        $request->merge(['from_id' => \Auth::user()->id, 'from_type' => get_class(\Auth::user())]);
-
         $rating = CompanyRating::create($request->all());
 
         return response()->json([
             'message' => 'Company rating created.',
-            'rating' => $rating->fresh(['from']),
+            'rating' => $rating->fresh(['client']),
             'company' => $rating->company
         ]);
     }

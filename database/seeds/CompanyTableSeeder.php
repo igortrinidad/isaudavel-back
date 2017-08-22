@@ -18,7 +18,7 @@ class CompanyTableSeeder extends Seeder
 
         $other_professionals = \App\Models\Professional::all()->pluck('id')->flatten()->toArray();
 
-        $other_professionals = array_diff_assoc($other_professionals,$professionals );
+        $other_professionals = array_diff_assoc($other_professionals, $professionals);
 
         $clients = \App\Models\Client::all()->pluck('id')->flatten()->toArray();
 
@@ -50,20 +50,20 @@ class CompanyTableSeeder extends Seeder
             ],
         ];
 
-        foreach($professionals as $professional){
+        foreach ($professionals as $professional) {
 
-            $company_name  =  $faker->company;
+            $company_name = $faker->company;
 
-            $location =  $faker->randomElement($locations);
+            $location = $faker->randomElement($locations);
 
             $location['address']['name'] = $company_name;
 
-            $lat =  $location['address']['geolocation']['lat'];
-            $lng =  $location['address']['geolocation']['lng'];
+            $lat = $location['address']['geolocation']['lat'];
+            $lng = $location['address']['geolocation']['lng'];
 
             unset($location['address']['geolocation']);
 
-            $company = \App\Models\Company::create( [
+            $company = \App\Models\Company::create([
                 'id' => Uuid::generate()->string,
                 'owner_id' => $professional,
                 'is_active' => true,
@@ -73,9 +73,9 @@ class CompanyTableSeeder extends Seeder
                 'phone' => $faker->phoneNumber,
                 'description' => $faker->text,
                 'address_is_available' => true,
-                'address' =>$location['address'],
-                'lat'=> $lat,
-                'lng'=> $lng,
+                'address' => $location['address'],
+                'lat' => $lat,
+                'lng' => $lng,
                 'city' => $location['city'],
                 'state' => $location['state']
             ]);
@@ -90,7 +90,7 @@ class CompanyTableSeeder extends Seeder
             ]);
 
             // attach other professionals (exept admins)
-            $company->professionals()->attach($faker->randomElements($other_professionals, rand(1,3)),[
+            $company->professionals()->attach($faker->randomElements($other_professionals, rand(1, 3)), [
                 'is_confirmed' => true,
                 'confirmed_by_id' => $professional,
                 'confirmed_by_type' => \App\Models\Professional::class,
@@ -104,7 +104,7 @@ class CompanyTableSeeder extends Seeder
         //Attach categories
         foreach ($companies as $company) {
 
-            $company->categories()->attach($faker->randomElements($categories, (rand(1,3))));
+            $company->categories()->attach($faker->randomElements($categories, (rand(1, 3))));
 
             //Avatar
             \App\Models\CompanyPhoto::create([
@@ -115,20 +115,32 @@ class CompanyTableSeeder extends Seeder
 
 
             //Rating
-            $clients_rating = $faker->randomElements($clients, rand(1,3));
+            $clients_rating = $faker->randomElements($clients, rand(1, 3));
             foreach ($clients_rating as $client) {
 
                 \App\Models\CompanyRating::create([
-                    'from_id' => $client,
-                    'from_type' => \App\Models\Client::class,
+                    'client_id' => $client,
                     'company_id' => $company->id,
-                    'rating' => rand(1,5),
+                    'rating' => rand(1, 5),
+                    'content' => $faker->sentence(15)
+                ]);
+
+            }
+
+            $professionals_recomendations = $faker->randomElements($other_professionals, rand(1, 3));
+
+            foreach ($professionals_recomendations as $professional) {
+
+                \App\Models\Recomendation::create([
+                    'from_id' => $professional,
+                    'from_type' => \App\Models\Professional::class,
+                    'to_id' => $company->id,
+                    'to_type' => \App\Models\Company::class,
                     'content' => $faker->sentence(15)
                 ]);
 
             }
         }
-
 
 
     }

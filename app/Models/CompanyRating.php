@@ -31,8 +31,7 @@ class CompanyRating extends Model
      * @var array
      */
     protected $fillable = [
-        'from_id',
-        'from_type',
+        'client_id',
         'company_id',
         'rating',
         'content'
@@ -53,11 +52,11 @@ class CompanyRating extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function from()
+    public function client()
     {
-        return $this->morphTo(null, 'from_type', 'from_id');
+        return $this->belongsTo(Client::class);
     }
 
 }
