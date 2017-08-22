@@ -24,7 +24,15 @@ Route::group(['prefix' => 'auth'], function () {
  */
 Route::group(['middleware' => 'both.auth'], function () {
 
-    //
+    //Professional rating
+    Route::post('/professional/rating/create', 'ProfessionalRatingController@store');
+    Route::post('/professional/rating/update', 'ProfessionalRatingController@update');
+    Route::get('/professional/rating/destroy/{id}', 'ProfessionalRatingController@destroy');
+
+    //rating
+    Route::post('/company/rating/create', 'CompanyRatingController@store');
+    Route::post('/company/rating/update', 'CompanyRatingController@update');
+    Route::get('/company/rating/destroy/{id}', 'CompanyRatingController@destroy');
 
 });
 
@@ -290,22 +298,12 @@ Route::group(['prefix' => 'client'], function () {
         Route::post('/activity/update', 'ActivityController@update');
         Route::get('/activity/destroy/{id}', 'ActivityController@destroy');
 
-        //Professional rating
-        Route::post('/professional/rating/create', 'ProfessionalRatingController@store');
-        Route::post('/professional/rating/update', 'ProfessionalRatingController@update');
-        Route::get('/professional/rating/destroy/{id}', 'ProfessionalRatingController@destroy');
-
 
         //Company resources
         Route::group(['prefix' => 'company'], function() {
 
             Route::get('/list', 'CompanyController@clientCompanies');
             Route::get('/full_list', 'CompanyController@companiesFullList');
-
-            //rating
-            Route::post('/rating/create', 'CompanyRatingController@store');
-            Route::post('/rating/update', 'CompanyRatingController@update');
-            Route::get('/rating/destroy/{id}', 'CompanyRatingController@destroy');
 
             Route::post('/solicitation', 'ClientController@companySolicitation');
             Route::post('/accept_solicitation', 'ClientController@acceptCompanySolicitation');

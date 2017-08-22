@@ -230,7 +230,7 @@ class Professional extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(ProfessionalRating::class)
             ->orderBy('created_at', 'DESC')
-            ->with(['client' => function ($query) {
+            ->with(['from' => function ($query) {
                 $query->select('id', 'name', 'last_name');
             }])->limit(5);
     }
