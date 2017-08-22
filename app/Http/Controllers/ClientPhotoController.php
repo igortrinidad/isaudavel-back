@@ -18,7 +18,7 @@ class ClientPhotoController extends Controller
     {
         $photos = ClientPhoto::where('client_id', \Auth::user()->id)
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->paginate(12);
 
         return response()->json(custom_paginator($photos));
     }
