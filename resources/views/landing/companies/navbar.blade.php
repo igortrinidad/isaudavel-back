@@ -17,8 +17,8 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <nav class="collapse navbar-collapse" id="navbar">
                 <ul class="nav navbar-nav navbar-right" id="top-nav">
-                    <li class="current"><a href="/">Home</a></li>
-                    <li><a href="#contact">Buscar</a></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/new-landing/buscar">Buscar</a></li>
                     <li><a href="#contact">Cadastrar meu serviço ou empresa</a></li>
                 </ul>
             </nav><!-- /.navbar-collapse -->

@@ -29,6 +29,7 @@ elixir(function(mix) {
         '../prelaunch/css/animate.css',
         '../prelaunch/css/main.css',
         '../prelaunch/css/responsive.css',
+        '../helpers.css',
     ], 'public/build/prelaunch/css/build_vendors_custom.css');
 
 

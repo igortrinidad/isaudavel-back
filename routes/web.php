@@ -23,7 +23,11 @@ Route::group(['prefix' => 'new-landing'], function () {
 
 	//Companies
 	Route::group(['prefix' => 'buscar'], function () {
-		Route::get('/', function(){ return view('landing.companies.index'); });
+		Route::get('/', 'LandingController@NewIndex');
+	});
+
+	Route::group(['prefix' => 'empresas'], function () {
+		Route::get('/{slug}', 'LandingController@showCompany');
 	});
 
 });

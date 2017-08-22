@@ -8,6 +8,7 @@ use App\Http\Requests;
 
 use App\Models\Lead;
 
+use App\Models\Company;
 
 class LandingController extends Controller
 {
@@ -70,6 +71,20 @@ class LandingController extends Controller
 
     }
 
-    
+
+    public function NewIndex(Request $request)
+    {
+        $companies = Company::where('city', 'LIKE', '%' . $request->query('city') . '%')->paginate(30);
+
+        return view('landing.companies.list', compact('companies'));
+    }
+
+    public function showCompany($slug)
+    {
+        $company = Company::where('slug', $slug)->first();
+
+        return view('landing.companies.show', compact('company'));
+    }
+
 }
 
