@@ -14,7 +14,7 @@
 @endif
 
 @if(isset($company))
-	<meta property="og:url" content="https://isaudavel.com">
+	<meta property="og:url" content="{{url()->current()}}">
 	<meta property="og:title" content="iSaudavel: {{$company->name}}">
 	<meta property="og:site_name" content="iSaudavel">
 	<meta property="og:description" content="iSaudavel é uma ferramenta para conectar você e os melhores profissionais para cuidar da sua saúde.">
