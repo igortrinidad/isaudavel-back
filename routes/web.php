@@ -14,6 +14,21 @@
 Route::get('/', 'LandingController@index');
 Route::post('/leadStoreForm', 'LandingController@leadStoreForm');
 
+//New Landing
+
+
+Route::group(['prefix' => 'new-landing'], function () {
+
+	Route::get('/', function(){ return view('landing.home.index'); });
+
+	//Companies
+	Route::group(['prefix' => 'buscar'], function () {
+		Route::get('/', function(){ return view('landing.companies.index'); });
+	});
+
+});
+
+
 
 
 Route::get('/settings/test-email/{template}', function ($template) {
