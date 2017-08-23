@@ -1,20 +1,21 @@
- 
+
 
 @extends('landing.companies.index')
 
 @section('landing-content')
- <style>
+    <style>
 
- 	.teste{
- 		color: red;
- 	}
+        .teste{
+            color: red;
+        }
 
-    h1, h2, h3, h4, h5{
-        color: #383938;
-    }
- </style>
+        h1, h2, h3, h4, h5{
+            color: #383938;
+        }
 
-     <section class="section" id="companies-list">
+    </style>
+
+    <section class="section" id="companies-list">
         <div class="container">
 
             <div class="row">
@@ -28,8 +29,8 @@
 
                     @foreach($professional->last_ratings as $rating)
 
-                        <h3>Avaliação: {{$rating->rating}}</h3>
-                        <h3>Comentário: {{$rating->content}}</h3>
+                    <h3>Avaliação: {{$rating->rating}}</h3>
+                    <h3>Comentário: {{$rating->content}}</h3>
                     @endforeach
                 </div>
             </div>
@@ -40,8 +41,6 @@
         @parent
 
         <script>
-            
-
             Vue.config.debug = true;
             var vm = new Vue({
                 el: '#companies-list',
@@ -55,9 +54,6 @@
                 }
 
             })
-
         </script>
-
-
     @stop
 @stop
