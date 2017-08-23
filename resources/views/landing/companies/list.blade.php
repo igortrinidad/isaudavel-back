@@ -16,6 +16,28 @@
             color: #383938;
             font-weight: 300;
         }
+
+        .picture-circle{
+            box-sizing: border-box;
+            margin: 0 auto;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+        }
+
+        .picture-circle-p{
+            width: 68px;
+            height: 68px;
+        }
+
+        .picture-circle-m{
+            width: 86px;
+            height: 86px;
+        }
+
         .section {
             background-color: #F4F5F5;
         }
@@ -43,7 +65,8 @@
                 <div class="col-md-4 col-xs-12">
                     <div class="card">
                         <div class="card-header ch-alt text-center">
-                            <img class="img-circle m-b-10" src="{{ $company->avatar }}" width="64">
+                            <div class="picture-circle  picture-circle-p m-b-10" style="background-image:url({{$company->avatar}})">
+                            </div>
                             <h3 class="m-b-0 t-overflow">
                                 <a href="/new-landing/empresas/{{$company->slug}}" title="{{ $company->name }}">{{ $company->name }}</a>
                             </h3>
@@ -51,13 +74,10 @@
                         <div class="card-body card-padding text-center">
                             <h4>Avaliação</h4>
                             <div class="wp-rating-div">
-                                @for ($i = 1; $i <= $company->current_rating; $i++ )
-                                    <i class="ion-ios-star"></i>
-                                @endfor
-                                @for ($i = $company->current_rating; $i < 5; $i++ )
-                                    <i class="ion-ios-star-outline"></i>
-                                @endfor
+                                <?php $rating_to_loop = $company->current_rating; ?>
+                                @include('components.rating', ['size' => '22'])
                             </div>
+
                             <div class="m-t-20">
                                 <span class="f-300 f-18 ">
                                     <i class="ion-ios-location-outline m-r-5"></i>
