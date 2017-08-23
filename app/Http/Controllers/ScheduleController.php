@@ -15,10 +15,42 @@ class ScheduleController extends Controller
      */
     public function index($id)
     {
-        $schedules = Schedule::where('company', $id)->with(['client', 'plan'])->get();
+        $schedules = Schedule::where('company_id', $id)->with(['client', 'plan'])->get();
 
-        return response()->json(['schdules' => $schedules]);
+        return response()->json(['schedules' => $schedules]);
     }
+
+    /**
+     * Display a listing of schedules for calendar by month.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function forCalendar(Request $request)
+    {
+        $schedules = Schedule::where('company_id', $request->get('company_id'))
+            ->where('category_id', $request->get('category_id'))
+            ->whereBetween('date', [$request->get('start'), $request->get('end')])
+            ->with(['professional' => function($query){
+                $query->select('id', 'name', 'last_name', 'email');
+            }, 'subscription'])
+            ->orderBy('date')
+            ->orderBy('time')
+            ->get();
+
+        foreach($schedules as $schedule){
+
+            $schedule->professional->setHidden(['companies','categories','blank_password']);
+
+            $schedule->setAttribute('client', $schedule->subscription->client);
+
+            $schedule->setHidden(['subscription']);
+        }
+
+        return response()->json(['schedules' => $schedules]);
+    }
+
+
 
     /**
      * Display the specified resource.

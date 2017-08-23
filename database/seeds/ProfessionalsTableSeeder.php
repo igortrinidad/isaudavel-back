@@ -51,7 +51,8 @@ class ProfessionalsTableSeeder extends Seeder
         foreach($professionals as $professional){
 
             //Attach categories
-            $professional->categories()->attach($faker->randomElements($categories, rand(1,3)));
+            $professional->categories()->attach($faker->randomElement($categories));
+
 
             //Avatar
             \App\Models\ProfessionalPhoto::create([

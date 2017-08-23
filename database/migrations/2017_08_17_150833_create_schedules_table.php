@@ -16,6 +16,7 @@ class CreateSchedulesTable extends Migration
         Schema::create('schedules', function (Blueprint $table) {
             $table->uuid('id')->index();
             $table->uuid('company_id')->index();
+            $table->uuid('category_id')->index();
             $table->uuid('professional_id')->index();
             $table->uuid('invoice_id')->index();
             $table->uuid('subscription_id')->index();

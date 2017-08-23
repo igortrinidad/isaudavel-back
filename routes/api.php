@@ -194,6 +194,9 @@ Route::group(['prefix' => 'professional'], function () {
         Route::post('/recomendation/update', 'RecomendationController@update');
         Route::get('/recomendation/destroy/{id}', 'RecomendationController@destroy');
 
+        //Schedule
+        Route::post('/schedule/calendar_list', 'ScheduleController@forCalendar');
+
 
         //profile update
         Route::get('/profile/show/{id}', 'ProfessionalController@show');

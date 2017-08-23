@@ -32,6 +32,7 @@ class Schedule extends Model
      */
     protected $fillable = [
         'company_id',
+        'category_id',
         'professional_id',
         'invoice_id',
         'subscription_id',
