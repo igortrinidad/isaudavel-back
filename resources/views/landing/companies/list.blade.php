@@ -45,19 +45,93 @@
             color: #FFCC5F;
             font-size: 25px;
         }
+
+        /* Tabs Default */
+        /* Tabs */
+        .tabs {
+
+            position: relative;
+            top: -1px;
+            overflow: visible !important;
+            margin-top: -100px;
+            margin-bottom: 40px;
+            padding-top: 1px;
+        }
+
+        .tabs .tab {
+            border-top: 1px solid rgba(255, 255, 255, .3);
+            border-left: 1px solid rgba(255, 255, 255, .3);
+            display: flex;
+            height: 50px;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background-color: #70c058;
+            color: rgba(255, 255, 255, .8);
+            padding: 0 10px;
+            font-size: 14px;
+            position: relative;
+            cursor: pointer;
+        }
+        .tabs .tab:first-child { border-left: 0;}
+
+        .tabs .tab.swiper-slide-active:before{
+            content: "";
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
+            width: 0;
+            height: 0;
+            bottom: -6px;
+            left: 50%;
+            margin-left: -6px;
+            position: absolute;
+
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 6px solid #70c058;
+        }
+
     </style>
 
-     <section class="section" id="companies-list">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12">
-                    <div class="block">
-                        <div class="f-300 text-center">
-                            <h2>Empresas</h2>
-                            <p class="teste">Encontre a empresa ou profissional para ajudar você a cuidar da sua saúde.</p>
-                        </div>
-                    </div>
+    <section class="section" id="companies-list">
+
+        <!-- Categories Tabs -->
+        <div class="swiper-container tabs" ref="tabs">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide tab">
+                    Todos
                 </div>
+                <div class="swiper-slide tab">
+                    Pilates
+                </div>
+                <div class="swiper-slide tab">
+                    Crossfit
+                </div>
+                <div class="swiper-slide tab">
+                    Personal Trainer
+                </div>
+                <div class="swiper-slide tab">
+                    Fisioterapia
+                </div>
+                <div class="swiper-slide tab">
+                    Massagem e estética
+                </div>
+                <div class="swiper-slide tab">
+                    Nutrição
+                </div>
+                <div class="swiper-slide tab">
+                    Acupuntura
+                </div>
+            </div>
+        </div>
+        <!-- Categories Tabs -->
+
+        <div class="container">
+
+            <div class="text-center">
+                <h2 class="m-t-30">Empresas</h2>
+                <p class="f-300">Encontre a empresa ou profissional para ajudar você a cuidar da sua saúde.</p>
             </div>
 
             <div class="row m-t-20">
@@ -128,10 +202,39 @@
                 data: {
                 },
                 mounted: function() {
-
+                    this.initSwiperTabs()
                     console.log('Vue rodando no companies-list');
                 },
                 methods: {
+
+                    initSwiperTabs() {
+                        setTimeout(() => {
+                            // Ver um jeito de redirecionar no onSlideChangeEnd do swiper para a categoria certa
+
+                            // let currentTab
+                            // if (window.location.href === 'http://isaudavel-api.dev/new-landing/buscar') currentTab = 0
+                            console.log(window);
+                            this.swiperTabs = new Swiper(this.$refs.tabs, {
+                                spaceBetween: 0,
+                                slidesPerView: 7,
+                                loop: true,
+                                centeredSlides: true,
+                                slideToClickedSlide: true,
+                                onSlideChangeEnd: swiper => {
+                                    console.log(swiper.realIndex);
+                                    // if (swiper.realIndex === 0 && swiper.realIndex !== currentTab)
+                                    //     window.location.href = "http://isaudavel-api.dev/new-landing/buscar"
+
+                                },
+                                breakpoints: {
+                                    768: {
+                                        slidesPerView: 3,
+                                    },
+                                }
+                            })
+                        }, 100)
+                    },
+
                 }
 
             })
