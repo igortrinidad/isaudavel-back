@@ -129,5 +129,27 @@ class LandingController extends Controller
 
         return view('landing.companies.showprofessional', compact('professional'));
     }
+
+    /**
+     * Index teste
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function createCompany()
+    {
+        return view('landing.companies.create');
+    }
+
+        /**
+     * Index teste
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function showProfessionalLogin()
+    {
+        return view('landing.auth.login');
+    }
 }
 

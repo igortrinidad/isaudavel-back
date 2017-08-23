@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="no-js">
+<html class="no-js" lang="pt-br">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -35,7 +35,11 @@
         <div id="app">
 
             @include('landing.companies.navbar')
-            @include('landing.companies.header')
+            @if($header_with_search)
+            @include('landing.companies.header-with-search')
+            @else
+            @include('landing.companies.header-blank')
+            @endif
 
             @section('landing-content')
             @show

@@ -1,4 +1,4 @@
-@extends('landing.companies.index')
+@extends('landing.companies.index', ['header_with_search' => true])
 
  @section('landing-content')
 

@@ -1,6 +1,6 @@
 
 
-@extends('landing.companies.index')
+@extends('landing.companies.index', ['header_with_search' => false])
 
 @section('landing-content')
     <style>
