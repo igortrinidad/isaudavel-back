@@ -1,13 +1,9 @@
- 
+
 
 @extends('landing.companies.index')
 
 @section('landing-content')
- <style>
-
-    .teste{
-        color: red;
-    }
+    <style>
 
     h1, h2, h3, h4, h5{
         color: #383938;
@@ -151,10 +147,7 @@
         @parent
 
         <script>
-            
 
         </script>
-
-
     @stop
 @stop
