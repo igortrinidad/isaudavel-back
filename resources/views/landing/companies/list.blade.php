@@ -30,13 +30,12 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="block">
-                        <div class="">
+                        <div class="f-300 text-center">
                             <h2>Empresas</h2>
                             <p class="teste">Encontre a empresa ou profissional para ajudar você a cuidar da sua saúde.</p>
                         </div>
                     </div>
                 </div>
-
             </div>
 
             <div class="row m-t-20">
