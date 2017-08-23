@@ -28,7 +28,6 @@
 
             <br>
             
-            @if(!isset($company))
 
             <h3 class="text-center">Encontre empresas e profissionais de saúde próximos à você</h3>
             <div class="col-xs-12 col-sm-8 col-md-8">
@@ -46,7 +45,6 @@
                 </form>
             </div>
 
-            @endif
 
         </div>
         

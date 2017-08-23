@@ -8,6 +8,7 @@ use App\Http\Requests;
 
 use App\Models\Lead;
 
+use App\Models\Category;
 use App\Models\Company;
 use App\Models\Professional;
 
@@ -23,7 +24,6 @@ class LandingController extends Controller
      */
     public function index()
     {
-
         return view('prelaunch.index');
 
     }
@@ -96,7 +96,10 @@ class LandingController extends Controller
      */
     public function NewIndexSearch(Request $request)
     {
-        $companies = Company::where('city', 'LIKE', '%' . $request->query('city') . '%')->paginate(30);
+        $companies = Company::where('city', 'LIKE', '%' . $request->query('city') . '%')->
+            whereHas('categories', function($query) use($request){
+                $query->where('name', 'LIKE', '%'.$request->query('category') . '%');
+        })->paginate(30);
 
         return view('landing.companies.list', compact('companies'));
     }

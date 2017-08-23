@@ -228,21 +228,21 @@
                                     </div>
 
                                     <div class="input-field">
-                                       <select class="form-control" name="is_professional" v-model="interactions.is_professional">
-                                            <option value="false">Quero cuidar da minha saúde ou estética</option>
-                                            <option value="true">Sou profissional da área da saúde</option>
+                                       <select class="form-control" name="is_professional" v-model="interactions.is_professional" @change="setIsProfessional()">
+                                            <option>Quero cuidar da minha saúde ou estética</option>
+                                            <option>Sou profissional da área da saúde</option>
                                         </select>
                                     </div>
-                                    <div class="input-field" v-if="interactions.is_professional">
+                                    <div class="input-field" v-if="form.is_professional">
                                         <h4>Selecione as especialidades em que atua</h4>
                                     </div>
 
-                                    <div class="input-field" v-if="!interactions.is_professional">
-                                        <h4>Selecione as especialidades que você tem interesse</h4>
+                                    <div class="input-field" v-if="!form.is_professional">
+                                        <h4>Selecione as especialidades que você tem interesse ou já pratica</h4>
                                     </div>
 
-                                    <div v-for="(category, index) in form.categories">
-                                        <div class="checkbox-group">
+                                    <div v-for="(category, index) in categories">
+                                        <div class="checkbox-group" @click="addCategory(category)">
                                             <label class="checkbox">
                                             <input type="checkbox" class="wp-checkbox-reset wp-checkbox-input" v-model="category.select">
                                             <div class="wp-checkbox-reset wp-checkbox-inline wp-checkbox">
@@ -250,6 +250,8 @@
                                             <span class="wp-checkbox-text">@{{category.label}}</span></label>
                                         </div>
                                     </div>
+
+                                    <pre>@{{form.categories}}</pre>
 
                         	        <button class="btn btn-send" @click.prevent="sendForm()">INSCREVER</button>
                         	    </form>
@@ -310,10 +312,16 @@
                 el: '#app',
                 data: {
                     interactions: {
-                        is_professional: false,
+                        is_professional: 'Quero cuidar da minha saúde ou estética',
                     },
                     form: {
-                        categories: [
+                        name: '',
+                        email: '',
+                        phone: '',
+                        is_professional: false,
+                        categories: [],
+                    },
+                    categories: [
                             { name: 'personal', label: 'Personal Trainer', select: false },
                             { name: 'phisio', label: 'Fisioterapia', select: false },
                             { name: 'nutrition', label: 'Nutrição', select: false },
@@ -321,16 +329,13 @@
                             { name: 'crossfit', label: 'Crossfit', select: false },
                             { name: 'coaching', label: 'Consultoria e coaching', select: false },
                             { name: 'stetic', label: 'Estética', select: false },
-                        ]
-                    },
-
+                    ],
                     remain: {
                         days: 0,
                         hours: 0,
                         minutes: 0,
                         seconds: 0
                     }
-
                 },
                 mounted: function() {
 
@@ -366,6 +371,29 @@
                         }, 1000)
                         
                         
+                    },
+
+                    setIsProfessional: function(){
+                        let that = this
+                        
+                        if( this.interactions.is_professional =='Sou profissional da área da saúde'){
+                            this.form.is_professional = true
+                        } else {
+                            this.form.is_professional = false
+                        }
+
+                    },
+
+                    addCategory: function(category){
+                        let that = this
+                        console.log(category.label);
+                        var index = that.form.categories.indexOf(category.label);
+                        console.log(index);
+                        if(index < 0){
+                            that.form.categories.push(category.label);
+                        } else {
+                            that.form.categories.splice(index, 1);
+                        }
                     },
 
                 }

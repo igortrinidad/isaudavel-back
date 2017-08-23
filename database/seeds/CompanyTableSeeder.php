@@ -84,6 +84,7 @@ class CompanyTableSeeder extends Seeder
             $company->professionals()->attach($professional, [
                 'is_admin' => true,
                 'is_confirmed' => true,
+                'is_public' => true,
                 'confirmed_by_id' => $professional,
                 'confirmed_by_type' => \App\Models\Professional::class,
                 'confirmed_at' => \Carbon\Carbon::now()
@@ -92,6 +93,7 @@ class CompanyTableSeeder extends Seeder
             // attach other professionals (exept admins)
             $company->professionals()->attach($faker->randomElements($other_professionals, rand(1, 3)), [
                 'is_confirmed' => true,
+                'is_public' => true,
                 'confirmed_by_id' => $professional,
                 'confirmed_by_type' => \App\Models\Professional::class,
                 'confirmed_at' => \Carbon\Carbon::now()

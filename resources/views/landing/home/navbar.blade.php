@@ -20,7 +20,7 @@
                     <li class="current"><a href="/">Home</a></li>
                     <li><a href="#contact">Sobre</a></li>
                     <li><a href="#contact">Ferramentas</a></li>
-                    <li><a href="#contact">Buscar empresas</a></li>
+                    <li><a href="empresas">Buscar empresas</a></li>
                     <li><a href="#contact">Contato</a></li>
                 </ul>
             </nav><!-- /.navbar-collapse -->

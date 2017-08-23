@@ -23,7 +23,7 @@
 
 @endif
 
-@if(isset($company))
+@if(isset($professional))
 	<meta property="og:url" content="{{url()->current()}}">
 	<meta property="og:title" content="iSaudavel: {{$professional->full_name}}">
 	<meta property="og:site_name" content="iSaudavel">
