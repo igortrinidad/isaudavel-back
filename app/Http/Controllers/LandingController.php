@@ -72,13 +72,40 @@ class LandingController extends Controller
     }
 
 
+
+    /**
+     * New Index
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function NewIndex(Request $request)
+    {
+        $companies = Company::all()->random(8);
+
+        return view('landing.home.index', compact('companies'));
+    }
+
+
+    /**
+     * Index teste
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function NewIndexSearch(Request $request)
     {
         $companies = Company::where('city', 'LIKE', '%' . $request->query('city') . '%')->paginate(30);
 
         return view('landing.companies.list', compact('companies'));
     }
 
+    /**
+     * Index teste
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function showCompany($slug)
     {
         $company = Company::where('slug', $slug)->first();

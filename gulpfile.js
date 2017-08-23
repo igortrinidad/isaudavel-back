@@ -30,6 +30,7 @@ elixir(function(mix) {
         '../prelaunch/css/main.css',
         '../prelaunch/css/responsive.css',
         '../helpers.css',
+        '../landing/css/general.css',
     ], 'public/build/prelaunch/css/build_vendors_custom.css');
 
 
@@ -39,6 +40,7 @@ elixir(function(mix) {
         '../../../node_modules/bootstrap/dist/js/bootstrap.min.js',
         '../../../node_modules/moment/moment.js',
         '../../../node_modules/vue/dist/vue.js',
+        '../../../node_modules/vue-resource/dist/vue-resource.js',
         '../prelaunch/js/vendor/modernizr-2.6.2.min.js',
         '../prelaunch/js/jquery.lwtCountdown-1.0.js',
         '../prelaunch/js/owl.carousel.min.js',

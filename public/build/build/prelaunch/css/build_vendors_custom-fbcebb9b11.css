@@ -4692,4 +4692,233 @@ px      68    160    252    */
     overflow: hidden;
 }
 
+/* CHECKBOX FROM MAILCHIMP */
+
+
+.checkbox-group label:last-child {
+    margin-bottom: 12px;
+}
+
+input[type="checkbox"] {
+    cursor: pointer;
+}
+
+.checkbox-group label {
+    padding-top: 4px;
+    padding-bottom: 0;
+    cursor: pointer;
+}
+
+.radio, .checkbox {
+    max-width: 635px;
+    margin-bottom: 15px;
+    padding-bottom: 0;
+    padding-left: 36px;
+    text-indent: -36px;
+
+}
+
+.wp-checkbox {
+    background-position: 0 0;
+}
+
+.wp-checkbox {
+    margin-right: 12px;
+}
+
+.wp-checkbox, .wp-checkbox-input{
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    background-image: url(/landing/img/checkmarks-sprite-2x_interno.png);
+    background-size: 24px 384px;
+}
+
+.wp-checkbox-inline {
+    display: inline-table;
+    vertical-align: middle;
+}
+
+input:checked + .wp-checkbox{
+  background-position: 0 -144px;
+}
+
+.wp-checkbox-reset {
+    border: 0;
+    line-height: unset;
+    outline: 0 none;
+}
+
+input.wp-checkbox-reset{
+    display: none;
+}
+
+.wp-checkbox-text{
+    margin-top: 10px;
+}
+/*END SELECT
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {display:none;}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+.form-control[readonly] { background-color: #fff; }
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+/* END SWITCH */
+
+
+/*CARD */
+
+.card {
+  position: relative;
+  background: #fff;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+  margin-bottom: 30px;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.card .card-header {
+  position: relative;
+  border-radius: 4px;
+}
+
+@media screen and (min-width: 768px) {
+  .card .card-header:not(.ch-alt) {
+    padding: 23px 25px;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .card .card-header:not(.ch-alt) {
+    padding: 18px;
+  }
+}
+
+.card .card-header h2 {
+  margin: 0;
+  line-height: 100%;
+  font-size: 17px;
+  font-weight: 400;
+}
+
+.card .card-header h2 small {
+  display: block;
+  margin-top: 8px;
+  color: #AEAEAE;
+  line-height: 160%;
+}
+
+@media screen and (min-width: 768px) {
+  .card .card-header.ch-alt {
+    padding: 23px 26px;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .card .card-header.ch-alt {
+    padding: 18px 18px 28px;
+  }
+}
+
+.card .card-header.ch-alt:not([class*="bgm-"]) {
+  background-color: #f7f7f7;
+}
+
+.card .card-header[class*="bgm-"] h2,
+.card .card-header[class*="bgm-"] h2 small {
+  color: #fff;
+}
+
+.card .card-header .actions {
+  position: absolute;
+  right: 10px;
+  z-index: 2;
+  top: 15px;
+}
+
+.card .card-header .btn-float {
+  right: 25px;
+  bottom: -23px;
+  z-index: 1;
+}
+
+@media screen and (min-width: 768px) {
+  .card .card-body.card-padding {
+    padding: 23px 22px;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .card .card-body.card-padding {
+    padding: 14px;
+  }
+}
+
+.card .card-body.card-padding-sm {
+  padding: 11px;
+}
+
+.card-header:not(.ch-alt):not([class*="bgm-"]) + .card-padding {
+  padding-top: 0;
+}
+/* / CARD */
+
+
 /*# sourceMappingURL=build_vendors_custom.css.map */

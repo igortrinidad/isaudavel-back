@@ -19,11 +19,11 @@ Route::post('/leadStoreForm', 'LandingController@leadStoreForm');
 
 Route::group(['prefix' => 'new-landing'], function () {
 
-	Route::get('/', function(){ return view('landing.home.index'); });
+	Route::get('/', 'LandingController@NewIndex');
 
 	//Companies
 	Route::group(['prefix' => 'buscar'], function () {
-		Route::get('/', 'LandingController@NewIndex');
+		Route::get('/buscar', 'LandingController@NewIndexSearch');
 	});
 
 	Route::group(['prefix' => 'empresas'], function () {

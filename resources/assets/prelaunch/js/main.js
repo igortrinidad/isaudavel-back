@@ -53,7 +53,7 @@ $(document).ready(function(){
         $(this).attr('placeholder', $(this).data('holder'));
     });*/
 
-
+/*
     //contact form validation
     $("#contact-form").validate({
         rules: {
@@ -102,5 +102,6 @@ $(document).ready(function(){
             });
         }
     });
+    */
 
 });

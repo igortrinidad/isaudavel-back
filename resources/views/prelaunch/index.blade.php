@@ -46,6 +46,23 @@
 
     <body id="body">
 
+        <style>
+
+            
+            .li-prof li::before {
+                content: "• ";
+                color: #6EC058; /* or whatever color you prefer */
+                margin-left: 20px;
+            }
+
+            .li-prof{
+                font-size: 14px;
+                color: #777;
+            }
+
+        </style>
+
+
         <div id="app">
 
     	    <!-- 
@@ -198,35 +215,47 @@
 
                         </div>
 
-                        <style>
-
-                        .li-prof li::before {
-                            content: "• ";
-                            color: #6EC058; /* or whatever color you prefer */
-                            margin-left: 20px;
-                        }
-
-                        .li-prof{
-                            font-size: 14px;
-                            color: #777;
-                        }
-
-                        </style>
-
                         <div class="col-xs-12 col-sm-12 col-md-5 col-md-offset-1 wow fadeInUp" data-wow-delay="0.3s">
                         	<div class="form-group">
                         	    <form action="#" method="post" id="contact-form">
                                     {!! csrf_field() !!}
                         	        <div class="input-field">
-                        	            <input type="text" class="form-control" placeholder="Seu nome" name="name">
+                        	            <input type="text" class="form-control" placeholder="Seu nome e sobrenome" name="name" v-model="form.name">
                         	        </div>
+
                                     <div class="input-field">
-                                        <input type="text" class="form-control" placeholder="Seu telefone" name="phone">
+                                        <input type="text" class="form-control" placeholder="Seu telefone" name="phone" v-model="form.phone">
                                     </div>
-                        	        <div class="input-field">
-                        	            <input type="email" class="form-control" placeholder="Seu email" name="email">
-                        	        </div>
-                        	        <button class="btn btn-send" type="submit">INSCREVER</button>
+
+                                    <div class="input-field">
+                                        <input type="email" class="form-control" placeholder="Seu email" name="email" v-model="form.email">
+                                    </div>
+
+                                    <div class="input-field">
+                                       <select class="form-control" name="is_professional" v-model="interactions.is_professional">
+                                            <option value="false">Quero cuidar da minha saúde ou estética</option>
+                                            <option value="true">Sou profissional da área da saúde</option>
+                                        </select>
+                                    </div>
+                                    <div class="input-field" v-if="interactions.is_professional">
+                                        <h4>Selecione as especialidades em que atua</h4>
+                                    </div>
+
+                                    <div class="input-field" v-if="!interactions.is_professional">
+                                        <h4>Selecione as especialidades que você tem interesse</h4>
+                                    </div>
+
+                                    <div v-for="(category, index) in form.categories">
+                                        <div class="checkbox-group">
+                                            <label class="checkbox">
+                                            <input type="checkbox" class="wp-checkbox-reset wp-checkbox-input" v-model="category.select">
+                                            <div class="wp-checkbox-reset wp-checkbox-inline wp-checkbox">
+                                            </div>
+                                            <span class="wp-checkbox-text">@{{category.label}}</span></label>
+                                        </div>
+                                    </div>
+
+                        	        <button class="btn btn-send" @click.prevent="sendForm()">INSCREVER</button>
                         	    </form>
 
                         	    <div id="success">
@@ -274,6 +303,49 @@
           ga('create', 'UA-70761422-7', 'auto');
           ga('send', 'pageview');
 
+        </script>
+
+        <script>
+
+            Vue.http.headers.common['X-CSRF-TOKEN'] = $('input[name=_token]').val();
+
+            Vue.config.debug = true;
+            var vm = new Vue({
+                el: '#app',
+                data: {
+                    interactions: {
+                        is_professional: false,
+                    },
+                    form: {
+                        categories: [
+                            { name: 'personal', label: 'Personal Trainer', select: false },
+                            { name: 'phisio', label: 'Fisioterapia', select: false },
+                            { name: 'nutrition', label: 'Nutrição', select: false },
+                            { name: 'pilates', label: 'Pilates', select: false },
+                            { name: 'crossfit', label: 'Crossfit', select: false },
+                            { name: 'coaching', label: 'Consultoria e coaching', select: false },
+                            { name: 'stetic', label: 'Estética', select: false },
+                        ]
+                    }
+
+                },
+                mounted: function() {
+
+                    console.log('Vue rodando no companies-list');
+                },
+                methods: {
+                    sendForm: function() {
+                        var that = this
+
+                        var req = this.$http.post('/leadStoreForm', that.form,
+                            function (data, status, request) {
+                                console.log(data);
+                            }
+                        );
+                    }
+                }
+
+            })
         </script>
         
     </body>

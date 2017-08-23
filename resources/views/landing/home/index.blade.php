@@ -29,39 +29,18 @@
 
     <body id="body">
 
-        <div id="app">
 
         @include('landing.home.navbar')
         @include('landing.home.header')
         @include('landing.home.about')
+        @include('landing.home.featured')
         @include('landing.home.footer')
-
-        </div>
-
 
         <!-- Js -->
         <script src="{{ elixir('build/prelaunch/js/build_vendors_custom.js') }}"></script>
 
         <!-- GOOGLE ANALYTICS -->
         @include('landing.googleanalytics')
-
-        <script type="text/javascript">
-
-            Vue.config.debug = true;
-            var vm = new Vue({
-                el: '#app',
-                data: {
-                },
-                mounted: function() {
-
-                    console.log('Vue rodando no index');
-                },
-                methods: {
-                }
-
-            })
-        </script>
-
 
 
         @section('scripts')
