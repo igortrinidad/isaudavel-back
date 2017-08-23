@@ -5,12 +5,17 @@
 @section('landing-content')
  <style>
 
- 	.teste{
- 		color: red;
- 	}
+    html, body,
+    body a,
+    body a:hover,
+    body a:active {
+        color: #383938;
+        text-decoration: none;
+    }
 
     h1, h2, h3, h4, h5{
         color: #383938;
+        font-weight: 300;
     }
 
     .bg-picture {
@@ -58,6 +63,9 @@
         color: #fff;
         font-weight:400;
     }
+    .section {
+        background-color: #F4F5F5;
+    }
  </style>
 
     <header>
@@ -72,7 +80,7 @@
         </div>
     </header>
 
-    <section class="m-t-20">
+    <section class="section p-t-20">
 
         <div class="container">
             <div class="row">
@@ -121,33 +129,36 @@
                 @endforeach
             </div>
         </div>
-
         <div class="container">
-            <div class="row m-t-20">
 
-                <div class="col-md-12 col-xs-12 text-center">
-                    <hr>
-                    <h2>Profissionais</h2>
-                </div>
+            <h2 class="text-center m-t-20 m-b-20">Profissionais</h2>
+
+            <div class="row">
 
                 @foreach($company->professionals as $professional)
-                    <div class="col-md-12 col-xs-12 text-center">
-                        <div class="picture-circle  picture-circle-p m-t-10" style="background-image:url({{$professional->avatar}})">
+                    <div class="col-md-4 col-xs-12 text-center">
+                        <div class="card">
+                            <div class="card-header ch-alt text-center">
+                                <div class="picture-circle  picture-circle-p m-t-10" style="background-image:url({{$professional->avatar}})">
+                                </div>
+                                <h3>
+                                    <a class="f-400" href="/new-landing/profissionais/{{$professional->id}}">{{$professional->full_name}}</a>
+                                </h3>
+                            </div>
+                            <div class="card-body card-padding text-center">
+                                <div class="">
+                                    <?php $rating_to_loop = $professional->current_rating; ?>
+                                    @include('components.rating', ['size' => '22'])
+                                </div>
+                                <div class="p-t-10 m-b-30">
+                                    @foreach($professional->categories as $category)
+                                        <a href="/new-landing/buscar?category={{$category->name}}">
+                                            <span class="label label-primary p-5 f-12">{{$category->name}}</span>
+                                        </a>
+                                    @endforeach
+                                </div>
+                            </div>
                         </div>
-                        <h3>
-                            <a class="f-400" href="/new-landing/profissionais/{{$professional->id}}">{{$professional->full_name}}</a>
-                        </h3>
-                    </div>
-                    <div class="col-md-12 col-xs-12 text-center">
-                        <?php $rating_to_loop = $professional->current_rating; ?>
-                        @include('components.rating', ['size' => '22'])
-                    </div>
-                    <div class="col-md-12 col-xs-12 text-center p-t-10 m-b-30">
-                        @foreach($professional->categories as $category)
-                            <a href="/new-landing/buscar?category={{$category->name}}">
-                                <span class="label label-primary p-5 f-12">{{$category->name}}</span>
-                            </a>
-                        @endforeach
                     </div>
                 @endforeach
 
