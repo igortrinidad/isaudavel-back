@@ -1,16 +1,21 @@
- 
+
 
 @extends('landing.companies.index', ['header_with_search' => false])
 
 @section('landing-content')
  <style>
 
- 	.teste{
- 		color: red;
- 	}
+    html, body,
+    body a,
+    body a:hover,
+    body a:active {
+        color: #383938;
+        text-decoration: none;
+    }
 
     h1, h2, h3, h4, h5{
         color: #383938;
+        font-weight: 300;
     }
 
     .bg-picture {
@@ -58,6 +63,26 @@
         color: #fff;
         font-weight:400;
     }
+    .section {
+        background-color: #F4F5F5;
+    }
+
+    /* Swiper */
+    .swiper-slide .card {
+        transform: scale(.9);
+        z-index: 99999;
+        transition: ease .3s;
+    }
+    .swiper-slide-active .card {
+        transform: scale(1);
+        transition: ease .3s;
+    }
+    /* List & Cards With Swiper */
+    .swiper-pagination-bullet,
+    .swiper-pagination-bullet { border-color: #88C657 !important }
+
+    .swiper-pagination-bullet.swiper-pagination-bullet-active,
+    .swiper-pagination-bullet.swiper-pagination-bullet-active { background-color: #88C657 !important }
  </style>
 
     <header>
@@ -67,11 +92,13 @@
             <h1 class="bg-header-company-name">{{$company->name}}</h1>
             <h4 class="bg-header-company-name">
                 <i class="ion ion-ios-location-outline f-18" style="color: #fff;"></i>
-                    {{$company->city}} - {{$company->state}}
+                {{$company->city}} - {{$company->state}}
             </h4>
         </div>
     </header>
-     <section class="m-t-20">
+
+    <section class="section p-t-20">
+
         <div class="container">
             <div class="row">
                 <div class="col-md-12 col-xs-12 text-center">
@@ -83,7 +110,7 @@
                         <a href="/new-landing/buscar?category={{$category->name}}">
                             <span class="label label-primary p-5 f-16">{{$category->name}}</span>
                         </a>
-                    @endforeach                    
+                    @endforeach
                 </div>
                 <div class="col-md-12 col-xs-12 text-center m-t-20">
                     <h4 class="m-b-5">Descrição</h4>
@@ -94,7 +121,6 @@
                     <p><i class="ion ion-ios-location-outline f-18"></i> {{$company->address['full_address']}}</p>
                 </div>
             </div>
-
         </div>
 
         <div class="container">
@@ -109,62 +135,78 @@
             </div>
 
             <div class="row m-t-20">
-
                 @foreach($company->last_ratings as $rating)
-                <div class="col-md-12 col-xs-12 m-t-20">
-                    <div class="col-md-12 col-xs-12 text-center">
-                        <div class="picture-circle picture-circle-p" style="background-image:url({{$rating->client->avatar}})"></div>
-                        <h4>{{$rating->client->full_name}}</h4>
+                    <div class="col-md-12 col-xs-12 m-t-20">
+                        <div class="col-md-12 col-xs-12 m-t-10 text-center">
+                            <?php $rating_to_loop = $rating->rating; ?>
+                            @include('components.rating', ['size' => '22'])
+                            <p>{{$rating->content}}</p>
+                        </div>
                     </div>
-                    <div class="col-md-12 col-xs-12 m-t-10 text-center">
-                        <?php $rating_to_loop = $rating->rating; ?>
-                        @include('components.rating', ['size' => '22'])
-                        <p>{{$rating->content}}</p>
-                    </div>
-                </div>
                 @endforeach
-
             </div>
+        </div>
 
+        <!-- Professional List -->
+        <hr class="m-t-30">
         <div class="container">
-            <div class="row m-t-20">
+            <h2 class="text-center m-t-20 m-b-20">Profissionais</h2>
 
-                <div class="col-md-12 col-xs-12 text-center">
-                    <hr>
-                    <h2>Profissionais</h2>
-                </div>
-
-                @foreach($company->professionals as $professional)
-                <div class="col-md-12 col-xs-12 text-center">
-                    <div class="picture-circle  picture-circle-p m-t-10" style="background-image:url({{$professional->avatar}})"></div>
-                    <h3><a class="f-400" href="/new-landing/profissionais/{{$professional->id}}"> {{$professional->full_name}}</a></h3>
-                </div>
-                <div class="col-md-12 col-xs-12 text-center">
-                    <?php $rating_to_loop = $professional->current_rating; ?>
-                    @include('components.rating', ['size' => '22'])
-                </div>
-                <div class="col-md-12 col-xs-12 text-center p-t-10 m-b-30">
-                    @foreach($professional->categories as $category)
-                        <a href="/new-landing/buscar?category={{$category->name}}">
-                            <span class="label label-primary p-5 f-12">{{$category->name}}</span>
-                        </a>
+            <div class="swiper-container swiper-certifications">
+                <div class="swiper-wrapper">
+                    @foreach($company->professionals as $professional)
+                        <div class="swiper-slide text-center">
+                            <div class="card">
+                                <div class="card-header ch-alt text-center">
+                                    <div class="picture-circle  picture-circle-p m-t-10" style="background-image:url({{$professional->avatar}})">
+                                    </div>
+                                    <h3 class="f-300">
+                                        <a href="/new-landing/profissionais/{{$professional->id}}">{{$professional->full_name}}</a>
+                                    </h3>
+                                </div>
+                                <div class="card-body card-padding text-center">
+                                    <div class="">
+                                        <?php $rating_to_loop = $professional->current_rating; ?>
+                                        @include('components.rating', ['size' => '22'])
+                                    </div>
+                                    <div class="p-t-10 m-b-30">
+                                        @foreach($professional->categories as $category)
+                                            <a href="/new-landing/buscar?category={{$category->name}}">
+                                                <span class="label label-primary p-5 f-12">{{$category->name}}</span>
+                                            </a>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     @endforeach
                 </div>
-                @endforeach
-
+                <div style="height: 10px;"></div>
+                <div class="swiper-pagination"></div>
             </div>
-
         </div>
+        <!-- /Professional List -->
 
-        </div>
     </section>
 
     @section('scripts')
         @parent
 
         <script>
-            
-
+            let swiperCertifications = new Swiper('.swiper-certifications', {
+                centeredSlides: true,
+                spaceBetween: 15,
+                loop: false,
+                slidesPerView: 3,
+                slideToClickedSlide: true,
+                paginationClickable: true,
+                pagination: '.swiper-pagination',
+                breakpoints: {
+                    768: {
+                        slidesPerView: 1
+                    }
+                }
+            })
         </script>
 
 

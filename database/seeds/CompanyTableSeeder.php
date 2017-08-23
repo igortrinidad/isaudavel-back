@@ -91,13 +91,14 @@ class CompanyTableSeeder extends Seeder
             ]);
 
             // attach other professionals (exept admins)
-            $company->professionals()->attach($faker->randomElements($other_professionals, rand(1, 3)), [
+            $company->professionals()->attach($faker->randomElement($other_professionals), [
                 'is_confirmed' => true,
                 'is_public' => true,
                 'confirmed_by_id' => $professional,
                 'confirmed_by_type' => \App\Models\Professional::class,
                 'confirmed_at' => \Carbon\Carbon::now()
             ]);
+
 
         }
 
@@ -106,7 +107,57 @@ class CompanyTableSeeder extends Seeder
         //Attach categories
         foreach ($companies as $company) {
 
-            $company->categories()->attach($faker->randomElements($categories, (rand(1, 3))));
+            $categories_new  = [];
+
+            foreach($company->professionals as $professional){
+                $professional_categories = $professional->categories->pluck('id')->flatten()->toArray();
+
+                $categories_new[] = $professional_categories;
+
+                //Professional Calendar Settings
+                foreach ($professional_categories as $professional_category){
+                    \App\Models\ProfessionalCalendarSetting::create([
+                        'company_id' => $company->id,
+                        'category_id' => $professional_category,
+                        'professional_id' => $professional->id,
+                        'is_active' => true,
+                        'slot_duration' => 60,
+                        'workdays' => json_decode('[{"dow": 1, "end": "09:00", "init": "08:00", "quantity": 3, "is_limited": true}, {"dow": 1, "end": "10:00", "init": "09:00", "quantity": 3, "is_limited": true}, {"dow": 1, "end": "11:00", "init": "10:00", "quantity": 3, "is_limited": true}, {"dow": 1, "end": "12:00", "init": "11:00", "quantity": 3, "is_limited": true}, {"dow": 1, "end": "13:00", "init": "12:00", "quantity": 3, "is_limited": true}, {"dow": 1, "end": "14:00", "init": "13:00", "quantity": 3, "is_limited": true}, {"dow": 1, "end": "15:00", "init": "14:00", "quantity": 3, "is_limited": true}, {"dow": 1, "end": "16:00", "init": "15:00", "quantity": 3, "is_limited": true}, {"dow": 1, "end": "17:00", "init": "16:00", "quantity": 3, "is_limited": true}, {"dow": 2, "end": "09:00", "init": "08:00", "quantity": 3, "is_limited": true}, {"dow": 2, "end": "10:00", "init": "09:00", "quantity": 3, "is_limited": true}, {"dow": 2, "end": "11:00", "init": "10:00", "quantity": 3, "is_limited": true}, {"dow": 2, "end": "12:00", "init": "11:00", "quantity": 3, "is_limited": true}, {"dow": 2, "end": "13:00", "init": "12:00", "quantity": 3, "is_limited": true}, {"dow": 2, "end": "14:00", "init": "13:00", "quantity": 3, "is_limited": true}, {"dow": 2, "end": "15:00", "init": "14:00", "quantity": 3, "is_limited": true}, {"dow": 2, "end": "16:00", "init": "15:00", "quantity": 3, "is_limited": true}, {"dow": 2, "end": "17:00", "init": "16:00", "quantity": 3, "is_limited": true}, {"dow": 3, "end": "09:00", "init": "08:00", "quantity": 3, "is_limited": true}, {"dow": 3, "end": "10:00", "init": "09:00", "quantity": 3, "is_limited": true}, {"dow": 3, "end": "11:00", "init": "10:00", "quantity": 3, "is_limited": true}, {"dow": 3, "end": "12:00", "init": "11:00", "quantity": 3, "is_limited": true}, {"dow": 3, "end": "13:00", "init": "12:00", "quantity": 3, "is_limited": true}, {"dow": 3, "end": "14:00", "init": "13:00", "quantity": 3, "is_limited": true}, {"dow": 3, "end": "15:00", "init": "14:00", "quantity": 3, "is_limited": true}, {"dow": 3, "end": "16:00", "init": "15:00", "quantity": 3, "is_limited": true}, {"dow": 3, "end": "17:00", "init": "16:00", "quantity": 3, "is_limited": true}, {"dow": 4, "end": "09:00", "init": "08:00", "quantity": 3, "is_limited": true}, {"dow": 4, "end": "10:00", "init": "09:00", "quantity": 3, "is_limited": true}, {"dow": 4, "end": "11:00", "init": "10:00", "quantity": 3, "is_limited": true}, {"dow": 4, "end": "12:00", "init": "11:00", "quantity": 3, "is_limited": true}, {"dow": 4, "end": "13:00", "init": "12:00", "quantity": 3, "is_limited": true}, {"dow": 4, "end": "14:00", "init": "13:00", "quantity": 3, "is_limited": true}, {"dow": 4, "end": "15:00", "init": "14:00", "quantity": 3, "is_limited": true}, {"dow": 4, "end": "16:00", "init": "15:00", "quantity": 3, "is_limited": true}, {"dow": 4, "end": "17:00", "init": "16:00", "quantity": 3, "is_limited": true}, {"dow": 5, "end": "09:00", "init": "08:00", "quantity": 3, "is_limited": true}, {"dow": 5, "end": "10:00", "init": "09:00", "quantity": 3, "is_limited": true}, {"dow": 5, "end": "11:00", "init": "10:00", "quantity": 3, "is_limited": true}, {"dow": 5, "end": "12:00", "init": "11:00", "quantity": 3, "is_limited": true}, {"dow": 5, "end": "13:00", "init": "12:00", "quantity": 3, "is_limited": true}, {"dow": 5, "end": "14:00", "init": "13:00", "quantity": 3, "is_limited": true}, {"dow": 5, "end": "15:00", "init": "14:00", "quantity": 3, "is_limited": true}, {"dow": 5, "end": "16:00", "init": "15:00", "quantity": 3, "is_limited": true}, {"dow": 5, "end": "17:00", "init": "16:00", "quantity": 3, "is_limited": true}]')
+                    ]);
+                }
+
+            }
+
+            $categories_new = array_unique(array_flatten($categories_new));
+
+            $company->categories()->attach($categories_new);
+
+
+            foreach($company->categories as $category){
+                //Category Calendar Settings
+                \App\Models\CategoryCalendarSetting::create([
+                    'company_id' => $company->id,
+                    'category_id' => $category->id,
+                    'is_professional_scheduled' => true,
+                    'workdays' => json_decode('[]')
+                ]);
+
+                //Plan
+                \App\Models\Plan::create([
+                    'id' => Uuid::generate()->string,
+                    'company_id' => $company->id,
+                    'category_id' => $category->id,
+                    'name' => 'Plano '.$category->name,
+                    'label' => 'aula',
+                    'description' => $faker->sentence(10),
+                    'value' => 500,
+                    'expiration' => 1,
+                    'limit_quantity' => true,
+                    'quantity' => 8,
+                    'is_starred' => true,
+                    'is_active' => true
+                ]);
+            }
 
             //Avatar
             \App\Models\CompanyPhoto::create([
