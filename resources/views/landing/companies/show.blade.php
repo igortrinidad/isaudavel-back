@@ -66,6 +66,23 @@
     .section {
         background-color: #F4F5F5;
     }
+
+    /* Swiper */
+    .swiper-slide .card {
+        transform: scale(.9);
+        z-index: 99999;
+        transition: ease .3s;
+    }
+    .swiper-slide-active .card {
+        transform: scale(1);
+        transition: ease .3s;
+    }
+    /* List & Cards With Swiper */
+    .swiper-pagination-bullet,
+    .swiper-pagination-bullet { border-color: #88C657 !important }
+
+    .swiper-pagination-bullet.swiper-pagination-bullet-active,
+    .swiper-pagination-bullet.swiper-pagination-bullet-active { background-color: #88C657 !important }
  </style>
 
     <header>
@@ -129,49 +146,67 @@
                 @endforeach
             </div>
         </div>
-        <div class="container">
 
+        <!-- Professional List -->
+        <hr class="m-t-30">
+        <div class="container">
             <h2 class="text-center m-t-20 m-b-20">Profissionais</h2>
 
-            <div class="row">
-
-                @foreach($company->professionals as $professional)
-                    <div class="col-md-4 col-xs-12 text-center">
-                        <div class="card">
-                            <div class="card-header ch-alt text-center">
-                                <div class="picture-circle  picture-circle-p m-t-10" style="background-image:url({{$professional->avatar}})">
+            <div class="swiper-container swiper-certifications">
+                <div class="swiper-wrapper">
+                    @foreach($company->professionals as $professional)
+                        <div class="swiper-slide text-center">
+                            <div class="card">
+                                <div class="card-header ch-alt text-center">
+                                    <div class="picture-circle  picture-circle-p m-t-10" style="background-image:url({{$professional->avatar}})">
+                                    </div>
+                                    <h3 class="f-300">
+                                        <a href="/new-landing/profissionais/{{$professional->id}}">{{$professional->full_name}}</a>
+                                    </h3>
                                 </div>
-                                <h3>
-                                    <a class="f-400" href="/new-landing/profissionais/{{$professional->id}}">{{$professional->full_name}}</a>
-                                </h3>
-                            </div>
-                            <div class="card-body card-padding text-center">
-                                <div class="">
-                                    <?php $rating_to_loop = $professional->current_rating; ?>
-                                    @include('components.rating', ['size' => '22'])
-                                </div>
-                                <div class="p-t-10 m-b-30">
-                                    @foreach($professional->categories as $category)
-                                        <a href="/new-landing/buscar?category={{$category->name}}">
-                                            <span class="label label-primary p-5 f-12">{{$category->name}}</span>
-                                        </a>
-                                    @endforeach
+                                <div class="card-body card-padding text-center">
+                                    <div class="">
+                                        <?php $rating_to_loop = $professional->current_rating; ?>
+                                        @include('components.rating', ['size' => '22'])
+                                    </div>
+                                    <div class="p-t-10 m-b-30">
+                                        @foreach($professional->categories as $category)
+                                            <a href="/new-landing/buscar?category={{$category->name}}">
+                                                <span class="label label-primary p-5 f-12">{{$category->name}}</span>
+                                            </a>
+                                        @endforeach
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
-
+                    @endforeach
+                </div>
+                <div style="height: 10px;"></div>
+                <div class="swiper-pagination"></div>
             </div>
         </div>
+        <!-- /Professional List -->
+
     </section>
 
     @section('scripts')
         @parent
 
         <script>
-
-
+            let swiperCertifications = new Swiper('.swiper-certifications', {
+                centeredSlides: true,
+                spaceBetween: 15,
+                loop: false,
+                slidesPerView: 3,
+                slideToClickedSlide: true,
+                paginationClickable: true,
+                pagination: '.swiper-pagination',
+                breakpoints: {
+                    768: {
+                        slidesPerView: 1
+                    }
+                }
+            })
         </script>
 
 
