@@ -139,6 +139,10 @@
                     <div class="picture-circle  picture-circle-p m-t-10" style="background-image:url({{$professional->avatar}})"></div>
                     <h3><a class="f-400" href="/new-landing/profissionais/{{$professional->id}}"> {{$professional->full_name}}</a></h3>
                 </div>
+                <div class="col-md-12 col-xs-12 text-center">
+                    <?php $rating_to_loop = $professional->current_rating; ?>
+                    @include('components.rating', ['size' => '22'])
+                </div>
                 <div class="col-md-12 col-xs-12 text-center p-t-10 m-b-30">
                     @foreach($professional->categories as $category)
                         <a href="/new-landing/buscar?category={{$category->name}}">
