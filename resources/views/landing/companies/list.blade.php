@@ -79,6 +79,14 @@
                             </div>
 
                             <div class="m-t-20">
+                                @foreach($company->categories as $index_category => $category)
+                                    @if($index_category < 2)
+                                        <span class="label label-success f-14 m-r-5">{{ $category->name }}</span>
+                                    @endif
+                                @endforeach
+                            </div>
+
+                            <div class="m-t-20">
                                 <span class="f-300 f-18 ">
                                     <i class="ion-ios-location-outline m-r-5"></i>
                                     {{ $company->address['full_address'] }}
@@ -98,9 +106,7 @@
             </div>
         </div>
 
-        <hr>
-
-        <div class="container">
+        <div class="container m-t-30">
             <div class="row">
                 <div class="col-md-12 col-xs-12 text-center">
                     <h4 class="m-b-10">Não achou a empresa ou profissional que você procura?</h4>
