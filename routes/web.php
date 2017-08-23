@@ -30,6 +30,10 @@ Route::group(['prefix' => 'new-landing'], function () {
 		Route::get('/{slug}', 'LandingController@showCompany');
 	});
 
+	Route::group(['prefix' => 'profissionais'], function () {
+		Route::get('/{id}', 'LandingController@showProfessional');
+	});
+
 });
 
 

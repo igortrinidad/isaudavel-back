@@ -9,6 +9,7 @@ use App\Http\Requests;
 use App\Models\Lead;
 
 use App\Models\Company;
+use App\Models\Professional;
 
 class LandingController extends Controller
 {
@@ -108,10 +109,22 @@ class LandingController extends Controller
      */
     public function showCompany($slug)
     {
-        $company = Company::where('slug', $slug)->first();
+        $company = Company::where('slug', $slug)->with(['professionals', 'last_ratings'])->first();
 
         return view('landing.companies.show', compact('company'));
     }
 
+    /**
+     * Index teste
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function showProfessional($id)
+    {
+        $professional = Professional::where('id', $id)->with(['companies', 'last_ratings'])->first();
+
+        return view('landing.companies.showprofessional', compact('professional'));
+    }
 }
 

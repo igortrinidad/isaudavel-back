@@ -23,10 +23,14 @@
 <header id="search-area">
     <div class="container">
 
+        
         <div class="row">
+
             <br>
-                <h3 class="text-center">Encontre empresas e profissionais de saúde próximos à você</h3>
-            </div>
+            
+            @if(!isset($company))
+
+            <h3 class="text-center">Encontre empresas e profissionais de saúde próximos à você</h3>
             <div class="col-xs-12 col-sm-8 col-md-8">
                 
                 <div class="form-group">
@@ -42,7 +46,10 @@
                 </form>
             </div>
 
+            @endif
+
         </div>
+        
     </div>
 </header>
 

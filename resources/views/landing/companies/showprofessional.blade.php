@@ -20,15 +20,16 @@
             <div class="row">
                 <div class="col-md-12 col-xs-12">
 
-                <img class="img-circle" src="{{$company->avatar}}" width="120px"/>
-                    <h1>{{$company->name}}</h1>
-                    <h1>Avaliação: {{$company->current_rating}}</h1>
+                    <img class="img-circle" src="{{$professional->avatar}}" width="90px"/>
+                    <h1>{{$professional->full_name}}</h1>
+                    <h1>Avaliação: {{$professional->current_rating}}</h1>
 
                     <hr>
 
-                    @foreach($company->professionals as $professional)
-                        <img class="img-circle" src="{{$professional->avatar}}" width="70px"/>
-                        <h3><a href="/new-landing/profissionais/{{$professional->id}}"> {{$professional->full_name}}</a></h3>
+                    @foreach($professional->last_ratings as $rating)
+
+                        <h3>Avaliação: {{$rating->rating}}</h3>
+                        <h3>Comentário: {{$rating->content}}</h3>
                     @endforeach
                 </div>
             </div>
