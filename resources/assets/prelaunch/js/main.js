@@ -24,17 +24,6 @@ $(document).ready(function(){
         }
     });
 
-    $('#countdown_dashboard').countDown({
-        targetDate: {
-            'day':      31,
-            'month':    8,
-            'year':     2017,
-            'hour':     12,
-            'min':      00,
-            'sec':      01,
-        },
-        omitWeeks: true
-    });
 
     $('.init-slider').owlCarousel({
         items:1,

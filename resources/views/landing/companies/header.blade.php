@@ -9,14 +9,9 @@
 
 @media screen and (min-width: 992px) {
     .btn-buscar {
-        margin-top: 47px;
+        margin-top: 17px;
     }
 }
-
-button {
-    border-radius: 3px !important;
-}
-
 
 #search-area {
     padding: 60px 0 10px 0px;
@@ -25,13 +20,17 @@ button {
 
 </style>
 
-<section id="search-area">
+<header id="search-area">
     <div class="container">
+
         <div class="row">
+            <br>
+                <h3 class="text-center">Encontre empresas e profissionais de saúde próximos à você</h3>
+            </div>
             <div class="col-xs-12 col-sm-8 col-md-8">
+                
                 <div class="form-group">
-                    <label>Cidade</label>
-                    <input class="form-control" id="pac-input" placeholder="Alterar cidade" />
+                    <input class="form-control" id="pac-input" placeholder="Informe a cidade" />
                 </div>
             </div>
             <div class="col-xs-12 col-sm-4 col-md-4 text-center">
@@ -45,7 +44,7 @@ button {
 
         </div>
     </div>
-</section>
+</header>
 
 
     @section('scripts')

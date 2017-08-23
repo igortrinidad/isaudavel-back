@@ -112,29 +112,25 @@
     	                            <ul id="countdown_dashboard">
     	                                <li>
     	                                    <div class="dash days_dash">
-    	                                        <div class="digit">0</div>
-                                                <div class="digit">0</div>
+    	                                        <div class="digit">@{{remain.days}}</div>
     	                                        <span class="dash_title">Days</span>
     	                                    </div>
     	                                </li>
     	                                <li>
     	                                    <div class="dash hours_dash">
-    	                                        <div class="digit">0</div>
-    	                                        <div class="digit">0</div>
+    	                                        <div class="digit">@{{remain.hours}}</div>
     	                                        <span class="dash_title">Hours</span>
     	                                    </div>
     	                                </li>
     	                                <li>
     	                                    <div class="dash minutes_dash">
-    	                                        <div class="digit">0</div>
-    	                                        <div class="digit">0</div>
+    	                                        <div class="digit">@{{remain.minutes}}</div>
     	                                        <span class="dash_title">Minutes</span>
     	                                    </div>
     	                                </li>
     	                                <li>
     	                                    <div class="dash seconds_dash">
-    	                                        <div class="digit">0</div>
-    	                                        <div class="digit">0</div>
+    	                                        <div class="digit">@{{remain.seconds}}</div>
     	                                        <span class="dash_title">Seconds</span>
     	                                    </div>
     	                                </li>
@@ -326,12 +322,20 @@
                             { name: 'coaching', label: 'Consultoria e coaching', select: false },
                             { name: 'stetic', label: 'Estética', select: false },
                         ]
+                    },
+
+                    remain: {
+                        days: 0,
+                        hours: 0,
+                        minutes: 0,
+                        seconds: 0
                     }
 
                 },
                 mounted: function() {
 
                     console.log('Vue rodando no companies-list');
+                    this.checkRemainTime()
                 },
                 methods: {
                     sendForm: function() {
@@ -342,7 +346,28 @@
                                 console.log(data);
                             }
                         );
-                    }
+                    },
+
+                    checkRemainTime: function(){
+                        let that = this
+                    
+                        setInterval( function(){
+
+                            var then = "31/08/2017 14:00:00";
+
+                            var ms = moment(then,"DD/MM/YYYY HH:mm:ss").diff(moment());
+                            var d = moment.duration(ms);
+
+                            that.remain.days = d.days(); 
+                            that.remain.hours = d.hours(); 
+                            that.remain.minutes = d.minutes(); 
+                            that.remain.seconds = d.seconds(); 
+
+                        }, 1000)
+                        
+                        
+                    },
+
                 }
 
             })

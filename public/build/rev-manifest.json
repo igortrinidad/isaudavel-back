@@ -1,4 +1,6 @@
 {
-  "build/prelaunch/css/build_vendors_custom.css": "build/prelaunch/css/build_vendors_custom-fbcebb9b11.css",
-  "build/prelaunch/js/build_vendors_custom.js": "build/prelaunch/js/build_vendors_custom-fea12e9a2e.js"
+  "build/landing/css/build_vendors_custom.css": "build/landing/css/build_vendors_custom-c667b3977c.css",
+  "build/landing/js/build_vendors_custom.js": "build/landing/js/build_vendors_custom-eca983147a.js",
+  "build/prelaunch/css/build_vendors_custom.css": "build/prelaunch/css/build_vendors_custom-c667b3977c.css",
+  "build/prelaunch/js/build_vendors_custom.js": "build/prelaunch/js/build_vendors_custom-d1928ceb9a.js"
 }

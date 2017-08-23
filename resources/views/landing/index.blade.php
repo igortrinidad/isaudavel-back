@@ -20,7 +20,7 @@
         <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
 
         <!-- Styles -->
-        <link rel="stylesheet" href="{{ elixir('build/prelaunch/css/build_vendors_custom.css') }}">
+        <link rel="stylesheet" href="{{ elixir('build/landing/css/build_vendors_custom.css') }}">
 
         <!-- Hotjar Tracking Code for https://isaudavel.com -->
         @include('landing.hotjar')
@@ -154,7 +154,7 @@
 
 
         <!-- Js -->
-        <script src="{{ elixir('build/prelaunch/js/build_vendors_custom.js') }}"></script>
+        <script src="{{ elixir('build/landing/js/build_vendors_custom.js') }}"></script>
 
         <!-- GOOGLE ANALYTICS -->
         @include('landing.googleanalytics')

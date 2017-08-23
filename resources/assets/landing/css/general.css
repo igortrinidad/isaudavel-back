@@ -226,3 +226,8 @@ input:checked + .slider:before {
 }
 /* / CARD */
 
+
+button {
+    border-radius: 3px !important;
+}
+
