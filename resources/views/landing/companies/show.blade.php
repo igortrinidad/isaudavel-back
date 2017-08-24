@@ -13,6 +13,9 @@
         text-decoration: none;
     }
 
+    .btn.btn-facebook{ background-color: #3b5998; color: #F4F5F5; }
+    .btn.btn-whatsapp{ background-color: #1ebea5; color: #F4F5F5; }
+
     h1, h2, h3, h4, h5{
         color: #383938;
         font-weight: 300;
@@ -111,8 +114,8 @@
         <div class="container m-t-30">
 
             <div class="card">
-                <div class="card-header ch-alt">
-                    <h1 class="text-center">{{ $company_fetched->name }}</h1>
+                <div class="card-header ch-alt text-center">
+                    <h1>{{ $company_fetched->name }}</h1>
                 </div>
             </div>
 
@@ -168,6 +171,14 @@
                                 </div>
                             @endif
                             <!-- Website -->
+
+                            <button type="button" class="btn btn-xs btn-block btn-facebook m-t-30 p-5 f-15">
+                                <i class="ion-social-facebook m-r-5"></i>Compartilhar no facebook
+                            </button>
+                            <button type="button" class="btn btn-xs btn-block btn-whatsapp m-t-5 p-5 f-15">
+                                <i class="ion-social-whatsapp m-r-5"></i>Compartilhar no whatsapp
+                            </button>
+
                         </div>
                     </div>
 
