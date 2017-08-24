@@ -109,6 +109,7 @@ Route::group(['prefix' => 'professional'], function () {
 
             //Professional calendar settings
             Route::post('/professional/calendar_settings/list', 'ProfessionalCalendarSettingController@index');
+            Route::post('/professional/calendar_settings/to_reschedule', 'ProfessionalCalendarSettingController@toReschedule');
             Route::post('/professional/calendar_settings', 'ProfessionalCalendarSettingController@show');
             Route::post('/professional/calendar_settings/update', 'ProfessionalCalendarSettingController@update');
 
@@ -196,6 +197,7 @@ Route::group(['prefix' => 'professional'], function () {
 
         //Schedule
         Route::post('/schedule/calendar_list', 'ScheduleController@forCalendar');
+        Route::post('/schedule/reschedule', 'ScheduleController@reschedule');
 
 
         //profile update

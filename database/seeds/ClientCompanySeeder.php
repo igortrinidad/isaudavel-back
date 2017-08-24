@@ -19,7 +19,7 @@ class ClientCompanySeeder extends Seeder
 
         foreach ($clients as $client) {
             //Attach companies
-            $client->companies()->attach($faker->randomElements($companies, rand(1,3)),
+            $client->companies()->attach($faker->randomElements($companies, rand(1, 3)),
                 [
                     'is_confirmed' => true,
                     'confirmed_by_id' => $client->id,
@@ -44,6 +44,159 @@ class ClientCompanySeeder extends Seeder
                 'is_public' => true,
                 'path' => 'assets/isaudavel_holder850.png',
             ]);
+
+            foreach ($client->companies as $company) {
+
+                foreach ($company->plans as $plan) {
+
+
+                    $calendar_settings = \App\Models\ProfessionalCalendarSetting::where('company_id', $company->id)
+                        ->where('category_id', $plan->category_id)->first();
+
+                    $workday1 = [
+                        [
+                            'dow' => 1,
+                            'end' => '17:00',
+                            'init' => '16:00',
+                            'quantity' => 3,
+                            'is_limited' => true,
+                            'professional_id' => $calendar_settings->professional_id
+                        ],
+                        [
+                            'dow' => 2,
+                            'end' => '17:00',
+                            'init' => '16:00',
+                            'quantity' => 3,
+                            'is_limited' => true,
+                            'professional_id' => $calendar_settings->professional_id
+                        ],
+                        [
+                            'dow' => 4,
+                            'end' => '17:00',
+                            'init' => '16:00',
+                            'quantity' => 3,
+                            'is_limited' => true,
+                            'professional_id' => $calendar_settings->professional_id
+                        ],
+                        [
+                            'dow' => 5,
+                            'end' => '17:00',
+                            'init' => '16:00',
+                            'quantity' => 3,
+                            'is_limited' => true,
+                            'professional_id' => $calendar_settings->professional_id
+                        ]
+                    ];
+
+                    $workday2 = [
+                        [
+                            'dow' => 1,
+                            'end' => '09:00',
+                            'init' => '08:00',
+                            'quantity' => 3,
+                            'is_limited' => true,
+                            'professional_id' => $calendar_settings->professional_id
+                        ],
+                        [
+                            'dow' => 2,
+                            'end' => '10:00',
+                            'init' => '09:00',
+                            'quantity' => 3,
+                            'is_limited' => true,
+                            'professional_id' => $calendar_settings->professional_id
+                        ],
+                        [
+                            'dow' => 4,
+                            'end' => '11:00',
+                            'init' => '10:00',
+                            'quantity' => 3,
+                            'is_limited' => true,
+                            'professional_id' => $calendar_settings->professional_id
+                        ],
+                        [
+                            'dow' => 5,
+                            'end' => '12:00',
+                            'init' => '11:00',
+                            'quantity' => 3,
+                            'is_limited' => true,
+                            'professional_id' => $calendar_settings->professional_id
+                        ]
+                    ];
+
+                    //dates
+                    $start = Carbon\Carbon::now()->addDay(1);
+                    $expire = \Carbon\Carbon::now()->addDay(31);
+
+                    //Subscription
+                    $subs = \App\Models\ClientSubscription::create([
+                        'company_id' => $company->id,
+                        'client_id' => $client->id,
+                        'plan_id' => $plan->id,
+                        'value' => $plan->value,
+                        'quantity' => $plan->quantity,
+                        'start_at' => $start->format('d/m/Y'),
+                        'expire_at' => $expire->format('d/m/Y'),
+                        'auto_renew' => true,
+                        'is_active' => true,
+                        'workdays' => $faker->randomElement([$workday1, $workday2])
+                    ]);
+
+                    //Invoice
+                    $new_invoice = \App\Models\Invoice::create([
+                        'subscription_id' => $subs->id,
+                        'company_id' => $subs->company_id,
+                        'value' => $plan->value,
+                        'expire_at' => $subs->expire_at,
+                        'is_confirmed' => false,
+                        'is_canceled' => false,
+                        'history' => json_decode('[]')
+                    ]);
+
+
+                    $new_schedules = [];
+
+                    $i = 0;
+                    for ($start; count($new_schedules) < $subs->quantity; $start->addDays(1, 'days')) {
+
+
+                        if ($subs->workdays[$i]['dow'] == $start->dayOfWeek) {
+
+                            $schedule_data = [
+                                'subscription_id' => $subs->id,
+                                'company_id' => $subs->company_id,
+                                'category_id' => $plan->category_id,
+                                'date' => $start->format('d/m/Y'),
+                                'time' => $subs->workdays[$i]['init'],
+                                'professional_id' => $subs->workdays[$i]['professional_id'],
+                                'invoice_id' => $new_invoice->id
+                            ];
+
+                            $new_schedule = \App\Models\Schedule::create($schedule_data);
+
+                            $new_schedules[] = $new_schedule;
+
+                            $i++;
+
+                            if ($i == count($subs->workdays)) {
+                                $i = 0;
+                            }
+
+                            while ($subs->workdays[$i]['dow'] == $start->dayOfWeek && count($new_schedules) < $subs->quantity) {
+
+                                $schedule_data['date'] = $start->format('d/m/Y');
+                                $schedule_data['time'] = $subs->workdays[$i]['init'];
+
+                                $new_schedule = Schedule::create($schedule_data);
+
+                                $new_schedules[] = $new_schedule;
+
+                                $i++;
+                            }
+
+                        }
+                    }
+                }
+            }
         }
     }
 }

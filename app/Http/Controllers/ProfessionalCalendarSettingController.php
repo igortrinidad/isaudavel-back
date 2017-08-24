@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProfessionalCalendarSetting;
+use App\Models\Schedule;
 use Illuminate\Http\Request;
 
 class ProfessionalCalendarSettingController extends Controller
@@ -18,6 +19,34 @@ class ProfessionalCalendarSettingController extends Controller
             ->where('category_id', $request->get('category_id'))->with(['professional' => function($query){
                 $query->select('id', 'name', 'last_name');
             }])->get();
+
+        return response()->json(['professional_calendar_settings' => $professional_calendar_settings]);
+
+
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function toReschedule(Request $request)
+    {
+        $professional_calendar_settings = ProfessionalCalendarSetting::where('company_id', $request->get('company_id'))
+            ->where('category_id', $request->get('category_id'))->with(['professional' => function($query){
+                $query->select('id', 'name', 'last_name');
+            }])->get();
+
+        foreach($professional_calendar_settings as $professional_calendar_setting){
+            $professional_calendar_setting->professional->setHidden(['companies', 'categories', 'blank_password']);
+
+            $schedules = Schedule::where('company_id', $request->get('company_id'))
+                ->where('category_id', $request->get('category_id'))
+                ->where('professional_id', $professional_calendar_setting->professional->id)
+                ->where('date', $request->get('date'))->orderBy('time')->get();
+
+            $professional_calendar_setting->setAttribute('schedules', $schedules);
+        }
 
         return response()->json(['professional_calendar_settings' => $professional_calendar_settings]);
 

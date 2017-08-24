@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProfessionalCalendarSetting;
 use App\Models\Schedule;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ScheduleController extends Controller
@@ -42,7 +44,12 @@ class ScheduleController extends Controller
 
             $schedule->professional->setHidden(['companies','categories','blank_password']);
 
+            $calendar_settings = ProfessionalCalendarSetting::where('company_id', $request->get('company_id'))
+                ->where('category_id', $request->get('category_id'))
+                ->first();
+
             $schedule->setAttribute('client', $schedule->subscription->client);
+            $schedule->setAttribute('professional_workdays', $calendar_settings->workdays);
 
             $schedule->setHidden(['subscription']);
         }
@@ -94,6 +101,24 @@ class ScheduleController extends Controller
 
         return response()->json([
             'message' => 'Schedule updated.',
+            'schedule' => $schedule
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function reschedule(Request $request)
+    {
+        $request->merge(['is_rescheduled' => true, 'reschedule_by' => \Auth::user()->full_name, 'reschedule_at' => Carbon::now()]);
+
+        $schedule = tap(Schedule::find($request->get('id')))->update($request->all())->fresh();
+
+        return response()->json([
+            'message' => 'Scheduled.',
             'schedule' => $schedule
         ]);
     }

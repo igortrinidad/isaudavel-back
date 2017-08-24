@@ -39,11 +39,18 @@ class Schedule extends Model
         'date',
         'time',
         'points_earned',
+        'is_confirmed',
         'confirmed_at',
         'confirmed_by',
+        'is_rescheduled',
         'reschedule_by',
         'reschedule_at',
+        'is_canceled',
+        'canceled_by',
+        'canceled_at',
     ];
+
+    
 
     /**
      * The relations to eager load on every query.
