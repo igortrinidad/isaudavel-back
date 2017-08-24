@@ -19,9 +19,6 @@
         <!-- Lato -->
         <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
 
-        <!-- Icons -->
-        <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
-
         <!-- Styles -->
         <link rel="stylesheet" href="{{ elixir('build/landing/css/build_vendors_custom.css') }}">
 
