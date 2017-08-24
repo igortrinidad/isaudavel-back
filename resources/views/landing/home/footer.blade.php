@@ -58,6 +58,18 @@
                     <hr>
                 </div>
 
+                <div class="col-sm-4 col-xs-12 m-b-20">
+                    <h4 class="f-400">Acesso</h4>
+                    <a href="#">Download para android</a>
+                    <a href="#">Download para iphone</a>
+                    <a href="#">Login Cliente</a>
+                    <a href="#">Login Profissional</a>
+                </div>
+
+                <div class="col-xs-12 hidden-lg hidden-md hidden-sm">
+                    <hr>
+                </div>
+
                 <div class="col-sm-4 col-xs-12">
                     <h4 class="f-400">Social</h4>
                     <a href="" @click.prevent="openUrlLinks('https://www.facebook.com/weplanner')">
@@ -67,6 +79,8 @@
                         Instagram
                     </a>
                 </div>
+
+
 
             </div>
 
