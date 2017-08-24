@@ -21,7 +21,9 @@ class Lead extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'phone'];
+    protected $fillable = ['name', 'email', 'phone', 'type', 'is_client', 'categories'];
+
+    protected $casts = ['categories' => 'json'];
 
 
 }

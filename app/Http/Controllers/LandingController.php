@@ -68,7 +68,7 @@ class LandingController extends Controller
             $message->to($request['email'], $request['name'])->subject($data['messageSubject']);
         });
 
-        return 'Mensagem enviada com sucesso';
+        return 'ok';
 
     }
 

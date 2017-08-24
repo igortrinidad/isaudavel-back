@@ -22,6 +22,7 @@ class CreateLeadTable extends Migration
             $table->string('type')->default('prelaunch');
             $table->string('stage')->default(1);
             $table->boolean('is_client')->default(0);
+            $table->json('categories');
             $table->timestamps();
             $table->primary('id');
         });

@@ -94,54 +94,7 @@
     	        </div><!-- /.container-fluid -->
     	    </div>
 
-    	    <section id="hero-area">
-    	        <div class="container">
-    	            <div class="row">
-    	                <div class="col-md-6">
-    	                    <div class="block">
-    	                        <h1 class="wow fadeInDown">Cuide da sua saúde como nunca</h1>
-    	                        <p class="wow fadeInDown" data-wow-delay="0.3s">Uma rede social para promover a sua saúde com auxílio dos melhores profissionais.</p>
-    	                        <div class="wow fadeInDown" data-wow-delay="0.3s">
-    	                        	<a class="btn btn-default btn-home" href="#contact" role="button">Quero saber mais</a>
-    	                        </div>
-    	                    </div>
-    	                </div>
-    	                <div class="col-md-6 wow zoomIn">
-    	                    <div class="block">
-    	                        <div class="counter text-center">
-    	                            <ul id="countdown_dashboard">
-    	                                <li>
-    	                                    <div class="dash days_dash">
-    	                                        <div class="digit">@{{remain.days}}</div>
-    	                                        <span class="dash_title">Days</span>
-    	                                    </div>
-    	                                </li>
-    	                                <li>
-    	                                    <div class="dash hours_dash">
-    	                                        <div class="digit">@{{remain.hours}}</div>
-    	                                        <span class="dash_title">Hours</span>
-    	                                    </div>
-    	                                </li>
-    	                                <li>
-    	                                    <div class="dash minutes_dash">
-    	                                        <div class="digit">@{{remain.minutes}}</div>
-    	                                        <span class="dash_title">Minutes</span>
-    	                                    </div>
-    	                                </li>
-    	                                <li>
-    	                                    <div class="dash seconds_dash">
-    	                                        <div class="digit">@{{remain.seconds}}</div>
-    	                                        <span class="dash_title">Seconds</span>
-    	                                    </div>
-    	                                </li>
-    	                            </ul>
-    	                        </div>
-    	                    </div>
-    	                </div>
-    	            </div><!-- .row close -->
-    	        </div><!-- .container close -->
-    	    </section><!-- header close -->
-
+    	    @include('prelaunch.counter')
 
             <!-- 
             Contact start
@@ -216,7 +169,7 @@
                         	    <form action="#" method="post" id="contact-form">
                                     {!! csrf_field() !!}
                         	        <div class="input-field">
-                        	            <input type="text" class="form-control" placeholder="Seu nome e sobrenome" name="name" v-model="form.name">
+                        	            <input type="text" class="form-control" placeholder="Seu nome e sobrenome (obrigatório)" name="name" v-model="form.name">
                         	        </div>
 
                                     <div class="input-field">
@@ -224,44 +177,39 @@
                                     </div>
 
                                     <div class="input-field">
-                                        <input type="email" class="form-control" placeholder="Seu email" name="email" v-model="form.email">
+                                        <input type="email" class="form-control" placeholder="Seu email (obrigatório)" name="email" v-model="form.email">
                                     </div>
 
                                     <div class="input-field">
-                                       <select class="form-control" name="is_professional" v-model="interactions.is_professional" @change="setIsProfessional()">
+                                       <select class="form-control" name="is_client" v-model="interactions.is_client" @change="setIsClient()">
                                             <option>Quero cuidar da minha saúde ou estética</option>
                                             <option>Sou profissional da área da saúde</option>
                                         </select>
                                     </div>
-                                    <div class="input-field" v-if="form.is_professional">
+                                    <div class="input-field" v-if="!form.is_client">
                                         <h4>Selecione as especialidades em que atua</h4>
                                     </div>
 
-                                    <div class="input-field" v-if="!form.is_professional">
+                                    <div class="input-field" v-if="form.is_client">
                                         <h4>Selecione as especialidades que você tem interesse ou já pratica</h4>
                                     </div>
 
                                     <div v-for="(category, index) in categories">
-                                        <div class="checkbox-group">
+                                        <div class="checkbox-group" @click.prevent="addCategory(category)">
                                             <label class="checkbox">
-                                            <input type="checkbox" class="wp-checkbox-reset wp-checkbox-input" v-model="category.select" @change="addCategory(category)">
+                                            <input type="checkbox" class="wp-checkbox-reset wp-checkbox-input" v-model="category.select" >
                                             <div class="wp-checkbox-reset wp-checkbox-inline wp-checkbox">
                                             </div>
                                             <span class="wp-checkbox-text">@{{category.label}}</span></label>
                                         </div>
                                     </div>
 
-                                    <pre>@{{form.categories}}</pre>
+                                    <p>Selecione ao menos uma atividade</p>
 
-                        	        <button class="btn btn-send" @click.prevent="sendForm()">INSCREVER</button>
+                        	        <button class="btn btn-send" @click.prevent="sendForm()" :disabled="!form.email || !form.name || !form.categories.length">INSCREVER</button>
                         	    </form>
 
-                        	    <div id="success">
-                        	        <p>Obrigado por se inscrever, em breve você receberá mais informações sobre a plataforma.</p>
-                        	    </div>
-                        	    <div id="error">
-                        	        <p>Ocorreu um erro ao realizar sua inscrição :/</p>
-                        	    </div>
+
                         	</div>
                         </div>
                     </div>
@@ -309,16 +257,17 @@
 
             Vue.config.debug = true;
             var vm = new Vue({
-                el: '#app',
+                el: '#contact',
                 data: {
                     interactions: {
-                        is_professional: 'Quero cuidar da minha saúde ou estética',
+                        is_client: 'Quero cuidar da minha saúde ou estética',
                     },
                     form: {
                         name: '',
                         email: '',
                         phone: '',
-                        is_professional: false,
+                        type: 'prelaunch',
+                        is_client: true,
                         categories: [],
                     },
                     categories: [
@@ -330,69 +279,46 @@
                             { name: 'coaching', label: 'Consultoria e coaching', select: false },
                             { name: 'stetic', label: 'Estética', select: false },
                     ],
-                    remain: {
-                        days: 0,
-                        hours: 0,
-                        minutes: 0,
-                        seconds: 0
-                    }
+                    
                 },
                 mounted: function() {
 
-                    console.log('Vue rodando no companies-list');
-                    this.checkRemainTime()
                 },
                 methods: {
                     sendForm: function() {
                         var that = this
+                          // GET /someUrl
+                          this.$http.post('/leadStoreForm', that.form).then(response => {
 
-                        var req = this.$http.post('/leadStoreForm', that.form,
-                            function (data, status, request) {
-                                console.log(data);
-                            }
-                        );
+                            console.log(response);
+
+                          }, response => {
+                            // error callback
+                          });
                     },
 
-                    checkRemainTime: function(){
-                        let that = this
-                    
-                        setInterval( function(){
-
-                            var then = "31/08/2017 14:00:00";
-
-                            var ms = moment(then,"DD/MM/YYYY HH:mm:ss").diff(moment());
-                            var d = moment.duration(ms);
-
-                            that.remain.days = d.days(); 
-                            that.remain.hours = d.hours(); 
-                            that.remain.minutes = d.minutes(); 
-                            that.remain.seconds = d.seconds(); 
-
-                        }, 1000)
-                        
-                        
-                    },
-
-                    setIsProfessional: function(){
+                    setIsClient: function(){
                         let that = this
                         
-                        if( this.interactions.is_professional =='Sou profissional da área da saúde'){
-                            this.form.is_professional = true
+                        if( this.interactions.is_client =='Sou profissional da área da saúde'){
+                            this.form.is_client = false
                         } else {
-                            this.form.is_professional = false
+                            this.form.is_client = true
                         }
 
                     },
 
                     addCategory: function(category){
                         let that = this
-                        console.log(category.label);
+
                         var index = that.form.categories.indexOf(category.label);
-                        console.log(index);
+
                         if(index === -1){
                             that.form.categories.push(category.label);
+                            category.select = true;
                         } else {
                             that.form.categories.splice(index, 1);
+                            category.select = false;
                         }
                     },
 
@@ -400,6 +326,9 @@
 
             })
         </script>
+
+        @section('scripts')
+        @show
         
     </body>
 </html>
