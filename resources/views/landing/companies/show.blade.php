@@ -369,7 +369,6 @@
         </div>
         <!-- / PHOTOS COL -->
 
-
     </section>
 
     @section('scripts')
