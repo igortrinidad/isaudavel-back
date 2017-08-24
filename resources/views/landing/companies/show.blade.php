@@ -105,8 +105,8 @@
  </style>
 
     <header>
-        <div class="bg-picture"></div>
-        <!-- <div class="bg-picture" style="background-image:url({{$company_fetched->avatar}})"></div> -->
+        <!-- <div class="bg-picture"></div> -->
+        <div class="bg-picture" style="background-image:url({{$company_fetched->avatar}})"></div>
     </header>
 
     <section class="section p-t-20">
