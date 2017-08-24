@@ -105,16 +105,16 @@
  </style>
 
     <header>
-        <div class="bg-picture" style="background-image:url({{$company_fetched->avatar}})"></div>
+        <div class="bg-picture" style="background-image:url({{$company_fetched->avatar}}))"></div>
     </header>
 
     <section class="section p-t-20">
         <!-- GRID -->
         <div class="container m-t-30">
 
-            <div class="card">
+            <div class="card" style="opacity: 0.7;">
                 <div class="card-header ch-alt text-center">
-                    <h1>{{ $company_fetched->name }}</h1>
+                    <h1 style="opacity: 1; font-weight: 400;">{{ $company_fetched->name }}</h1>
                 </div>
             </div>
 
