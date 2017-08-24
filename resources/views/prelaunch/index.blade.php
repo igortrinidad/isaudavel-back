@@ -242,9 +242,9 @@
                                     </div>
 
                                     <div v-for="(category, index) in categories">
-                                        <div class="checkbox-group" @click="addCategory(category)">
+                                        <div class="checkbox-group">
                                             <label class="checkbox">
-                                            <input type="checkbox" class="wp-checkbox-reset wp-checkbox-input" v-model="category.select">
+                                            <input type="checkbox" class="wp-checkbox-reset wp-checkbox-input" v-model="category.select" @change="addCategory(category)">
                                             <div class="wp-checkbox-reset wp-checkbox-inline wp-checkbox">
                                             </div>
                                             <span class="wp-checkbox-text">@{{category.label}}</span></label>
@@ -389,7 +389,7 @@
                         console.log(category.label);
                         var index = that.form.categories.indexOf(category.label);
                         console.log(index);
-                        if(index < 0){
+                        if(index === -1){
                             that.form.categories.push(category.label);
                         } else {
                             that.form.categories.splice(index, 1);
