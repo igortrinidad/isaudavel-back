@@ -27,6 +27,8 @@
         background-size: cover;
         width: 100%;
         height: 350px;
+        position: absolute;
+        top: 80px; left: 0; right: 0;
     }
 
     .picture-circle{
@@ -101,21 +103,18 @@
     <header>
         <div class="bg-picture" style="background-image:url({{$company_fetched->avatar}})">
         </div>
-        <div class="bg-header-company">
-            <h1 class="bg-header-company-name">{{$company_fetched->name}}</h1>
-            <h4 class="bg-header-company-name">
-                <i class="ion ion-ios-location-outline f-18" style="color: #fff;"></i>
-                {{$company_fetched->city}} - {{$company_fetched->state}}
-            </h4>
-        </div>
     </header>
 
     <section class="section p-t-20">
-
         <!-- TEST -->
         <div class="container m-t-30">
 
-            <h1 class="text-center">{{ $company_fetched->name }}</h1>
+            <div class="card">
+                <div class="card-header ch-alt">
+                    <h1 class="text-center">{{ $company_fetched->name }}</h1>
+                </div>
+            </div>
+
             <div class="row m-t-30">
                 <!-- LEFT COL -->
                 <div class="col-sm-4">
@@ -176,7 +175,27 @@
                 <!-- RIGHT COL -->
                 <div class="col-sm-8">
                     <div class="card">
-                        B
+                        <div class="card-body card-padding text-center">
+                            <!-- Description -->
+                            <h2 class="m-b-20">Descrição</h2>
+                            <p class="f-300">{{ $company_fetched->description }}</p>
+
+                            <!-- Ratings -->
+                            <h2 class="m-t-20 m-b-20">Avaliações</h2>
+
+                            <!-- Photos -->
+                            <h2 class="m-t-20 m-b-20">Fotos</h2>
+                            <div class="row">
+                                @foreach($company_fetched->photos as $photo)
+                                <div class="col-md-3 col-xs-12">
+                                    <div class="card" style="background-color: #f4f5f5;">
+                                        <img class="img-responsive" src="{{$photo->photo_url}}" alt="{{$company_fetched->name}}" />
+                                    </div>
+                                </div>
+                                @endforeach
+                            </div>
+
+                        </div>
                     </div>
                 </div>
                 <!-- RIGHT COL -->
@@ -186,29 +205,7 @@
         <!-- TEST -->
 
         <!-- OLD -->
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 col-xs-12 text-center">
-                    <h2 class="m-b-20">Informações</h2>
-                </div>
-                <div class="col-md-12 col-xs-12 text-center">
-                    <h4 class="m-b-15">Especialidades</h4>
-                    @foreach($company_fetched->categories as $category)
-                        <a href="{!! route('landing.search.index', ['category' => $category->name]) !!}"><button class="btn btn-success btn-sm m-b-5">{{ $category->name }}</button></a>
-                    @endforeach
-                </div>
-                <div class="col-md-12 col-xs-12 text-center m-t-20">
-                    <h4 class="m-b-5">Descrição</h4>
-                    <p>{{$company_fetched->description}}</p>
-                </div>
-                <div class="col-md-12 col-xs-12 text-center m-t-20">
-                    <h4 class="m-b-5">Endereço</h4>
-                    <p><i class="ion ion-ios-location-outline f-18"></i> {{$company_fetched->address['full_address']}}</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="container">
+        <!-- <div class="container">
             <div class="row m-t-20">
                 <div class="col-md-12 col-xs-12 text-center">
                     <hr>
@@ -240,11 +237,10 @@
 
                 @endforeach
             </div>
-        </div>
+        </div> -->
 
         <!-- Professional List -->
         <div class="container m-t-30">
-            <hr>
             <h2 class="text-center m-t-20 m-b-20">Profissionais</h2>
 
             <div class="swiper-container swiper-certifications">
@@ -285,23 +281,6 @@
             </div>
         </div>
         <!-- /Professional List -->
-
-        <div class="container m-t-30">
-            <hr>
-            <h2 class="text-center m-t-20 m-b-20">Fotos</h2>
-
-                <div class="row">
-                    @foreach($company_fetched->photos as $photo)
-                    <div class="col-md-3 col-xs-12">
-                        <div class="card">
-                            <img class="img-responsive" src="{{$photo->photo_url}}" alt="{{$company_fetched->name}}" />
-                        </div>
-                    </div>
-                    @endforeach
-                </div>
-
-            </div>
-        </section>
 
     </section>
 
