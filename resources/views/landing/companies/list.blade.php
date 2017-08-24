@@ -99,30 +99,11 @@
         <!-- Categories Tabs -->
         <div class="swiper-container tabs" ref="tabs">
             <div class="swiper-wrapper">
-                <div class="swiper-slide tab">
-                    Todos
+                @foreach($categories as $category)
+                <div class="swiper-slide tab" data-url="{{$category->name}}">
+                    {{$category->name}}
                 </div>
-                <div class="swiper-slide tab">
-                    Pilates
-                </div>
-                <div class="swiper-slide tab">
-                    Crossfit
-                </div>
-                <div class="swiper-slide tab">
-                    Personal Trainer
-                </div>
-                <div class="swiper-slide tab">
-                    Fisioterapia
-                </div>
-                <div class="swiper-slide tab">
-                    Massagem e estética
-                </div>
-                <div class="swiper-slide tab">
-                    Nutrição
-                </div>
-                <div class="swiper-slide tab">
-                    Acupuntura
-                </div>
+                @endforeach
             </div>
         </div>
         <!-- Categories Tabs -->
@@ -154,9 +135,7 @@
 
                             <div class="m-t-20">
                                 @foreach($company->categories as $index_category => $category)
-                                    @if($index_category < 2)
-                                        <span class="label label-success f-14 m-r-5">{{ $category->name }}</span>
-                                    @endif
+                                    <a href="{!! route('landing.search.index', ['category' => $category->name]) !!}"><button class="btn btn-success btn-sm m-b-5">{{ $category->name }}</button></a>
                                 @endforeach
                             </div>
 
@@ -213,17 +192,34 @@
 
                             // let currentTab
                             // if (window.location.href === 'http://isaudavel-api.dev/new-landing/buscar') currentTab = 0
-                            console.log(window);
+
+
+                            var url = new URL(window.location.href);
+                            var category = url.searchParams.get("category");
+                            var city = url.searchParams.get("city");
+
+                           var atualindex = $('.swiper-slide[data-url="'+category+'"]').index();
+
                             this.swiperTabs = new Swiper(this.$refs.tabs, {
                                 spaceBetween: 0,
                                 slidesPerView: 7,
                                 loop: true,
                                 centeredSlides: true,
+                                initialSlide: atualindex,
                                 slideToClickedSlide: true,
                                 onSlideChangeEnd: swiper => {
-                                    console.log(swiper.realIndex);
-                                    // if (swiper.realIndex === 0 && swiper.realIndex !== currentTab)
-                                    //     window.location.href = "http://isaudavel-api.dev/new-landing/buscar"
+
+                                    var categorySelected = $('.swiper-slide-active').data('url')
+
+                                    if(!city){
+                                        if(categorySelected && categorySelected != category){
+                                            window.location.href = '?category=' + categorySelected;
+                                        }
+                                    } else {
+                                        if(categorySelected && categorySelected != category){
+                                            window.location.href = '?category=' + categorySelected + '&city=' + city;
+                                        }
+                                    }
 
                                 },
                                 breakpoints: {
@@ -232,7 +228,7 @@
                                     },
                                 }
                             })
-                        }, 100)
+                        }, 50)
                     },
 
                 }

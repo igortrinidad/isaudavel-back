@@ -215,7 +215,7 @@ class Professional extends Authenticatable implements JWTSubject
     public function companies()
     {
         return $this->belongsToMany(Company::class, 'company_professional')
-            ->select('id', 'name', 'slug')
+            ->select('id', 'name', 'slug', 'city', 'state')
             ->with(['categories' => function ($query) {
                 $query->select('id', 'name', 'slug');
             }])->withPivot('is_admin', 'is_confirmed', 'is_public');

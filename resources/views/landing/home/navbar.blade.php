@@ -17,11 +17,11 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <nav class="collapse navbar-collapse" id="navbar">
                 <ul class="nav navbar-nav navbar-right" id="top-nav">
-                    <li class="current"><a href="/">Home</a></li>
-                    <li><a href="#contact">Sobre</a></li>
-                    <li><a href="#contact">Ferramentas</a></li>
-                    <li><a href="empresas">Buscar empresas</a></li>
-                    <li><a href="#contact">Contato</a></li>
+                    <li class="current"><a href="{!! route('landing.index') !!}">Home</a></li>
+                    <li><a href="{!! route('landing.index') !!}#sobre">Sobre</a></li>
+                    <li><a href="{!! route('landing.index') !!}#ferramentas">Ferramentas</a></li>
+                    <li><a href="{!! route('landing.search.index') !!}">Buscar empresas</a></li>
+                    <li><a href="{!! route('landing.index') !!}#contato">Contato</a></li>
                 </ul>
             </nav><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->

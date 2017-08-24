@@ -96,12 +96,14 @@ class LandingController extends Controller
      */
     public function NewIndexSearch(Request $request)
     {
-        $companies = Company::where('city', 'LIKE', '%' . $request->query('city') . '%')->
+        $companies = Company::where('city', 'LIKE', '%' . $request->query('city') . '%')->with('categories')->
             whereHas('categories', function($query) use($request){
                 $query->where('name', 'LIKE', '%'.$request->query('category') . '%');
         })->paginate(30);
 
-        return view('landing.companies.list', compact('companies'));
+        $categories = Category::all();
+
+        return view('landing.companies.list', compact('companies', 'categories'));
     }
 
     /**
@@ -112,9 +114,13 @@ class LandingController extends Controller
      */
     public function showCompany($slug)
     {
-        $company = Company::where('slug', $slug)->with(['professionals', 'last_ratings'])->first();
+        $company_fetched = Company::where('slug', $slug)->with(['professionals', 'last_ratings', 'photos'])->first();
 
-        return view('landing.companies.show', compact('company'));
+        if($company_fetched){
+            return view('landing.companies.show', compact('company_fetched'));   
+        }
+
+        abort(404);
     }
 
     /**
@@ -125,9 +131,13 @@ class LandingController extends Controller
      */
     public function showProfessional($id)
     {
-        $professional = Professional::where('id', $id)->with(['companies', 'last_ratings'])->first();
+        $professional_fetched = Professional::where('id', $id)->with(['companies', 'last_ratings', 'certifications'])->first();
 
-        return view('landing.companies.showprofessional', compact('professional'));
+        if($professional_fetched){
+            return view('landing.companies.showprofessional', compact('professional_fetched'));
+        }
+
+        abort(404);
     }
 
     /**
