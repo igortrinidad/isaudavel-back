@@ -149,10 +149,9 @@
                                 </span>
                             </div>
                             @endif
-                            <hr class="m-t-20">
                             <a href="/new-landing/empresas/{{$company->slug}}" title="{{ $company->name }}">
-                                <button class="btn btn-primary f-300 f-16" href="/new-landing/empresas/{{$company->slug}}">
-                                    <i class="ion-ios-plus-outline m-r-5 f-20"></i>Mais informações
+                                <button class="btn btn-block btn-primary m-t-20 f-300 f-16" href="/new-landing/empresas/{{$company->slug}}">
+                                    Mais informações
                                 </button>
                             </a>
                         </div>
