@@ -29,6 +29,7 @@
         height: 350px;
         position: absolute;
         top: 80px; left: 0; right: 0;
+        background-color: #6ec058;
     }
 
     .picture-circle{
@@ -101,8 +102,8 @@
  </style>
 
     <header>
-        <div class="bg-picture" style="background-image:url({{$company_fetched->avatar}})">
-        </div>
+        <div class="bg-picture"></div>
+        <!-- <div class="bg-picture" style="background-image:url({{$company_fetched->avatar}})"></div> -->
     </header>
 
     <section class="section p-t-20">
@@ -117,90 +118,143 @@
 
             <div class="row m-t-30">
                 <!-- LEFT COL -->
-                <div class="col-sm-4">
-                    <div class="card">
-                        <div class="card-header ch-alt text-center">
-                            <div class="picture-circle" style="background-image:url({{$company_fetched->avatar}})">
+                <div class="col-sm-3">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="card">
+                                <div class="card-header ch-alt text-center">
+                                    <div class="picture-circle" style="background-image:url({{$company_fetched->avatar}})">
+                                    </div>
+                                </div>
+                                <div class="card-body card-padding text-center">
+                                    <div>
+                                        <?php $rating_to_loop = $company_fetched->current_rating; ?>
+                                        @include('components.rating', ['size' => '35'])
+                                    </div>
+
+                                    <!-- Address -->
+                                    <div class="m-t-10">
+                                        <i class="ion-ios-location m-r-5"></i>
+                                        <span class="f-300">{{ $company_fetched->address['full_address'] }}</span>
+                                    </div>
+                                    <!-- Address -->
+
+                                    <!-- Categories -->
+                                    <div class="m-t-10">
+                                        @foreach($company_fetched->categories as $category)
+                                            <span class="label label-success">{{ $category->name }}</span>
+                                        @endforeach
+                                    </div>
+                                    <!-- Categories -->
+
+                                    <!-- Phone -->
+                                    @if($company_fetched->phone)
+                                        <div class="m-t-10">
+                                            <button type="button" class="btn btn-xs btn-primary btn-target" data-target="#company-phone">Mostrar telefone</button>
+                                            <div class="info" id="company-phone">
+                                                <i class="ion-ios-location m-r-5"></i>
+                                                <span class="f-300">{{ $company_fetched->phone }}</span>
+                                            </div>
+                                        </div>
+                                    @endif
+                                    <!-- Phone -->
+
+                                    <!-- Website -->
+                                    @if($company_fetched->website)
+                                        <div class="m-t-10">
+                                            <button type="button" class="btn btn-xs btn-primary btn-target" data-target="#company-website">Mostrar Website</button>
+                                            <div class="info" id="company-website">
+                                                <i class="ion-ios-location m-r-5"></i>
+                                                <span class="f-300">{{ $company_fetched->website }}</span>
+                                            </div>
+                                        </div>
+                                    @endif
+                                    <!-- Website -->
+                                </div>
                             </div>
                         </div>
-                        <div class="card-body card-padding text-center">
-                            <div>
-                                <?php $rating_to_loop = $company_fetched->current_rating; ?>
-                                @include('components.rating', ['size' => '35'])
-                            </div>
-
-                            <!-- Address -->
-                            <div class="m-t-10">
-                                <i class="ion-ios-location m-r-5"></i>
-                                <span class="f-300">{{ $company_fetched->address['full_address'] }}</span>
-                            </div>
-                            <!-- Address -->
-
-                            <!-- Categories -->
-                            <div class="m-t-10">
-                                @foreach($company_fetched->categories as $category)
-                                    <span class="label label-success">{{ $category->name }}</span>
-                                @endforeach
-                            </div>
-                            <!-- Categories -->
-
-                            <!-- Phone -->
-                            @if($company_fetched->phone)
-                                <div class="m-t-10">
-                                    <button type="button" class="btn btn-xs btn-primary btn-target" data-target="#company-phone">Mostrar telefone</button>
-                                    <div class="info" id="company-phone">
-                                        <i class="ion-ios-location m-r-5"></i>
-                                        <span class="f-300">{{ $company_fetched->phone }}</span>
+                        <div class="col-sm-12">
+                            <div class="card">
+                                <div class="card-header ch-alt text-center">
+                                    <h2 class="f-300">Fotos</h2>
+                                </div>
+                                <div class="card-body p-t-10 p-b-10 text-center">
+                                    <div class="row">
+                                        @foreach($company_fetched->photos as $photo)
+                                        <div class="col-sm-6">
+                                            <div class="card m-0" style="background-color: #f4f5f5;">
+                                                <img class="img-responsive" src="{{$photo->photo_url}}" alt="{{$company_fetched->name}}" />
+                                            </div>
+                                        </div>
+                                        @endforeach
                                     </div>
                                 </div>
-                            @endif
-                            <!-- Phone -->
-
-                            <!-- Website -->
-                            @if($company_fetched->website)
-                                <div class="m-t-10">
-                                    <button type="button" class="btn btn-xs btn-primary btn-target" data-target="#company-website">Mostrar Website</button>
-                                    <div class="info" id="company-website">
-                                        <i class="ion-ios-location m-r-5"></i>
-                                        <span class="f-300">{{ $company_fetched->website }}</span>
-                                    </div>
-                                </div>
-                            @endif
-                            <!-- Website -->
+                            </div>
                         </div>
                     </div>
                 </div>
                 <!-- LEFT COL -->
 
-                <!-- RIGHT COL -->
-                <div class="col-sm-8">
+                <!-- CENTER COL -->
+                <div class="col-sm-6">
                     <div class="card">
-                        <div class="card-body card-padding text-center">
+                        <div class="text-center">
                             <!-- Description -->
-                            <h2 class="m-b-20">Descrição</h2>
-                            <p class="f-300">{{ $company_fetched->description }}</p>
+                            <div class="card-header ch-alt">
+                                <h2 class="f-300">Descrição</h2>
+                            </div>
+                            <div class="card-body p-t-10 p-b-10">
+                                <p class="f-300">{{ $company_fetched->description }}</p>
+                            </div>
 
                             <!-- Ratings -->
-                            <h2 class="m-t-20 m-b-20">Avaliações</h2>
+                            <div class="card-header ch-alt">
+                                <h2 class="f-300">Avaliações</h2>
+                            </div>
+                            <div class="card-body p-t-10 p-b-10">
 
-                            <!-- Photos -->
-                            <h2 class="m-t-20 m-b-20">Fotos</h2>
+                            </div>
+                            <!-- Ratings -->
+                            <div class="card-header ch-alt">
+                                <h2 class="f-300">Mapa</h2>
+                            </div>
+                            <div class="card-body p-t-10">
+                                <iframe
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d120048.59390324546!2d-44.034090048121215!3d-19.902541183833424!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xa690cacacf2c33%3A0x5b35795e3ad23997!2sBelo+Horizonte%2C+MG!5e0!3m2!1spt-BR!2sbr!4v1503599958415"
+                                    width="100%"
+                                    height="450"
+                                    frameborder="0"
+                                    style="border:0"
+                                    allowfullscreen
+                                >
+                                </iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- CENTER COL -->
+
+                <!-- RIGHT COL -->
+                <div class="col-sm-3">
+                    <div class="card">
+                        <div class="card-header ch-alt text-center">
+                            <h2 class="f-300">Fotos</h2>
+                        </div>
+                        <div class="card-body p-t-10 text-center">
                             <div class="row">
                                 @foreach($company_fetched->photos as $photo)
-                                <div class="col-md-3 col-xs-12">
-                                    <div class="card" style="background-color: #f4f5f5;">
+                                <div class="col-sm-6">
+                                    <div class="card m-0" style="background-color: #f4f5f5;">
                                         <img class="img-responsive" src="{{$photo->photo_url}}" alt="{{$company_fetched->name}}" />
                                     </div>
                                 </div>
                                 @endforeach
                             </div>
-
                         </div>
                     </div>
                 </div>
                 <!-- RIGHT COL -->
             </div>
-
         </div>
         <!-- TEST -->
 
@@ -241,7 +295,12 @@
 
         <!-- Professional List -->
         <div class="container m-t-30">
-            <h2 class="text-center m-t-20 m-b-20">Profissionais</h2>
+
+            <div class="card">
+                <div class="card-header ch-alt text-center ">
+                    <h2 class="f-300">Profissionais</h2>
+                </div>
+            </div>
 
             <div class="swiper-container swiper-certifications">
                 <div class="swiper-wrapper">
