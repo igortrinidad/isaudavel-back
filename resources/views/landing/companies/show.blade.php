@@ -300,13 +300,13 @@
                                         <?php $rating_to_loop = $professional->current_rating; ?>
                                         @include('components.rating', ['size' => '22'])
                                     </div>
-                                    <div class="p-t-10 m-b-30">
+                                    <div class="p-t-10 m-b-20">
                                         @foreach($professional->categories as $category)
                                             <a href="{!! route('landing.search.index', ['category' => $category->name]) !!}"><button class="btn btn-success btn-sm m-b-5">{{ $category->name }}</button></a>
                                         @endforeach
                                     </div>
                                     <a href="{!! route('landing.professionals.show', $professional->id) !!}" title="{{ $professional->full_name }}">
-                                        <button class="btn btn-block btn-primary f-400 f-16">
+                                        <button class="btn btn-block btn-primary f-300 f-16">
                                             Ver perfil
                                         </button>
                                     </a>
