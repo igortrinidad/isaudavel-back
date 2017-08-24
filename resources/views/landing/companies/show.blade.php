@@ -105,23 +105,23 @@
  </style>
 
     <header>
-        <!-- <div class="bg-picture"></div> -->
         <div class="bg-picture" style="background-image:url({{$company_fetched->avatar}})"></div>
     </header>
 
-    <section class="section p-t-30">
-        <!-- TEST -->
+    <section class="section p-t-20">
+        <!-- GRID -->
         <div class="container m-t-30">
 
-            <div class="card" style="opacity: 0.7;">
+            <div class="card">
                 <div class="card-header ch-alt text-center">
-                    <h1 style="opacity: 1; font-weight: 400;">{{ $company_fetched->name }}</h1>
+                    <h1>{{ $company_fetched->name }}</h1>
                 </div>
             </div>
 
             <div class="row m-t-30">
+
                 <!-- LEFT COL -->
-                <div class="col-sm-3">
+                <div class="col-sm-5">
                     <div class="card">
                         <div class="card-header ch-alt text-center">
                             <div class="picture-circle" style="background-image:url({{$company_fetched->avatar}})">
@@ -182,25 +182,38 @@
                         </div>
                     </div>
 
-                </div>
-                <!-- LEFT COL -->
-
-                <!-- CENTER COL -->
-                <div class="col-sm-6 text-center">
                     <!-- Description -->
                     <div class="card">
                         <div class="card-header ch-alt">
                             <h2 class="f-300">Descrição</h2>
                         </div>
-                        <div class="card-body card-padding p-t-10 p-b-10">
+                        <div class="card-body card-padding">
                             <p class="f-300">{{ $company_fetched->description }}</p>
                         </div>
                     </div>
 
+                    <!-- ADS EXEMPLE -->
+                    <div class="card">
+                        <div class="card-header ch-alt text-center">
+                            <h4>ADS EXEMPLO</h4>
+                        </div>
+                        <div class="card-body card-padding text-center">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <img class="img-responsive" src="http://phandroid.s3.amazonaws.com/wp-content/uploads/2013/05/Flavyr-banner.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- / LEFT COL -->
+
+                <!-- CENTER COL -->
+                <div class="col-sm-7 text-center">
                     <!-- Ratings -->
                     <div class="card">
                         <div class="card-header ch-alt">
-                            <h2 class="f-300 m-b-20 ">Avaliações</h2>
+                            <h2 class="f-300">Avaliações</h2>
                             <span class="f-14 f-300">Total de {{$company_fetched->total_rating}}
                                 @if($company_fetched->total_rating > 1)
                                     avaliações
@@ -210,8 +223,8 @@
                             </span>
                         </div>
 
-                        <div class="card-body p-t-10 p-b-10">
-                            <div class="swiper-container swiper-rating">
+                        <div class="card-body p-t-5 p-b-5">
+                            <div class="swiper-container swiper-default-show">
                                 <div class="swiper-wrapper">
                                     @foreach($company_fetched->last_ratings as $rating)
                                         <div class="swiper-slide text-center">
@@ -231,23 +244,120 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- CENTER COL -->
 
-                <!-- RIGHT COL -->
-                <div class="col-sm-3">
+                    <!-- Ratings -->
+                    <div class="card">
+                        <div class="card-header ch-alt">
+                            <h2 class="f-300">Indicações</h2>
+                        </div>
+
+                        <div class="card-body p-t-5 p-b-5">
+                            <div class="swiper-container swiper-default-show">
+                                <div class="swiper-wrapper">
+                                    @foreach($company_fetched->last_ratings as $rating)
+                                        <div class="swiper-slide text-center">
+                                            <div class="p-10" style="background-color: #f4f5f5; border-radius: 4px;">
+                                                <div class="picture-circle picture-circle-p" style="background-image:url({{$rating->client->avatar}})"></div>
+                                                <h4 class="m-t-10">{{$rating->client->full_name}}</h4>
+                                                <p class="f-300 m-t-10">{{$rating->created_at->format('d/m/Y')}}</p>
+                                                <p class="f-300 m-t-10">{{$rating->content}}</p>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <div style="height: 50px;"></div>
+                                <div class="swiper-pagination"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Professional list -->
+                    <div class="card">
+                        <div class="card-header ch-alt">
+                            <h2 class="f-300">Profissionais</h2>
+                        </div>
+                        <div class="card-body p-t-5 p-b-5">
+                            <div class="swiper-container swiper-default-show">
+                                <div class="swiper-wrapper">
+                                    @foreach($company_fetched->professionals as $professional)
+                                        <div class="swiper-slide text-center">
+                                            <div class="p-10" style="background-color: #f4f5f5; border-radius: 4px;">
+                                                <div class="picture-circle  picture-circle-p m-t-10" style="background-image:url({{$professional->avatar}})">
+                                                </div>
+                                                <h3 class="f-300">
+                                                    <a href="/new-landing/profissionais/{{$professional->id}}">{{$professional->full_name}}</a>
+                                                </h3>
+                                                <div class="">
+                                                    <?php $rating_to_loop = $professional->current_rating; ?>
+                                                    @include('components.rating', ['size' => '22'])
+                                                </div>
+                                                <div class="p-t-10 m-b-20">
+                                                    @foreach($professional->categories as $category)
+                                                        <a href="{!! route('landing.search.index', ['category' => $category->name]) !!}"><button class="btn btn-success btn-sm m-b-5">{{ $category->name }}</button></a>
+                                                    @endforeach
+                                                </div>
+                                                <a href="{!! route('landing.professionals.show', $professional->id) !!}" title="{{ $professional->full_name }}">
+                                                    <button class="btn btn-block btn-primary f-300 f-16">
+                                                        Ver perfil
+                                                    </button>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <div style="height: 50px;"></div>
+                                <div class="swiper-pagination"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- / CENTER COL -->
+
+            </div>
+        </div>
+        <!-- / GRID -->
+
+        <!-- Map -->
+        <div class="container">
+            @if($company_fetched->address_is_available)
+            <!-- Map -->
+            <div class="card">
+                <div class="card-header ch-alt text-center">
+                    <h2 class="f-300">Mapa</h2>
+                </div>
+                <div class="card-body p-t-10">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d120048.59390324546!2d-44.034090048121215!3d-19.902541183833424!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xa690cacacf2c33%3A0x5b35795e3ad23997!2sBelo+Horizonte%2C+MG!5e0!3m2!1spt-BR!2sbr!4v1503599958415"
+                        width="100%"
+                        height="450"
+                        frameborder="0"
+                        style="border:0"
+                        allowfullscreen
+                    >
+                    </iframe>
+                </div>
+            </div>
+            @endif
+        </div>
+        <!-- / MAP -->
+
+        <!-- PHOTOS COL -->
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
                     <div class="card">
                         <div class="card-header ch-alt text-center">
-                            <h2 class="f-300">
-                                Fotos
-                            </h2>
+                            <h2 class="f-300">Fotos</h2>
                         </div>
-                        <div class="card-body p-t-10 text-center">
+                        <div class="card-body card-padding">
                             <div class="row">
                                 @foreach($company_fetched->photos as $photo)
-                                <div class="col-sm-6">
-                                    <div class="card m-0" style="background-color: #f4f5f5;">
-                                        <img class="img-responsive" src="{{$photo->photo_url}}" alt="{{$company_fetched->name}}" />
+                                <div class="col-sm-3">
+                                    <div class="card m-t-5 m-b-5">
+                                        <div class="card-header ch-alt">
+                                            <img class="img-responsive" src="{{$photo->photo_url}}" alt="{{$company_fetched->name}}" />
+                                        </div>
                                     </div>
                                 </div>
                                 @endforeach
@@ -255,139 +365,9 @@
                         </div>
                     </div>
                 </div>
-                <!-- RIGHT COL -->
             </div>
         </div>
-        <!-- TEST -->
-
-                <!-- Professional List -->
-        <div class="container m-t-30">
-
-        <div class="row">
-            <div class="col-md-6 col-xs-12">
-                <div class="card">
-                    <div class="card-header ch-alt text-center ">
-                        <h2 class="f-28 f-300">Profissionais</h2>
-                    </div>
-                </div>
-
-                <div class="swiper-container swiper-certifications">
-                    <div class="swiper-wrapper">
-                        @foreach($company_fetched->professionals as $professional)
-                            <div class="swiper-slide text-center">
-                                <div class="card">
-                                    <div class="card-header ch-alt text-center">
-                                        <div class="picture-circle  picture-circle-p m-t-10" style="background-image:url({{$professional->avatar}})">
-                                        </div>
-                                        <h3 class="f-300">
-                                            <a href="/new-landing/profissionais/{{$professional->id}}">{{$professional->full_name}}</a>
-                                        </h3>
-                                    </div>
-                                    <div class="card-body card-padding text-center">
-                                        <div class="">
-                                            <?php $rating_to_loop = $professional->current_rating; ?>
-                                            @include('components.rating', ['size' => '22'])
-                                        </div>
-                                        <div class="p-t-10 m-b-20">
-                                            @foreach($professional->categories as $category)
-                                                <a href="{!! route('landing.search.index', ['category' => $category->name]) !!}"><button class="btn btn-success btn-sm m-b-5">{{ $category->name }}</button></a>
-                                            @endforeach
-                                        </div>
-                                        <a href="{!! route('landing.professionals.show', $professional->id) !!}" title="{{ $professional->full_name }}">
-                                            <button class="btn btn-block btn-primary f-300 f-16">
-                                                Ver perfil
-                                            </button>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                    <div style="height: 10px;"></div>
-                    <div class="swiper-pagination"></div>
-                </div>
-                
-            </div>
-
-            <div class="col-md-6 col-xs-12">
-                <div class="card">
-                    <div class="card-header ch-alt text-center ">
-                        <h2 class="f-28 f-300">Profissionais</h2>
-                    </div>
-                </div>
-
-                <div class="swiper-container swiper-certifications">
-                    <div class="swiper-wrapper">
-                        @foreach($company_fetched->professionals as $professional)
-                            <div class="swiper-slide text-center">
-                                <div class="card">
-                                    <div class="card-header ch-alt text-center">
-                                        <div class="picture-circle  picture-circle-p m-t-10" style="background-image:url({{$professional->avatar}})">
-                                        </div>
-                                        <h3 class="f-300">
-                                            <a href="/new-landing/profissionais/{{$professional->id}}">{{$professional->full_name}}</a>
-                                        </h3>
-                                    </div>
-                                    <div class="card-body card-padding text-center">
-                                        <div class="">
-                                            <?php $rating_to_loop = $professional->current_rating; ?>
-                                            @include('components.rating', ['size' => '22'])
-                                        </div>
-                                        <div class="p-t-10 m-b-20">
-                                            @foreach($professional->categories as $category)
-                                                <a href="{!! route('landing.search.index', ['category' => $category->name]) !!}"><button class="btn btn-success btn-sm m-b-5">{{ $category->name }}</button></a>
-                                            @endforeach
-                                        </div>
-                                        <a href="{!! route('landing.professionals.show', $professional->id) !!}" title="{{ $professional->full_name }}">
-                                            <button class="btn btn-block btn-primary f-300 f-16">
-                                                Ver perfil
-                                            </button>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                    <div style="height: 10px;"></div>
-                    <div class="swiper-pagination"></div>
-                </div>
-                
-            </div>
-        </div>
-        </div>
-        <!-- /Professional List -->
-
-
-
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 col-xs-12">
-                    
-                @if($company_fetched->address_is_available)
-                    <!-- Map -->
-                    <div class="card">
-                        <div class="card-header ch-alt">
-                            <h2 class="f-300">Mapa</h2>
-                        </div>
-                        <div class="card-body p-t-10">
-                            <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d120048.59390324546!2d-44.034090048121215!3d-19.902541183833424!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xa690cacacf2c33%3A0x5b35795e3ad23997!2sBelo+Horizonte%2C+MG!5e0!3m2!1spt-BR!2sbr!4v1503599958415"
-                                width="100%"
-                                height="450"
-                                frameborder="0"
-                                style="border:0"
-                                allowfullscreen
-                            >
-                            </iframe>
-                        </div>
-                    </div>
-                    @endif
-
-                </div>
-            </div>
-        </div>
-
-
+        <!-- / PHOTOS COL -->
 
     </section>
 
@@ -414,7 +394,7 @@
                     }
                 }
             })
-            var swiperCertifications = new Swiper('.swiper-rating', {
+            var swiperCertifications = new Swiper('.swiper-default-show', {
                 centeredSlides: true,
                 spaceBetween: 15,
                 loop: false,
