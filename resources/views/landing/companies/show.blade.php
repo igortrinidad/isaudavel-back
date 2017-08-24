@@ -40,11 +40,7 @@
         height: 100px;
     }
 
-    .picture-absolute {
-        position: absolute;
-        top: -50px; left: 50%;
-        margin-left: -50px;
-    }
+    .picture-show { margin-top: -60px; }
 
     .picture-circle-p{
         width: 68px;
@@ -95,6 +91,11 @@
 
     .swiper-pagination-bullet.swiper-pagination-bullet-active,
     .swiper-pagination-bullet.swiper-pagination-bullet-active { background-color: #88C657 !important }
+
+    /* Interactions */
+    .btn.out { display: none !important; }
+    .info { display: none; }
+    .info.in { display: block; }
  </style>
 
     <header>
@@ -115,31 +116,62 @@
         <div class="container m-t-30">
 
             <h1 class="text-center">{{ $company_fetched->name }}</h1>
-
-            <div class="card">
-                <div class="card-body">
-                    <div class="row m-t-30">
-                        <!-- LEFT COL -->
-                        <div class="col-sm-4">
-                            <div class="card-header ch-alt text-center">
-                                <div class="picture-circle picture-absolute" style="background-image:url({{$company_fetched->avatar}})">
+            <div class="row m-t-30">
+                <!-- LEFT COL -->
+                <div class="col-sm-4">
+                    <div class="card">
+                        <div class="card-header text-center">
+                            <div class="picture-circle picture-show" style="background-image:url({{$company_fetched->avatar}})">
+                            </div>
+                            <!-- Address -->
+                            <div class="m-t-10">
+                                <i class="ion-ios-location m-r-5"></i>
+                                <span class="f-300">{{ $company_fetched->address['full_address'] }}</span>
+                            </div>
+                            <!-- Address -->
+                            <!-- Categories -->
+                            <div class="m-t-20">
+                                @foreach($company_fetched->categories as $category)
+                                    <span class="label label-success">{{ $category->name }}</span>
+                                @endforeach
+                            </div>
+                            <!-- Categories -->
+                            <!-- Phone -->
+                            @if($company_fetched->phone)
+                                <div class="m-t-10">
+                                    <button type="button" class="btn btn-xs btn-primary btn-target" data-target="#company-phone">Mostrar telefone</button>
+                                    <div class="info" id="company-phone">
+                                        <i class="ion-ios-location m-r-5"></i>
+                                        <span class="f-300">{{ $company_fetched->phone }}</span>
+                                    </div>
                                 </div>
-                                <h3 class="m-t-30">Informações</h3>
-                            </div>
-
+                            @endif
+                            <!-- Phone -->
+                            <!-- Website -->
+                            @if($company_fetched->website)
+                                <div class="m-t-10">
+                                    <button type="button" class="btn btn-xs btn-primary btn-target" data-target="#company-website">Mostrar Website</button>
+                                    <div class="info" id="company-website">
+                                        <i class="ion-ios-location m-r-5"></i>
+                                        <span class="f-300">{{ $company_fetched->website }}</span>
+                                    </div>
+                                </div>
+                            @endif
+                            <!-- Website -->
                         </div>
-                        <!-- LEFT COL -->
-
-                        <!-- RIGHT COL -->
-                        <div class="col-sm-8">
-                            <div class="card-body card-padding">
-                                B
-                            </div>
-                        </div>
-                        <!-- RIGHT COL -->
                     </div>
                 </div>
+                <!-- LEFT COL -->
+
+                <!-- RIGHT COL -->
+                <div class="col-sm-8">
+                    <div class="card">
+                        B
+                    </div>
+                </div>
+                <!-- RIGHT COL -->
             </div>
+
         </div>
         <!-- TEST -->
 
@@ -267,7 +299,12 @@
         @parent
 
         <script>
-            let swiperCertifications = new Swiper('.swiper-certifications', {
+            $('.btn-target').on('click', function(e) {
+                var target = e.target.dataset.target
+                $(e.target).addClass('out')
+                $(target).addClass('in')
+            })
+            var swiperCertifications = new Swiper('.swiper-certifications', {
                 centeredSlides: true,
                 spaceBetween: 15,
                 loop: false,
