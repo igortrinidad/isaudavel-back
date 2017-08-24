@@ -24,7 +24,7 @@ class CrTableDiets extends Migration
             $table->decimal('daily_total_carb', 20,2)->default(0);
             $table->decimal('daily_total_fat', 20,2)->default(0);
             $table->decimal('daily_total_fiber', 20,2)->default(0);
-            $table->text('observation');
+            $table->text('observation')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->primary('id');

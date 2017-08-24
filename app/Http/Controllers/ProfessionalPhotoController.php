@@ -12,9 +12,9 @@ class ProfessionalPhotoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        $photos = ProfessionalPhoto::where('professional_id', \Auth::user()->id)
+        $photos = ProfessionalPhoto::where('professional_id', $id)
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 

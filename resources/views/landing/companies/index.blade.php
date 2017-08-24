@@ -39,9 +39,9 @@
 
             @include('landing.companies.navbar')
             @if($header_with_search)
-            @include('landing.companies.header-with-search')
+                @include('landing.companies.header-with-search')
             @else
-            @include('landing.companies.header-blank')
+                @include('landing.companies.header-blank')
             @endif
 
             @section('landing-content')

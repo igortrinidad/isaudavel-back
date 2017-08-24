@@ -129,7 +129,7 @@ Route::group(['prefix' => 'professional'], function () {
         Route::get('/certification/destroy/{id}', 'CertificationController@destroy');
 
         //Photo resources
-        Route::get('/photo/list', 'ProfessionalPhotoController@index');
+        Route::get('/photo/list/{id}', 'ProfessionalPhotoController@index');
         Route::post('/photo/upload', 'ProfessionalPhotoController@store');
         Route::post('/photo/update', 'ProfessionalPhotoController@update');
         Route::get('/photo/destroy/{id}', 'ProfessionalPhotoController@destroy');
