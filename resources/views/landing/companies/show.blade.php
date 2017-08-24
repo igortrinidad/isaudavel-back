@@ -40,6 +40,12 @@
         height: 100px;
     }
 
+    .picture-absolute {
+        position: absolute;
+        top: -50px; left: 50%;
+        margin-left: -50px;
+    }
+
     .picture-circle-p{
         width: 68px;
         height: 68px;
@@ -105,6 +111,39 @@
 
     <section class="section p-t-20">
 
+        <!-- TEST -->
+        <div class="container m-t-30">
+
+            <h1 class="text-center">{{ $company_fetched->name }}</h1>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="row m-t-30">
+                        <!-- LEFT COL -->
+                        <div class="col-sm-4">
+                            <div class="card-header ch-alt text-center">
+                                <div class="picture-circle picture-absolute" style="background-image:url({{$company_fetched->avatar}})">
+                                </div>
+                                <h3 class="m-t-30">Informações</h3>
+                            </div>
+
+                        </div>
+                        <!-- LEFT COL -->
+
+                        <!-- RIGHT COL -->
+                        <div class="col-sm-8">
+                            <div class="card-body card-padding">
+                                B
+                            </div>
+                        </div>
+                        <!-- RIGHT COL -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- TEST -->
+
+        <!-- OLD -->
         <div class="container">
             <div class="row">
                 <div class="col-md-12 col-xs-12 text-center">
@@ -154,9 +193,9 @@
                                 <p>{{$rating->content}}</p>
                             </div>
                         </div>
-                       
+
                     </div>
-                    
+
                 @endforeach
             </div>
         </div>
