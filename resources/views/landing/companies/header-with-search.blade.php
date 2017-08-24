@@ -1,13 +1,13 @@
 
 <style>
 
-@media screen and (max-width: 992px) {
+@media screen and (max-width: 768px) {
     .btn-buscar {
         margin-top: -20px;
     }
 }
 
-@media screen and (min-width: 992px) {
+@media screen and (min-width: 768px) {
     .btn-buscar {
         margin-top: 17px;
     }
@@ -31,7 +31,7 @@
             <div class="col-xs-12 col-sm-8 col-md-8">
                 
                 <div class="form-group">
-                    <input class="form-control" id="pac-input" placeholder="Informe a cidade" />
+                    <input class="form-control" id="autocomplete" placeholder="Informe a cidade" />
                 </div>
             </div>
             <div class="col-xs-12 col-sm-4 col-md-4 text-center">
@@ -43,6 +43,10 @@
                 </form>
             </div>
 
+            <div class="col-xs-12 col-md-12 text-left" v-if="category">
+
+                <p class="f-13">Você está pesquisando por <b>@{{category}}</b><span v-if="city"> em <b>@{{city}}</b></span></p>
+            </div>
 
         </div>
         
@@ -57,27 +61,26 @@
             
           function initAutocomplete() {
 
-            var input = document.getElementById('pac-input');
 
-            var options = {
+            var autocomplete = new google.maps.places.Autocomplete(
+            (
+                document.getElementById('autocomplete')), {
               types: ['(cities)'],
               language: 'pt-BR',
-              componentRestrictions: {country: "br"}
-             };
-
-            var searchBox = new google.maps.places.SearchBox(input, options);
+              componentRestrictions: {'country': 'br'}
+            });
 
 
-            searchBox.addListener('places_changed', function() {
-              var places = searchBox.getPlaces();
+            autocomplete.addListener('place_changed', function() {
+              var place = autocomplete.getPlace();
+                if (place.geometry) {
 
-              if (places.length == 0) {
-                return;
-              }
+                    var city = document.getElementById('city');
 
-              var city = document.getElementById('city');
-
-              city.setAttribute('value', places[0].name)
+                    city.setAttribute('value', place.name)
+                } else {
+                    document.getElementById('autocomplete').placeholder = 'Enter a city';
+                }
 
             });
           }
@@ -86,10 +89,16 @@
             var vm = new Vue({
                 el: '#search-area',
                 data: {
+                    city: '',
+                    category: '',
                 },
                 mounted: function() {
 
-                    console.log('Vue rodando no index');
+                    var url = new URL(window.location.href);
+                    var category = url.searchParams.get("category");
+                    var city = url.searchParams.get("city");
+                    this.category = category
+                    this.city = city
                 },
                 methods: {
                 }

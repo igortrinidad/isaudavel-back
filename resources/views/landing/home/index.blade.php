@@ -31,7 +31,7 @@
 
 
         @include('landing.home.navbar')
-        @include('landing.home.header')
+        @include('landing.companies.header-with-search')
         @include('landing.home.about')
         @include('landing.home.featured')
         @include('landing.home.footer')
