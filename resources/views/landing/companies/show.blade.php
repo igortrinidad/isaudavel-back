@@ -189,10 +189,29 @@
                     <!-- Ratings -->
                     <div class="card">
                         <div class="card-header ch-alt">
-                            <h2 class="f-300">Avaliações</h2>
+                            <h2 class="f-300 m-b-20 ">Avaliações</h2>
+                            <span class="f-14 f-300">Total de {{$company_fetched->total_rating}} avaliações</span>
                         </div>
-                        <div class="card-body p-t-10 p-b-10">
 
+                        <div class="card-body p-t-10 p-b-10">
+                            <div class="swiper-container swiper-rating">
+                                <div class="swiper-wrapper">
+                                    @foreach($company_fetched->last_ratings as $rating)
+                                        <div class="swiper-slide text-center">
+                                            <div class="p-10" style="background-color: #f4f5f5; border-radius: 4px;">
+                                                <div class="picture-circle picture-circle-p" style="background-image:url({{$rating->client->avatar}})"></div>
+                                                <h4 class="m-t-10">{{$rating->client->full_name}}</h4>
+                                                <?php $rating_to_loop = $rating->rating; ?>
+                                                @include('components.rating', ['size' => '22'])
+                                                <p class="f-300 m-t-10">{{$rating->created_at->format('d/m/Y')}}</p>
+                                                <p class="f-300 m-t-10">{{$rating->content}}</p>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <div style="height: 50px;"></div>
+                                <div class="swiper-pagination"></div>
+                            </div>
                         </div>
                     </div>
 
@@ -243,41 +262,6 @@
             </div>
         </div>
         <!-- TEST -->
-
-        <!-- OLD -->
-        <!-- <div class="container">
-            <div class="row m-t-20">
-                <div class="col-md-12 col-xs-12 text-center">
-                    <hr>
-                    <h2>Avaliações</h2>
-                    <p class="f-14 m-t-10">{{$company_fetched->current_rating}} de {{$company_fetched->total_rating}} avaliações</p>
-                    <?php $rating_to_loop = $company_fetched->current_rating; ?>
-                    @include('components.rating', ['size' => '35'])
-                </div>
-            </div>
-
-            <div class="row m-t-20">
-                @foreach($company_fetched->last_ratings as $rating)
-                    <div class="col-md-4  col-sm-6 col-xs-12 text-center">
-
-                        <div class="card">
-                            <div class="card-header ch-alt">
-                                 <div class="picture-circle picture-circle-p" style="background-image:url({{$rating->client->avatar}})"></div>
-                                <h4>{{$rating->client->full_name}}</h4>
-                                <?php $rating_to_loop = $rating->rating; ?>
-                                @include('components.rating', ['size' => '22'])
-                                <p>{{$rating->created_at->format('d/m/Y')}}</p>
-                            </div>
-                            <div class="card-body p-10">
-                                <p>{{$rating->content}}</p>
-                            </div>
-                        </div>
-
-                    </div>
-
-                @endforeach
-            </div>
-        </div> -->
 
         <!-- Professional List -->
         <div class="container m-t-30">
@@ -350,6 +334,15 @@
                         slidesPerView: 1
                     }
                 }
+            })
+            var swiperCertifications = new Swiper('.swiper-rating', {
+                centeredSlides: true,
+                spaceBetween: 15,
+                loop: false,
+                slidesPerView: 1,
+                slideToClickedSlide: true,
+                paginationClickable: true,
+                pagination: '.swiper-pagination',
             })
         </script>
 
