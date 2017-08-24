@@ -25,9 +25,6 @@
         <!-- Styles -->
         <link rel="stylesheet" href="{{ elixir('build/landing/css/build_vendors_custom.css') }}">
 
-        <!-- Swiper -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.min.css">
-
         <style media="screen">
             html, body {
                 overflow-x: hidden !important;
@@ -60,7 +57,6 @@
 
         <!-- Js -->
         <script src="{{ elixir('build/landing/js/build_vendors_custom.js') }}"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/js/swiper.jquery.min.js"></script>
 
         <!-- GOOGLE ANALYTICS -->
         @include('landing.googleanalytics')

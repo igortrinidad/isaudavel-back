@@ -22,8 +22,9 @@ elixir(function(mix) {
     //STYLES PRELAUNCH
     mix.styles([
 
-        '../../../node_modules/ionicons/dist/css/ionicons.min.css',
-        '../../../node_modules/bootstrap/dist/css/bootstrap.min.css',
+        '../../../node_modules/ionicons/dist/css/ionicons.css',
+        '../../../node_modules/bootstrap/dist/css/bootstrap.css',
+        '../../../node_modules/swiper/dist/css/swiper.css',
         '../prelaunch/css/owl.carousel.css',
         '../prelaunch/css/font-awesome.min.css',
         '../prelaunch/css/animate.css',
@@ -37,8 +38,9 @@ elixir(function(mix) {
     //STYLES LANDING
     mix.styles([
 
-        '../../../node_modules/ionicons/dist/css/ionicons.min.css',
-        '../../../node_modules/bootstrap/dist/css/bootstrap.min.css',
+        '../../../node_modules/ionicons/dist/css/ionicons.css',
+        '../../../node_modules/bootstrap/dist/css/bootstrap.css',
+        '../../../node_modules/swiper/dist/css/swiper.css',
         '../prelaunch/css/owl.carousel.css',
         '../prelaunch/css/font-awesome.min.css',
         '../prelaunch/css/animate.css',
@@ -56,6 +58,7 @@ elixir(function(mix) {
         '../../../node_modules/moment/moment.js',
         '../../../node_modules/vue/dist/vue.js',
         '../../../node_modules/vue-resource/dist/vue-resource.js',
+        '../../../node_modules/swiper/dist/js/swiper.jquery.js',
         '../prelaunch/js/vendor/modernizr-2.6.2.min.js',
         '../prelaunch/js/jquery.lwtCountdown-1.0.js',
         '../prelaunch/js/owl.carousel.min.js',
@@ -77,6 +80,7 @@ elixir(function(mix) {
         '../../../node_modules/moment/moment.js',
         '../../../node_modules/vue/dist/vue.js',
         '../../../node_modules/vue-resource/dist/vue-resource.js',
+        '../../../node_modules/swiper/dist/js/swiper.jquery.js',
         '../prelaunch/js/vendor/modernizr-2.6.2.min.js',
         '../prelaunch/js/jquery.lwtCountdown-1.0.js',
         '../prelaunch/js/owl.carousel.min.js',

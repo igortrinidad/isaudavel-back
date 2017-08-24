@@ -110,10 +110,6 @@
 
         <div class="container">
 
-            <div class="text-center">
-                <h2 class="m-t-30">Empresas</h2>
-                <p class="f-300">Encontre a empresa ou profissional para ajudar você a cuidar da sua saúde.</p>
-            </div>
 
             <div class="row m-t-20">
                 @foreach($companies as $company)
@@ -145,6 +141,14 @@
                                     {{ $company->address['full_address'] }}
                                 </span>
                             </div>
+                            @if(isset($company->distance_km) )
+                            <div class="m-t-20">
+                                <span class="f-300 f-18 ">
+                                    <i class="ion-ios-location-outline m-r-5"></i>
+                                    {{ $company->distance_km }}km
+                                </span>
+                            </div>
+                            @endif
                             <hr class="m-t-20">
                             <a href="/new-landing/empresas/{{$company->slug}}" title="{{ $company->name }}">
                                 <button class="btn btn-primary f-300 f-16" href="/new-landing/empresas/{{$company->slug}}">
@@ -198,6 +202,9 @@
                             var category = url.searchParams.get("category");
                             var city = url.searchParams.get("city");
 
+                            var lat = url.searchParams.get("lat");
+                            var lng = url.searchParams.get("lng");
+
                            var atualindex = $('.swiper-slide[data-url="'+category+'"]').index();
 
                             this.swiperTabs = new Swiper(this.$refs.tabs, {
@@ -211,13 +218,13 @@
 
                                     var categorySelected = $('.swiper-slide-active').data('url')
 
-                                    if(!city){
+                                    if(!lat){
                                         if(categorySelected && categorySelected != category){
                                             window.location.href = '?category=' + categorySelected;
                                         }
-                                    } else {
-                                        if(categorySelected && categorySelected != category){
-                                            window.location.href = '?category=' + categorySelected + '&city=' + city;
+                                    } else if(lat) {
+                                        if(categorySelected != category){
+                                            window.location.href = '?category=' + categorySelected + '&city=' + city + '&lat=' + lat + '&lng=' + lng;
                                         }
                                     }
 

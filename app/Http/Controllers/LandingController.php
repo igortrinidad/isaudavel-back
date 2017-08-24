@@ -82,7 +82,7 @@ class LandingController extends Controller
      */
     public function NewIndex(Request $request)
     {
-        $companies = Company::all()->random(8);
+        $companies = Company::with('categories')->get()->random(8);
 
         return view('landing.home.index', compact('companies'));
     }
@@ -96,12 +96,57 @@ class LandingController extends Controller
      */
     public function NewIndexSearch(Request $request)
     {
-        $companies = Company::where('city', 'LIKE', '%' . $request->query('city') . '%')->with('categories')->
-            whereHas('categories', function($query) use($request){
-                $query->where('name', 'LIKE', '%'.$request->query('category') . '%');
-        })->paginate(30);
 
         $categories = Category::all();
+
+        if( empty($request->query('lat')) && empty($request->query('lng')) ) {
+
+            $companies = Company::with('categories')->
+                whereHas('categories', function($query) use($request){
+                    $query->where('name', 'LIKE', '%'.$request->query('category') . '%');
+            })->paginate(30);
+            
+        }
+
+    
+        if( !empty($request->query('lat')) && !empty($request->query('lng')) ){
+
+            $user_lat = $request->query('lat');
+            $user_lng = $request->query('lng');
+
+            $companies = Company::select(\DB::raw("*, 
+                    (ATAN(SQRT(POW(COS(RADIANS(companies.lat)) * SIN(RADIANS(companies.lng)
+                     - RADIANS('$user_lng')), 2) +POW(COS(RADIANS('$user_lat')) * 
+                     SIN(RADIANS(companies.lat)) - SIN(RADIANS('$user_lat')) * cos(RADIANS(companies.lat)) * 
+                     cos(RADIANS(companies.lng) - RADIANS('$user_lng')), 2)),SIN(RADIANS('$user_lat')) * 
+                     SIN(RADIANS(companies.lat)) + COS(RADIANS('$user_lat')) * COS(RADIANS(companies.lat)) * 
+                     COS(RADIANS(companies.lng) - RADIANS('$user_lng'))) * 6371000) as distance_m"))
+                ->with(['professionals' => function($query){
+                    $query->select('id', 'name', 'last_name')
+                        ->with(['categories' => function($query){
+                            $query->select('name');
+                        }])->orderBy('name', 'asc');
+                }])->where('name', 'LIKE', '%' . $request->get('search') . '%' )
+                    ->whereHas('categories', function($query) use($request){
+
+                        if($request->get('category') === 'all'){
+                            $query->where('slug', '<>', 'all');
+                        }
+
+                        if($request->get('category') != 'all'){
+                            $query->where('slug', $request->get('category'));
+                        }
+
+                })->with(['categories' => function($query){
+                    $query->select('name');
+                }])->orderBy('distance_m', 'asc')
+                ->paginate(12);
+
+            foreach($companies as $company){
+                $company->distance_km = round(($company->distance_m / 1000) , 2);
+            }
+
+        }
 
         return view('landing.companies.list', compact('companies', 'categories'));
     }

@@ -37,6 +37,8 @@
             <div class="col-xs-12 col-sm-4 col-md-4 text-center">
                 <form method="GET" action="/new-landing/buscar">
                     <input type="hidden" name="city" id="city" value="">
+                    <input type="hidden" name="lat" id="lat" value="">
+                    <input type="hidden" name="lng" id="lng" value="">
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary btn-block btn-buscar">Buscar</button>
                     </div>
@@ -76,8 +78,14 @@
                 if (place.geometry) {
 
                     var city = document.getElementById('city');
-
                     city.setAttribute('value', place.name)
+
+                    var lat = document.getElementById('lat');
+                    lat.setAttribute('value', place.geometry.location.lat())
+
+                    var lng = document.getElementById('lng');
+                    lng.setAttribute('value', place.geometry.location.lng())
+
                 } else {
                     document.getElementById('autocomplete').placeholder = 'Enter a city';
                 }
