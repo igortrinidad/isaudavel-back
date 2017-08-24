@@ -14,7 +14,7 @@
 
         @include('landing.opengraph')
 
-        
+
         <!-- Fonts -->
         <!-- Lato -->
         <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
@@ -79,9 +79,9 @@
 
                             <div class="block text-left">
                                 <div class="sub-heading">
-                                
+
                                     <h4>Para profissionais</h4>
-                                
+
                                     <p>Ofereça seus serviços e auxilie seus clientes a atingir os objetivos de saúde, bem estar e estética.</p>
                                     <br>
                                     <p>Você poderá gerenciar e ter acesso à informações importantes sobre a saúde e rotina de exercícios de seus clientes:</p>
@@ -183,6 +183,6 @@
 
         @section('scripts')
         @show
-        
+
     </body>
 </html>
