@@ -201,7 +201,13 @@
                     <div class="card">
                         <div class="card-header ch-alt">
                             <h2 class="f-300 m-b-20 ">Avaliações</h2>
-                            <span class="f-14 f-300">Total de {{$company_fetched->total_rating}} avaliações</span>
+                            <span class="f-14 f-300">Total de {{$company_fetched->total_rating}}
+                                @if($company_fetched->total_rating > 1)
+                                    avaliações
+                                @else
+                                    avaliação
+                                @endif
+                            </span>
                         </div>
 
                         <div class="card-body p-t-10 p-b-10">
