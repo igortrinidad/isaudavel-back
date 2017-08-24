@@ -159,7 +159,7 @@ class LandingController extends Controller
      */
     public function showCompany($slug)
     {
-        $company_fetched = Company::where('slug', $slug)->with(['professionals', 'last_ratings', 'photos'])->first();
+        $company_fetched = Company::where('slug', $slug)->with(['professionals', 'last_ratings', 'photos', 'recomendations'])->first();
 
         if($company_fetched){
             return view('landing.companies.show', compact('company_fetched'));   
