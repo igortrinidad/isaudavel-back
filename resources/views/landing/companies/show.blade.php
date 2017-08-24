@@ -120,22 +120,31 @@
                 <!-- LEFT COL -->
                 <div class="col-sm-4">
                     <div class="card">
-                        <div class="card-header text-center">
-                            <div class="picture-circle picture-show" style="background-image:url({{$company_fetched->avatar}})">
+                        <div class="card-header ch-alt text-center">
+                            <div class="picture-circle" style="background-image:url({{$company_fetched->avatar}})">
                             </div>
+                        </div>
+                        <div class="card-body card-padding text-center">
+                            <div>
+                                <?php $rating_to_loop = $company_fetched->current_rating; ?>
+                                @include('components.rating', ['size' => '35'])
+                            </div>
+
                             <!-- Address -->
                             <div class="m-t-10">
                                 <i class="ion-ios-location m-r-5"></i>
                                 <span class="f-300">{{ $company_fetched->address['full_address'] }}</span>
                             </div>
                             <!-- Address -->
+
                             <!-- Categories -->
-                            <div class="m-t-20">
+                            <div class="m-t-10">
                                 @foreach($company_fetched->categories as $category)
                                     <span class="label label-success">{{ $category->name }}</span>
                                 @endforeach
                             </div>
                             <!-- Categories -->
+
                             <!-- Phone -->
                             @if($company_fetched->phone)
                                 <div class="m-t-10">
@@ -147,6 +156,7 @@
                                 </div>
                             @endif
                             <!-- Phone -->
+
                             <!-- Website -->
                             @if($company_fetched->website)
                                 <div class="m-t-10">
