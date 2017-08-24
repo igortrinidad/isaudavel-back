@@ -132,7 +132,7 @@
 
                             <!-- Address -->
                             <div class="m-t-10">
-                                <i class="ion-ios-location-outline m-r-5" style="font-size: 40px;"></i>
+                                <i class="ion-ios-location-outline m-r-5"></i>
                                 <span class="f-300">{{ $company_fetched->address['full_address'] }}</span>
                             </div>
                             <!-- Address -->
@@ -150,7 +150,7 @@
                                 <div class="m-t-10">
                                     <button type="button" class="btn btn-xs btn-primary btn-target" data-target="#company-phone">Mostrar telefone</button>
                                     <div class="info" id="company-phone">
-                                        <i class="ion-ios-location m-r-5"></i>
+                                        <i class="ion-ios-telephone-outline m-r-5"></i>
                                         <span class="f-300">{{ $company_fetched->phone }}</span>
                                     </div>
                                 </div>
@@ -162,7 +162,7 @@
                                 <div class="m-t-10">
                                     <button type="button" class="btn btn-xs btn-primary btn-target" data-target="#company-website">Mostrar Website</button>
                                     <div class="info" id="company-website">
-                                        <i class="ion-ios-location m-r-5"></i>
+                                        <i class="ion-ios-world-outline m-r-5"></i>
                                         <span class="f-300">{{ $company_fetched->website }}</span>
                                     </div>
                                 </div>
@@ -222,7 +222,9 @@
                 <div class="col-sm-3">
                     <div class="card">
                         <div class="card-header ch-alt text-center">
-                            <h2 class="f-300">Fotos</h2>
+                            <h2 class="f-300">
+                                Fotos
+                            </h2>
                         </div>
                         <div class="card-body p-t-10 text-center">
                             <div class="row">
@@ -282,7 +284,7 @@
 
             <div class="card">
                 <div class="card-header ch-alt text-center ">
-                    <h2 class="f-300">Profissionais</h2>
+                    <h2 class="f-28 f-300">Profissionais</h2>
                 </div>
             </div>
 
