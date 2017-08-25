@@ -66,7 +66,6 @@
         .slogan { padding-right: 165px; }
         .screenshot{ max-width: 150px; }
     }
-
     @media (max-width: 320px) {
         .slogan-container { top: 40%; }
         .slogan-icon{ display: none; }
