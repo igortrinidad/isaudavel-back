@@ -34,7 +34,7 @@
 
 </div>
 
-<section id="contact" class="section">
+<section id="sobre" class="section">
     <div class="container">
         <div class="row">
 

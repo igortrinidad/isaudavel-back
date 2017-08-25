@@ -12,7 +12,7 @@
 
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-        @include('landing.opengraph')
+        @include('components.opengraph')
 
 
         <!-- Fonts -->
@@ -23,7 +23,7 @@
         <link rel="stylesheet" href="{{ elixir('build/landing/css/build_vendors_custom.css') }}">
 
         <!-- Hotjar Tracking Code for https://isaudavel.com -->
-        @include('landing.hotjar')
+        @include('components.hotjar')
 
     </head>
 
@@ -157,7 +157,7 @@
         <script src="{{ elixir('build/landing/js/build_vendors_custom.js') }}"></script>
 
         <!-- GOOGLE ANALYTICS -->
-        @include('landing.googleanalytics')
+        @include('components.googleanalytics')
 
 
         </script>

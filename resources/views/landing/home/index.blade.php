@@ -11,9 +11,7 @@
         <link rel="shortcut icon" href="/icons/icon_g.png" type="image/x-icon"/>
 
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-
-        <!-- OPENGGRAPH -->
-        @include('landing.opengraph')
+        @include('components.opengraph')
 
         <!-- Fonts -->
         <!-- Lato -->
@@ -23,7 +21,7 @@
         <link rel="stylesheet" href="{{ elixir('build/landing/css/build_vendors_custom.css') }}">
 
         <!-- Hotjar Tracking Code for https://isaudavel.com -->
-        @include('landing.hotjar')
+        @include('components.hotjar')
 
     </head>
 
@@ -31,7 +29,7 @@
 
 
         @include('landing.home.navbar')
-        @include('landing.companies.header-with-search')
+        @include('landing.companies.header-blank')
         @include('landing.home.about')
         @include('landing.home.featured')
         @include('landing.home.footer')
@@ -40,7 +38,7 @@
         <script src="{{ elixir('build/landing/js/build_vendors_custom.js') }}"></script>
 
         <!-- GOOGLE ANALYTICS -->
-        @include('landing.googleanalytics')
+        @include('components.googleanalytics')
 
 
         @section('scripts')
