@@ -25,27 +25,23 @@
         font-size: 60px;
         line-height: 80px;
         font-weight: 400;
-        height: 200px;
+        height: auto;
         background: #f4f5f5;
-        margin-top: 20%;
+        margin-top: 250px;
         text-align: center;
         vertical-align: middle;
         padding: 20px 40px 20px 40px;
         border-radius: 4px;
+        margin-right: -20px;
+        margin-left: -20px;
     }
 
     .screenshot {
         position: absolute;
         max-width: 230px;
-        bottom: -60px; right: 40px;
+        bottom: -2000px; right: 40px;
     }
 
-    @media screen and (max-width: 768px) {
-        .slogan{
-            margin-top: 70%;
-            font-size: 22px;
-        }
-    }
 </style>
 
 <div class="video-section">
