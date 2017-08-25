@@ -117,6 +117,18 @@ class ScheduleController extends Controller
 
         $schedule = tap(Schedule::find($request->get('id')))->update($request->all())->fresh();
 
+        $schedule->setAttribute('client', $schedule->subscription->client);
+
+        $calendar_settings = ProfessionalCalendarSetting::where('company_id', $request->get('company_id'))
+            ->where('category_id', $request->get('category_id'))
+            ->first();
+
+        $schedule->setAttribute('professional_workdays', $calendar_settings->workdays);
+
+        $schedule->professional->setHidden(['companies', 'categories', 'blank_password', 'password', 'remember_token']);
+
+        $schedule->setHidden(['subscription']);
+
         return response()->json([
             'message' => 'Scheduled.',
             'schedule' => $schedule
