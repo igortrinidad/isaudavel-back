@@ -62,7 +62,7 @@
 
                                 <div class="m-t-20">
                                     @foreach($company->categories as $index_category => $category)
-                                        <a href="{!! route('landing.search.index', ['category' => $category->name]) !!}"><button class="btn btn-success btn-xs m-b-5">{{ $category->name }}</button></a>
+                                        <a href="{!! route('landing.search.index', ['category' => $category->slug]) !!}"><button class="btn btn-success btn-xs m-b-5">{{ $category->name }}</button></a>
                                     @endforeach
                                 </div>
 
