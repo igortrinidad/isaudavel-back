@@ -31,12 +31,12 @@
             @media (max-width: 768px) {
                 .navbar-default.navbar-fixed-top.animated .navbar-toggle,
                 .navbar-default .navbar-toggle:hover,
-                .navbar-default .navbar-toggle:focus { background-color: #88C657 !important; }
+                .navbar-default .navbar-toggle:focus { background-color: #71c158 !important; }
 
                 .navbar-default .navbar-toggle { border-color: #fff; }
                 .navbar-default .navbar-toggle .icon-bar { background-color: #fff; }
-                .navbar-default .navbar-collapse { border-color: #88C657; }
-                .navbar-default { background-color: #88C657 !important; }
+                .navbar-default .navbar-collapse { border-color: #71c158; }
+                .navbar-default { background-color: #71c158 !important; }
                 .navbar-default.navbar-fixed-top.animated { background: #fff !important; }
             }
 
