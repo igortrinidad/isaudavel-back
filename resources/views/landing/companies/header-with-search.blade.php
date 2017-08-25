@@ -24,10 +24,14 @@
     }
 
     #search-area {
-        padding: 60px 0 10px 0px;
+        padding: 80px 0 10px 0px;
         background: #f4f5f5;
+        margin-top: 0;
     }
-    #search-area.search-page { background: rgba(0, 0, 0, 0) linear-gradient(180deg, #88C657 20%, #6EC058 100%) repeat scroll 0 0; }
+    #search-area.search-page {
+        margin-top: 0;
+        background: rgba(0, 0, 0, 0) linear-gradient(180deg, #88C657 20%, #6EC058 100%) repeat scroll 0 0;
+    }
 </style>
 
 <header id="search-area" :class="{ 'search-page' : pathSearch }">
