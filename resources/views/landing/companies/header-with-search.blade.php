@@ -26,7 +26,7 @@
     #search-area {
         padding: 80px 0 10px 0px;
         background: #f4f5f5;
-        margin-top: -80px;
+        margin-top: 0;
     }
     #search-area.search-page {
         margin-top: 0;
