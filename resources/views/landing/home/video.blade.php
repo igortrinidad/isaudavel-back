@@ -22,13 +22,14 @@
     }
     .slogan {
         position: relative;
-        font-size: 80px;
+        font-size: 60px;
         line-height: 80px;
-        max-width: 768px;
         font-weight: 400;
+        height: 200px;
         background: #f4f5f5;
-        margin: 200px auto 0 auto;
+        margin-top: 20%;
         text-align: center;
+        vertical-align: middle;
         padding: 20px 40px 20px 40px;
         border-radius: 4px;
     }
@@ -37,6 +38,13 @@
         position: absolute;
         max-width: 230px;
         bottom: -60px; right: 40px;
+    }
+
+    @media screen and (max-width: 768px) {
+        .slogan{
+            margin-top: 70%;
+            font-size: 22px;
+        }
     }
 </style>
 
@@ -48,12 +56,10 @@
       </video>
     </div>
 
-    <div class="container">
         <div class="clearfix" style="position: relative; height: 600px;">
-        <div class="container">
+        <div class="container text-center">
                 <h2 class="slogan">A sua saúde em boas <strong class="f-700">mãos</strong>.</h2>
                 <img class="screenshot" src="https://weplaces.com.br/assets/weplaces/iphone_black/screen1.png" alt="Screen 1">
             </div>
         </div>
-    </div>
 </div>
