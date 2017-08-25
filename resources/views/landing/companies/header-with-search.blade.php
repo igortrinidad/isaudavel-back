@@ -24,9 +24,11 @@
     }
 
     #search-area {
-        padding: 80px 0 10px 0px;
-        background: #f4f5f5;
-        margin-top: 0;
+        padding: 80px 0 80px 0px;
+        background: #fff;
+        position: relative;
+        display: block;
+        margin-top: -80px;
     }
     #search-area.search-page {
         margin-top: 0;
@@ -36,7 +38,7 @@
 
 <header id="search-area" :class="{ 'search-page' : pathSearch }">
 
-    <div class="container">
+    <div class="container" style="border-color: blue !important;">
        <div class="row">
            <h3 class="text-center">Encontre empresas e profissionais de saúde próximos à você</h3>
            <div class="col-xs-12 col-sm-8 col-md-8">
@@ -55,12 +57,10 @@
                </form>
            </div>
            <div class="col-xs-12 col-md-12 text-left" v-if="category">
-
                <p class="f-13">Você está pesquisando por <b>@{{category}}</b><span v-if="city"> em <b>@{{city}}</b></span></p>
            </div>
        </div>
    </div>
-
 </header>
 
     @section('scripts')

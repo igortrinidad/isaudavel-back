@@ -29,7 +29,7 @@
 
         @include('landing.home.video')
         @include('landing.home.navbar')
-        @include('landing.companies.header-blank')
+        @include('landing.companies.header-with-search')
         @include('landing.home.about')
         @include('landing.home.featured')
         @include('landing.home.footer')
