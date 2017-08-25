@@ -34,6 +34,21 @@ class Category extends Model
         'name', 'slug'
     ];
 
+        /**
+     * The accessors to append to the model's array.
+     *
+     * @var array
+     */
+    protected $appends = ['avatar'];
+
+    /*
+    * Avatar
+    */
+    public function getAvatarAttribute()
+    {
+        return 'https://s3.amazonaws.com/isaudavel-assets/img/categories/img-' . $this->slug . '.png';
+    }
+
 
     /**
      * -------------------------------

@@ -103,7 +103,7 @@ class LandingController extends Controller
 
             $companies = Company::with('categories')->
                 whereHas('categories', function($query) use($request){
-                    $query->where('name', 'LIKE', '%'.$request->query('category') . '%');
+                    $query->where('slug', 'LIKE', '%'.$request->query('category') . '%');
             })->paginate(30);
             
         }

@@ -31,7 +31,6 @@ class CategoriesTableSeeder extends Seeder
             'slug' => 'fisioterapia'
         ]);
 
-
         \App\Models\Category::create([
             'name' => 'Nutrição',
             'slug' => 'nutricao'
@@ -50,6 +49,11 @@ class CategoriesTableSeeder extends Seeder
         \App\Models\Category::create([
             'name' => 'Acupuntura',
             'slug' => 'acupuntura'
+        ]);
+
+        \App\Models\Category::create([
+            'name' => 'Academia',
+            'slug' => 'academia'
         ]);
     }
 }

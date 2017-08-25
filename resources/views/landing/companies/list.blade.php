@@ -100,7 +100,7 @@
         <div class="swiper-container tabs" ref="tabs">
             <div class="swiper-wrapper">
                 @foreach($categories as $category)
-                <div class="swiper-slide tab" data-url="{{$category->name}}">
+                <div class="swiper-slide tab" data-url="{{$category->slug}}">
                     {{$category->name}}
                 </div>
                 @endforeach
