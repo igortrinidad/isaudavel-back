@@ -27,7 +27,7 @@
 	<meta property="og:site_name" content="iSaudavel">
 	
 
-	@if( !isset($category_query) && !empty($category_query) )
+	@if( !$category_query )
 		<meta property="og:image" content="https://isaudavel.com/logos/LOGO-1-02.png">
 		<meta property="og:image:type" content="image/png">
 		<meta property="og:title" content="iSaudavel">
