@@ -9,7 +9,6 @@
 	}
 ?>
 
-
 <!-- LANDING INDEX -->
 @if($routeName == 'landing.index')
 	<meta property="fb:app_id" content="1854829291449231" />
