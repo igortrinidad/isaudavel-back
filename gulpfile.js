@@ -10,6 +10,7 @@ elixir.extend('compress', function() {
                 removeAttributeQuotes: true,
                 removeComments:        true,
                 minifyJS:              true,
+                minifyCSS:              true,
             }))
             .pipe(gulp.dest('./storage/framework/views/'));
     })
