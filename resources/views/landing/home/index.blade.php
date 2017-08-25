@@ -29,7 +29,7 @@
 
     <body id="body">
 
-
+        @include('landing.home.video')
         @include('landing.home.navbar')
         @include('landing.companies.header-with-search')
         @include('landing.home.about')
@@ -45,6 +45,6 @@
 
         @section('scripts')
         @show
-        
+
     </body>
 </html>
