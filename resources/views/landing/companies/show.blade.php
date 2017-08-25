@@ -46,6 +46,7 @@
         height: 100px;
     }
 
+
     .picture-show { margin-top: -60px; }
 
     .picture-circle-p{
@@ -102,6 +103,8 @@
     .btn.out { display: none !important; }
     .info { display: none; }
     .info.in { display: block; }
+
+
  </style>
 
     <header>
@@ -351,18 +354,14 @@
                             <h2 class="f-300">Fotos</h2>
                         </div>
                         <div class="card-body card-padding">
-                            <div class="row">
+                            
+                            <div id="gallery" style="display:none;">
                                 @foreach($company_fetched->photos as $photo)
-                                <div class="col-sm-3">
-                                    <div class="card m-t-5 m-b-5">
-                                        <div class="card-header ch-alt">
-                                            <img class="img-responsive" src="{{$photo->photo_url}}" alt="{{$company_fetched->name}}" />
-                                        </div>
-                                    </div>
-                                </div>
+                                <img alt="{{$company_fetched->name}}" src="{{$photo->photo_url}}"
+                                    data-image="{{$photo->photo_url}}"
+                                    data-description="{{$company_fetched->name}}">
                                 @endforeach
                             </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -375,6 +374,11 @@
         @parent
 
         <script>
+
+            jQuery(document).ready(function(){ 
+                jQuery("#gallery").unitegallery(); 
+            }); 
+
             $('.btn-target').on('click', function(e) {
                 var target = e.target.dataset.target
                 $(e.target).addClass('out')
