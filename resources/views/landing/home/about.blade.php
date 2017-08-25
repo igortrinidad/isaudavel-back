@@ -1,3 +1,4 @@
+
 <style media="screen">
     .section{ background: #F4F5F5; }
 
@@ -34,7 +35,7 @@
 
 </div>
 
-<section id="sobre" class="section">
+<section id="contact" class="section">
     <div class="container">
         <div class="row">
 
