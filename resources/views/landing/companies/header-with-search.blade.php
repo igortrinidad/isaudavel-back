@@ -1,10 +1,23 @@
 
 <style>
 
+
 @media screen and (max-width: 768px) {
     .btn-buscar {
         margin-top: -20px;
     }
+    #search-area { padding: 80px 0 10px 0px !important; }
+
+    .navbar-default.navbar-fixed-top.animated .navbar-toggle,
+    .navbar-default .navbar-toggle:hover,
+    .navbar-default .navbar-toggle:focus { background-color: #88C657 !important; }
+
+    .navbar-default .navbar-toggle { border-color: #fff; }
+    .navbar-default .navbar-toggle .icon-bar { background-color: #fff; }
+    .navbar-default .navbar-collapse { border-color: #88C657; }
+    .navbar-default { background-color: #88C657 !important; }
+    .navbar-default.navbar-fixed-top.animated { background: #fff !important; }
+
 }
 
 @media screen and (min-width: 768px) {
@@ -23,13 +36,13 @@
 <header id="search-area">
     <div class="container">
 
-        
+
         <div class="row">
 
             <br>
             <h3 class="text-center">Encontre empresas e profissionais de saúde próximos à você</h3>
             <div class="col-xs-12 col-sm-8 col-md-8">
-                
+
                 <div class="form-group">
                     <input class="form-control" id="autocomplete" placeholder="Informe a cidade" />
                 </div>
@@ -51,7 +64,7 @@
             </div>
 
         </div>
-        
+
     </div>
 </header>
 
@@ -60,7 +73,7 @@
         @parent
 
         <script>
-            
+
           function initAutocomplete() {
 
 

@@ -32,7 +32,6 @@
         height: 350px;
         position: absolute;
         top: 80px; left: 0; right: 0;
-        background-color: #6ec058;
     }
 
     .picture-circle{
@@ -354,7 +353,7 @@
                             <h2 class="f-300">Fotos</h2>
                         </div>
                         <div class="card-body card-padding">
-                            
+
                             <div id="gallery" style="display:none;">
                                 @foreach($company_fetched->photos as $photo)
                                 <img alt="{{$company_fetched->name}}" src="{{$photo->photo_url}}"
@@ -375,11 +374,11 @@
 
         <script>
 
-            jQuery(document).ready(function(){ 
+            jQuery(document).ready(function(){
                 jQuery("#gallery").unitegallery({
                     tiles_type:"justified"
-                }); 
-            }); 
+                });
+            });
 
             $('.btn-target').on('click', function(e) {
                 var target = e.target.dataset.target

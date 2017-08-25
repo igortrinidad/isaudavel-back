@@ -5,6 +5,8 @@
     .btn-buscar {
         margin-top: -20px;
     }
+    #search-area { padding: 80px 0 10px 0px !important; }
+
 }
 
 @media screen and (min-width: 992px) {
@@ -23,13 +25,13 @@
 <header id="search-area">
     <div class="container">
 
-        
+
         <div class="row">
 
             <br>
 
         </div>
-        
+
     </div>
 </header>
 
