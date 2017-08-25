@@ -40,7 +40,7 @@
 <div>
     <div class="video-container">
       <video autoplay loop="true" width="1280" height="720">
-        <source type="video/mp4" src="https://coverr.co/s3/mp4/Strole_in_the_Park.mp4">
+        <source type="video/mp4" src="https://d2v9y0dukr6mq2.cloudfront.net/video/preview/ibUZgsf/kipping-pull-ups-crossfit_njexfxci__PM.mp4">
       </video>
     </div>
 
