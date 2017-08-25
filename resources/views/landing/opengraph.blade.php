@@ -13,6 +13,7 @@
 	
 	<!-- GLOBAL -->
 	<meta property="fb:app_id" content="1854829291449231" />
+	<meta property="og:type" content="website">
 	<meta property="og:locale" content="pt_BR">
 	<meta property="og:site_name" content="iSaudavel">
 
