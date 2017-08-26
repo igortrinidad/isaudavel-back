@@ -104,6 +104,7 @@
         @parent
 
         <script>
+            WebView.getSettings().setMediaPlaybackRequiresUserGesture(fa‌​lse);
             var vid=document.getElementById('video-intro');
             vid.addEventListener("loadstart", showVideo, false);
             function showVideo(e) {
