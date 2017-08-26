@@ -61,17 +61,22 @@
     @media (max-width: 768px) {
         .slogan { padding-right: 230px; text-align: left; font-size: 30px; line-height: 30px;}
         .screenshot{ bottom: 120px; right: 15px; }
-    }
-    @media (max-width: 414px) {
-        .slogan { padding-right: 165px; font-size: 20px; margin-top: 20px;padding-bottom: 10px; padding-top: 10px;height:120px;}
-        .slogan-icon{ max-width: 50px; }
-        .screenshot{ max-width: 150px; }
-        #video-intro{
+
+                #video-intro, .slogan-container{
             display:none;
         }
         #video-gif{
             display:block;
+            margin-top: 60px;
+            background-color: #fff;
         }
+        
+    }
+    @media (max-width: 414px) {
+        .slogan { padding-right: 165px; font-size: 20px; }
+        .slogan-icon{ max-width: 50px; }
+        .screenshot{ max-width: 150px; }
+
     }
     @media (max-width: 320px) {
         .slogan-container { top: 40%; }
@@ -87,7 +92,7 @@
         <source type="video/mp4" src="https://d2v9y0dukr6mq2.cloudfront.net/video/preview/ibUZgsf/kipping-pull-ups-crossfit_njexfxci__PM.mp4">
       </video>
 
-      <img id="video-gif" src="https://media.giphy.com/media/lU0M1X23S5mfK/giphy.gif" width="100%" height="420px" />
+      <img id="video-gif" src="https://media.giphy.com/media/11sgrFEeuaiL60/giphy.gif" width="100%" />
     </div>
 
    
@@ -111,14 +116,6 @@
 @section('scripts')
         @parent
 
-        <script>
-            WebView.getSettings().setMediaPlaybackRequiresUserGesture(fa‌​lse);
-            var vid=document.getElementById('video-intro');
-            vid.addEventListener("loadstart", showVideo, false);
-            function showVideo(e) {
-              vid.play();
-            }
-        </script>
 
 
     @stop
