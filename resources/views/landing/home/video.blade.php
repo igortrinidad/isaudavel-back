@@ -70,14 +70,6 @@
     @media (max-width: 320px) {
         .slogan-container { top: 40%; }
         .slogan-icon{ display: none; }
-        .slogan-icon-inverse {
-            display: block;
-            position: absolute;
-            width: 50px;
-            top: 100px;
-            left: 50%;
-            margin-left: -25px;
-        }
 
     }
 </style>
@@ -90,7 +82,7 @@
       </video>
     </div>
 
-    <img src="icons/icon_p.png" class="slogan-icon-inverse m-r-10" alt="">
+   
 
     <!-- Screenshot -->
     <img class="screenshot" src="https://weplaces.com.br/assets/weplaces/iphone_black/screen1.png" alt="Screen 1">
