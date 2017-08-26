@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use function foo\func;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use DB;
 
 class ClientController extends Controller
 {
@@ -274,13 +275,48 @@ class ClientController extends Controller
      */
     public function companySolicitation(Request $request)
     {
+
+        $results = Client::where('id', $request->get('client_id'))->whereHas('companies', function($query) use ($request){
+            $query->where('company_id', $request->get('company_id'));
+        })->count();
+
+        if($results > 0){
+            return response()->json([
+                'message' => 'Client already added.',
+                'status' => 422,
+            ], 422);
+        }
+
         $requested_by_client = $request->get('requested_by_client');
 
         $client = Client::find($request->get('client_id'));
 
         if($client){
 
-            $client->companies()->attach($request->get('company_id'), ['is_confirmed' => false, 'requested_by_client' => $requested_by_client]);
+            if(!$requested_by_client){
+                $client->companies()->attach($request->get('company_id'), [
+                    'is_confirmed' => false, 
+                    'requested_by_client' => $requested_by_client
+                ]);
+            } else {
+
+                $client->companies()->attach($request->get('company_id'), [
+                    'is_confirmed' => false, 
+                    'requested_by_client' => $requested_by_client,
+                    'diets_edit' => $request->get('diets_edit'),
+                    'diets_show' => $request->get('diets_show'),
+                    'evaluations_edit' => $request->get('evaluations_edit'),
+                    'evaluations_show' => $request->get('evaluations_show'),
+                    'exams_edit' => $request->get('exams_edit'),
+                    'exams_show' => $request->get('exams_show'),
+                    'is_confirmed' => $request->get('is_confirmed'),
+                    'restrictions_edit' => $request->get('restrictions_edit'),
+                    'restrictions_show' => $request->get('restrictions_show'),
+                    'trainnings_edit' => $request->get('trainnings_edit'),
+                    'trainnings_show' => $request->get('trainnings_show')
+                ]);
+
+            }
 
             //load relation to return
             $client_company = $client->companies()->select('id', 'name', 'slug')

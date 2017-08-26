@@ -62,7 +62,7 @@
         .slogan { padding-right: 230px; text-align: left; font-size: 30px; line-height: 30px;}
         .screenshot{ bottom: 120px; right: 15px; }
 
-                #video-intro, .slogan-container{
+        #video-intro, .slogan-container{
             display:none;
         }
         #video-gif{
