@@ -83,6 +83,10 @@
                     </div>
                 @endforeach
             </div>
+            <div class="swiper-button-prev swiper-button-black"></div>
+            <div class="swiper-button-next swiper-button-black"></div>
+            <div style="height: 50px;"></div>
+            <div class="swiper-pagination"></div>
         </div>
     </div>
 
@@ -111,6 +115,8 @@
                 slideToClickedSlide: true,
                 paginationClickable: true,
                 pagination: '.swiper-pagination',
+                prevButton: '.swiper-button-prev',
+                nextButton: '.swiper-button-next',
                 breakpoints: {
                     768: {
                         slidesPerView: 1

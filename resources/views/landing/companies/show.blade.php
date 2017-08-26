@@ -113,7 +113,7 @@
         <div class="bg-picture" style="background-image:url({{$company_fetched->avatar}})"></div>
     </header>
 
-    <section class="section p-t-20">
+    <section class="section p-t-20" id="show-company">
         <!-- GRID -->
         <div class="container" style="margin-top: 120px;">
 
@@ -155,11 +155,11 @@
 
                             <!-- Phone -->
                             @if($company_fetched->phone)
-                                <div class="m-t-10">
-                                    <button type="button" class="btn btn-xs btn-primary btn-target" data-target="#company-phone">Mostrar telefone</button>
+                                <div class="m-t-15">
+                                    <button type="button" class="btn btn-sm btn-primary btn-target" data-target="#company-phone">Mostrar telefone</button>
                                     <div class="info" id="company-phone">
                                         <i class="ion-ios-telephone-outline m-r-5"></i>
-                                        <span class="f-300">{{ $company_fetched->phone }}</span>
+                                        <span class="f-300 f-16"><a href="tel:{{ $company_fetched->phone }}">{{ $company_fetched->phone }}</a></span>
                                     </div>
                                 </div>
                             @endif
@@ -168,19 +168,19 @@
                             <!-- Website -->
                             @if($company_fetched->website)
                                 <div class="m-t-10">
-                                    <button type="button" class="btn btn-xs btn-primary btn-target" data-target="#company-website">Mostrar Website</button>
+                                    <button type="button" class="btn btn-sm btn-primary btn-target" data-target="#company-website">Mostrar Website</button>
                                     <div class="info" id="company-website">
                                         <i class="ion-ios-world-outline m-r-5"></i>
-                                        <span class="f-300">{{ $company_fetched->website }}</span>
+                                        <span class="f-300 f-16"><a href="{{ $company_fetched->website }}" target="_blank">{{ $company_fetched->website }}</a></span>
                                     </div>
                                 </div>
                             @endif
                             <!-- Website -->
 
-                            <button type="button" class="btn btn-xs btn-block btn-facebook m-t-30 p-5 f-15">
-                                <i class="ion-social-facebook m-r-5"></i>Compartilhar no facebook
+                            <button type="button" class="btn btn-xs btn-block btn-facebook m-t-20 p-5 f-15" @click="openShareFacebook()">
+                                <i class="ion-social-facebook m-r-5" ></i>Compartilhar no facebook
                             </button>
-                            <button type="button" class="btn btn-xs btn-block btn-whatsapp m-t-5 p-5 f-15">
+                            <button type="button" class="btn btn-xs btn-block btn-whatsapp m-t-5 p-5 f-15" @click="openShareWhatsapp()">
                                 <i class="ion-social-whatsapp m-r-5"></i>Compartilhar no whatsapp
                             </button>
 
@@ -244,6 +244,8 @@
                                         </div>
                                     @endforeach
                                 </div>
+                                <div class="swiper-button-prev swiper-button-black"></div>
+                                <div class="swiper-button-next swiper-button-black"></div>
                                 <div style="height: 50px;"></div>
                                 <div class="swiper-pagination"></div>
                             </div>
@@ -270,6 +272,8 @@
                                         </div>
                                     @endforeach
                                 </div>
+                                <div class="swiper-button-prev swiper-button-black"></div>
+                                <div class="swiper-button-next swiper-button-black"></div>
                                 <div style="height: 50px;"></div>
                                 <div class="swiper-pagination"></div>
                             </div>
@@ -310,6 +314,8 @@
                                         </div>
                                     @endforeach
                                 </div>
+                                <div class="swiper-button-prev swiper-button-black"></div>
+                                <div class="swiper-button-next swiper-button-black"></div>
                                 <div style="height: 50px;"></div>
                                 <div class="swiper-pagination"></div>
                             </div>
@@ -369,7 +375,43 @@
 
         <script>
 
-            jQuery(document).ready(function(){
+
+            Vue.config.debug = true;
+            var vm = new Vue({
+                el: '#show-company',
+                data: {
+                },
+                mounted: function() {
+
+                },
+                methods: {
+                    openShareFacebook: function () {
+                        let that = this
+                        var url = `https://www.facebook.com/dialog/share?app_id=1854829291449231&href={{\Request::fullUrl()}}&display=popup&mobile_iframe=true`;
+
+                        window.open(url, '_blank', 'location=yes');
+
+                        // this.updateTrackingInfo('share_facebook')
+                    },
+
+                    openShareWhatsapp: function () {
+                        var that = this
+
+                        var url = `https://api.whatsapp.com/send?&text=Olá, encontrei o perfil de {{$company_fetched->name}}, confira também: {{\Request::fullUrl()}} .`;
+
+                        window.open(url, '_system', null);
+                        // this.updateTrackingInfo('contact_whatsapp')
+                    },
+
+
+                    handleSlug(text) {
+                        return slug(text).toLowerCase()
+                    },
+                }
+
+            })
+
+            $(document).ready(function(){
                 jQuery("#gallery").unitegallery({
                     tiles_type:"justified"
                 });
@@ -388,6 +430,8 @@
                 slideToClickedSlide: true,
                 paginationClickable: true,
                 pagination: '.swiper-pagination',
+                prevButton: '.swiper-button-prev',
+                nextButton: '.swiper-button-next',
                 breakpoints: {
                     768: {
                         slidesPerView: 1
@@ -401,6 +445,8 @@
                 slidesPerView: 1,
                 slideToClickedSlide: true,
                 paginationClickable: true,
+                prevButton: '.swiper-button-prev',
+                nextButton: '.swiper-button-next',
                 pagination: '.swiper-pagination',
             })
 
@@ -596,6 +642,23 @@
             function initMap() {
                 var myLatLng = {lat: {{$company_fetched->lat}}, lng: {{$company_fetched->lng}} };
 
+                var contentString = 
+                    '<div id="content">'+
+                        '<div id="siteNotice">'+
+                        '</div>'+
+                        '<h1 id="firstHeading" class="firstHeading">{{$company_fetched->name}}</h1>'+
+                        '<div id="bodyContent" style="font-size: 11px;">'+
+                            '<p><b>Descrição:</b> {{$company_fetched->description}}</p>'+
+                            '<p><b>Endereço:</b> {{$company_fetched->address['full_address']}}</p>'+
+                        '</div>'+
+                    '</div>';
+
+                var infowindow = new google.maps.InfoWindow({
+                  content: contentString,
+                  maxWidth: 200
+                });
+
+
                 var map = new google.maps.Map(document.getElementById('mapShow'), {
                   zoom: 16,
                   center: myLatLng,
@@ -607,6 +670,10 @@
                   map: map,
                   icon: 'https://s3.amazonaws.com/isaudavel-assets/img/MAP+ICON-02.png',
                   title: '{{$company_fetched->name}}'
+                });
+
+                marker.addListener('click', function() {
+                  infowindow.open(map, marker);
                 });
               }
 

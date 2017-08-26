@@ -30,7 +30,7 @@
         display: flex;
         align-items: center;
         justify-content: flex-start;
-        margin: 0 -15px;
+        margin: 0 -30px 0 -30px;
         background: rgba(0, 0, 0, 0) linear-gradient(180deg, #88C657 20%, #6EC058 100%) repeat scroll 0 0;
         color: #f4f5f5;
         text-shadow: 0 4px 5px rgba(0, 0, 0, .3);
@@ -63,7 +63,8 @@
         .screenshot{ bottom: 120px; right: 15px; }
     }
     @media (max-width: 414px) {
-        .slogan { padding-right: 165px; }
+        .slogan { padding-right: 165px; font-size: 20px;}
+        .slogan-icon{ max-width: 50px; }
         .screenshot{ max-width: 150px; }
     }
     @media (max-width: 320px) {
@@ -77,6 +78,8 @@
             left: 50%;
             margin-left: -25px;
         }
+
+
     }
 </style>
 
