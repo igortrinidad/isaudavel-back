@@ -63,9 +63,15 @@
         .screenshot{ bottom: 120px; right: 15px; }
     }
     @media (max-width: 414px) {
-        .slogan { padding-right: 165px; font-size: 20px;}
+        .slogan { padding-right: 165px; font-size: 20px; margin-top: 20px;padding-bottom: 10px; padding-top: 10px;height:120px;}
         .slogan-icon{ max-width: 50px; }
         .screenshot{ max-width: 150px; }
+        #video-intro{
+            display:none;
+        }
+        #video-gif{
+            display:block;
+        }
     }
     @media (max-width: 320px) {
         .slogan-container { top: 40%; }
@@ -80,6 +86,8 @@
       <video autoplay loop="true" width="1280" height="720" id="video-intro">
         <source type="video/mp4" src="https://d2v9y0dukr6mq2.cloudfront.net/video/preview/ibUZgsf/kipping-pull-ups-crossfit_njexfxci__PM.mp4">
       </video>
+
+      <img id="video-gif" src="https://media.giphy.com/media/lU0M1X23S5mfK/giphy.gif" width="100%" height="420px" />
     </div>
 
    
