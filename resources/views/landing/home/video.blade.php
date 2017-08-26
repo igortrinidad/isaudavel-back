@@ -77,7 +77,7 @@
 <div class="video-section" style="height: calc(100vh - 112px);">
 
     <div class="video-container">
-      <video autoplay loop="true" width="1280" height="720">
+      <video autoplay loop="true" width="1280" height="720" id="video-intro">
         <source type="video/mp4" src="https://d2v9y0dukr6mq2.cloudfront.net/video/preview/ibUZgsf/kipping-pull-ups-crossfit_njexfxci__PM.mp4">
       </video>
     </div>
@@ -99,3 +99,17 @@
 
 
 </div>
+
+@section('scripts')
+        @parent
+
+        <script>
+            var vid=document.getElementById('video-intro');
+            vid.addEventListener("loadstart", showVideo, false);
+            function showVideo(e) {
+              vid.play();
+            }
+        </script>
+
+
+    @stop
