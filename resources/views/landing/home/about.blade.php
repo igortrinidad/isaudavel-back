@@ -5,7 +5,7 @@
 <section id="contact" class="section p-t-30">
     <div class="container">
 
-        <h2 class="text-center">Some Title</h2>
+        <h2 class="text-center">Para você e profissionais de saúde</h2>
 
         <div class="row m-t-30">
             <div class="col-xs-12 col-sm-6 col-md-6">
