@@ -30,13 +30,7 @@
         @include('landing.home.video')
         @include('landing.home.navbar')
         @include('landing.companies.header-with-search')
-
-        <section id="cliente" class="section">
-            <div class="container">
-                <h2 class="f-300 text-center">Para você</h2>
-            </div>
-        </section>
-
+        @include('landing.home.landing-client')
         @include('landing.home.featured')
         @include('landing.home.footer')
 
