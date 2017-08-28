@@ -44,7 +44,7 @@
         @section('scripts')
             <script type="text/javascript">
                 $('html, body').animate({
-                    scrollTop: $("#cliente").offset().top
+                    scrollTop: $("#about").offset().top
                 }, 1000);
             </script>
         @show

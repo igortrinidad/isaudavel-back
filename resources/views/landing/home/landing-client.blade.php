@@ -2,7 +2,7 @@
 
 </style>
 
-<section id="cliente" class="section">
+<section id="about" class="section">
     <div class="container text-center">
         <h2 class="f-300">Para você</h2>
         <span class="f-300">O Isaudavel é 100% gratuito, talvez algum textinho extra aqui, Lorem ipsum dolor sit amet, consectetur adipisicing elit.</span>

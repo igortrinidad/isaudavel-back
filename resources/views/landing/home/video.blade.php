@@ -70,7 +70,7 @@
             margin-top: 60px;
             background-color: #fff;
         }
-        
+
     }
     @media (max-width: 414px) {
         .slogan { padding-right: 165px; font-size: 20px; }
@@ -95,7 +95,7 @@
       <img id="video-gif" src="https://media.giphy.com/media/11sgrFEeuaiL60/giphy.gif" width="100%" />
     </div>
 
-   
+
 
     <!-- Screenshot -->
     <img class="screenshot" src="https://weplaces.com.br/assets/weplaces/iphone_black/screen1.png" alt="Screen 1">
@@ -104,7 +104,7 @@
     <div class="slogan-container">
         <div class="container">
             <h2 class="slogan">
-                <img src="icons/icon_p.png" class="slogan-icon m-r-10" alt="">
+                <img src="/icons/icon_p.png" class="slogan-icon m-r-10" alt="">
                 A sua saúde em boas mãos.
             </h2>
         </div>

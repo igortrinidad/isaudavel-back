@@ -18,7 +18,7 @@
             <nav class="collapse navbar-collapse" id="navbar">
                 <ul class="nav navbar-nav navbar-right" id="top-nav">
                     <li class="current"><a href="{!! route('landing.index') !!}">Home</a></li>
-                    <li><a href="{!! route('landing.index') !!}#contact">Sobre</a></li>
+                    <li><a href="{!! route('landing.index') !!}#about">Sobre</a></li>
                     <li><a href="{!! route('landing.index') !!}#ferramentas">Ferramentas</a></li>
                     <li><a href="{!! route('landing.search.index') !!}">Buscar empresas</a></li>
                     <li><a href="{!! route('landing.index') !!}#contato">Contato</a></li>

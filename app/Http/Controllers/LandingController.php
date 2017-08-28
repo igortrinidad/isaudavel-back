@@ -207,14 +207,14 @@ class LandingController extends Controller
         return view('landing.auth.login');
     }
 
-    // PS: Não sei se é o correto mas assim functionou, acho que é assim que cria a rota haha
+    // PS: Não sei se é o correto mas assim functionou haha
     public function showClientLanding(Request $reques)
     {
         $companies = Company::with('categories')->get()->random(8);
 
         return view('landing.home.index-client', compact('companies'));
     }
-    public function showProfessionalsLanding()
+    public function showProfessionalsLanding(Request $reques)
     {
         $companies = Company::with('categories')->get()->random(8);
 

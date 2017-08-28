@@ -2,7 +2,7 @@
 
 </style>
 
-<section id="profissional" class="section">
+<section id="about" class="section">
     <div class="container">
         <h2 class="f-300 text-center">Para profissionais</h2>
     </div>
@@ -19,3 +19,26 @@
     </div>
 
 </section>
+
+@section('scripts')
+    @parent
+
+    <script>
+        var swiperScreenshots = new Swiper('.swiper-screenshots', {
+            centeredSlides: true,
+            spaceBetween: 15,
+            loop: false,
+            slidesPerView: 4,
+            slideToClickedSlide: true,
+            paginationClickable: true,
+            pagination: '.swiper-pagination',
+            prevButton: '.swiper-button-prev',
+            nextButton: '.swiper-button-next',
+            breakpoints: {
+                768: {
+                    slidesPerView: 1
+                }
+            }
+        })
+    </script>
+@stop
