@@ -15,7 +15,7 @@ class CertificationController extends Controller
      */
     public function index($id)
     {
-        $certifications = Certification::where('professional_id', $id)->with(['professional'])->get();
+        $certifications = Certification::where('professional_id', $id)->with(['professional'])->orderBy('priority', 'DESC')->get();
 
         return response()->json(['certifications' => $certifications]);
     }

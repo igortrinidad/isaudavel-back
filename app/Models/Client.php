@@ -7,10 +7,11 @@ use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject as JWTSubject;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Client extends Authenticatable implements JWTSubject
 {
-    use Notifiable, Uuids;
+    use Notifiable, Uuids, SoftDeletes;
 
     /**
      * The table associated with the model.

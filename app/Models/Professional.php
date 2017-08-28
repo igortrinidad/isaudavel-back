@@ -6,11 +6,12 @@ use App\Models\Traits\Uuids;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject as JWTSubject;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 
 class Professional extends Authenticatable implements JWTSubject
 {
-    use Notifiable, Uuids;
+    use Notifiable, Uuids, SoftDeletes;
 
     /**
      * The table associated with the model.
@@ -190,7 +191,7 @@ class Professional extends Authenticatable implements JWTSubject
      */
     public function certifications()
     {
-        return $this->hasMany(Certification::class);
+        return $this->hasMany(Certification::class)->orderBy('priority', 'DESC');
     }
 
     /**
@@ -215,7 +216,7 @@ class Professional extends Authenticatable implements JWTSubject
     public function companies()
     {
         return $this->belongsToMany(Company::class, 'company_professional')
-            ->select('id', 'name', 'slug', 'city', 'state')
+            ->select('id', 'name', 'slug', 'city', 'state', 'owner_id')
             ->with(['categories' => function ($query) {
                 $query->select('id', 'name', 'slug');
             }])->withPivot('is_admin', 'is_confirmed', 'is_public');

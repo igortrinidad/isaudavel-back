@@ -335,13 +335,22 @@ Route::group(['prefix' => 'client'], function () {
 
 
 /*
-* Unprotected Router
+* Unprotected Company Router
 */
 Route::group(['prefix' => 'company'], function(){
     Route::get('/show/{slug}', 'CompanyController@show_public');
     Route::post('/search/location', 'CompanyController@searchByLocation');
     Route::post('/search/category', 'CompanyController@searchByCategory');
     Route::get('/category/list', 'CategoryController@forSelect');
+    Route::get('/recomendation/received/{id}', 'RecomendationController@receivedList');
+});
+
+/*
+* Unprotected Professional Router
+*/
+Route::group(['prefix' => 'professional'], function(){
+    Route::get('/recomendation/received/{id}', 'RecomendationController@receivedList');
+    Route::get('/recomendation/sent/{id}', 'RecomendationController@sentList');
 });
 
 
