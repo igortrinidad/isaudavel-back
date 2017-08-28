@@ -20,6 +20,9 @@ Route::post('/leadStoreForm', 'LandingController@leadStoreForm');
 Route::group(['prefix' => 'new-landing', 'as' => 'landing.'], function () {
 
 	Route::get('/', ['uses' => 'LandingController@NewIndex', 'as' => 'index']);
+    Route::get('/para-voce', ['uses' => 'LandingController@showClientLanding', 'as' => 'index']);
+    Route::get('/para-profissionais', ['uses' => 'LandingController@showProfessionalsLanding', 'as' => 'index']);
+
 
 	//Companies
 	Route::group(['prefix' => 'buscar', 'as' => 'search.'], function () {

@@ -105,21 +105,21 @@ class LandingController extends Controller
                 whereHas('categories', function($query) use($request){
                     $query->where('slug', 'LIKE', '%'.$request->query('category') . '%');
             })->paginate(30);
-            
+
         }
 
-    
+
         if( !empty($request->query('lat')) && !empty($request->query('lng')) ){
 
             $user_lat = $request->query('lat');
             $user_lng = $request->query('lng');
 
-            $companies = Company::select(\DB::raw("*, 
+            $companies = Company::select(\DB::raw("*,
                     (ATAN(SQRT(POW(COS(RADIANS(companies.lat)) * SIN(RADIANS(companies.lng)
-                     - RADIANS('$user_lng')), 2) +POW(COS(RADIANS('$user_lat')) * 
-                     SIN(RADIANS(companies.lat)) - SIN(RADIANS('$user_lat')) * cos(RADIANS(companies.lat)) * 
-                     cos(RADIANS(companies.lng) - RADIANS('$user_lng')), 2)),SIN(RADIANS('$user_lat')) * 
-                     SIN(RADIANS(companies.lat)) + COS(RADIANS('$user_lat')) * COS(RADIANS(companies.lat)) * 
+                     - RADIANS('$user_lng')), 2) +POW(COS(RADIANS('$user_lat')) *
+                     SIN(RADIANS(companies.lat)) - SIN(RADIANS('$user_lat')) * cos(RADIANS(companies.lat)) *
+                     cos(RADIANS(companies.lng) - RADIANS('$user_lng')), 2)),SIN(RADIANS('$user_lat')) *
+                     SIN(RADIANS(companies.lat)) + COS(RADIANS('$user_lat')) * COS(RADIANS(companies.lat)) *
                      COS(RADIANS(companies.lng) - RADIANS('$user_lng'))) * 6371000) as distance_m"))
                 ->with(['professionals' => function($query){
                     $query->select('id', 'name', 'last_name')
@@ -162,7 +162,7 @@ class LandingController extends Controller
         $company_fetched = Company::where('slug', $slug)->with(['professionals', 'last_ratings', 'photos', 'recomendations'])->first();
 
         if($company_fetched){
-            return view('landing.companies.show', compact('company_fetched'));   
+            return view('landing.companies.show', compact('company_fetched'));
         }
 
         abort(404);
@@ -206,5 +206,14 @@ class LandingController extends Controller
     {
         return view('landing.auth.login');
     }
-}
 
+    // PS: Não sei se é o correto mas assim functionou, acho que é assim que cria a rota haha
+    public function showClientLanding()
+    {
+        return view('landing.home.client');
+    }
+    public function showProfessionalsLanding()
+    {
+        return view('landing.home.professionals');
+    }
+}
