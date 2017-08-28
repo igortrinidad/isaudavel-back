@@ -210,10 +210,14 @@ class LandingController extends Controller
     // PS: Não sei se é o correto mas assim functionou, acho que é assim que cria a rota haha
     public function showClientLanding()
     {
-        return view('landing.home.client');
+        $companies = Company::with('categories')->get()->random(8);
+
+        return view('landing.home.client', compact('companies'));
     }
     public function showProfessionalsLanding()
     {
-        return view('landing.home.professionals');
+        $companies = Company::with('categories')->get()->random(8);
+
+        return view('landing.home.professionals', compact('companies'));
     }
 }
