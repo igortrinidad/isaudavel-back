@@ -15,7 +15,7 @@
 
 <section id="about" class="section p-b-0">
     <!-- CLIENT FEATURES -->
-    <div class="container">
+    <div class="container p-b-30">
         <div class="text-center">
             <h2 class="f-300">Para profissionais</h2>
             <span class="f-300">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</span>
@@ -83,7 +83,7 @@
     <hr>
 
     <!-- Screen Shots -->
-    <div class="container text-center" style="padding-top: 100px">
+    <div class="container text-center p-t-10">
         <h2 class="f-300">Conheça</h2>
         <span class="f-300">Confira as telas do aplicativo!</span>
         <div class="swiper-container swiper-screenshots">
@@ -130,18 +130,19 @@
 
     <script>
         var swiperScreenshots = new Swiper('.swiper-screenshots', {
-            centeredSlides: true,
-            spaceBetween: 15,
+            spaceBetween: 0,
             loop: false,
             slidesPerView: 4,
-            slideToClickedSlide: true,
+            slidesPerGroup: 4,
+            slideToClickedSlide: false,
             paginationClickable: true,
             pagination: '.swiper-pagination',
             prevButton: '.swiper-button-prev',
             nextButton: '.swiper-button-next',
             breakpoints: {
                 768: {
-                    slidesPerView: 1
+                    slidesPerView: 1,
+                    slidesPerGroup: 1,
                 }
             }
         })

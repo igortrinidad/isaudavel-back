@@ -84,7 +84,7 @@
     <hr>
 
     <!-- Screen Shots -->
-    <div class="container text-center" style="padding-top: 100px">
+    <div class="container text-center p-t-10">
         <h2 class="f-300">Conheça</h2>
         <span class="f-300">Confira as telas do aplicativo!</span>
         <div class="swiper-container swiper-screenshots">
