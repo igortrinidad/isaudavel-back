@@ -30,31 +30,37 @@ class ScheduleController extends Controller
      */
     public function forCalendar(Request $request)
     {
-        $schedules = Schedule::where('company_id', $request->get('company_id'))
+        $calendar_settings = ProfessionalCalendarSetting::where('company_id', $request->get('company_id'))
             ->where('category_id', $request->get('category_id'))
-            ->whereBetween('date', [$request->get('start'), $request->get('end')])
-            ->with(['professional' => function($query){
-                $query->select('id', 'name', 'last_name', 'email');
-            }, 'subscription'])
-            ->orderBy('date')
-            ->orderBy('time')
-            ->get();
+            ->with('professional')->get();
 
-        foreach($schedules as $schedule){
+        foreach($calendar_settings as $calendar_setting){
 
-            $schedule->professional->setHidden(['companies','categories','blank_password']);
+            $calendar_setting->professional->setHidden(['companies','categories','blank_password', 'password', 'remember_token']);
 
-            $calendar_settings = ProfessionalCalendarSetting::where('company_id', $request->get('company_id'))
+            $schedules = Schedule::where('company_id', $request->get('company_id'))
                 ->where('category_id', $request->get('category_id'))
-                ->first();
+                ->where('professional_id', $calendar_setting->professional_id)
+                ->whereBetween('date', [$request->get('start'), $request->get('end')])
+                ->with('subscription')
+                ->orderBy('date')
+                ->orderBy('time')
+                ->get();
 
-            $schedule->setAttribute('client', $schedule->subscription->client);
-            $schedule->setAttribute('professional_workdays', $calendar_settings->workdays);
+            foreach($schedules as $schedule){
 
-            $schedule->setHidden(['subscription']);
+                $schedule->professional->setHidden(['companies','categories','blank_password']);
+
+                $schedule->setAttribute('client', $schedule->subscription->client);
+
+                $schedule->setHidden(['subscription', 'professional']);
+            }
+
+            $calendar_setting->setAttribute('schedules', $schedules);
+
         }
-
-        return response()->json(['schedules' => $schedules]);
+        
+        return response()->json(['schedules' => $calendar_settings]);
     }
 
 

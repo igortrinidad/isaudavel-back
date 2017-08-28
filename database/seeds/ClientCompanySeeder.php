@@ -124,7 +124,7 @@ class ClientCompanySeeder extends Seeder
                     ];
 
                     //dates
-                    $start = Carbon\Carbon::now()->addDay(1);
+                    $start = Carbon\Carbon::now();
                     $expire = \Carbon\Carbon::now()->addDay(31);
 
                     //Subscription
