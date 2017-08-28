@@ -212,12 +212,12 @@ class LandingController extends Controller
     {
         $companies = Company::with('categories')->get()->random(8);
 
-        return view('landing.home.client', compact('companies'));
+        return view('landing.home.index-client', compact('companies'));
     }
     public function showProfessionalsLanding()
     {
         $companies = Company::with('categories')->get()->random(8);
 
-        return view('landing.home.professionals', compact('companies'));
+        return view('landing.home.index-professionals', compact('companies'));
     }
 }
