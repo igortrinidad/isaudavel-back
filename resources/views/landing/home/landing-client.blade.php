@@ -1,14 +1,25 @@
 <style media="screen">
+.wrapper {
+    background-position: top center;
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    position: relative;
+    width: 100%;
+    padding: 50px 0;
+    color: #fff;
+}
 
+.wrapper.call-to-professional { background-image: url('/images/gym.jpg'); }
 </style>
 
-<section id="about" class="section">
+<section id="about" class="section p-b-0">
 
     <!-- CLIENT FEATURES -->
     <div class="container">
         <div class="text-center">
             <h2 class="f-300">Para você</h2>
-            <span class="f-300">O Isaudavel é 100% gratuito, talvez algum textinho extra aqui, Lorem ipsum dolor sit amet, consectetur adipisicing elit.</span>
+            <span class="f-300">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</span>
         </div>
         <div class="row" style="margin-top: 60px">
             <div class="col-sm-12">
@@ -72,6 +83,7 @@
 
     <hr>
 
+    <!-- Screen Shots -->
     <div class="container text-center" style="padding-top: 100px">
         <h2 class="f-300">Conheça</h2>
         <span class="f-300">Confira as telas do aplicativo!</span>
@@ -96,14 +108,15 @@
             <div class="swiper-pagination"></div>
         </div>
     </div>
+    <!-- / Screen Shots -->
 
-    <div class="wrapper paralax">
+    <div class="wrapper call-to-professional">
         <div class="container">
             <div class="row m-t-30">
                 <div class="col-md-12 col-xs-12 text-center">
-                    <h4 class="f-300 m-b-30">Saiba mais sobre o Isaudavel para profissionais.</h4>
+                    <h4 class="f-700 m-b-30">Saiba mais sobre o Isaudavel para profissionais.</h4>
                     <a href="/new-landing/para-profissionais">
-                        <button class="btn btn-primary m-t-10 f-300">Para Profissionais</button>
+                        <button class="btn btn-success m-t-10">Para Profissionais</button>
                     </a>
                 </div>
             </div>
