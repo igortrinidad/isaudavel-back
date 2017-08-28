@@ -189,7 +189,7 @@
                             <li class="plan-item  disable f-300"><i class="ion-ios-close-empty m-r-5 f-18"></i>Visualizações do mês</li>
                             <li class="plan-item  disable f-300"><i class="ion-ios-close-empty m-r-5 f-18"></i>Visualizações do mês</li>
                         </ul>
-                        <a href="#" class="btn btn-success m-t-15 m-b-10">Quero Cadastrar</a>
+                        <a href="/new-landing/profissional-cadastro" class="btn btn-success m-t-15 m-b-10">Quero Cadastrar</a>
                     </div>
                 </div>
             </div>
@@ -212,7 +212,7 @@
                             <li class="plan-item f-300"><i class="ion-ios-checkmark-empty m-r-5 f-18"></i>Visualizações do mês</li>
                             <li class="plan-item f-300"><i class="ion-ios-checkmark-empty m-r-5 f-18"></i>Visualizações do mês</li>
                         </ul>
-                        <a href="#" class="btn btn-success m-t-15 m-b-10">Quero Cadastrar</a>
+                        <a href="/new-landing/profissional-cadastro" class="btn btn-success m-t-15 m-b-10">Quero Cadastrar</a>
                     </div>
                 </div>
             </div>
@@ -236,7 +236,7 @@
                             <li class="plan-item  disable f-300"><i class="ion-ios-close-empty m-r-5 f-18"></i>Visualizações do mês</li>
                         </ul>
 
-                        <a href="#" class="btn btn-success m-t-15 m-b-10">Quero Cadastrar</a>
+                        <a href="/new-landing/profissional-cadastro" class="btn btn-success m-t-15 m-b-10">Quero Cadastrar</a>
 
                     </div>
                 </div>
