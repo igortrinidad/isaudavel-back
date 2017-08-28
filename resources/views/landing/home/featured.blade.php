@@ -1,41 +1,73 @@
 <style>
-
     .picture-circle{
-            box-sizing: border-box;
-            margin: 0 auto;
-            background-position: center center;
-            background-repeat: no-repeat;
-            background-size: cover;
-            border-radius: 50%;
-            width: 100px;
-            height: 100px;
-        }
+        box-sizing: border-box;
+        margin: 0 auto;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        border-radius: 50%;
+        width: 100px;
+        height: 100px;
+    }
 
-        .picture-circle-p{
-            width: 68px;
-            height: 68px;
-        }
+    .picture-circle-p {
+        width: 68px;
+        height: 68px;
+    }
 
-            /* Swiper */
+    /* Swiper */
+    .swiper-wrapper { padding-top: 30px; }
     .swiper-slide .card {
         transform: scale(.9);
         z-index: 99999;
         transition: ease .3s;
     }
+
     .swiper-slide-active .card {
         transform: scale(1);
         transition: ease .3s;
     }
+
     /* List & Cards With Swiper */
     .swiper-pagination-bullet,
     .swiper-pagination-bullet { border-color: #88C657 !important }
 
     .swiper-pagination-bullet.swiper-pagination-bullet-active,
     .swiper-pagination-bullet.swiper-pagination-bullet-active { background-color: #88C657 !important }
+
+    /* Swiper Buttons Prev & Next */
+    .swiper-button-prev { right: auto; left: 20px; }
+    .swiper-button-next { right: 20px; left: auto; }
+
+    .swiper-button-prev,
+    .swiper-button-next {
+        background-image: none;
+        top: 0;
+        margin-top: 0;
+        background-color: #fff;
+        height: 40px; width: 40px;
+        border-radius: 4px;
+        text-align: center;
+        color: #88C657;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 1px 1px rgba(0,0,0,.15);
+        font-size: 20px;
+    }
+    .swiper-button-prev.swiper-button-disabled,
+    .swiper-button-next.swiper-button-disabled { opacity: 0; }
+
+    @media (max-width: 768px) {
+        .swiper-wrapper { padding-top: 50px; }
+        .swiper-button-prev { right: auto; left: 0; }
+        .swiper-button-next { right: 0; left: auto; }
+        .swiper-button-prev,
+        .swiper-button-next { height: 30px ; width: 30px ; font-size: 16px; }
+    }
 </style>
 
  <section id="contact" class="section">
-
     <div class="container m-t-30">
         <hr>
         <h2 class="text-center m-t-20 m-b-20">Em destaque</h2>
@@ -54,7 +86,7 @@
                                 </h3>
                             </div>
                             <div class="card-body card-padding text-center">
-                                <h4>Avaliação</h4>
+                                <h4 class="f-300">Avaliação</h4>
                                 <div class="wp-rating-div">
                                     <?php $rating_to_loop = $company->current_rating; ?>
                                     @include('components.rating', ['size' => '22'])
@@ -75,7 +107,7 @@
                                 <hr class="m-t-20">
                                 <a href="/new-landing/empresas/{{$company->slug}}" title="{{ $company->name }}">
                                     <button class="btn btn-primary f-300 f-16" href="/new-landing/empresas/{{$company->slug}}">
-                                        <i class="ion-ios-plus-outline m-r-5 f-20"></i>Mais informações
+                                        Mais informações
                                     </button>
                                 </a>
                             </div>
@@ -83,8 +115,8 @@
                     </div>
                 @endforeach
             </div>
-            <div class="swiper-button-prev swiper-button-black"></div>
-            <div class="swiper-button-next swiper-button-black"></div>
+            <div class="swiper-button-prev"><i class="ion-ios-arrow-back"></i></div>
+            <div class="swiper-button-next"><i class="ion-ios-arrow-forward"></i></div>
             <div style="height: 50px;"></div>
             <div class="swiper-pagination"></div>
         </div>
@@ -103,27 +135,25 @@
     </div>
 </section>
 
-    @section('scripts')
-        @parent
+@section('scripts')
+    @parent
 
-        <script>
-            let swiperFeatureds = new Swiper('.swiper-featureds', {
-                centeredSlides: true,
-                spaceBetween: 15,
-                loop: false,
-                slidesPerView: 3,
-                slideToClickedSlide: true,
-                paginationClickable: true,
-                pagination: '.swiper-pagination',
-                prevButton: '.swiper-button-prev',
-                nextButton: '.swiper-button-next',
-                breakpoints: {
-                    768: {
-                        slidesPerView: 1
-                    }
+    <script>
+        let swiperFeatureds = new Swiper('.swiper-featureds', {
+            centeredSlides: true,
+            spaceBetween: 15,
+            loop: false,
+            slidesPerView: 3,
+            slideToClickedSlide: true,
+            paginationClickable: true,
+            pagination: '.swiper-pagination',
+            prevButton: '.swiper-button-prev',
+            nextButton: '.swiper-button-next',
+            breakpoints: {
+                768: {
+                    slidesPerView: 1
                 }
-            })
-        </script>
-
-
-    @stop
+            }
+        })
+    </script>
+@stop
