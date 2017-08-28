@@ -44,16 +44,17 @@
         background-image: none;
         top: 0;
         margin-top: 0;
-        background-color: #fff;
-        height: 40px; width: 40px;
+        background-color: rgba(255, 255, 255, 1);
+        height: 40px;
+        width: 40px;
         border-radius: 4px;
         text-align: center;
-        color: #88C657;
+        color: #383938;
         display: flex;
         align-items: center;
         justify-content: center;
         box-shadow: 0 1px 1px rgba(0,0,0,.15);
-        font-size: 20px;
+        font-size: 25px;
     }
     .swiper-button-prev.swiper-button-disabled,
     .swiper-button-next.swiper-button-disabled { opacity: 0; }
