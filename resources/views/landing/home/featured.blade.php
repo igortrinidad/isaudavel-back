@@ -68,15 +68,14 @@
 </style>
 <hr class="m-0">
  <section id="contact" class="section">
-    <div class="container m-t-30">
+    <div class="container">
         <h2 class="text-center m-t-20 m-b-20">Em destaque</h2>
 
-        <div class="swiper-container swiper-featureds">
+        <div class="swiper-container swiper-featureds wow fadeInUp">
             <div class="swiper-wrapper">
-                @foreach($companies as $company)
+                @foreach($companies as $index_company => $company)
                     <div class="swiper-slide text-center">
                         <div class="card">
-
                             <div class="card-header ch-alt text-center">
                                 <div class="picture-circle  picture-circle-p m-b-10" style="background-image:url({{$company->avatar}})">
                                 </div>
