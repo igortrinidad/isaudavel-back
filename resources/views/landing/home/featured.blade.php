@@ -125,10 +125,9 @@
     <div class="container">
         <div class="row m-t-30">
             <div class="col-md-12 col-xs-12 text-center">
-                Encontre empresas e seus profissionais para te ajudar a cuidar da sua saúde e estética.
-                <br>
+                <h4 class="f-300 m-b-30">Encontre empresas e seus profissionais para te ajudar a cuidar da sua saúde e estética.</h4>
                 <a href="{!! route('landing.search.index') !!}">
-                    <button class="btn btn-primary m-t-10">Procurar empresas e profissionais</button>
+                    <button class="btn btn-primary m-t-10 f-300">Procurar empresas e profissionais</button>
                 </a>
             </div>
         </div>
