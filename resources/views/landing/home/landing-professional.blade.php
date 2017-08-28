@@ -1,16 +1,56 @@
 <style media="screen">
-.wrapper {
-    background-position: top center;
-    background-size: cover;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    position: relative;
-    width: 100%;
-    padding: 50px 0;
-    color: #fff;
-}
+    /*Plans*/
+    .plan-item {
+        border-bottom: 1px solid #eee;
+        margin: 0 -4px;
+        padding: 10px 20px;
+        text-align: center;
+    }
 
-.wrapper.call-to-client { background-image: url('/images/gym.jpg'); }
+    /*.plan-item:last-child { border-bottom: 0; }*/
+
+    .plan-item i { color: #00A369; }
+    .plan-item.disable i { color: #E14A45; }
+
+    .plan-item.disable { text-decoration: line-through; }
+
+    /* Plans Price */
+    .price {
+        font-weight: 900;
+        font-size: 4rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 60px;
+        opacity: .8;
+        margin-top: 20px;
+    }
+    .price .best { color: #88C657; }
+    .price .currency-symbol {
+        opacity: .8;
+        font-size: 2rem;
+        align-self: flex-start;
+    }
+    .price .duration {
+        opacity: .8;
+        font-size: 2rem;
+        align-self: flex-end;
+    }
+
+    /*Wrapper*/
+    .wrapper {
+        background-position: top center;
+        background-size: cover;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        position: relative;
+        width: 100%;
+        padding: 50px 0;
+        color: #fff;
+    }
+
+    .wrapper.call-to-client { background-image: url('/images/gym.jpg'); }
 </style>
 
 <section id="about" class="section p-b-0">
@@ -122,6 +162,89 @@
             </div>
         </div>
     </div>
+
+    <!-- Plans -->
+    <div class="container" style="padding-top: 100px; padding-bottom: 100px;">
+        <div class="text-center">
+            <h2 class="f-300">Planos</h2>
+            <span class="f-300">Escolha o melhor plano!</span>
+        </div>
+        <div class="row m-t-30">
+            <div class="col-sm-4">
+                <div class="card wow fadeInUp">
+                    <div class="card-header ch-alt text-center">
+                        <h4 class="f-300">Plano Free</h4>
+                        <span class="price"><span class="currency-symbol">R$</span>0 <span class="duration">/mês</span></span>
+                    </div>
+                    <div class="card-body text-center">
+                        <ul>
+                            <li class="plan-item  f-300"><i class="ion-ios-checkmark-empty m-r-5 f-18"></i>Até Duas Fotos</li>
+                            <li class="plan-item  f-300"><i class="ion-ios-checkmark-empty m-r-5 f-18"></i>Cadastrar Espaço</li>
+                            <li class="plan-item  f-300"><i class="ion-ios-checkmark-empty m-r-5 f-18"></i>Administrar Espaço</li>
+                            <li class="plan-item  disable f-300"><i class="ion-ios-close-empty m-r-5 f-18"></i>Visualizações do mês</li>
+                            <li class="plan-item  disable f-300"><i class="ion-ios-close-empty m-r-5 f-18"></i>Visualizações do mês</li>
+                            <li class="plan-item  disable f-300"><i class="ion-ios-close-empty m-r-5 f-18"></i>Visualizações do mês</li>
+                            <li class="plan-item  disable f-300"><i class="ion-ios-close-empty m-r-5 f-18"></i>Visualizações do mês</li>
+                            <li class="plan-item  disable f-300"><i class="ion-ios-close-empty m-r-5 f-18"></i>Visualizações do mês</li>
+                            <li class="plan-item  disable f-300"><i class="ion-ios-close-empty m-r-5 f-18"></i>Visualizações do mês</li>
+                            <li class="plan-item  disable f-300"><i class="ion-ios-close-empty m-r-5 f-18"></i>Visualizações do mês</li>
+                        </ul>
+                        <a href="#" class="btn btn-success m-t-15 m-b-10">Quero Cadastrar</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="card wow fadeInUp">
+                    <div class="card-header ch-alt text-center">
+                        <h4 class="f-300">Plano Destaque</h4>
+                        <span class="price"><span class="currency-symbol">R$</span><span class="best">49,00</span> <span class="duration">/mês</span></span>
+                    </div>
+                    <div class="card-body text-center">
+                        <ul>
+                            <li class="plan-item f-300"><i class="ion-ios-checkmark-empty m-r-5 f-18"></i>Até Duas Fotos</li>
+                            <li class="plan-item f-300"><i class="ion-ios-checkmark-empty m-r-5 f-18"></i>Cadastrar Espaço</li>
+                            <li class="plan-item f-300"><i class="ion-ios-checkmark-empty m-r-5 f-18"></i>Administrar Espaço</li>
+                            <li class="plan-item f-300"><i class="ion-ios-checkmark-empty m-r-5 f-18"></i>Visualizações do mês</li>
+                            <li class="plan-item f-300"><i class="ion-ios-checkmark-empty m-r-5 f-18"></i>Visualizações do mês</li>
+                            <li class="plan-item f-300"><i class="ion-ios-checkmark-empty m-r-5 f-18"></i>Visualizações do mês</li>
+                            <li class="plan-item f-300"><i class="ion-ios-checkmark-empty m-r-5 f-18"></i>Visualizações do mês</li>
+                            <li class="plan-item f-300"><i class="ion-ios-checkmark-empty m-r-5 f-18"></i>Visualizações do mês</li>
+                            <li class="plan-item f-300"><i class="ion-ios-checkmark-empty m-r-5 f-18"></i>Visualizações do mês</li>
+                            <li class="plan-item f-300"><i class="ion-ios-checkmark-empty m-r-5 f-18"></i>Visualizações do mês</li>
+                        </ul>
+                        <a href="#" class="btn btn-success m-t-15 m-b-10">Quero Cadastrar</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="card wow fadeInUp">
+                    <div class="card-header ch-alt text-center">
+                        <h4 class="f-300">Plano Não destaque</h4>
+                        <span class="price"><span class="currency-symbol">R$</span>39,00 <span class="duration">/mês</span></span>
+                    </div>
+                    <div class="card-body text-center">
+                        <ul>
+                            <li class="plan-item f-300"><i class="ion-ios-checkmark-empty m-r-5 f-18"></i>Até Duas Fotos</li>
+                            <li class="plan-item f-300"><i class="ion-ios-checkmark-empty m-r-5 f-18"></i>Cadastrar Espaço</li>
+                            <li class="plan-item f-300"><i class="ion-ios-checkmark-empty m-r-5 f-18"></i>Administrar Espaço</li>
+                            <li class="plan-item f-300"><i class="ion-ios-checkmark-empty m-r-5 f-18"></i>Visualizações do mês</li>
+                            <li class="plan-item f-300"><i class="ion-ios-checkmark-empty m-r-5 f-18"></i>Visualizações do mês</li>
+                            <li class="plan-item f-300"><i class="ion-ios-checkmark-empty m-r-5 f-18"></i>Visualizações do mês</li>
+                            <li class="plan-item f-300"><i class="ion-ios-checkmark-empty m-r-5 f-18"></i>Visualizações do mês</li>
+                            <li class="plan-item  disable f-300"><i class="ion-ios-close-empty m-r-5 f-18"></i>Visualizações do mês</li>
+                            <li class="plan-item  disable f-300"><i class="ion-ios-close-empty m-r-5 f-18"></i>Visualizações do mês</li>
+                            <li class="plan-item  disable f-300"><i class="ion-ios-close-empty m-r-5 f-18"></i>Visualizações do mês</li>
+                        </ul>
+
+                        <a href="#" class="btn btn-success m-t-15 m-b-10">Quero Cadastrar</a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- / Plans -->
+
 
 </section>
 
