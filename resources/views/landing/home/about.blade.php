@@ -1,14 +1,15 @@
 <style media="screen">
+    a, a:hover{ color: #383939; text-decoration: none; }
 </style>
 
-<section id="contact" class="section p-t-30">
+<section id="contact" class="section">
     <div class="container">
 
         <h2 class="text-center">Para você e profissionais de saúde</h2>
 
         <div class="row m-t-30">
             <div class="col-xs-12 col-sm-6 col-md-6">
-                <div class="card wow fadeInUp">
+                <div class="card wow fadeInUp m-t-30">
                     <div class="card-header ch-alt text-center">
                         <h2 class="f-300">Para você</h2>
                     </div>
@@ -24,7 +25,7 @@
             </div>
 
             <div class="col-xs-12 col-sm-6 col-md-6 ">
-    			<div class="card wow fadeInUp">
+    			<div class="card wow fadeInUp m-t-30">
     				<div class="card-header ch-alt text-center">
     					<h2 class="f-300">Para profissinoais</h2>
     				</div>

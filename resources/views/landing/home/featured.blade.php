@@ -66,10 +66,9 @@
         .swiper-button-next { height: 30px ; width: 30px ; font-size: 16px; }
     }
 </style>
-
+<hr class="m-0">
  <section id="contact" class="section">
     <div class="container m-t-30">
-        <hr>
         <h2 class="text-center m-t-20 m-b-20">Em destaque</h2>
 
         <div class="swiper-container swiper-featureds">
