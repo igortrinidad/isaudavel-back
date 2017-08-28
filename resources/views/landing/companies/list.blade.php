@@ -92,6 +92,20 @@
             border-top: 6px solid #70c058;
         }
 
+        /* wrapper*/
+        .wrapper {
+            background-position: top center;
+            background-size: cover;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            position: relative;
+            width: 100%;
+            padding: 50px 0;
+        }
+        .wrapper.call-to-recomendation {
+            background-image: url('/images/gym.jpg');
+        }
+
     </style>
 
     <section class="section" id="companies-list">
@@ -162,12 +176,10 @@
             </div>
         </div>
 
-        <div class="container m-t-30">
-            <div class="row">
-                <div class="col-md-12 col-xs-12 text-center">
-                    <h4 class="m-b-10">Não achou a empresa ou profissional que você procura?</h4>
-                    <button class="btn btn-primary">Indique uma empresa ou profissional</button>
-                </div>
+        <div class="wrapper call-to-recomendation">
+            <div class="container text-center">
+                <h4 class="f-700 m-b-30" style="color: #fff">Não achou a empresa ou profissional que você procura?</h4>
+                <button class="btn btn-primary">Indique uma empresa ou profissional</button>
             </div>
         </div>
     </section>
