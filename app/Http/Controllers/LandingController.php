@@ -220,4 +220,9 @@ class LandingController extends Controller
 
         return view('landing.home.index-professionals', compact('companies'));
     }
+    public function registerProfessional()
+    {
+        return view('landing.home.register-professional');
+    }
+
 }

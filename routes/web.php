@@ -22,6 +22,7 @@ Route::group(['prefix' => 'new-landing', 'as' => 'landing.'], function () {
 	Route::get('/', ['uses' => 'LandingController@NewIndex', 'as' => 'index']);
     Route::get('/para-voce', ['uses' => 'LandingController@showClientLanding', 'as' => 'show']);
     Route::get('/para-profissionais', ['uses' => 'LandingController@showProfessionalsLanding', 'as' => 'show']);
+    Route::get('/profissional-cadastro', ['uses' => 'LandingController@registerProfessional', 'as' => 'register']);
 
 
 	//Companies
