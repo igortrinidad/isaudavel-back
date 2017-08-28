@@ -27,6 +27,7 @@ class CreateClientsTable extends Migration
             $table->integer('total_xp')->default(0);
             $table->integer('level')->default(0);
             $table->timestamps();
+            $table->softDeletes();
             $table->primary('id');
         });
     }

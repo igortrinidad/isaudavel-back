@@ -44,12 +44,32 @@ class CompanyController extends Controller
      */
     public function clientCompanies()
     {
-        $companies = \Auth::user()->companies()->with(['categories'])
+        $companies_confirmed = \Auth::user()->companies()->with(['categories'])
             ->withPivot('is_confirmed', 'requested_by_client', 'trainnings_show', 'trainnings_edit', 'diets_show', 'diets_edit',
                 'evaluations_show', 'evaluations_edit', 'restrictions_show', 'restrictions_edit', 'exams_show', 'exams_edit')
+            ->wherePivot('is_confirmed', 1)
+            ->wherePivot('is_deleted', 0)
             ->orderBy('name')->paginate(10);
 
-        return response()->json(custom_paginator($companies, 'companies'));
+            $companies_unconfirmed = \Auth::user()->companies()->with(['categories'])
+            ->withPivot('is_confirmed', 'requested_by_client', 'trainnings_show', 'trainnings_edit', 'diets_show', 'diets_edit',
+                'evaluations_show', 'evaluations_edit', 'restrictions_show', 'restrictions_edit', 'exams_show', 'exams_edit')
+            ->wherePivot('is_confirmed', 0)
+            ->wherePivot('is_deleted', 0)
+            ->orderBy('name')->paginate(10);
+
+            $companies_deleted = \Auth::user()->companies()->with(['categories'])
+            ->withPivot('is_confirmed', 'requested_by_client', 'trainnings_show', 'trainnings_edit', 'diets_show', 'diets_edit',
+                'evaluations_show', 'evaluations_edit', 'restrictions_show', 'restrictions_edit', 'exams_show', 'exams_edit')
+            ->wherePivot('is_deleted', 1)
+            ->wherePivot('is_confirmed', 0)
+            ->orderBy('name')->paginate(10);
+
+        return response()->json([
+            'companies_confirmed' => custom_paginator($companies_confirmed, 'companies_confirmed'),
+            'companies_unconfirmed' => custom_paginator($companies_unconfirmed, 'companies_unconfirmed'),
+            'companies_deleted' => custom_paginator($companies_deleted, 'companies_deleted'),
+        ]);
     }
 
     /**
