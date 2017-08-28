@@ -222,7 +222,7 @@ class LandingController extends Controller
     }
     public function registerProfessional()
     {
-        return view('landing.home.register-professional');
+        return view('landing.signup.index');
     }
 
 }
