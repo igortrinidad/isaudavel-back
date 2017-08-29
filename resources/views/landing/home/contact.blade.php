@@ -26,7 +26,7 @@
                     </div>
                 </div>
                 <div class="col-sm-12">
-                    <div class="form-group">
+                    <div class="form-group" id="teste">
                         <textarea class="form-control f-300 p-t-25 p-b-25" id="contact-msg" rows="5" placeholder="Sua mensagem"></textarea>
                     </div>
                 </div>
@@ -40,3 +40,13 @@
         </form>
     </div>
 </section>
+
+@section('scripts')
+    @parent
+
+    <script>
+        $('#teste').on('click', function(){
+            swal('Hello world!');
+        })
+    </script>
+@stop

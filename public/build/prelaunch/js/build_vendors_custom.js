@@ -20817,6 +20817,1692 @@ else if (typeof define === 'function' && define.amd) {
 
 //# sourceMappingURL=maps/swiper.jquery.js.map
 
+/*!
+ * sweetalert2 v6.6.9
+ * Released under the MIT License.
+ */
+(function (global, factory) {
+	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global.Sweetalert2 = factory());
+}(this, (function () { 'use strict';
+
+var defaultParams = {
+  title: '',
+  titleText: '',
+  text: '',
+  html: '',
+  type: null,
+  customClass: '',
+  target: 'body',
+  animation: true,
+  allowOutsideClick: true,
+  allowEscapeKey: true,
+  allowEnterKey: true,
+  showConfirmButton: true,
+  showCancelButton: false,
+  preConfirm: null,
+  confirmButtonText: 'OK',
+  confirmButtonColor: '#3085d6',
+  confirmButtonClass: null,
+  cancelButtonText: 'Cancel',
+  cancelButtonColor: '#aaa',
+  cancelButtonClass: null,
+  buttonsStyling: true,
+  reverseButtons: false,
+  focusCancel: false,
+  showCloseButton: false,
+  showLoaderOnConfirm: false,
+  imageUrl: null,
+  imageWidth: null,
+  imageHeight: null,
+  imageClass: null,
+  timer: null,
+  width: 500,
+  padding: 20,
+  background: '#fff',
+  input: null,
+  inputPlaceholder: '',
+  inputValue: '',
+  inputOptions: {},
+  inputAutoTrim: true,
+  inputClass: null,
+  inputAttributes: {},
+  inputValidator: null,
+  progressSteps: [],
+  currentProgressStep: null,
+  progressStepsDistance: '40px',
+  onOpen: null,
+  onClose: null,
+  useRejections: true
+};
+
+var swalPrefix = 'swal2-';
+
+var prefix = function prefix(items) {
+  var result = {};
+  for (var i in items) {
+    result[items[i]] = swalPrefix + items[i];
+  }
+  return result;
+};
+
+var swalClasses = prefix(['container', 'shown', 'iosfix', 'modal', 'overlay', 'fade', 'show', 'hide', 'noanimation', 'close', 'title', 'content', 'buttonswrapper', 'confirm', 'cancel', 'icon', 'image', 'input', 'file', 'range', 'select', 'radio', 'checkbox', 'textarea', 'inputerror', 'validationerror', 'progresssteps', 'activeprogressstep', 'progresscircle', 'progressline', 'loading', 'styled']);
+
+var iconTypes = prefix(['success', 'warning', 'info', 'question', 'error']);
+
+/*
+ * Set hover, active and focus-states for buttons (source: http://www.sitepoint.com/javascript-generate-lighter-darker-color)
+ */
+var colorLuminance = function colorLuminance(hex, lum) {
+  // Validate hex string
+  hex = String(hex).replace(/[^0-9a-f]/gi, '');
+  if (hex.length < 6) {
+    hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+  }
+  lum = lum || 0;
+
+  // Convert to decimal and change luminosity
+  var rgb = '#';
+  for (var i = 0; i < 3; i++) {
+    var c = parseInt(hex.substr(i * 2, 2), 16);
+    c = Math.round(Math.min(Math.max(0, c + c * lum), 255)).toString(16);
+    rgb += ('00' + c).substr(c.length);
+  }
+
+  return rgb;
+};
+
+var uniqueArray = function uniqueArray(arr) {
+  var result = [];
+  for (var i in arr) {
+    if (result.indexOf(arr[i]) === -1) {
+      result.push(arr[i]);
+    }
+  }
+  return result;
+};
+
+/* global MouseEvent */
+
+// Remember state in cases where opening and handling a modal will fiddle with it.
+var states = {
+  previousWindowKeyDown: null,
+  previousActiveElement: null,
+  previousBodyPadding: null
+
+  /*
+   * Add modal + overlay to DOM
+   */
+};var init = function init(params) {
+  // Clean up the old modal if it exists
+  var c = getContainer();
+  if (c) {
+    c.parentNode.removeChild(c);
+  }
+
+  if (typeof document === 'undefined') {
+    console.error('SweetAlert2 requires document to initialize');
+    return;
+  }
+
+  var container = document.createElement('div');
+  container.className = swalClasses.container;
+  container.innerHTML = sweetHTML;
+
+  var targetElement = typeof params.target === 'string' ? document.querySelector(params.target) : params.target;
+  targetElement.appendChild(container);
+
+  var modal = getModal();
+  var input = getChildByClass(modal, swalClasses.input);
+  var file = getChildByClass(modal, swalClasses.file);
+  var range = modal.querySelector('.' + swalClasses.range + ' input');
+  var rangeOutput = modal.querySelector('.' + swalClasses.range + ' output');
+  var select = getChildByClass(modal, swalClasses.select);
+  var checkbox = modal.querySelector('.' + swalClasses.checkbox + ' input');
+  var textarea = getChildByClass(modal, swalClasses.textarea);
+
+  input.oninput = function () {
+    sweetAlert.resetValidationError();
+  };
+
+  input.onkeydown = function (event) {
+    setTimeout(function () {
+      if (event.keyCode === 13 && params.allowEnterKey) {
+        event.stopPropagation();
+        sweetAlert.clickConfirm();
+      }
+    }, 0);
+  };
+
+  file.onchange = function () {
+    sweetAlert.resetValidationError();
+  };
+
+  range.oninput = function () {
+    sweetAlert.resetValidationError();
+    rangeOutput.value = range.value;
+  };
+
+  range.onchange = function () {
+    sweetAlert.resetValidationError();
+    range.previousSibling.value = range.value;
+  };
+
+  select.onchange = function () {
+    sweetAlert.resetValidationError();
+  };
+
+  checkbox.onchange = function () {
+    sweetAlert.resetValidationError();
+  };
+
+  textarea.oninput = function () {
+    sweetAlert.resetValidationError();
+  };
+
+  return modal;
+};
+
+/*
+ * Manipulate DOM
+ */
+
+var sweetHTML = ('\n <div role="dialog" aria-labelledby="' + swalClasses.title + '" aria-describedby="' + swalClasses.content + '" class="' + swalClasses.modal + '" tabindex="-1">\n   <ul class="' + swalClasses.progresssteps + '"></ul>\n   <div class="' + swalClasses.icon + ' ' + iconTypes.error + '">\n     <span class="swal2-x-mark"><span class="swal2-x-mark-line-left"></span><span class="swal2-x-mark-line-right"></span></span>\n   </div>\n   <div class="' + swalClasses.icon + ' ' + iconTypes.question + '">?</div>\n   <div class="' + swalClasses.icon + ' ' + iconTypes.warning + '">!</div>\n   <div class="' + swalClasses.icon + ' ' + iconTypes.info + '">i</div>\n   <div class="' + swalClasses.icon + ' ' + iconTypes.success + '">\n     <div class="swal2-success-circular-line-left"></div>\n     <span class="swal2-success-line-tip"></span> <span class="swal2-success-line-long"></span>\n     <div class="swal2-success-ring"></div> <div class="swal2-success-fix"></div>\n     <div class="swal2-success-circular-line-right"></div>\n   </div>\n   <img class="' + swalClasses.image + '" />\n   <h2 class="' + swalClasses.title + '" id="' + swalClasses.title + '"></h2>\n   <div id="' + swalClasses.content + '" class="' + swalClasses.content + '"></div>\n   <input class="' + swalClasses.input + '" />\n   <input type="file" class="' + swalClasses.file + '" />\n   <div class="' + swalClasses.range + '">\n     <output></output>\n     <input type="range" />\n   </div>\n   <select class="' + swalClasses.select + '"></select>\n   <div class="' + swalClasses.radio + '"></div>\n   <label for="' + swalClasses.checkbox + '" class="' + swalClasses.checkbox + '">\n     <input type="checkbox" />\n   </label>\n   <textarea class="' + swalClasses.textarea + '"></textarea>\n   <div class="' + swalClasses.validationerror + '"></div>\n   <div class="' + swalClasses.buttonswrapper + '">\n     <button type="button" class="' + swalClasses.confirm + '">OK</button>\n     <button type="button" class="' + swalClasses.cancel + '">Cancel</button>\n   </div>\n   <button type="button" class="' + swalClasses.close + '" aria-label="Close this dialog">\xD7</button>\n </div>\n').replace(/(^|\n)\s*/g, '');
+
+var getContainer = function getContainer() {
+  return document.body.querySelector('.' + swalClasses.container);
+};
+
+var getModal = function getModal() {
+  return getContainer() ? getContainer().querySelector('.' + swalClasses.modal) : null;
+};
+
+var getIcons = function getIcons() {
+  var modal = getModal();
+  return modal.querySelectorAll('.' + swalClasses.icon);
+};
+
+var elementByClass = function elementByClass(className) {
+  return getContainer() ? getContainer().querySelector('.' + className) : null;
+};
+
+var getTitle = function getTitle() {
+  return elementByClass(swalClasses.title);
+};
+
+var getContent = function getContent() {
+  return elementByClass(swalClasses.content);
+};
+
+var getImage = function getImage() {
+  return elementByClass(swalClasses.image);
+};
+
+var getButtonsWrapper = function getButtonsWrapper() {
+  return elementByClass(swalClasses.buttonswrapper);
+};
+
+var getProgressSteps = function getProgressSteps() {
+  return elementByClass(swalClasses.progresssteps);
+};
+
+var getValidationError = function getValidationError() {
+  return elementByClass(swalClasses.validationerror);
+};
+
+var getConfirmButton = function getConfirmButton() {
+  return elementByClass(swalClasses.confirm);
+};
+
+var getCancelButton = function getCancelButton() {
+  return elementByClass(swalClasses.cancel);
+};
+
+var getCloseButton = function getCloseButton() {
+  return elementByClass(swalClasses.close);
+};
+
+var getFocusableElements = function getFocusableElements(focusCancel) {
+  var buttons = [getConfirmButton(), getCancelButton()];
+  if (focusCancel) {
+    buttons.reverse();
+  }
+
+  var focusableElementsWithTabindex = Array.from(getModal().querySelectorAll('[tabindex]:not([tabindex="-1"]):not([tabindex="0"])'))
+  // sort according to tabindex
+  .sort(function (a, b) {
+    a = parseInt(a.getAttribute('tabindex'));
+    b = parseInt(b.getAttribute('tabindex'));
+    if (a > b) {
+      return 1;
+    } else if (a < b) {
+      return -1;
+    }
+    return 0;
+  });
+
+  var otherFocusableElements = Array.prototype.slice.call(getModal().querySelectorAll('button, input:not([type=hidden]), textarea, select, a, [tabindex="0"]'));
+
+  return uniqueArray(buttons.concat(focusableElementsWithTabindex, otherFocusableElements));
+};
+
+var hasClass = function hasClass(elem, className) {
+  if (elem.classList) {
+    return elem.classList.contains(className);
+  }
+  return false;
+};
+
+var focusInput = function focusInput(input) {
+  input.focus();
+
+  // place cursor at end of text in text input
+  if (input.type !== 'file') {
+    // http://stackoverflow.com/a/2345915/1331425
+    var val = input.value;
+    input.value = '';
+    input.value = val;
+  }
+};
+
+var addClass = function addClass(elem, className) {
+  if (!elem || !className) {
+    return;
+  }
+  var classes = className.split(/\s+/).filter(Boolean);
+  classes.forEach(function (className) {
+    elem.classList.add(className);
+  });
+};
+
+var removeClass = function removeClass(elem, className) {
+  if (!elem || !className) {
+    return;
+  }
+  var classes = className.split(/\s+/).filter(Boolean);
+  classes.forEach(function (className) {
+    elem.classList.remove(className);
+  });
+};
+
+var getChildByClass = function getChildByClass(elem, className) {
+  for (var i = 0; i < elem.childNodes.length; i++) {
+    if (hasClass(elem.childNodes[i], className)) {
+      return elem.childNodes[i];
+    }
+  }
+};
+
+var show = function show(elem, display) {
+  if (!display) {
+    display = 'block';
+  }
+  elem.style.opacity = '';
+  elem.style.display = display;
+};
+
+var hide = function hide(elem) {
+  elem.style.opacity = '';
+  elem.style.display = 'none';
+};
+
+var empty = function empty(elem) {
+  while (elem.firstChild) {
+    elem.removeChild(elem.firstChild);
+  }
+};
+
+// borrowed from jqeury $(elem).is(':visible') implementation
+var isVisible = function isVisible(elem) {
+  return elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length;
+};
+
+var removeStyleProperty = function removeStyleProperty(elem, property) {
+  if (elem.style.removeProperty) {
+    elem.style.removeProperty(property);
+  } else {
+    elem.style.removeAttribute(property);
+  }
+};
+
+var fireClick = function fireClick(node) {
+  if (!isVisible(node)) {
+    return false;
+  }
+
+  // Taken from http://www.nonobtrusive.com/2011/11/29/programatically-fire-crossbrowser-click-event-with-javascript/
+  // Then fixed for today's Chrome browser.
+  if (typeof MouseEvent === 'function') {
+    // Up-to-date approach
+    var mevt = new MouseEvent('click', {
+      view: window,
+      bubbles: false,
+      cancelable: true
+    });
+    node.dispatchEvent(mevt);
+  } else if (document.createEvent) {
+    // Fallback
+    var evt = document.createEvent('MouseEvents');
+    evt.initEvent('click', false, false);
+    node.dispatchEvent(evt);
+  } else if (document.createEventObject) {
+    node.fireEvent('onclick');
+  } else if (typeof node.onclick === 'function') {
+    node.onclick();
+  }
+};
+
+var animationEndEvent = function () {
+  var testEl = document.createElement('div');
+  var transEndEventNames = {
+    'WebkitAnimation': 'webkitAnimationEnd',
+    'OAnimation': 'oAnimationEnd oanimationend',
+    'msAnimation': 'MSAnimationEnd',
+    'animation': 'animationend'
+  };
+  for (var i in transEndEventNames) {
+    if (transEndEventNames.hasOwnProperty(i) && testEl.style[i] !== undefined) {
+      return transEndEventNames[i];
+    }
+  }
+
+  return false;
+}();
+
+// Reset previous window keydown handler and focued element
+var resetPrevState = function resetPrevState() {
+  window.onkeydown = states.previousWindowKeyDown;
+  if (states.previousActiveElement && states.previousActiveElement.focus) {
+    var x = window.scrollX;
+    var y = window.scrollY;
+    states.previousActiveElement.focus();
+    if (x && y) {
+      // IE has no scrollX/scrollY support
+      window.scrollTo(x, y);
+    }
+  }
+};
+
+// Measure width of scrollbar
+// https://github.com/twbs/bootstrap/blob/master/js/modal.js#L279-L286
+var measureScrollbar = function measureScrollbar() {
+  var supportsTouch = 'ontouchstart' in window || navigator.msMaxTouchPoints;
+  if (supportsTouch) {
+    return 0;
+  }
+  var scrollDiv = document.createElement('div');
+  scrollDiv.style.width = '50px';
+  scrollDiv.style.height = '50px';
+  scrollDiv.style.overflow = 'scroll';
+  document.body.appendChild(scrollDiv);
+  var scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
+  document.body.removeChild(scrollDiv);
+  return scrollbarWidth;
+};
+
+// JavaScript Debounce Function
+// Simplivied version of https://davidwalsh.name/javascript-debounce-function
+var debounce = function debounce(func, wait) {
+  var timeout = void 0;
+  return function () {
+    var later = function later() {
+      timeout = null;
+      func();
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+};
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+  return typeof obj;
+} : function (obj) {
+  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _extends = Object.assign || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];
+
+    for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }
+
+  return target;
+};
+
+var modalParams = _extends({}, defaultParams);
+var queue = [];
+var swal2Observer = void 0;
+
+/*
+ * Set type, text and actions on modal
+ */
+var setParameters = function setParameters(params) {
+  // If a custom element is set, determine if it is valid
+  if (typeof params.target === 'string' && !document.querySelector(params.target) || typeof params.target !== 'string' && !params.target.appendChild) {
+    console.warn('SweetAlert2: Target parameter is not valid, defaulting to "body"');
+    params.target = 'body';
+  }
+
+  var modal = void 0;
+  var oldModal = getModal();
+  var targetElement = typeof params.target === 'string' ? document.querySelector(params.target) : params.target;
+  // If the model target has changed, refresh the modal
+  if (oldModal && targetElement && oldModal.parentNode !== targetElement.parentNode) {
+    modal = init(params);
+  } else {
+    modal = oldModal || init(params);
+  }
+
+  for (var param in params) {
+    if (!sweetAlert.isValidParameter(param)) {
+      console.warn('SweetAlert2: Unknown parameter "' + param + '"');
+    }
+  }
+
+  // Set modal width
+  modal.style.width = typeof params.width === 'number' ? params.width + 'px' : params.width;
+
+  modal.style.padding = params.padding + 'px';
+  modal.style.background = params.background;
+  var successIconParts = modal.querySelectorAll('[class^=swal2-success-circular-line], .swal2-success-fix');
+  for (var i = 0; i < successIconParts.length; i++) {
+    successIconParts[i].style.background = params.background;
+  }
+
+  var title = getTitle();
+  var content = getContent();
+  var buttonsWrapper = getButtonsWrapper();
+  var confirmButton = getConfirmButton();
+  var cancelButton = getCancelButton();
+  var closeButton = getCloseButton();
+
+  // Title
+  if (params.titleText) {
+    title.innerText = params.titleText;
+  } else {
+    title.innerHTML = params.title.split('\n').join('<br />');
+  }
+
+  // Content
+  if (params.text || params.html) {
+    if (_typeof(params.html) === 'object') {
+      content.innerHTML = '';
+      if (0 in params.html) {
+        for (var _i = 0; _i in params.html; _i++) {
+          content.appendChild(params.html[_i].cloneNode(true));
+        }
+      } else {
+        content.appendChild(params.html.cloneNode(true));
+      }
+    } else if (params.html) {
+      content.innerHTML = params.html;
+    } else if (params.text) {
+      content.textContent = params.text;
+    }
+    show(content);
+  } else {
+    hide(content);
+  }
+
+  // Close button
+  if (params.showCloseButton) {
+    show(closeButton);
+  } else {
+    hide(closeButton);
+  }
+
+  // Custom Class
+  modal.className = swalClasses.modal;
+  if (params.customClass) {
+    addClass(modal, params.customClass);
+  }
+
+  // Progress steps
+  var progressStepsContainer = getProgressSteps();
+  var currentProgressStep = parseInt(params.currentProgressStep === null ? sweetAlert.getQueueStep() : params.currentProgressStep, 10);
+  if (params.progressSteps.length) {
+    show(progressStepsContainer);
+    empty(progressStepsContainer);
+    if (currentProgressStep >= params.progressSteps.length) {
+      console.warn('SweetAlert2: Invalid currentProgressStep parameter, it should be less than progressSteps.length ' + '(currentProgressStep like JS arrays starts from 0)');
+    }
+    params.progressSteps.forEach(function (step, index) {
+      var circle = document.createElement('li');
+      addClass(circle, swalClasses.progresscircle);
+      circle.innerHTML = step;
+      if (index === currentProgressStep) {
+        addClass(circle, swalClasses.activeprogressstep);
+      }
+      progressStepsContainer.appendChild(circle);
+      if (index !== params.progressSteps.length - 1) {
+        var line = document.createElement('li');
+        addClass(line, swalClasses.progressline);
+        line.style.width = params.progressStepsDistance;
+        progressStepsContainer.appendChild(line);
+      }
+    });
+  } else {
+    hide(progressStepsContainer);
+  }
+
+  // Icon
+  var icons = getIcons();
+  for (var _i2 = 0; _i2 < icons.length; _i2++) {
+    hide(icons[_i2]);
+  }
+  if (params.type) {
+    var validType = false;
+    for (var iconType in iconTypes) {
+      if (params.type === iconType) {
+        validType = true;
+        break;
+      }
+    }
+    if (!validType) {
+      console.error('SweetAlert2: Unknown alert type: ' + params.type);
+      return false;
+    }
+    var icon = modal.querySelector('.' + swalClasses.icon + '.' + iconTypes[params.type]);
+    show(icon);
+
+    // Animate icon
+    if (params.animation) {
+      switch (params.type) {
+        case 'success':
+          addClass(icon, 'swal2-animate-success-icon');
+          addClass(icon.querySelector('.swal2-success-line-tip'), 'swal2-animate-success-line-tip');
+          addClass(icon.querySelector('.swal2-success-line-long'), 'swal2-animate-success-line-long');
+          break;
+        case 'error':
+          addClass(icon, 'swal2-animate-error-icon');
+          addClass(icon.querySelector('.swal2-x-mark'), 'swal2-animate-x-mark');
+          break;
+        default:
+          break;
+      }
+    }
+  }
+
+  // Custom image
+  var image = getImage();
+  if (params.imageUrl) {
+    image.setAttribute('src', params.imageUrl);
+    show(image);
+
+    if (params.imageWidth) {
+      image.setAttribute('width', params.imageWidth);
+    } else {
+      image.removeAttribute('width');
+    }
+
+    if (params.imageHeight) {
+      image.setAttribute('height', params.imageHeight);
+    } else {
+      image.removeAttribute('height');
+    }
+
+    image.className = swalClasses.image;
+    if (params.imageClass) {
+      addClass(image, params.imageClass);
+    }
+  } else {
+    hide(image);
+  }
+
+  // Cancel button
+  if (params.showCancelButton) {
+    cancelButton.style.display = 'inline-block';
+  } else {
+    hide(cancelButton);
+  }
+
+  // Confirm button
+  if (params.showConfirmButton) {
+    removeStyleProperty(confirmButton, 'display');
+  } else {
+    hide(confirmButton);
+  }
+
+  // Buttons wrapper
+  if (!params.showConfirmButton && !params.showCancelButton) {
+    hide(buttonsWrapper);
+  } else {
+    show(buttonsWrapper);
+  }
+
+  // Edit text on cancel and confirm buttons
+  confirmButton.innerHTML = params.confirmButtonText;
+  cancelButton.innerHTML = params.cancelButtonText;
+
+  // Set buttons to selected background colors
+  if (params.buttonsStyling) {
+    confirmButton.style.backgroundColor = params.confirmButtonColor;
+    cancelButton.style.backgroundColor = params.cancelButtonColor;
+  }
+
+  // Add buttons custom classes
+  confirmButton.className = swalClasses.confirm;
+  addClass(confirmButton, params.confirmButtonClass);
+  cancelButton.className = swalClasses.cancel;
+  addClass(cancelButton, params.cancelButtonClass);
+
+  // Buttons styling
+  if (params.buttonsStyling) {
+    addClass(confirmButton, swalClasses.styled);
+    addClass(cancelButton, swalClasses.styled);
+  } else {
+    removeClass(confirmButton, swalClasses.styled);
+    removeClass(cancelButton, swalClasses.styled);
+
+    confirmButton.style.backgroundColor = confirmButton.style.borderLeftColor = confirmButton.style.borderRightColor = '';
+    cancelButton.style.backgroundColor = cancelButton.style.borderLeftColor = cancelButton.style.borderRightColor = '';
+  }
+
+  // CSS animation
+  if (params.animation === true) {
+    removeClass(modal, swalClasses.noanimation);
+  } else {
+    addClass(modal, swalClasses.noanimation);
+  }
+
+  // showLoaderOnConfirm && preConfirm
+  if (params.showLoaderOnConfirm && !params.preConfirm) {
+    console.warn('SweetAlert2: showLoaderOnConfirm is set to true, but preConfirm is not defined.\n' + 'showLoaderOnConfirm should be used together with preConfirm, see usage example:\n' + 'https://limonte.github.io/sweetalert2/#ajax-request');
+  }
+};
+
+/*
+ * Animations
+ */
+var openModal = function openModal(animation, onComplete) {
+  var container = getContainer();
+  var modal = getModal();
+
+  if (animation) {
+    addClass(modal, swalClasses.show);
+    addClass(container, swalClasses.fade);
+    removeClass(modal, swalClasses.hide);
+  } else {
+    removeClass(modal, swalClasses.fade);
+  }
+  show(modal);
+
+  // scrolling is 'hidden' until animation is done, after that 'auto'
+  container.style.overflowY = 'hidden';
+  if (animationEndEvent && !hasClass(modal, swalClasses.noanimation)) {
+    modal.addEventListener(animationEndEvent, function swalCloseEventFinished() {
+      modal.removeEventListener(animationEndEvent, swalCloseEventFinished);
+      container.style.overflowY = 'auto';
+    });
+  } else {
+    container.style.overflowY = 'auto';
+  }
+
+  addClass(document.documentElement, swalClasses.shown);
+  addClass(document.body, swalClasses.shown);
+  addClass(container, swalClasses.shown);
+  fixScrollbar();
+  iOSfix();
+  states.previousActiveElement = document.activeElement;
+  if (onComplete !== null && typeof onComplete === 'function') {
+    setTimeout(function () {
+      onComplete(modal);
+    });
+  }
+};
+
+var fixScrollbar = function fixScrollbar() {
+  // for queues, do not do this more than once
+  if (states.previousBodyPadding !== null) {
+    return;
+  }
+  // if the body has overflow
+  if (document.body.scrollHeight > window.innerHeight) {
+    // add padding so the content doesn't shift after removal of scrollbar
+    states.previousBodyPadding = document.body.style.paddingRight;
+    document.body.style.paddingRight = measureScrollbar() + 'px';
+  }
+};
+
+var undoScrollbar = function undoScrollbar() {
+  if (states.previousBodyPadding !== null) {
+    document.body.style.paddingRight = states.previousBodyPadding;
+    states.previousBodyPadding = null;
+  }
+};
+
+// Fix iOS scrolling http://stackoverflow.com/q/39626302/1331425
+var iOSfix = function iOSfix() {
+  var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  if (iOS && !hasClass(document.body, swalClasses.iosfix)) {
+    var offset = document.body.scrollTop;
+    document.body.style.top = offset * -1 + 'px';
+    addClass(document.body, swalClasses.iosfix);
+  }
+};
+
+var undoIOSfix = function undoIOSfix() {
+  if (hasClass(document.body, swalClasses.iosfix)) {
+    var offset = parseInt(document.body.style.top, 10);
+    removeClass(document.body, swalClasses.iosfix);
+    document.body.style.top = '';
+    document.body.scrollTop = offset * -1;
+  }
+};
+
+// SweetAlert entry point
+var sweetAlert = function sweetAlert() {
+  for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+    args[_key] = arguments[_key];
+  }
+
+  if (args[0] === undefined) {
+    console.error('SweetAlert2 expects at least 1 attribute!');
+    return false;
+  }
+
+  var params = _extends({}, modalParams);
+
+  switch (_typeof(args[0])) {
+    case 'string':
+      params.title = args[0];
+      params.html = args[1];
+      params.type = args[2];
+
+      break;
+
+    case 'object':
+      _extends(params, args[0]);
+      params.extraParams = args[0].extraParams;
+
+      if (params.input === 'email' && params.inputValidator === null) {
+        params.inputValidator = function (email) {
+          return new Promise(function (resolve, reject) {
+            var emailRegex = /^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+            if (emailRegex.test(email)) {
+              resolve();
+            } else {
+              reject('Invalid email address');
+            }
+          });
+        };
+      }
+
+      if (params.input === 'url' && params.inputValidator === null) {
+        params.inputValidator = function (url) {
+          return new Promise(function (resolve, reject) {
+            // taken from https://stackoverflow.com/a/3809435/1331425
+            var urlRegex = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)$/;
+            if (urlRegex.test(url)) {
+              resolve();
+            } else {
+              reject('Invalid URL');
+            }
+          });
+        };
+      }
+      break;
+
+    default:
+      console.error('SweetAlert2: Unexpected type of argument! Expected "string" or "object", got ' + _typeof(args[0]));
+      return false;
+  }
+
+  setParameters(params);
+
+  var container = getContainer();
+  var modal = getModal();
+
+  return new Promise(function (resolve, reject) {
+    // Close on timer
+    if (params.timer) {
+      modal.timeout = setTimeout(function () {
+        sweetAlert.closeModal(params.onClose);
+        if (params.useRejections) {
+          reject('timer');
+        } else {
+          resolve({ dismiss: 'timer' });
+        }
+      }, params.timer);
+    }
+
+    // Get input element by specified type or, if type isn't specified, by params.input
+    var getInput = function getInput(inputType) {
+      inputType = inputType || params.input;
+      if (!inputType) {
+        return null;
+      }
+      switch (inputType) {
+        case 'select':
+        case 'textarea':
+        case 'file':
+          return getChildByClass(modal, swalClasses[inputType]);
+        case 'checkbox':
+          return modal.querySelector('.' + swalClasses.checkbox + ' input');
+        case 'radio':
+          return modal.querySelector('.' + swalClasses.radio + ' input:checked') || modal.querySelector('.' + swalClasses.radio + ' input:first-child');
+        case 'range':
+          return modal.querySelector('.' + swalClasses.range + ' input');
+        default:
+          return getChildByClass(modal, swalClasses.input);
+      }
+    };
+
+    // Get the value of the modal input
+    var getInputValue = function getInputValue() {
+      var input = getInput();
+      if (!input) {
+        return null;
+      }
+      switch (params.input) {
+        case 'checkbox':
+          return input.checked ? 1 : 0;
+        case 'radio':
+          return input.checked ? input.value : null;
+        case 'file':
+          return input.files.length ? input.files[0] : null;
+        default:
+          return params.inputAutoTrim ? input.value.trim() : input.value;
+      }
+    };
+
+    // input autofocus
+    if (params.input) {
+      setTimeout(function () {
+        var input = getInput();
+        if (input) {
+          focusInput(input);
+        }
+      }, 0);
+    }
+
+    var confirm = function confirm(value) {
+      if (params.showLoaderOnConfirm) {
+        sweetAlert.showLoading();
+      }
+
+      if (params.preConfirm) {
+        params.preConfirm(value, params.extraParams).then(function (preConfirmValue) {
+          sweetAlert.closeModal(params.onClose);
+          resolve(preConfirmValue || value);
+        }, function (error) {
+          sweetAlert.hideLoading();
+          if (error) {
+            sweetAlert.showValidationError(error);
+          }
+        });
+      } else {
+        sweetAlert.closeModal(params.onClose);
+        if (params.useRejections) {
+          resolve(value);
+        } else {
+          resolve({ value: value });
+        }
+      }
+    };
+
+    // Mouse interactions
+    var onButtonEvent = function onButtonEvent(event) {
+      var e = event || window.event;
+      var target = e.target || e.srcElement;
+      var confirmButton = getConfirmButton();
+      var cancelButton = getCancelButton();
+      var targetedConfirm = confirmButton && (confirmButton === target || confirmButton.contains(target));
+      var targetedCancel = cancelButton && (cancelButton === target || cancelButton.contains(target));
+
+      switch (e.type) {
+        case 'mouseover':
+        case 'mouseup':
+          if (params.buttonsStyling) {
+            if (targetedConfirm) {
+              confirmButton.style.backgroundColor = colorLuminance(params.confirmButtonColor, -0.1);
+            } else if (targetedCancel) {
+              cancelButton.style.backgroundColor = colorLuminance(params.cancelButtonColor, -0.1);
+            }
+          }
+          break;
+        case 'mouseout':
+          if (params.buttonsStyling) {
+            if (targetedConfirm) {
+              confirmButton.style.backgroundColor = params.confirmButtonColor;
+            } else if (targetedCancel) {
+              cancelButton.style.backgroundColor = params.cancelButtonColor;
+            }
+          }
+          break;
+        case 'mousedown':
+          if (params.buttonsStyling) {
+            if (targetedConfirm) {
+              confirmButton.style.backgroundColor = colorLuminance(params.confirmButtonColor, -0.2);
+            } else if (targetedCancel) {
+              cancelButton.style.backgroundColor = colorLuminance(params.cancelButtonColor, -0.2);
+            }
+          }
+          break;
+        case 'click':
+          // Clicked 'confirm'
+          if (targetedConfirm && sweetAlert.isVisible()) {
+            sweetAlert.disableButtons();
+            if (params.input) {
+              var inputValue = getInputValue();
+
+              if (params.inputValidator) {
+                sweetAlert.disableInput();
+                params.inputValidator(inputValue, params.extraParams).then(function () {
+                  sweetAlert.enableButtons();
+                  sweetAlert.enableInput();
+                  confirm(inputValue);
+                }, function (error) {
+                  sweetAlert.enableButtons();
+                  sweetAlert.enableInput();
+                  if (error) {
+                    sweetAlert.showValidationError(error);
+                  }
+                });
+              } else {
+                confirm(inputValue);
+              }
+            } else {
+              confirm(true);
+            }
+
+            // Clicked 'cancel'
+          } else if (targetedCancel && sweetAlert.isVisible()) {
+            sweetAlert.disableButtons();
+            sweetAlert.closeModal(params.onClose);
+            if (params.useRejections) {
+              reject('cancel');
+            } else {
+              resolve({ dismiss: 'cancel' });
+            }
+          }
+          break;
+        default:
+      }
+    };
+
+    var buttons = modal.querySelectorAll('button');
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].onclick = onButtonEvent;
+      buttons[i].onmouseover = onButtonEvent;
+      buttons[i].onmouseout = onButtonEvent;
+      buttons[i].onmousedown = onButtonEvent;
+    }
+
+    // Closing modal by close button
+    getCloseButton().onclick = function () {
+      sweetAlert.closeModal(params.onClose);
+      if (params.useRejections) {
+        reject('close');
+      } else {
+        resolve({ dismiss: 'close' });
+      }
+    };
+
+    // Closing modal by overlay click
+    container.onclick = function (e) {
+      if (e.target !== container) {
+        return;
+      }
+      if (params.allowOutsideClick) {
+        sweetAlert.closeModal(params.onClose);
+        if (params.useRejections) {
+          reject('overlay');
+        } else {
+          resolve({ dismiss: 'overlay' });
+        }
+      }
+    };
+
+    var buttonsWrapper = getButtonsWrapper();
+    var confirmButton = getConfirmButton();
+    var cancelButton = getCancelButton();
+
+    // Reverse buttons (Confirm on the right side)
+    if (params.reverseButtons) {
+      confirmButton.parentNode.insertBefore(cancelButton, confirmButton);
+    } else {
+      confirmButton.parentNode.insertBefore(confirmButton, cancelButton);
+    }
+
+    // Focus handling
+    var setFocus = function setFocus(index, increment) {
+      var focusableElements = getFocusableElements(params.focusCancel);
+      // search for visible elements and select the next possible match
+      for (var _i3 = 0; _i3 < focusableElements.length; _i3++) {
+        index = index + increment;
+
+        // rollover to first item
+        if (index === focusableElements.length) {
+          index = 0;
+
+          // go to last item
+        } else if (index === -1) {
+          index = focusableElements.length - 1;
+        }
+
+        // determine if element is visible
+        var el = focusableElements[index];
+        if (isVisible(el)) {
+          return el.focus();
+        }
+      }
+    };
+
+    var handleKeyDown = function handleKeyDown(event) {
+      var e = event || window.event;
+      var keyCode = e.keyCode || e.which;
+
+      if ([9, 13, 32, 27, 37, 38, 39, 40].indexOf(keyCode) === -1) {
+        // Don't do work on keys we don't care about.
+        return;
+      }
+
+      var targetElement = e.target || e.srcElement;
+
+      var focusableElements = getFocusableElements(params.focusCancel);
+      var btnIndex = -1; // Find the button - note, this is a nodelist, not an array.
+      for (var _i4 = 0; _i4 < focusableElements.length; _i4++) {
+        if (targetElement === focusableElements[_i4]) {
+          btnIndex = _i4;
+          break;
+        }
+      }
+
+      // TAB
+      if (keyCode === 9) {
+        if (!e.shiftKey) {
+          // Cycle to the next button
+          setFocus(btnIndex, 1);
+        } else {
+          // Cycle to the prev button
+          setFocus(btnIndex, -1);
+        }
+        e.stopPropagation();
+        e.preventDefault();
+
+        // ARROWS - switch focus between buttons
+      } else if (keyCode === 37 || keyCode === 38 || keyCode === 39 || keyCode === 40) {
+        // focus Cancel button if Confirm button is currently focused
+        if (document.activeElement === confirmButton && isVisible(cancelButton)) {
+          cancelButton.focus();
+          // and vice versa
+        } else if (document.activeElement === cancelButton && isVisible(confirmButton)) {
+          confirmButton.focus();
+        }
+
+        // ENTER/SPACE
+      } else if (keyCode === 13 || keyCode === 32) {
+        if (btnIndex === -1 && params.allowEnterKey) {
+          // ENTER/SPACE clicked outside of a button.
+          if (params.focusCancel) {
+            fireClick(cancelButton, e);
+          } else {
+            fireClick(confirmButton, e);
+          }
+          e.stopPropagation();
+          e.preventDefault();
+        }
+
+        // ESC
+      } else if (keyCode === 27 && params.allowEscapeKey === true) {
+        sweetAlert.closeModal(params.onClose);
+        if (params.useRejections) {
+          reject('esc');
+        } else {
+          resolve({ dismiss: 'esc' });
+        }
+      }
+    };
+
+    if (!window.onkeydown || window.onkeydown.toString() !== handleKeyDown.toString()) {
+      states.previousWindowKeyDown = window.onkeydown;
+      window.onkeydown = handleKeyDown;
+    }
+
+    // Loading state
+    if (params.buttonsStyling) {
+      confirmButton.style.borderLeftColor = params.confirmButtonColor;
+      confirmButton.style.borderRightColor = params.confirmButtonColor;
+    }
+
+    /**
+     * Show spinner instead of Confirm button and disable Cancel button
+     */
+    sweetAlert.hideLoading = sweetAlert.disableLoading = function () {
+      if (!params.showConfirmButton) {
+        hide(confirmButton);
+        if (!params.showCancelButton) {
+          hide(getButtonsWrapper());
+        }
+      }
+      removeClass(buttonsWrapper, swalClasses.loading);
+      removeClass(modal, swalClasses.loading);
+      confirmButton.disabled = false;
+      cancelButton.disabled = false;
+    };
+
+    sweetAlert.getTitle = function () {
+      return getTitle();
+    };
+    sweetAlert.getContent = function () {
+      return getContent();
+    };
+    sweetAlert.getInput = function () {
+      return getInput();
+    };
+    sweetAlert.getImage = function () {
+      return getImage();
+    };
+    sweetAlert.getButtonsWrapper = function () {
+      return getButtonsWrapper();
+    };
+    sweetAlert.getConfirmButton = function () {
+      return getConfirmButton();
+    };
+    sweetAlert.getCancelButton = function () {
+      return getCancelButton();
+    };
+
+    sweetAlert.enableButtons = function () {
+      confirmButton.disabled = false;
+      cancelButton.disabled = false;
+    };
+
+    sweetAlert.disableButtons = function () {
+      confirmButton.disabled = true;
+      cancelButton.disabled = true;
+    };
+
+    sweetAlert.enableConfirmButton = function () {
+      confirmButton.disabled = false;
+    };
+
+    sweetAlert.disableConfirmButton = function () {
+      confirmButton.disabled = true;
+    };
+
+    sweetAlert.enableInput = function () {
+      var input = getInput();
+      if (!input) {
+        return false;
+      }
+      if (input.type === 'radio') {
+        var radiosContainer = input.parentNode.parentNode;
+        var radios = radiosContainer.querySelectorAll('input');
+        for (var _i5 = 0; _i5 < radios.length; _i5++) {
+          radios[_i5].disabled = false;
+        }
+      } else {
+        input.disabled = false;
+      }
+    };
+
+    sweetAlert.disableInput = function () {
+      var input = getInput();
+      if (!input) {
+        return false;
+      }
+      if (input && input.type === 'radio') {
+        var radiosContainer = input.parentNode.parentNode;
+        var radios = radiosContainer.querySelectorAll('input');
+        for (var _i6 = 0; _i6 < radios.length; _i6++) {
+          radios[_i6].disabled = true;
+        }
+      } else {
+        input.disabled = true;
+      }
+    };
+
+    // Set modal min-height to disable scrolling inside the modal
+    sweetAlert.recalculateHeight = debounce(function () {
+      var modal = getModal();
+      if (!modal) {
+        return;
+      }
+      var prevState = modal.style.display;
+      modal.style.minHeight = '';
+      show(modal);
+      modal.style.minHeight = modal.scrollHeight + 1 + 'px';
+      modal.style.display = prevState;
+    }, 50);
+
+    // Show block with validation error
+    sweetAlert.showValidationError = function (error) {
+      var validationError = getValidationError();
+      validationError.innerHTML = error;
+      show(validationError);
+
+      var input = getInput();
+      if (input) {
+        focusInput(input);
+        addClass(input, swalClasses.inputerror);
+      }
+    };
+
+    // Hide block with validation error
+    sweetAlert.resetValidationError = function () {
+      var validationError = getValidationError();
+      hide(validationError);
+      sweetAlert.recalculateHeight();
+
+      var input = getInput();
+      if (input) {
+        removeClass(input, swalClasses.inputerror);
+      }
+    };
+
+    sweetAlert.getProgressSteps = function () {
+      return params.progressSteps;
+    };
+
+    sweetAlert.setProgressSteps = function (progressSteps) {
+      params.progressSteps = progressSteps;
+      setParameters(params);
+    };
+
+    sweetAlert.showProgressSteps = function () {
+      show(getProgressSteps());
+    };
+
+    sweetAlert.hideProgressSteps = function () {
+      hide(getProgressSteps());
+    };
+
+    sweetAlert.enableButtons();
+    sweetAlert.hideLoading();
+    sweetAlert.resetValidationError();
+
+    // inputs
+    var inputTypes = ['input', 'file', 'range', 'select', 'radio', 'checkbox', 'textarea'];
+    var input = void 0;
+    for (var _i7 = 0; _i7 < inputTypes.length; _i7++) {
+      var inputClass = swalClasses[inputTypes[_i7]];
+      var inputContainer = getChildByClass(modal, inputClass);
+      input = getInput(inputTypes[_i7]);
+
+      // set attributes
+      if (input) {
+        for (var j in input.attributes) {
+          if (input.attributes.hasOwnProperty(j)) {
+            var attrName = input.attributes[j].name;
+            if (attrName !== 'type' && attrName !== 'value') {
+              input.removeAttribute(attrName);
+            }
+          }
+        }
+        for (var attr in params.inputAttributes) {
+          input.setAttribute(attr, params.inputAttributes[attr]);
+        }
+      }
+
+      // set class
+      inputContainer.className = inputClass;
+      if (params.inputClass) {
+        addClass(inputContainer, params.inputClass);
+      }
+
+      hide(inputContainer);
+    }
+
+    var populateInputOptions = void 0;
+    switch (params.input) {
+      case 'text':
+      case 'email':
+      case 'password':
+      case 'number':
+      case 'tel':
+      case 'url':
+        input = getChildByClass(modal, swalClasses.input);
+        input.value = params.inputValue;
+        input.placeholder = params.inputPlaceholder;
+        input.type = params.input;
+        show(input);
+        break;
+      case 'file':
+        input = getChildByClass(modal, swalClasses.file);
+        input.placeholder = params.inputPlaceholder;
+        input.type = params.input;
+        show(input);
+        break;
+      case 'range':
+        var range = getChildByClass(modal, swalClasses.range);
+        var rangeInput = range.querySelector('input');
+        var rangeOutput = range.querySelector('output');
+        rangeInput.value = params.inputValue;
+        rangeInput.type = params.input;
+        rangeOutput.value = params.inputValue;
+        show(range);
+        break;
+      case 'select':
+        var select = getChildByClass(modal, swalClasses.select);
+        select.innerHTML = '';
+        if (params.inputPlaceholder) {
+          var placeholder = document.createElement('option');
+          placeholder.innerHTML = params.inputPlaceholder;
+          placeholder.value = '';
+          placeholder.disabled = true;
+          placeholder.selected = true;
+          select.appendChild(placeholder);
+        }
+        populateInputOptions = function populateInputOptions(inputOptions) {
+          for (var optionValue in inputOptions) {
+            var option = document.createElement('option');
+            option.value = optionValue;
+            option.innerHTML = inputOptions[optionValue];
+            if (params.inputValue === optionValue) {
+              option.selected = true;
+            }
+            select.appendChild(option);
+          }
+          show(select);
+          select.focus();
+        };
+        break;
+      case 'radio':
+        var radio = getChildByClass(modal, swalClasses.radio);
+        radio.innerHTML = '';
+        populateInputOptions = function populateInputOptions(inputOptions) {
+          for (var radioValue in inputOptions) {
+            var radioInput = document.createElement('input');
+            var radioLabel = document.createElement('label');
+            var radioLabelSpan = document.createElement('span');
+            radioInput.type = 'radio';
+            radioInput.name = swalClasses.radio;
+            radioInput.value = radioValue;
+            if (params.inputValue === radioValue) {
+              radioInput.checked = true;
+            }
+            radioLabelSpan.innerHTML = inputOptions[radioValue];
+            radioLabel.appendChild(radioInput);
+            radioLabel.appendChild(radioLabelSpan);
+            radioLabel.for = radioInput.id;
+            radio.appendChild(radioLabel);
+          }
+          show(radio);
+          var radios = radio.querySelectorAll('input');
+          if (radios.length) {
+            radios[0].focus();
+          }
+        };
+        break;
+      case 'checkbox':
+        var checkbox = getChildByClass(modal, swalClasses.checkbox);
+        var checkboxInput = getInput('checkbox');
+        checkboxInput.type = 'checkbox';
+        checkboxInput.value = 1;
+        checkboxInput.id = swalClasses.checkbox;
+        checkboxInput.checked = Boolean(params.inputValue);
+        var label = checkbox.getElementsByTagName('span');
+        if (label.length) {
+          checkbox.removeChild(label[0]);
+        }
+        label = document.createElement('span');
+        label.innerHTML = params.inputPlaceholder;
+        checkbox.appendChild(label);
+        show(checkbox);
+        break;
+      case 'textarea':
+        var textarea = getChildByClass(modal, swalClasses.textarea);
+        textarea.value = params.inputValue;
+        textarea.placeholder = params.inputPlaceholder;
+        show(textarea);
+        break;
+      case null:
+        break;
+      default:
+        console.error('SweetAlert2: Unexpected type of input! Expected "text", "email", "password", "number", "tel", "select", "radio", "checkbox", "textarea", "file" or "url", got "' + params.input + '"');
+        break;
+    }
+
+    if (params.input === 'select' || params.input === 'radio') {
+      if (params.inputOptions instanceof Promise) {
+        sweetAlert.showLoading();
+        params.inputOptions.then(function (inputOptions) {
+          sweetAlert.hideLoading();
+          populateInputOptions(inputOptions);
+        });
+      } else if (_typeof(params.inputOptions) === 'object') {
+        populateInputOptions(params.inputOptions);
+      } else {
+        console.error('SweetAlert2: Unexpected type of inputOptions! Expected object or Promise, got ' + _typeof(params.inputOptions));
+      }
+    }
+
+    openModal(params.animation, params.onOpen);
+
+    // Focus the first focusable element
+    if (params.allowEnterKey) {
+      setFocus(-1, 1);
+    } else {
+      if (document.activeElement) {
+        document.activeElement.blur();
+      }
+    }
+
+    // fix scroll
+    getContainer().scrollTop = 0;
+
+    // Observe changes inside the modal and adjust height
+    if (typeof MutationObserver !== 'undefined' && !swal2Observer) {
+      swal2Observer = new MutationObserver(sweetAlert.recalculateHeight);
+      swal2Observer.observe(modal, { childList: true, characterData: true, subtree: true });
+    }
+  });
+};
+
+/*
+ * Global function to determine if swal2 modal is shown
+ */
+sweetAlert.isVisible = function () {
+  return !!getModal();
+};
+
+/*
+ * Global function for chaining sweetAlert modals
+ */
+sweetAlert.queue = function (steps) {
+  queue = steps;
+  var resetQueue = function resetQueue() {
+    queue = [];
+    document.body.removeAttribute('data-swal2-queue-step');
+  };
+  var queueResult = [];
+  return new Promise(function (resolve, reject) {
+    (function step(i, callback) {
+      if (i < queue.length) {
+        document.body.setAttribute('data-swal2-queue-step', i);
+
+        sweetAlert(queue[i]).then(function (result) {
+          queueResult.push(result);
+          step(i + 1, callback);
+        }, function (dismiss) {
+          resetQueue();
+          reject(dismiss);
+        });
+      } else {
+        resetQueue();
+        resolve(queueResult);
+      }
+    })(0);
+  });
+};
+
+/*
+ * Global function for getting the index of current modal in queue
+ */
+sweetAlert.getQueueStep = function () {
+  return document.body.getAttribute('data-swal2-queue-step');
+};
+
+/*
+ * Global function for inserting a modal to the queue
+ */
+sweetAlert.insertQueueStep = function (step, index) {
+  if (index && index < queue.length) {
+    return queue.splice(index, 0, step);
+  }
+  return queue.push(step);
+};
+
+/*
+ * Global function for deleting a modal from the queue
+ */
+sweetAlert.deleteQueueStep = function (index) {
+  if (typeof queue[index] !== 'undefined') {
+    queue.splice(index, 1);
+  }
+};
+
+/*
+ * Global function to close sweetAlert
+ */
+sweetAlert.close = sweetAlert.closeModal = function (onComplete) {
+  var container = getContainer();
+  var modal = getModal();
+  if (!modal) {
+    return;
+  }
+  removeClass(modal, swalClasses.show);
+  addClass(modal, swalClasses.hide);
+  clearTimeout(modal.timeout);
+
+  resetPrevState();
+
+  var removeModalAndResetState = function removeModalAndResetState() {
+    if (container.parentNode) {
+      container.parentNode.removeChild(container);
+    }
+    removeClass(document.documentElement, swalClasses.shown);
+    removeClass(document.body, swalClasses.shown);
+    undoScrollbar();
+    undoIOSfix();
+  };
+
+  // If animation is supported, animate
+  if (animationEndEvent && !hasClass(modal, swalClasses.noanimation)) {
+    modal.addEventListener(animationEndEvent, function swalCloseEventFinished() {
+      modal.removeEventListener(animationEndEvent, swalCloseEventFinished);
+      if (hasClass(modal, swalClasses.hide)) {
+        removeModalAndResetState();
+      }
+    });
+  } else {
+    // Otherwise, remove immediately
+    removeModalAndResetState();
+  }
+  if (onComplete !== null && typeof onComplete === 'function') {
+    setTimeout(function () {
+      onComplete(modal);
+    });
+  }
+};
+
+/*
+ * Global function to click 'Confirm' button
+ */
+sweetAlert.clickConfirm = function () {
+  return getConfirmButton().click();
+};
+
+/*
+ * Global function to click 'Cancel' button
+ */
+sweetAlert.clickCancel = function () {
+  return getCancelButton().click();
+};
+
+/**
+ * Show spinner instead of Confirm button and disable Cancel button
+ */
+sweetAlert.showLoading = sweetAlert.enableLoading = function () {
+  var modal = getModal();
+  if (!modal) {
+    sweetAlert('');
+  }
+  var buttonsWrapper = getButtonsWrapper();
+  var confirmButton = getConfirmButton();
+  var cancelButton = getCancelButton();
+
+  show(buttonsWrapper);
+  show(confirmButton, 'inline-block');
+  addClass(buttonsWrapper, swalClasses.loading);
+  addClass(modal, swalClasses.loading);
+  confirmButton.disabled = true;
+  cancelButton.disabled = true;
+};
+
+/**
+ * Is valid parameter
+ * @param {String} paramName
+ */
+sweetAlert.isValidParameter = function (paramName) {
+  return defaultParams.hasOwnProperty(paramName) || paramName === 'extraParams';
+};
+
+/**
+* Set default params for each popup
+* @param {Object} userParams
+*/
+sweetAlert.setDefaults = function (userParams) {
+  if (!userParams || (typeof userParams === 'undefined' ? 'undefined' : _typeof(userParams)) !== 'object') {
+    return console.error('SweetAlert2: the argument for setDefaults() is required and has to be a object');
+  }
+
+  for (var param in userParams) {
+    if (!sweetAlert.isValidParameter(param)) {
+      console.warn('SweetAlert2: Unknown parameter "' + param + '"');
+      delete userParams[param];
+    }
+  }
+
+  _extends(modalParams, userParams);
+};
+
+/**
+ * Reset default params for each popup
+ */
+sweetAlert.resetDefaults = function () {
+  modalParams = _extends({}, defaultParams);
+};
+
+sweetAlert.noop = function () {};
+
+sweetAlert.version = '6.6.9';
+
+sweetAlert.default = sweetAlert;
+
+return sweetAlert;
+
+})));
+if (window.Sweetalert2) window.sweetAlert = window.swal = window.Sweetalert2;
+
 // Unite Gallery, Version: 1.7.45, released 27 Feb 2017 
 
 function debugLine(e,t,i){e===!0&&(e="true"),e===!1&&(e="false");var n=e;if("object"==typeof e){n="";for(name in e){var r=e[name];n+=" "+name+": "+r}}if(1!=t||i||(n+=" "+Math.random()),1==i){var o=jQuery("#debug_line");o.width(200),o.height()>=500&&o.html("");var a=o.html();n=a+"<br> -------------- <br>"+n}jQuery("#debug_line").show().html(n)}function debugSide(e){var t="";for(name in e){var i=e[name];t+=name+" : "+i+"<br>"}jQuery("#debug_side").show().html(t)}function trace(e){"undefined"!=typeof console&&console.log(e)}function UGFunctions(){function e(e,t,i){t.addEventListener?t.addEventListener(e,i,!1):t.attachEvent?t.attachEvent("on"+e,i):t[e]=i}var t=null,i=this,n={starTime:0,arrThemes:[],isTouchDevice:-1,isRgbaSupported:-1,timeCache:{},dataCache:{},lastEventType:"",lastEventTime:0,lastTouchStartElement:null,touchThreshold:700,handle:null};this.debugVar="",this.z__________FULL_SCREEN___________=function(){},this.toFullscreen=function(e,t){if(e.requestFullscreen)e.requestFullscreen();else if(e.mozRequestFullScreen)e.mozRequestFullScreen();else if(e.webkitRequestFullscreen)e.webkitRequestFullscreen();else{if(!e.msRequestFullscreen)return!1;e.msRequestFullscreen()}return!0},this.exitFullscreen=function(){if(0==i.isFullScreen())return!1;if(document.exitFullscreen)document.exitFullscreen();else if(document.cancelFullScreen)document.cancelFullScreen();else if(document.mozCancelFullScreen)document.mozCancelFullScreen();else if(document.webkitExitFullscreen)document.webkitExitFullscreen();else{if(!document.msExitFullscreen)return!1;document.msExitFullscreen()}return!0},this.addFullScreenChangeEvent=function(t){document.webkitCancelFullScreen?e("webkitfullscreenchange",document,t):document.msExitFullscreen?e("MSFullscreenChange",document,t):document.mozCancelFullScreen?e("mozfullscreenchange",document,t):e("fullscreenchange",document,t)},this.destroyFullScreenChangeEvent=function(){jQuery(document).unbind("fullscreenChange"),jQuery(document).unbind("mozfullscreenchange"),jQuery(document).unbind("webkitfullscreenchange"),jQuery(document).unbind("MSFullscreenChange")},this.getFullScreenElement=function(){var e=document.fullscreenElement||document.mozFullScreenElement||document.webkitFullscreenElement||document.msFullscreenElement;return e},this.isFullScreen=function(){var e=document.fullscreen||document.mozFullScreen||document.webkitIsFullScreen||document.msFullscreenElement;return e=e?!0:!1},this.z__________GET_PROPS___________=function(){},this.getBrowserPrefix=function(){if(null!==t)return t;var e=["webkit","Moz","ms","O"],i=document.createElement("div");for(var n in e){var r=e[n];if(r+"Transform"in i.style)return r=r.toLowerCase(),t=r,r}return t="",""},this.getImageInsideParentDataByImage=function(e,t,n){var r=e.parent(),o=i.getImageOriginalSize(e),a=i.getImageInsideParentData(r,o.width,o.height,t,n);return a},this.getImageInsideParentData=function(e,t,i,n,r,o,a){if(!r)var r={};var s={};if("undefined"==typeof o)var o=e.width();if("undefined"==typeof a)var a=e.height();r.padding_left&&(o-=r.padding_left),r.padding_right&&(o-=r.padding_right),r.padding_top&&(a-=r.padding_top),r.padding_bottom&&(a-=r.padding_bottom);var l=null,u="100%",d=null,_=null,g="display:block;margin:0px auto;";if(t>0&&i>0){if("down"==n&&o>t&&a>i)u=i,l=t,_=(o-l)/2,d=(a-u)/2;else if("fill"==n){var c=t/i;u=a,l=u*c,o>l?(l=o,u=l/c,_=0,d=Math.round((u-a)/2*-1)):(d=0,_=Math.round((l-o)/2*-1))}else{var c=t/i;u=a,l=u*c,d=0,_=(o-l)/2,"fitvert"!=n&&l>o&&(l=o,u=l/c,_=0,d=(a-u)/2)}l=Math.floor(l),u=Math.floor(u),d=Math.floor(d),_=Math.floor(_),g="position:absolute;"}return r.padding_top&&(d+=r.padding_top),r.padding_left&&(_+=r.padding_left),s.imageWidth=l,s.imageHeight=u,s.imageTop=d,s.imageLeft=_,s.imageRight=_+l,0==d||"100%"==u?s.imageBottom=null:s.imageBottom=d+u,s.style=g,s},this.getElementCenterPosition=function(e,t){var n=e.parent(),r=i.getElementSize(e),o=i.getElementSize(n),a=o.width,s=o.height;t&&void 0!==t.padding_top&&(s-=t.padding_top),t&&void 0!==t.padding_bottom&&(s-=t.padding_bottom),t&&void 0!==t.padding_left&&(a-=t.padding_left),t&&void 0!==t.padding_right&&(a-=t.padding_right);var l={};return l.left=Math.round((a-r.width)/2),l.top=Math.round((s-r.height)/2),t&&void 0!==t.padding_top&&(l.top+=t.padding_top),t&&void 0!==t.padding_left&&(l.left+=t.padding_left),l},this.getElementCenterPoint=function(e,t){if(!t)var t=!1;var n=i.getElementSize(e),r={};return r.x=n.width/2,r.y=n.height/2,1==t&&(r.x+=n.left,r.y+=n.top),r.x=Math.round(r.x),r.y=Math.round(r.y),r},this.getMousePosition=function(e,t){var i={pageX:e.pageX,pageY:e.pageY,clientX:e.clientX,clientY:e.clientY};if(e.originalEvent&&e.originalEvent.touches&&e.originalEvent.touches.length>0&&(i.pageX=e.originalEvent.touches[0].pageX,i.pageY=e.originalEvent.touches[0].pageY,i.clientX=e.originalEvent.touches[0].clientX,i.clientY=e.originalEvent.touches[0].clientY),t){var n=t.offset();i.mouseX=i.pageX-n.left,i.mouseY=i.pageY-n.top}return i},this.getMouseElementPoint=function(e,t){var n={x:e.pageX,y:e.pageY},r=i.getElementLocalPoint(n,t);return r},this.getElementLocalPoint=function(e,t){var i={},n=t.offset();return i.x=Math.round(e.x-n.left),i.y=Math.round(e.y-n.top),i},this.getImageOriginalSize=function(e,t,i){if("undefined"!=typeof t&&"undefined"!=typeof i)return{width:t,height:i};var n=e[0];if("undefined"==typeof n)throw new Error("getImageOriginalSize error - Image not found");var r={};if("undefined"==typeof n.naturalWidth){if("number"==typeof e.data("naturalWidth")){var r={};return r.width=e.data("naturalWidth"),r.height=e.data("naturalHeight"),r}var o=new Image;return o.src=n.src,o.complete?(r.width=o.width,r.height=o.height,e.data("naturalWidth",r.width),e.data("naturalHeight",r.height),r):{width:0,height:0}}return r.width=n.naturalWidth,r.height=n.naturalHeight,r},this.getimageRatio=function(e){var t=i.getImageOriginalSize(e),n=i.getElementSize(e),r=n.width/t.width;return r},this.isImageFitParent=function(e){var t=e.parent(),n=i.getElementSize(e),r=i.getElementSize(t);return n.width<=r.width&&n.height<=r.height?!0:!1},this.getElementSize=function(e){if(void 0===e)throw new Error("Can't get size, empty element");var t=e.position();return t.height=e.outerHeight(),t.width=e.outerWidth(),t.left=Math.round(t.left),t.top=Math.round(t.top),t.right=t.left+t.width,t.bottom=t.top+t.height,t},this.isElementBiggerThenParent=function(e){var t=e.parent(),n=i.getElementSize(e),r=i.getElementSize(t);return n.width>r.width||n.height>r.height?!0:!1},this.isPointInsideElement=function(e,t){var i=e.x>=0&&e.x<t.width;if(0==i)return!1;var n=e.y>=0&&e.y<t.height;return 0==n?!1:!0},this.getElementRelativePos=function(e,t,n,r){if(!r)var r=e.parent();if("number"==typeof e)var o={width:e,height:e};else var o=i.getElementSize(e);var a=i.getElementSize(r);switch(t){case"top":case"left":t=0,n&&(t+=n);break;case"center":t=Math.round((a.width-o.width)/2),n&&(t+=n);break;case"right":t=a.width-o.width,n&&(t-=n);break;case"middle":t=Math.round((a.height-o.height)/2),n&&(t+=n);break;case"bottom":t=a.height-o.height,n&&(t-=n)}return t},this.z_________SET_ELEMENT_PROPS_______=function(){},this.zoomImageInsideParent=function(e,t,n,r,o,a,s){if(!n)var n=1.2;if(!o)var o="fit";var l,u,d,_,g=n,c=e.parent(),h=i.getElementSize(e),p=i.getImageOriginalSize(e),f=!1,m=0,v=0,b=0,y=0;if(r){var I=i.getMouseElementPoint(r,e);f=i.isPointInsideElement(I,h),b=I.x,y=I.y}else f=!1;if(0==f){var w=i.getElementCenterPoint(e);b=w.x,y=w.y}if(1==t)l=h.height*g,u=h.width*g,0!=b&&(m=-(b*g-b)),0!=y&&(v=-(y*g-y));else{l=h.height/g,u=h.width/g;var E=i.getImageInsideParentData(c,p.width,p.height,o,s);if(u<E.imageWidth)return i.scaleImageFitParent(e,p.width,p.height,o,s),!0;1==f&&(0!=b&&(m=-(b/g-b)),0!=y&&(v=-(y/g-y)))}if(a){var T=1;if(0!=p.width&&(T=u/p.width),T>a)return!1}if(i.setElementSize(e,u,l),0==t&&0==f){var S=i.getElementCenterPosition(e);d=S.left,_=S.top}else d=h.left+m,_=h.top+v;return i.placeElement(e,d,_),!0},this.placeElement=function(e,t,n,r,o,a){if(0==jQuery.isNumeric(t)||0==jQuery.isNumeric(n)){if(!a)var a=e.parent();var s=i.getElementSize(e),l=i.getElementSize(a)}if(0==jQuery.isNumeric(t))switch(t){case"left":t=0,r&&(t+=r);break;case"center":t=Math.round((l.width-s.width)/2),r&&(t+=r);break;case"right":t=l.width-s.width,r&&(t-=r)}if(0==jQuery.isNumeric(n))switch(n){case"top":n=0,o&&(n+=o);break;case"middle":case"center":n=Math.round((l.height-s.height)/2),o&&(n+=o);break;case"bottom":n=l.height-s.height,o&&(n-=o)}var u={position:"absolute",margin:"0px"};null!==t&&(u.left=t),null!==n&&(u.top=n),e.css(u)},this.placeElementInParentCenter=function(e){i.placeElement(e,"center","middle")},this.setElementSizeAndPosition=function(e,t,i,n,r){var o={width:n+"px",height:r+"px",left:t+"px",top:i+"px",position:"absolute",margin:"0px"};e.css(o)},this.setElementSize=function(e,t,i){var n={width:t+"px"};null!==i&&"undefined"!=typeof i&&(n.height=i+"px"),e.css(n)},this.cloneElementSizeAndPos=function(e,t,n,r,o){var a=e.position();if(void 0==a)throw new Error("Can't get size, empty element");n===!0?(a.height=e.outerHeight(),a.width=e.outerWidth()):(a.height=e.height(),a.width=e.width()),a.left=Math.round(a.left),a.top=Math.round(a.top),r&&(a.left+=r),o&&(a.top+=o),i.setElementSizeAndPosition(t,a.left,a.top,a.width,a.height)},this.placeImageInsideParent=function(e,t,n,r,o,a){var s=i.getImageInsideParentData(t,n,r,o,a),l="<img";null!==s.imageWidth&&(l+=" width = '"+s.imageWidth+"'",s.style+="width:"+s.imageWidth+";"),null!=s.imageHeight&&("100%"==s.imageHeight?(l+=" height = '"+s.imageHeight+"'",s.style+="height:"+s.imageHeight+";"):(l+=" height = '"+s.imageHeight+"'",s.style+="height:"+s.imageHeight+"px;")),null!==s.imageTop&&(s.style+="top:"+s.imageTop+"px;"),null!==s.imageLeft&&(s.style+="left:"+s.imageLeft+"px;"),e=i.escapeDoubleSlash(e),l+=" style='"+s.style+"'",l+=' src="'+e+'"',l+=">",t.html(l);var u=t.children("img");return u},this.scaleImageCoverParent=function(e,t,n){if("number"==typeof t)var r=t,o=n;else var r=t.outerWidth(),o=t.outerHeight();var a=i.getImageOriginalSize(e),s=a.width,l=a.height,u=s/l,d=o,_=d*u,g=0,c=0;r>_?(_=r,d=_/u,c=0,g=Math.round((d-o)/2*-1)):(g=0,c=Math.round((_-r)/2*-1)),_=Math.round(_),d=Math.round(d),e.css({width:_+"px",height:d+"px",left:c+"px",top:g+"px"})},this.scaleImageFitParent=function(e,t,n,r,o){var a=e.parent(),s=i.getImageInsideParentData(a,t,n,r,o),l=!1,u={};return null!==s.imageWidth&&(l=!0,e.removeAttr("width"),u.width=s.imageWidth+"px"),null!=s.imageHeight&&(l=!0,e.removeAttr("height"),u.height=s.imageHeight+"px"),null!==s.imageTop&&(l=!0,u.top=s.imageTop+"px"),null!==s.imageLeft&&(l=!0,u.left=s.imageLeft+"px"),1==l&&(u.position="absolute",u.margin="0px 0px",e.css(u)),s},this.scaleImageByHeight=function(e,t,n,r){var o=i.getImageOriginalSize(e,n,r),a=o.width/o.height,s=Math.round(t*a);t=Math.round(t),i.setElementSize(e,s,t)},this.scaleImageByWidth=function(e,t,n,r){var o=i.getImageOriginalSize(e,n,r),a=o.width/o.height,s=Math.round(t/a);t=Math.round(t),i.setElementSize(e,t,s)},this.scaleImageExactSizeInParent=function(e,t,n,r,o,a){var s=e.parent(),l=i.getElementSize(s);l.width<r&&(r=l.width),l.height<o&&(o=l.height);var u=i.getImageInsideParentData(null,t,n,a,null,r,o),d=r,_=o,g=u.imageLeft,c=u.imageLeft,h=u.imageTop,p=u.imageTop,f=Math.round((l.width-r)/2),m=Math.round((l.height-o)/2),v=u.imageWidth+g+c,b=r-v;0!=b&&(c+=b);var y=u.imageHeight+h+p,b=o-y;0!=b&&(p+=b),e.removeAttr("width"),e.removeAttr("height");var I={position:"absolute",margin:"0px 0px"};I.width=d+"px",I.height=_+"px",I.left=f+"px",I.top=m+"px",I["padding-left"]=g+"px",I["padding-top"]=h+"px",I["padding-right"]=c+"px",I["padding-bottom"]=p+"px",e.css(I);var w={};return w.imageWidth=d,w.imageHeight=_,w},this.showElement=function(e,t,i){e.show().fadeTo(0,1),t&&t.show().fadeTo(0,1),i&&i.show().fadeTo(0,1)},this.z_________GALLERY_RELATED_FUNCTIONS_______=function(){},this.disableButton=function(e,t){if(!t)var t="ug-button-disabled";0==i.isButtonDisabled(e,t)&&e.addClass(t)},this.convertCustomPrefixOptions=function(e,t,i){if(!t)return e;var n={};return jQuery.each(e,function(e,r){if(0===e.indexOf(t+"_"+i+"_")){var o=e.replace(t+"_"+i+"_",i+"_");n[o]=r}else n[e]=r}),n},this.enableButton=function(e,t){if(!t)var t="ug-button-disabled";1==i.isButtonDisabled(e,t)&&e.removeClass(t)},this.isButtonDisabled=function(e,t){if(!t)var t="ug-button-disabled";return e.hasClass(t)?!0:!1},this.z_________MATH_FUNCTIONS_______=function(){},this.normalizeSetting=function(e,t,i,n,r,o){if(!o)var o=!1;var a=(r-i)/(n-i);return r=e+(t-e)*a,1==o&&(e>r&&(r=e),r>t&&(r=t)),r},this.getNormalizedValue=function(e,t,i,n,r){var o=(r-e)/(t-e);return r=e+(n-i)*o},this.getDistance=function(e,t,i,n){var r=Math.round(Math.sqrt(Math.abs((i-e)*(i-e)+(n-t)*(n-t))));return r},this.getMiddlePoint=function(e,t,i,n){var r={};return r.x=e+Math.round((i-e)/2),r.y=t+Math.round((n-t)/2),r},this.getNumItemsInSpace=function(e,t,i){var n=Math.floor((e+i)/(t+i));return n},this.getNumItemsInSpaceRound=function(e,t,i){var n=Math.round((e+i)/(t+i));return n},this.getSpaceByNumItems=function(e,t,i){var n=e*t+(e-1)*i;return n},this.getItemSizeInSpace=function(e,t,i){var n=Math.floor((e-(t-1)*i)/t);return n},this.getColX=function(e,t,i){var n=e*(t+i);return n},this.getColByIndex=function(e,t){var i=t%e;return i},this.getColRowByIndex=function(e,t){var i=Math.floor(e/t),n=Math.floor(e%t);return{col:n,row:i}},this.getIndexByRowCol=function(e,t,i){if(0>e)return-1;if(0>t)return-1;var n=e*i+t;return n},this.getPrevRowSameColIndex=function(e,t){var n=i.getColRowByIndex(e,t),r=i.getIndexByRowCol(n.row-1,n.col,t);return r},this.getNextRowSameColIndex=function(e,t){var n=i.getColRowByIndex(e,t),r=i.getIndexByRowCol(n.row+1,n.col,t);return r},this.z_________DATA_FUNCTIONS_______=function(){},this.setGlobalData=function(e,t){jQuery.data(document.body,e,t)},this.getGlobalData=function(e){var t=jQuery.data(document.body,e);return t},this.z_________EVENT_DATA_FUNCTIONS_______=function(){},this.handleScrollTop=function(e){if(0==i.isTouchDevice())return null;var t=i.getStoredEventData(e),r=15,o=15;if(null===t.scrollDir&&(Math.abs(t.diffMouseX)>r?t.scrollDir="hor":Math.abs(t.diffMouseY)>o&&Math.abs(t.diffMouseY)>Math.abs(t.diffMouseX)&&(t.scrollDir="vert",t.scrollStartY=t.lastMouseClientY,t.scrollOrigin=jQuery(document).scrollTop(),n.dataCache[e].scrollStartY=t.lastMouseClientY,n.dataCache[e].scrollOrigin=t.scrollOrigin),n.dataCache[e].scrollDir=t.scrollDir),"vert"!==t.scrollDir)return t.scrollDir;var a=(jQuery(document).scrollTop(),t.scrollOrigin-(t.lastMouseClientY-t.scrollStartY));return a>=0&&jQuery(document).scrollTop(a),t.scrollDir},this.wasVerticalScroll=function(e){var t=i.getStoredEventData(e);return"vert"===t.scrollDir?!0:!1},this.storeEventData=function(e,t,r){var o=i.getMousePosition(e),a=jQuery.now(),s={startTime:a,lastTime:a,startMouseX:o.pageX,startMouseY:o.pageY,lastMouseX:o.pageX,lastMouseY:o.pageY,startMouseClientY:o.clientY,lastMouseClientY:o.clientY,scrollTop:jQuery(document).scrollTop(),scrollDir:null};r&&(s=jQuery.extend(s,r)),n.dataCache[t]=s},this.updateStoredEventData=function(e,t,r){if(!n.dataCache[t])throw new Error("updateEventData error: must have stored cache object");var o=n.dataCache[t],a=i.getMousePosition(e);o.lastTime=jQuery.now(),void 0!==a.pageX&&(o.lastMouseX=a.pageX,o.lastMouseY=a.pageY,o.lastMouseClientY=a.clientY),r&&(o=jQuery.extend(o,r)),n.dataCache[t]=o},this.getStoredEventData=function(e,t){if(!n.dataCache[e])throw new Error("updateEventData error: must have stored cache object");var i=n.dataCache[e];return i.diffMouseX=i.lastMouseX-i.startMouseX,i.diffMouseY=i.lastMouseY-i.startMouseY,i.diffMouseClientY=i.lastMouseClientY-i.startMouseClientY,i.diffTime=i.lastTime-i.startTime,t===!0?(i.startMousePos=i.lastMouseY,i.lastMousePos=i.lastMouseY,i.diffMousePos=i.diffMouseY):(i.startMousePos=i.lastMouseX,i.lastMousePos=i.lastMouseX,i.diffMousePos=i.diffMouseX),i},this.isApproveStoredEventClick=function(e,t){if(!n.dataCache[e])return!0;var r=i.getStoredEventData(e,t),o=Math.abs(r.diffMousePos);return r.diffTime>400?!1:o>30?!1:!0},this.clearStoredEventData=function(e){n.dataCache[e]=null},this.z_________CHECK_SUPPORT_FUNCTIONS_______=function(){},this.isCanvasExists=function(){var e=jQuery('<canvas width="500" height="500" > </canvas>')[0];return"function"==typeof e.getContext?!0:!1},this.isScrollbarExists=function(){var e=window.innerWidth>document.documentElement.clientWidth;return e},this.isTouchDevice=function(){if(-1!==n.isTouchDevice)return n.isTouchDevice;try{document.createEvent("TouchEvent"),n.isTouchDevice=!0}catch(e){n.isTouchDevice=!1}return n.isTouchDevice},this.isRgbaSupported=function(){if(-1!==n.isRgbaSupported)return n.isRgbaSupported;var e=document.getElementsByTagName("script")[0],t=e.style.color;try{e.style.color="rgba(1,5,13,0.44)"}catch(i){}var r=e.style.color!=t;return e.style.color=t,n.isRgbaSupported=r,r},this.z_________GENERAL_FUNCTIONS_______=function(){},this.checkMinJqueryVersion=function(e){for(var t=jQuery.fn.jquery.split("."),i=e.split("."),n=0,r=t.length;r>n;n++){var o=parseInt(t[n]),a=parseInt(i[n]);if("undefined"==typeof i[n])return!0;if(a>o)return!1;if(o>a)return!0}return!0},this.getCssSizeParam=function(e){return jQuery.isNumeric(e)?e+"px":e},this.convertHexToRGB=function(e,t){var i=e.replace("#","");return i===e?e:(r=parseInt(i.substring(0,2),16),g=parseInt(i.substring(2,4),16),b=parseInt(i.substring(4,6),16),result="rgba("+r+","+g+","+b+","+t+")",result)},this.timestampToString=function(e){var t=new Date(e),i=t.getDate()+"/"+t.getMonth();return i+=" "+t.getHours()+":"+t.getMinutes()+":"+t.getSeconds()+":"+t.getMilliseconds()},this.getArrTouches=function(e){var t=[];return e.originalEvent&&e.originalEvent.touches&&e.originalEvent.touches.length>0&&(t=e.originalEvent.touches),t},this.getArrTouchPositions=function(e){for(var t=[],i=0;i<e.length;i++){var n={pageX:e[i].pageX,pageY:e[i].pageY};t.push(n)}return t},this.startTimeDebug=function(){n.starTime=jQuery.now()},this.showTimeDebug=function(){var e=jQuery.now(),t=e-n.starTime;debugLine({"Time Passed":t},!0)},this.initProgressIndicator=function(e,t,n){switch("bar"!=e&&0==i.isCanvasExists()&&(e="bar"),e){case"bar":var r=new UGProgressBar;r.putHidden(n,t);break;default:case"pie":var r=new UGProgressPie;r.putHidden(n,t);break;case"pie2":t.type_fill=!0;var r=new UGProgressPie;r.putHidden(n,t)}return r},this.setButtonMobileReady=function(e){e.on("touchstart",function(e){jQuery(this).addClass("ug-nohover")}),e.on("mousedown touchend",function(e){return e.stopPropagation(),e.stopImmediatePropagation(),!1})},this.registerTheme=function(e){n.arrThemes.push(e)},this.getArrThemes=function(){return n.arrThemes},this.isThemeRegistered=function(e){return-1!==jQuery.inArray(e,n.arrThemes)?!0:!1},this.getFirstRegisteredTheme=function(){if(0==n.arrThemes.length)return"";var e=n.arrThemes[0];return e},this.isTimePassed=function(e,t){if(!t)var t=100;var i=jQuery.now();0==n.timeCache.hasOwnProperty(e)?lastTime=0:lastTime=n.timeCache[e];var r=i-lastTime;return n.timeCache[e]=i,t>=r?!1:!0},this.whenContiniousEventOver=function(e,t,i){if(!i)var i=300;1==n.timeCache.hasOwnProperty(e)&&null!=n.timeCache[e]&&(clearTimeout(n.timeCache[e]),n.timeCache[e]=null),n.timeCache[e]=setTimeout(t,i)},this.validateClickTouchstartEvent=function(e){var t=!0,i=jQuery.now()-n.lastEventTime;return"click"==e&&"touchstart"==n.lastEventType&&1e3>i&&(t=!1),n.lastEventTime=jQuery.now(),n.lastEventType=e,t},this.addClassOnHover=function(e,t){if(!t)var t="ug-button-hover";e.hover(function(){jQuery(this).addClass(t)},function(){jQuery(this).removeClass(t)})},this.destroyButton=function(e){e.off("mouseenter"),e.off("mouseleave"),e.off("click"),e.off("touchstart"),e.off("touchend"),e.off("mousedown"),e.off("tap")},this.setButtonOnClick=function(e,t){i.setButtonMobileReady(e),e.on("click touchstart",function(e){return objThis=jQuery(this),e.stopPropagation(),e.stopImmediatePropagation(),0==i.validateClickTouchstartEvent(e.type)?!0:void t(objThis,e)})},this.setButtonOnTap=function(e,t){e.on("tap",t),0==i.isTouchDevice()?e.on("click",function(e){var t=jQuery(this);return 0==i.validateClickTouchstartEvent(e.type)?!0:void t.trigger("tap")}):(e.on("touchstart",function(e){var t=jQuery(this);t.addClass("ug-nohover"),n.lastTouchStartElement=jQuery(this),n.lastEventTime=jQuery.now()}),e.on("touchend",function(e){var t=jQuery(this);if(0==t.is(n.lastTouchStartElement))return!0;if(!n.lastEventTime)return!0;var i=jQuery.now()-n.lastEventTime;return i>n.touchThreshold?!0:void t.trigger("tap")}))},this.loadJs=function(e,t){t===!0&&(e=location.protocol+"//"+e);var i=document.createElement("script");i.src=e;var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(i,n)},this.loadCss=function(e,t){t===!0&&(e=location.protocol+"//"+e);var i=document.createElement("link");i.setAttribute("rel","stylesheet"),i.setAttribute("type","text/css"),i.setAttribute("href",e),document.getElementsByTagName("head")[0].appendChild(i)},this.addEvent=function(e,t,i){"undefined"!=typeof e.addEventListener?e.addEventListener(t,i,!1):e.attachEvent&&e.attachEvent("on"+t,i)},this.checkImagesLoaded=function(e,t,i){function n(e,n){r++,"function"==typeof i&&setTimeout(function(){i(e,n)}),r==o&&"function"==typeof t&&setTimeout(function(){t()})}var r=0,o=e.length;return 0==o&&t?(t(),!1):void setTimeout(function(){for(var t=0;o>t;t++){var i=e[t];if(void 0!==i.naturalWidth&&0!==i.naturalWidth)n(e[t],!1);else{var r=jQuery("<img/>");r.data("index",t),r.on("load",function(){var t=jQuery(this).data("index");n(e[t],!1)}),r.on("error",function(){var t=jQuery(this).data("index");n(e[t],!0)}),r.attr("src",i.src)}}})},this.waitForWidth=function(e,t){var i=e.width();return 0!=i?(t(),!1):void(n.handle=setInterval(function(){i=e.width(),0!=i&&(clearInterval(n.handle),t())},300))},this.arrayShuffle=function(e){if("object"!=typeof e)return e;for(var t,i,n=e.length;n;t=parseInt(Math.random()*n),i=e[--n],e[n]=e[t],e[t]=i);return e},this.getObjectLength=function(e){var t=0;for(var i in e)t++;return t},this.normalizePercent=function(e){return 0>e&&(e=0),e>1&&(e=1),e},this.stripTags=function(e){var t=e.replace(/(<([^>]+)>)/gi,"");return t},this.escapeDoubleSlash=function(e){return e.replace('"','"')},this.htmlentitles=function(e){var t=jQuery("<div/>").text(e).html();return t},this.z_________END_GENERAL_FUNCTIONS_______=function(){}}function UGThumbsGeneral(){function e(e,t){var i=w[e],n="";0==C.customThumbs&&(n=" ug-thumb-generated");var r=i.index+1,o="style='z-index:"+r+";'",a="<div class='ug-thumb-wrapper"+n+"' "+o+"></div>";if(1==j.thumb_wrapper_as_link){var s=i.link;""==i.link&&(s="javascript:void(0)");var l="";1==j.thumb_link_newpage&&i.link&&(l=" target='_blank'");var a="<a href='"+s+"'"+l+" class='ug-thumb-wrapper"+n+"'></a>"}var u=jQuery(a),d=i.objThumbImage;if(0==C.customThumbs){if(1==j.thumb_show_loader&&d){var _="ug-thumb-loader-dark";"bright"==j.thumb_loader_type&&(_="ug-thumb-loader-bright"),u.append("<div class='ug-thumb-loader "+_+"'></div>"),u.append("<div class='ug-thumb-error' style='display:none'></div>")}if(d){if(d.addClass("ug-thumb-image"),1==j.thumb_image_overlay_effect){var g=d.clone().appendTo(u);g.addClass("ug-thumb-image-overlay "+t).removeClass("ug-thumb-image"),g.fadeTo(0,0),i.objImageOverlay=g}u.append(d)}}return C.isEffectBorder&&u.append("<div class='ug-thumb-border-overlay'></div>"),C.isEffectOverlay&&u.append("<div class='ug-thumb-overlay'></div>"),E.append(u),C.customThumbs&&C.funcSetCustomThumbHtml(u,i),w[e].objThumbWrapper=u,u}function t(e,t,i,n){var r={width:e+"px",height:t+"px"},o={width:e-C.thumbInnerReduce+"px",height:t-C.thumbInnerReduce+"px"},a=".ug-thumb-loader, .ug-thumb-error, .ug-thumb-border-overlay, .ug-thumb-overlay";i?(n!==!0&&i.css(r),i.find(a).css(o)):(E.children(".ug-thumb-wrapper").css(r),E.find(a).css(o))}function i(e,t,i,n){if(!n)var n=!1;P.isFakeFullscreen()&&(n=!0);var r=e.children(".ug-thumb-border-overlay"),o={};o["border-width"]=t+"px",0!=t&&(o["border-color"]=i),n&&n===!0?(r.css(o),0==t?r.hide():r.show()):(0==t?r.stop().fadeOut(j.thumb_transition_duration):r.show().stop().fadeIn(j.thumb_transition_duration),l(r,o))}function n(e,t,i){var n=e.children(".ug-thumb-overlay"),r=j.thumb_transition_duration;i&&i===!0&&(r=0),t?n.stop(!0).fadeTo(r,C.colorOverlayOpacity):n.stop(!0).fadeTo(r,0)}function r(e,t,i){var n=e.children("img.ug-thumb-image"),r=e.children("img.ug-thumb-image-overlay"),o=j.thumb_transition_duration;i&&i===!0&&(o=0),t?r.stop(!0).fadeTo(o,1):(n.fadeTo(0,1),r.stop(!0).fadeTo(o,0))}function o(e,t){if(C.isEffectBorder&&i(e,j.thumb_selected_border_width,j.thumb_selected_border_color,t),C.isEffectOverlay){var o=1==j.thumb_overlay_reverse?!0:!1;n(e,o,t)}C.isEffectImage&&r(e,!1,t),S.trigger(T.events.SETSELECTEDSTYLE,e)}function a(e){var t=T.getItemByThumb(e);return t.isLoaded=!0,t.isThumbImageLoaded=!1,1==C.customThumbs?(S.trigger(T.events.IMAGELOADERROR,e),!0):(e.children(".ug-thumb-loader").hide(),void e.children(".ug-thumb-error").show())}function s(e){if(j.thumb_round_corners_radius<=0)return!1;var t={"border-radius":j.thumb_round_corners_radius+"px"};e?(e.css(t),e.find(".ug-thumb-border-overlay").css(t)):E.find(".ug-thumb-wrapper, .ug-thumb-wrapper .ug-thumb-border-overlay").css(t)}function l(e,t){e.stop(!0).animate(t,{duration:j.thumb_transition_duration,easing:j.thumb_transition_easing,queue:!1})}function u(e){1==c(e)?o(e,!0,"redraw"):T.setThumbNormalStyle(e,!0,"redraw")}function d(e,i,n){if(1==j.thumb_fixed_size)x.scaleImageCoverParent(i,e);else{"height"==j.thumb_resize_by?x.scaleImageByHeight(i,j.thumb_height):x.scaleImageByWidth(i,j.thumb_width);var r=x.getElementSize(i);x.placeElement(i,0,0),t(r.width,r.height,e)}e.children(".ug-thumb-loader").hide(),i.show(),0==j.thumb_image_overlay_effect?i.fadeTo(0,1):(1==j.thumb_image_overlay_effect&&_(i),i.fadeTo(0,0),u(e)),S.trigger(T.events.AFTERPLACEIMAGE,e)}function _(e){var t=e.siblings(".ug-thumb-image-overlay");if(0==t.length)return!1;var i=x.getElementSize(e),n={width:i.width+"px",height:i.height+"px",left:i.left+"px",top:i.top+"px"};t.css(n),0==C.customThumbs&&t.fadeTo(0,1)}function g(){var e="",t=j.thumb_image_overlay_type.split(",");for(var i in t){var n=t[i];switch(n){case"bw":e+=" ug-bw-effect";break;case"blur":e+=" ug-blur-effect";break;case"sepia":e+=" ug-sepia-effect"}}return e}function c(e){return e.hasClass("ug-thumb-selected")?!0:!1}function h(e,i){i=jQuery(i);var n=(T.getItemByThumb(i),x.getElementSize(i));t(n.width,n.height,i,!0),u(i)}function p(e){return 1==C.touchEnabled?(objThumbs.off("mouseenter").off("mouseleave"),!0):void(0==c(e)&&T.setThumbOverStyle(e))}function f(e){return 1==C.touchEnabled?!0:void(0==c(e)&&T.setThumbNormalStyle(e,!1))}function m(e,t){if(!t)var t=!1;var i=jQuery(e),n=i.parents(".ug-thumb-wrapper");return 0==n.parent().length?!1:(objItem=T.getItemByThumb(n),1==objItem.isLoaded&&t===!1?!1:(T.triggerImageLoadedEvent(n,i),void(1==C.customThumbs?S.trigger(T.events.PLACEIMAGE,[n,i]):d(n,i,objItem))))}function v(e,t,i){objItem=T.getItemByThumb(t),objItem.isLoaded=!0,objItem.isThumbImageLoaded=!0;var n=x.getImageOriginalSize(i);objItem.thumbWidth=n.width,objItem.thumbHeight=n.height,objItem.thumbRatioByWidth=n.width/n.height,objItem.thumbRatioByHeight=n.height/n.width,t.addClass("ug-thumb-ratio-set")}var b,y,I,w,E,T=this,S=jQuery(T),P=new UniteGalleryMain,x=new UGFunctions;this.type={GET_THUMBS_ALL:"all",GET_THUMBS_RATIO:"ratio",GET_THUMBS_NO_RATIO:"no_ratio",GET_THUMBS_NEW:"new"},this.events={SETOVERSTYLE:"thumbmouseover",SETNORMALSTYLE:"thumbmouseout",SETSELECTEDSTYLE:"thumbsetselected",PLACEIMAGE:"thumbplaceimage",AFTERPLACEIMAGE:"thumb_after_place_image",IMAGELOADERROR:"thumbimageloaderror",THUMB_IMAGE_LOADED:"thumb_image_loaded"};var j={thumb_width:88,thumb_height:50,thumb_fixed_size:!0,thumb_resize_by:"height",thumb_border_effect:!0,thumb_border_width:0,thumb_border_color:"#000000",thumb_over_border_width:0,thumb_over_border_color:"#d9d9d9",thumb_selected_border_width:1,thumb_selected_border_color:"#d9d9d9",thumb_round_corners_radius:0,thumb_color_overlay_effect:!0,thumb_overlay_color:"#000000",thumb_overlay_opacity:.4,thumb_overlay_reverse:!1,thumb_image_overlay_effect:!1,thumb_image_overlay_type:"bw",thumb_transition_duration:200,thumb_transition_easing:"easeOutQuad",thumb_show_loader:!0,thumb_loader_type:"dark",thumb_wrapper_as_link:!1,thumb_link_newpage:!1},C={touchEnabled:!1,num_thumbs_checking:0,customThumbs:!1,funcSetCustomThumbHtml:null,isEffectBorder:!1,isEffectOverlay:!1,isEffectImage:!1,colorOverlayOpacity:1,thumbInnerReduce:0,allowOnResize:!0,classNewThumb:"ug-new-thumb"},A={timeout_thumb_check:100,thumb_max_check_times:600,eventSizeChange:"thumb_size_change"};this.init=function(e,t){y=e.getObjects(),P=e,b=jQuery(e),I=y.g_objWrapper,w=y.g_arrItems,j=jQuery.extend(j,t),C.isEffectBorder=j.thumb_border_effect,C.isEffectOverlay=j.thumb_color_overlay_effect,C.isEffectImage=j.thumb_image_overlay_effect},this._____________EXTERNAL_SETTERS__________=function(){},this.setHtmlThumbs=function(t,i){if(E=t,1==C.isEffectImage)var n=g();if(i!==!0)for(var r=P.getNumItems(),o=0;r>o;o++)e(o,n);else{var a=T.getThumbs();a.removeClass(C.classNewThumb);var s=P.getNewAddedItemsIndexes();jQuery.each(s,function(t,i){var r=e(i,n);r.addClass(C.classNewThumb)})}},this.setThumbNormalStyle=function(e,t,o){if(1==C.customThumbs&&e.removeClass("ug-thumb-over"),C.isEffectBorder&&i(e,j.thumb_border_width,j.thumb_border_color,t),C.isEffectOverlay){var a=1==j.thumb_overlay_reverse?!1:!0;n(e,a,t)}C.isEffectImage&&r(e,!0,t),S.trigger(T.events.SETNORMALSTYLE,e)},this.setThumbOverStyle=function(e){if(1==C.customThumbs&&e.addClass("ug-thumb-over"),C.isEffectBorder&&i(e,j.thumb_over_border_width,j.thumb_over_border_color),C.isEffectOverlay){var t=1==j.thumb_overlay_reverse?!0:!1;n(e,t)}1==C.isEffectImage&&r(e,!1),S.trigger(T.events.SETOVERSTYLE,e)},this.setHtmlProperties=function(e){if(!e)var e=T.getThumbs();if(0==C.customThumbs){1==j.thumb_fixed_size&&t(j.thumb_width,j.thumb_height,e),s(e)}if(e.each(function(){var e=jQuery(this);u(e)}),C.isEffectOverlay&&j.thumb_overlay_color){var i={};if(x.isRgbaSupported()){var n=x.convertHexToRGB(j.thumb_overlay_color,j.thumb_overlay_opacity);i["background-color"]=n}else i["background-color"]=j.thumb_overlay_color,C.colorOverlayOpacity=j.thumb_overlay_opacity;e.find(".ug-thumb-overlay").css(i)}},this.setThumbSelected=function(e){return 1==C.customThumbs&&e.removeClass("ug-thumb-over"),1==c(e)?!0:(e.addClass("ug-thumb-selected"),void o(e))},this.setThumbUnselected=function(e){e.removeClass("ug-thumb-selected"),T.setThumbNormalStyle(e,!1,"set unselected")},this.setOptions=function(e){j=jQuery.extend(j,e)},this.setThumbInnerReduce=function(e){C.thumbInnerReduce=e},this.setCustomThumbs=function(e,t,i){if(C.customThumbs=!0,"function"!=typeof e)throw new Error("The argument should be function");C.funcSetCustomThumbHtml=e,-1==jQuery.inArray("overlay",t)&&(C.isEffectOverlay=!1),-1==jQuery.inArray("border",t)&&(C.isEffectBorder=!1),C.isEffectImage=!1,i&&i.allow_onresize===!1&&(C.allowOnResize=!1)},this._____________EXTERNAL_GETTERS__________=function(){},this.getOptions=function(){return j},this.getNumThumbs=function(){var e=w.length;return e},this.getThumbImage=function(e){var t=e.find(".ug-thumb-image");return t},this.getThumbByIndex=function(e){var t=T.getThumbs();if(e>=t.length||0>e)throw new Error("Wrong thumb index");var i=jQuery(t[e]);return i},this.getThumbs=function(e){var t=".ug-thumb-wrapper",i=".ug-thumb-ratio-set";switch(e){default:case T.type.GET_THUMBS_ALL:var n=E.children(t);break;case T.type.GET_THUMBS_NO_RATIO:var n=E.children(t).not(i);break;case T.type.GET_THUMBS_RATIO:var n=E.children(t+i);break;case T.type.GET_THUMBS_NEW:var n=E.children("."+C.classNewThumb)}return n},this.getItemByThumb=function(e){var t=e.data("index");void 0===t&&(t=e.index());var i=w[t];return i},this.isThumbLoaded=function(e){var t=T.getItemByThumb(e);return t.isLoaded},this.getGlobalThumbSize=function(){var e={width:j.thumb_width,
