@@ -122,6 +122,10 @@ Route::group(['prefix' => 'professional'], function () {
                 Route::post('/update', 'InvoiceController@update');
             });
 
+            //Schedule
+            Route::post('/schedule/calendar_list', 'ScheduleController@forCalendar');
+            Route::post('/schedule/reschedule', 'ScheduleController@reschedule');
+
         });
 
         //Certifications
@@ -196,10 +200,9 @@ Route::group(['prefix' => 'professional'], function () {
         Route::post('/recomendation/update', 'RecomendationController@update');
         Route::get('/recomendation/destroy/{id}', 'RecomendationController@destroy');
 
-        //Schedule
-        Route::post('/schedule/calendar_list', 'ScheduleController@forCalendar');
-        Route::post('/schedule/reschedule', 'ScheduleController@reschedule');
-
+        //calendar
+        Route::post('/calendar/list', 'ScheduleController@professionalCalendar');
+        Route::post('/calendar/reschedule', 'ScheduleController@reschedule');
 
         //profile update
         Route::get('/profile/show/{id}', 'ProfessionalController@show');

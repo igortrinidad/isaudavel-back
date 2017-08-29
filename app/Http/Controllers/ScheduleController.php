@@ -63,6 +63,45 @@ class ScheduleController extends Controller
         return response()->json(['schedules' => $calendar_settings]);
     }
 
+    /**
+     * Display a listing of schedules for calendar by month.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function professionalCalendar(Request $request)
+    {
+        $calendar_settings = ProfessionalCalendarSetting::where('professional_id', \Auth::user()->id)
+            ->with('company')->get();
+
+        foreach($calendar_settings as $calendar_setting){
+
+            $calendar_setting->setHidden(['professional']);
+
+            $schedules = Schedule::where('company_id', $calendar_setting->company_id)
+                ->where('category_id', $calendar_setting->category_id)
+                ->where('professional_id', $calendar_setting->professional_id)
+                ->whereBetween('date', [$request->get('start'), $request->get('end')])
+                ->with('subscription')
+                ->orderBy('date')
+                ->orderBy('time')
+                ->get();
+
+            foreach($schedules as $schedule){
+
+                $schedule->professional->setHidden(['companies','categories','blank_password']);
+
+                $schedule->setAttribute('client', $schedule->subscription->client);
+
+                $schedule->setHidden(['subscription', 'professional']);
+            }
+
+            $calendar_setting->setAttribute('schedules', $schedules);
+
+        }
+
+        return response()->json(['schedules' => $calendar_settings]);
+    }
 
 
     /**
