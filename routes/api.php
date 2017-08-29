@@ -24,7 +24,8 @@ Route::group(['prefix' => 'auth'], function () {
  */
 Route::group(['middleware' => 'both.auth'], function () {
 
-    //
+        Route::get('/tools/evaluation_index/list', 'EvaluationIndexController@index');
+        Route::post('/tools/evaluation_index/create', 'EvaluationIndexController@store');
 
 });
 
@@ -279,6 +280,10 @@ Route::group(['prefix' => 'client'], function () {
         Route::post('/evaluation/photo/upload', 'EvaluationPhotoController@store');
         Route::post('/evaluation/photo/destroy', 'EvaluationPhotoController@destroy');
 
+
+    });
+
+    Route::group(['middleware' => 'auth:client'], function () {
 
     });
 

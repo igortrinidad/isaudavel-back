@@ -19,6 +19,10 @@ class AuthBoth
 
         $user = $user ? \Auth::guard('professional')->user() : \Auth::guard('client')->user();
 
+        if(!$user){
+            return response()->json(['error' => 'Forbiden.'], 403);
+        }
+
         //Sets the guard by according with user role
         \Config::set('auth.defaults.guard', $user->role);
 
