@@ -45,24 +45,18 @@ class CompanyController extends Controller
     public function clientCompanies()
     {
         $companies_confirmed = \Auth::user()->companies()->with(['categories'])
-            ->withPivot('is_confirmed', 'requested_by_client', 'trainnings_show', 'trainnings_edit', 'diets_show', 'diets_edit',
-                'evaluations_show', 'evaluations_edit', 'restrictions_show', 'restrictions_edit', 'exams_show', 'exams_edit')
-            ->wherePivot('is_confirmed', 1)
-            ->wherePivot('is_deleted', 0)
+            ->wherePivot('is_confirmed', true)
+            ->wherePivot('is_deleted', false)
             ->orderBy('name')->paginate(10);
 
             $companies_unconfirmed = \Auth::user()->companies()->with(['categories'])
-            ->withPivot('is_confirmed', 'requested_by_client', 'trainnings_show', 'trainnings_edit', 'diets_show', 'diets_edit',
-                'evaluations_show', 'evaluations_edit', 'restrictions_show', 'restrictions_edit', 'exams_show', 'exams_edit')
-            ->wherePivot('is_confirmed', 0)
-            ->wherePivot('is_deleted', 0)
+            ->wherePivot('is_confirmed', false)
+            ->wherePivot('is_deleted', false)
             ->orderBy('name')->paginate(10);
 
             $companies_deleted = \Auth::user()->companies()->with(['categories'])
-            ->withPivot('is_confirmed', 'requested_by_client', 'trainnings_show', 'trainnings_edit', 'diets_show', 'diets_edit',
-                'evaluations_show', 'evaluations_edit', 'restrictions_show', 'restrictions_edit', 'exams_show', 'exams_edit')
-            ->wherePivot('is_deleted', 1)
-            ->wherePivot('is_confirmed', 0)
+            ->wherePivot('is_deleted', true)
+            ->wherePivot('is_confirmed', false)
             ->orderBy('name')->paginate(10);
 
         return response()->json([

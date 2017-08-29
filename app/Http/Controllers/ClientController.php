@@ -33,31 +33,31 @@ class ClientController extends Controller
      */
     public function companyClients(Request $request)
     {
+        $clients_confirmed = Client::whereHas('companies', function ($query) use($request){
+            $query->where('company_id', $request->get('company_id'))
+                ->where('is_confirmed', true)
+                ->where('is_deleted', false);
+        })->with(['companies' => function($query) use($request){
+            $query->where('company_id', $request->get('company_id'));
+        }])->orderBy('name')->paginate(10);
 
-        $clients_confirmed = Client::with(['companies'])
-            ->withPivot('is_confirmed', 'requested_by_client', 'trainnings_show', 'trainnings_edit', 'diets_show', 'diets_edit',
-                'evaluations_show', 'evaluations_edit', 'restrictions_show', 'restrictions_edit', 'exams_show', 'exams_edit')
-            ->wherePivot('is_confirmed', 1)
-            ->wherePivot('is_deleted', 0)
-            ->wherePivot('company_id', $request->get('company_id'))
-            ->orderBy('name')->paginate(10);
-
-        $clients_unconfirmed = Client::companies()->with(['companies'])
-            ->withPivot('is_confirmed', 'requested_by_client', 'trainnings_show', 'trainnings_edit', 'diets_show', 'diets_edit',
-                'evaluations_show', 'evaluations_edit', 'restrictions_show', 'restrictions_edit', 'exams_show', 'exams_edit')
-            ->wherePivot('is_confirmed', 1)
-            ->wherePivot('is_deleted', 0)
-            ->wherePivot('company_id', $request->get('company_id'))
-            ->orderBy('name')->paginate(10);
+        $clients_unconfirmed = Client::whereHas('companies', function ($query) use($request){
+            $query->where('company_id', $request->get('company_id'))
+                ->where('is_confirmed', false)
+                ->where('is_deleted', false);
+        })->with(['companies' => function($query) use($request){
+            $query->where('company_id', $request->get('company_id'));
+        }])->orderBy('name')->paginate(10);
 
 
-        $clients_deleted = Client::companies()->with(['companies'])
-            ->withPivot('is_confirmed', 'requested_by_client', 'trainnings_show', 'trainnings_edit', 'diets_show', 'diets_edit',
-                'evaluations_show', 'evaluations_edit', 'restrictions_show', 'restrictions_edit', 'exams_show', 'exams_edit')
-            ->wherePivot('is_confirmed', 1)
-            ->wherePivot('is_deleted', 0)
-            ->wherePivot('company_id', $request->get('company_id'))
-            ->orderBy('name')->paginate(10);
+        $clients_deleted = Client::whereHas('companies', function ($query) use($request){
+            $query->where('company_id', $request->get('company_id'))
+                ->where('is_confirmed', false)
+                ->where('is_deleted', true);
+        })->with(['companies' => function($query) use($request){
+            $query->where('company_id', $request->get('company_id'));
+        }])->orderBy('name')->paginate(10);
+
 
         return response()->json([
             'clients_confirmed' => custom_paginator($clients_confirmed, 'clients_confirmed'),
@@ -305,7 +305,6 @@ class ClientController extends Controller
                     'evaluations_show' => $request->get('evaluations_show'),
                     'exams_edit' => $request->get('exams_edit'),
                     'exams_show' => $request->get('exams_show'),
-                    'is_confirmed' => $request->get('is_confirmed'),
                     'restrictions_edit' => $request->get('restrictions_edit'),
                     'restrictions_show' => $request->get('restrictions_show'),
                     'trainnings_edit' => $request->get('trainnings_edit'),
@@ -317,7 +316,7 @@ class ClientController extends Controller
             //load relation to return
             $client_company = $client->companies()->select('id', 'name', 'slug')
                 ->wherePivot('company_id', '=',$request->get('company_id'))
-                ->withPivot('is_confirmed', 'requested_by_client')
+                ->withPivot('is_confirmed', 'is_deleted', 'requested_by_client')
                 ->first();
 
             return response()->json(['message' => 'OK', 'company' => $client_company]);
@@ -346,9 +345,13 @@ class ClientController extends Controller
             $client->companies()->updateExistingPivot($request->get('company_id'),
                 [
                     'is_confirmed' => true,
+                    'is_deleted' => false,
                     'confirmed_by_id' => \Auth::user()->id,
                     'confirmed_by_type' => get_class(\Auth::user()),
-                    'confirmed_at' => Carbon::now()
+                    'confirmed_at' => Carbon::now(),
+                    'deleted_by_id' => null,
+                    'deleted_by_type' => null,
+                    'deleted_at' => null
                 ]);
 
 
@@ -382,7 +385,13 @@ class ClientController extends Controller
 
         if($client){
 
-            $client->companies()->detach($request->get('company_id'));
+            $client->companies()->updateExistingPivot($request->get('company_id'),
+                ['is_deleted' => true,
+                    'is_confirmed' => false,
+                    'deleted_by_id' => \Auth::user()->id,
+                    'deleted_by_type' => get_class(\Auth::user()),
+                    'deleted_at' => Carbon::now()
+                ]);
 
             return response()->json(['message' => 'OK']);
         }
