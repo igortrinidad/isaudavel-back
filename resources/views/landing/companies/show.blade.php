@@ -272,10 +272,12 @@
                                             </div>
                                         @endforeach
                                     </div>
-                                    <div class="swiper-button-prev"><i class="ion-ios-arrow-back"></i></div>
-                                    <div class="swiper-button-next"><i class="ion-ios-arrow-forward"></i></div>
-                                    <div style="height: 50px;"></div>
-                                    <div class="swiper-pagination"></div>
+                                    @if($company_fetched->total_rating > 1)
+                                        <div class="swiper-button-prev"><i class="ion-ios-arrow-back"></i></div>
+                                        <div class="swiper-button-next"><i class="ion-ios-arrow-forward"></i></div>
+                                        <div style="height: 50px;"></div>
+                                        <div class="swiper-pagination"></div>
+                                    @endif
                                 </div>
                             </div>
                         @endif
@@ -286,6 +288,13 @@
                     <div class="card">
                         <div class="card-header ch-alt">
                             <h2 class="f-300">Indicações</h2>
+                            <span class="f-14 f-300">Total de {{$company_fetched->total_rating}}
+                                @if($company_fetched->total_rating > 1)
+                                    indicações
+                                @else
+                                    indicação
+                                @endif
+                            </span>
                         </div>
                         <div class="card-body p-t-5 p-b-5">
                             @if(count($company_fetched->last_ratings) == 0)
@@ -305,20 +314,28 @@
                                             </div>
                                         @endforeach
                                     </div>
-                                    <div class="swiper-button-prev"><i class="ion-ios-arrow-back"></i></div>
-                                    <div class="swiper-button-next"><i class="ion-ios-arrow-forward"></i></div>
-                                    <div style="height: 50px;"></div>
-                                    <div class="swiper-pagination"></div>
+                                    @if($company_fetched->total_rating > 1)
+                                        <div class="swiper-button-prev"><i class="ion-ios-arrow-back"></i></div>
+                                        <div class="swiper-button-next"><i class="ion-ios-arrow-forward"></i></div>
+                                        <div style="height: 50px;"></div>
+                                        <div class="swiper-pagination"></div>
+                                    @endif
                                 </div>
                             @endif
                         </div>
                     </div>
 
                     <!-- Professional list -->
-
                     <div class="card">
                         <div class="card-header ch-alt">
                             <h2 class="f-300">Profissionais</h2>
+                            <span class="f-14 f-300">Total de {{ count($company_fetched->professionals) }}
+                                @if(count($company_fetched->professionals) > 1)
+                                    profissionais
+                                @else
+                                    profissional
+                                @endif
+                            </span>
                         </div>
                         <div class="card-body p-t-5 p-b-5">
                             @if(count($company_fetched->professionals) == 0)
@@ -353,10 +370,12 @@
                                             </div>
                                         @endforeach
                                     </div>
-                                    <div class="swiper-button-prev"><i class="ion-ios-arrow-back"></i></div>
-                                    <div class="swiper-button-next"><i class="ion-ios-arrow-forward"></i></div>
-                                    <div style="height: 50px;"></div>
-                                    <div class="swiper-pagination"></div>
+                                    @if(count($company_fetched->professionals) > 0)
+                                        <div class="swiper-button-prev"><i class="ion-ios-arrow-back"></i></div>
+                                        <div class="swiper-button-next"><i class="ion-ios-arrow-forward"></i></div>
+                                        <div style="height: 50px;"></div>
+                                        <div class="swiper-pagination"></div>
+                                    @endif
                                 </div>
                             @endif
                         </div>
