@@ -224,7 +224,7 @@ class LandingController extends Controller
 
     public function registerProfessional()
     {
-        return view('landing.signup.index');
+        return view('landing.signup.company');
     }
 
 }
