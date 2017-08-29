@@ -155,7 +155,7 @@
             <div class="row m-t-30">
                 <div class="col-md-12 col-xs-12 text-center">
                     <h4 class="f-700 m-b-30">Saiba mais sobre o Isaudavel para clientes.</h4>
-                    <a href="/new-landing/para-voce">
+                    <a href="{!! route('landing.clients.about') !!}">
                         <button class="btn btn-success btn-xl m-t-10">Para Você</button>
                     </a>
                 </div>
@@ -220,7 +220,7 @@
                             </li>
 
                         </ul>
-                        <a href="/new-landing/profissional-cadastro" class="btn btn-success m-t-15 m-b-10">Quero Cadastrar</a>
+                        <a href="{!! route('landing.professionals.signup') !!}" class="btn btn-success m-t-15 m-b-10">Quero Cadastrar</a>
                     </div>
                 </div>
             </div>

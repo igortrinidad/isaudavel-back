@@ -18,7 +18,8 @@
             <nav class="collapse navbar-collapse" id="navbar">
                 <ul class="nav navbar-nav navbar-right" id="top-nav">
                     <li><a href="{!! route('landing.index') !!}">Home</a></li>
-                    <li><a href="{!! route('landing.search.index') !!}">Buscar</a></li>
+                    <li><a href="{!! route('landing.search.index') !!}">Para você</a></li>
+                    <li><a href="{!! route('landing.search.index') !!}">Para profissionais</a></li>
                     <li><a href="{!! route('landing.companies.create') !!}">Cadastrar meu serviço ou empresa</a></li>
                 </ul>
             </nav><!-- /.navbar-collapse -->

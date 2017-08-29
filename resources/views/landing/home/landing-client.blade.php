@@ -119,7 +119,7 @@
             <div class="row m-t-30">
                 <div class="col-md-12 col-xs-12 text-center">
                     <h4 class="f-700 m-b-30">Saiba mais sobre o Isaudavel para profissionais.</h4>
-                    <a href="/new-landing/para-profissionais">
+                    <a href="{!! route('landing.professionals.about')!!}">
                         <button class="btn btn-success m-t-10">Para Profissionais</button>
                     </a>
                 </div>

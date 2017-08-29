@@ -55,6 +55,7 @@
            <div class="col-xs-12 col-sm-4 col-md-4 input-cat">
                <div class="form-group">
                    <select v-model="category" class="form-control" @change="setCategory($event)">
+                      <option :value="null" disabled>Selecione uma categoria (obrigatório)</option>
                       <option :value="category.slug" v-for="(category, indexCat) in categories">@{{category.name}}</option>
                    </select>
                </div>
@@ -121,7 +122,7 @@
                 el: '#search-area',
                 data: {
                     city: '',
-                    category: '',
+                    category: null,
                     categories: [],
                     pathSearch: false
                 },

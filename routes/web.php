@@ -19,30 +19,31 @@ Route::post('/leadStoreForm', 'LandingController@leadStoreForm');
 
 Route::group(['prefix' => 'new-landing', 'as' => 'landing.'], function () {
 
+	//Index
 	Route::get('/', ['uses' => 'LandingController@NewIndex', 'as' => 'index']);
-    Route::get('/para-voce', ['uses' => 'LandingController@showClientLanding', 'as' => 'show']);
-    Route::get('/para-profissionais', ['uses' => 'LandingController@showProfessionalsLanding', 'as' => 'show']);
-    Route::get('/profissional-cadastro', ['uses' => 'LandingController@registerProfessional', 'as' => 'register']);
-
 
 	//Companies
 	Route::group(['prefix' => 'buscar', 'as' => 'search.'], function () {
 		Route::get('/', ['uses' => 'LandingController@NewIndexSearch', 'as' => 'index']);
 	});
 
+	//Search
 	Route::group(['prefix' => 'empresas', 'as' => 'companies.'], function () {
 		Route::get('/cadastrar', ['uses' => 'LandingController@createCompany', 'as' => 'create']);
 		Route::get('/{slug}', ['uses' => 'LandingController@showCompany', 'as' => 'show']);
 	});
 
+	//Clients
+	Route::group(['prefix' => 'clientes', 'as' => 'clients.'], function () {
+    	Route::get('/sobre', ['uses' => 'LandingController@showClientLanding', 'as' => 'about']);
+	});
+
+	//Professionals
 	Route::group(['prefix' => 'profissionais', 'as' => 'professionals.'], function () {
+    	Route::get('/sobre', ['uses' => 'LandingController@showProfessionalsLanding', 'as' => 'about']);
+    	Route::get('/cadastro', ['uses' => 'LandingController@registerProfessional', 'as' => 'signup']);
 		Route::get('/{id}', ['uses' => 'LandingController@showProfessional', 'as' => 'show']);
-
-
-
-		Route::group(['prefix' => 'profissionais', 'as' => 'auth.'], function () {
-			Route::get('/login', ['uses' => 'LandingController@showProfessionalLogin', 'as' => 'login']);
-		});
+		Route::get('/login', ['uses' => 'LandingController@showProfessionalLogin', 'as' => 'login']);
 	});
 
 });
