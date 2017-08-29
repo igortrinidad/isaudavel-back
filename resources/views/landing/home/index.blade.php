@@ -32,6 +32,7 @@
         @include('landing.companies.header-with-search')
         @include('landing.home.about')
         @include('landing.home.featured')
+        @include('landing.home.contact')
         @include('landing.home.footer')
 
         <!-- Js -->

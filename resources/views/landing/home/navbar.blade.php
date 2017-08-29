@@ -20,7 +20,7 @@
                     <li class="{{ getActiveRoute('landing.clients.about') }}"><a href="{!! route('landing.clients.about') !!}">Para você</a></li>
                     <li class="{{ getActiveRoute('landing.professionals.about') }}"><a href="{!! route('landing.professionals.about') !!}">Para profissionais</a></li>
                     <li class="{{ getActiveRoute('landing.search.index') }}"><a href="{!! route('landing.search.index') !!}">Buscar empresas</a></li>
-                    <li class="{{ getActiveRoute('landing.index') }}"><a href="{!! route('landing.index') !!}">Contato</a></li>
+                    <li class="{{ getActiveRoute('landing.index') }}"><a href="{!! route('landing.index') !!}#contato">Contato</a></li>
                 </ul>
             </nav><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
