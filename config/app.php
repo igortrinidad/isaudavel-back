@@ -184,6 +184,7 @@ return [
         Barryvdh\Cors\ServiceProvider::class,
         Spatie\Fractal\FractalServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
+        Roumen\Sitemap\SitemapServiceProvider::class,
 
     ],
 
