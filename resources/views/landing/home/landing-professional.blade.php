@@ -170,7 +170,6 @@
             <span class="f-300">É realmente barato!</span>
         </div>
         <div class="row m-t-30">
-
             <div class="col-sm-4 col-sm-offset-4 col-xs-12">
                 <div class="card wow fadeInUp">
                     <div class="card-header ch-alt text-center">
@@ -221,7 +220,7 @@
                             </li>
 
                         </ul>
-                        <a href="#" class="btn btn-success m-t-15 m-b-10">Quero Cadastrar</a>
+                        <a href="/new-landing/profissional-cadastro" class="btn btn-success m-t-15 m-b-10">Quero Cadastrar</a>
                     </div>
                 </div>
             </div>
