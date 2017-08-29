@@ -28,14 +28,14 @@
                         <img class="img-responsive" src="https://weplaces.com.br/assets/weplaces/iphone_black/screen1.png" alt="Splash Screenshot">
                     </div>
                     <div class="col-xs-12 col-sm-9">
-                        <div class="row m-t-30">
+                        <div class="row">
                             <div class="col-sm-6 wow fadeInUp">
                                 <div class="card">
                                     <div class="card-header ch-alt text-center">
                                         <i class="ion-ios-navigate-outline f-30"></i>
                                         <h4 class="f-300">Encontre o profissional ideal</h4>
                                     </div>
-                                    <div class="card-body card-padding">
+                                    <div class="card-body card-padding" style="min-height: 200px;">
                                         <span class="f-300">
                                         Procure por profissionais para te ajudarem a atingir seus objetivos de saúde, bem estar e estética próximos à você. Você pode procurar por especialidade como Personal Trainer, Crossfit, Nutrição, Fisioterapia e muitas outras.
                                         </span>
@@ -48,7 +48,7 @@
                                         <i class="ion-clipboard f-30"></i>
                                         <h4 class="f-300">Dashboard</h4>
                                     </div>
-                                    <div class="card-body card-padding">
+                                    <div class="card-body card-padding" style="min-height: 200px;">
                                         <span class="f-300">
                                             Um painel de controle de sua saúde em suas mãos, cadastre seus treinamentos ou fichas de exercícios, suas dietas, suas avaliações físicas e de saúde, exames e restrições para que a próxima vez que você for a um profisisonal ele tenha acesso às informações que precisa para te ajudar à atingir seus objetivos e você tenha ótimos resultados.
                                         </span>
@@ -61,7 +61,7 @@
                                         <i class="ion-lock-combination f-30"></i>
                                         <h4 class="f-300">Privacidade</h4>
                                     </div>
-                                    <div class="card-body card-padding">
+                                    <div class="card-body card-padding" style="min-height: 200px;">
                                         <span class="f-300">Selecione os módulos que cada empresa e seus profissionais poderão acessar de seu Dashboard, assim você poderá compartilhar por exemplo somente suas dietas e avaliações com seu nutricionista ou somente seus treinamentos com seu personal ou fisioterapeuta.</span>
                                     </div>
                                 </div>
@@ -72,7 +72,7 @@
                                         <i class="ion-flag f-30"></i>
                                         <h4 class="f-300">Resultados</h4>
                                     </div>
-                                    <div class="card-body card-padding">
+                                    <div class="card-body card-padding" style="min-height: 200px;">
                                         <span class="f-300">Acompanhe o resultado de suas avaliações a qualquer momento com um gráfico cronológico dos indicadores que você fez avaliações para ajudar você e seus profissionais a medirem os resultados e ajustar as medidas necessárias para que você atinja seus objetivos</span>
                                     </div>
                                 </div>

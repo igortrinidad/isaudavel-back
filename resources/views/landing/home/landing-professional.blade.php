@@ -67,14 +67,14 @@
                         <img class="img-responsive" src="https://weplaces.com.br/assets/weplaces/iphone_black/screen1.png" alt="Splash Screenshot">
                     </div>
                     <div class="col-xs-12 col-sm-9">
-                        <div class="row m-t-30">
+                        <div class="row">
                             <div class="col-sm-6 wow fadeInUp">
                                 <div class="card">
                                     <div class="card-header ch-alt text-center">
                                         <i class="ion-star f-30"></i>
                                         <h4 class="f-300">Apareça</h4>
                                     </div>
-                                    <div class="card-body card-padding">
+                                    <div class="card-body card-padding" style="min-height: 200px;">
                                         <span class="f-300">O iSaudavel é a primeira plataforma fitness onde você poderá mostrar seu perfil profissional completo com cursos, certificados e especialidades de sua carreira. </span>
                                     </div>
                                 </div>
@@ -85,7 +85,7 @@
                                         <i class="ion-reply-all f-30"></i>
                                         <h4 class="f-300">Sigam me os bons</h4>
                                     </div>
-                                    <div class="card-body card-padding">
+                                    <div class="card-body card-padding" style="min-height: 200px;">
                                         <span class="f-300">Você que se preocupa com seu atendimento e a satisfação de seu cliente, agora você terá uma plataforma para seu cliente demonstrar o reconhecimento por seu trabalho. Seus clientes poderão avaliar seu trabalho ou de sua empresa separadamente, incentivando sempre o melhor de cada profissional.</span>
                                     </div>
                                 </div>
@@ -96,7 +96,7 @@
                                         <i class="ion-android-person-add f-30"></i>
                                         <h4 class="f-300">A união faz a força</h4>
                                     </div>
-                                    <div class="card-body card-padding">
+                                    <div class="card-body card-padding" style="min-height: 200px;">
                                         <span class="f-300">Você provavelmente já possui diversas parceirias em seu segmento, por exemplo um nutricionista indica determinados personais ou academia ou vice e versa. Agora você terá um canal exclusivo para fortalecer as parcerias e indicar os serviços de profissionais que você confia. Uma maneira formalizar as indicações e parcerias entre empresas e profissionais.</span>
                                     </div>
                                 </div>
@@ -107,7 +107,7 @@
                                         <i class="ion-clipboard f-30"></i>
                                         <h4 class="f-300">Dados pra quem quer dados</h4>
                                     </div>
-                                    <div class="card-body card-padding">
+                                    <div class="card-body card-padding" style="min-height: 200px;">
                                         <span class="f-300">Acesse e gerencie informações sobre seu cliente que antes era difíceis de se ter como o histórico de avaliações, histórico de lesões, restrições alimentares, fichas de treinamentos, dietas alimentares, histórico de indicadores de saúde e muitas outras. Informações que você poderá usar para ajudar seu cliente à atingir os objetivos com muito mais eficácia.</span>
                                     </div>
                                 </div>
