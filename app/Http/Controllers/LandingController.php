@@ -159,7 +159,7 @@ class LandingController extends Controller
      */
     public function showCompany($slug)
     {
-        $company_fetched = Company::where('slug', $slug)->with(['professionals', 'last_ratings', 'photos', 'recomendations'])->first();
+        $company_fetched = Company::where('slug', $slug)->with(['professionals', 'last_ratings', 'photos', 'recomendations', 'plans'])->first();
 
         if($company_fetched){
             return view('landing.companies.show', compact('company_fetched'));
@@ -214,12 +214,14 @@ class LandingController extends Controller
 
         return view('landing.home.index-client', compact('companies'));
     }
+
     public function showProfessionalsLanding(Request $reques)
     {
         $companies = Company::with('categories')->get()->random(8);
 
         return view('landing.home.index-professionals', compact('companies'));
     }
+
     public function registerProfessional()
     {
         return view('landing.signup.index');
