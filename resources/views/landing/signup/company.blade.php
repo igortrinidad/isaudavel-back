@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>iSaudavel - Para Você</title>
+        <title>iSaudavel - Cadastro profissionais</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -72,7 +72,7 @@
         </style>
 
         
-        <section id="contact" class="contact contact-signup section gradient-overlay-black">
+        <section id="company-signup" class="contact contact-signup section gradient-overlay-black">
           <div class="overlay-inner">
             <div class="container">
               <!--|Section Header|-->
@@ -81,7 +81,7 @@
                   <div class="col-6 block-center">
                     <img src="/logos/LOGO-1-01.PNG" width="200px" style="padding-top: 70px; "/>
                     <h1 class="section-title" >Você esta quase lá!</h1>
-                    <h4 class="f-300 m-t-10 p-20" style="color: #fff; margin-bottom: 40px;">Falta pouco para você oferecer uma experiência única para seus clientes e vender mais.</h4>
+                    <h4 class="f-300 m-t-10 p-20" style="color: #fff; margin-bottom: 40px;">Falta pouco para você utilizar o melhor da tecnologia para ajudar seus clientes a atingirem seus objetivos!</h4>
                   </div>
                 </div>
               </header> <!--|End Section Header|-->
@@ -101,9 +101,9 @@
                        <input class="form-control" name="cpf" placeholder="CPF" required type="text">
                     </div>
                     <div class="entry-field">
-                       <label>Endereço completo</label>
-                       <input class="form-control" name="address" placeholder="Endereço completo" required type="text">
-                    </div>
+                       <label>Endereço</label>
+                        <input class="form-control" id="autocomplete" placeholder="Informe o endereço da empresa" />
+                   </div>
                     <div class="entry-field">
                        <label>Telefone</label>
                        <input class="form-control" name="phone" placeholder="Telefone com ddd" required type="text">
@@ -116,13 +116,30 @@
                        <label>Empresa</label>
                        <input class="form-control" name="company_name" placeholder="Nome da empresa" required type="text">
                     </div>
+
                     <div class="entry-field">
-                       <label>Plano</label>
-                       <select class="form-control" name="plan_selected">
-                            <option>Anual R$39,00 / mês - R$468,00 por 12 meses</option>
-                            <option>Semestral R$49,00 / mês - R$294,00 por 6 meses</option>
-                            <option>Mensal R$79,00 / mês - R$79,00 por mês</option>
-                       </select>
+                       <label>Especialidades</label>
+                       <multiselect 
+                        v-model="category" 
+                        :options="categories"
+                        :label="'name'"
+                        :multiple="true"
+                        placeholder="Selecione ao menos uma categoria"
+                        @input="calcValue"
+                        >
+                      </multiselect>
+                    </div>
+
+                    <div class="entry-field">
+                       <label>Quantidade de profissionais</label>
+                       <input class="form-control" name="professional_numbers" placeholder="" v-model="professional_numbers" required type="number" @blur="calcValue()">
+                    </div>
+
+                    <hr class="m-t-30">
+
+                    <div class="entry-field">
+                       <label>Valor total</label>
+                       <h1 class="text-center">@{{total | formatCurrency}}</h1>
                     </div>
 
                     <div class="text-center m-t-30">
@@ -137,12 +154,25 @@
           </div>
         </section>
 
-        <br><br><br>
-
         <!-- Js -->
         <script src="{{ elixir('build/landing/js/build_vendors_custom.js') }}"></script>
 
         <script>
+
+            accounting.settings = {
+    currency: {
+        symbol : "R$ ",   // default currency symbol is '$'
+        format: "%s%v", // controls output: %s = symbol, %v = value/number (can be object: see below)
+        decimal : ",",  // decimal point separator
+        thousand: ".",  // thousands separator
+        precision : 2   // decimal places
+    },
+    number: {
+        precision: 2,  // default precision on numbers is 0
+        thousand: ".",
+        decimal : ","
+    }
+}
 
           function initAutocomplete() {
 
@@ -150,7 +180,6 @@
             var autocomplete = new google.maps.places.Autocomplete(
             (
                 document.getElementById('autocomplete')), {
-              types: ['(cities)'],
               language: 'pt-BR',
               componentRestrictions: {'country': 'br'}
             });
@@ -159,7 +188,7 @@
             autocomplete.addListener('place_changed', function() {
               var place = autocomplete.getPlace();
                 if (place.geometry) {
-
+/*
                     var city = document.getElementById('city');
                     city.setAttribute('value', place.name)
 
@@ -168,6 +197,7 @@
 
                     var lng = document.getElementById('lng');
                     lng.setAttribute('value', place.geometry.location.lng())
+*/
 
                 } else {
                     document.getElementById('autocomplete').placeholder = 'Enter a city';
@@ -180,12 +210,24 @@
 
             Vue.config.debug = true;
             var vm = new Vue({
-                el: '#search-area',
+                el: '#company-signup',
+                components: {
+                    Multiselect: window.VueMultiselect.default
+                },
+                filters: {
+                    'formatCurrency': function(value){
+                            return accounting.formatMoney(parseFloat(value))
+                        }
+                },
                 data: {
                     city: '',
                     category: null,
                     categories: [],
-                    pathSearch: false
+                    pathSearch: false,
+                    form: {
+                    },
+                    total: 0,
+                    professional_numbers: 0,
                 },
                 mounted: function() {
 
@@ -202,8 +244,8 @@
 
                 },
                 methods: {
-                  getCategories: function(){
-                      let that = this
+                    getCategories: function(){
+                        let that = this
                 
                         this.$http.get('/api/company/category/list').then(response => {
 
@@ -212,14 +254,29 @@
                         }, response => {
                             // error callback
                         });
-                  },
+                    },
 
-                  setCategory: function(ev){
+                    calcValue: function(ev){
 
-                    var city = document.getElementById('category');
-                    city.setAttribute('value', ev.target.value)
+                        var cost_categories = this.category.length * 37.90;
+
+                        if(isNaN(this.professional_numbers) || this.professional_numbers == 0){
+                            this.professional_numbers = 1;
+                        }
+
+                        if(this.professional_numbers == 1){
+                            var cost_professional = 0;
+                        } else {
+                            var cost_professional = 19.90 * (this.professional_numbers - 1); 
+                        }
+
+
+                        var total = cost_professional + cost_categories;
+
+                        this.total = total;
                       
-                  },
+                    }
+            
                 }
 
             })
