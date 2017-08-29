@@ -23,7 +23,7 @@ elixir(function(mix) {
     //STYLES PRELAUNCH
     mix.styles([
 
-        '../../../node_modules/ionicons/dist/css/ionicons.css',
+        '../../../node_modules/ionicons/css/ionicons.css',
         '../../../node_modules/bootstrap/dist/css/bootstrap.css',
         '../../../node_modules/swiper/dist/css/swiper.css',
         '../../../node_modules/unitegallery/dist/css/unite-gallery.css',
@@ -37,11 +37,15 @@ elixir(function(mix) {
         '../landing/css/general.css',
     ], 'public/build/prelaunch/css/build_vendors_custom.css');
 
+    mix.copy([
+        '/node_modules/ionicons/fonts'
+    ], './public/build/landing/fonts');
+
 
     //STYLES LANDING
     mix.styles([
 
-        '../../../node_modules/ionicons/dist/css/ionicons.css',
+        '../../../node_modules/ionicons/css/ionicons.css',
         '../../../node_modules/bootstrap/dist/css/bootstrap.css',
         '../../../node_modules/swiper/dist/css/swiper.css',
         '../../../node_modules/unitegallery/dist/css/unite-gallery.css',

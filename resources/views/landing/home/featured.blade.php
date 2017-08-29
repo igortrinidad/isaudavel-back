@@ -79,7 +79,7 @@
 
     .wrapper.call-to-search {
         color: #383938;
-        background-image: url('https://weplaces.com.br/build/landing/weplaces/mapa.png');
+        background-image: url('/images/call-to-search.png');
     }
 
 </style>
@@ -87,7 +87,7 @@
 <hr class="m-0">
  <section id="contact" class="section">
     <div class="container">
-        <h2 class="text-center m-t-20 m-b-20">Em destaque</h2>
+        <h2 class="text-center m-t-20 m-b-20">Empresas em destaque</h2>
 
         <div class="swiper-container swiper-featureds wow fadeInUp">
             <div class="swiper-wrapper">
@@ -143,7 +143,7 @@
             <div class="row m-t-30">
                 <div class="col-md-12 col-xs-12 text-center">
                     <h4 class="f-700 m-b-30">Encontre empresas e seus profissionais para te ajudar a cuidar da sua saúde e estética.</h4>
-                    <a href="{!! route('landing.search.index') !!}">
+                    <a href="{!! route('landing.search.index', ['category' => 'pilates']) !!}">
                         <button class="btn btn-primary m-t-10">Procurar empresas e profissionais</button>
                     </a>
                 </div>

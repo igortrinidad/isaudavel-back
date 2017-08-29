@@ -94,14 +94,6 @@ class Company extends Model
     }
 
     /*
-    * Website
-    */
-    public function getWebsiteAttribute()
-    {
-        return 'http://' . $this->attributes['website'];
-    }
-
-    /*
     * Rating
     */
     public function getCurrentRatingAttribute()

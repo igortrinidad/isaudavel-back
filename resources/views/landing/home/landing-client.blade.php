@@ -19,7 +19,7 @@
     <div class="container">
         <div class="text-center">
             <h2 class="f-300">Para você</h2>
-            <span class="f-300">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</span>
+            <span class="f-300">Sua saúde em boas mãos.</span>
         </div>
         <div class="row" style="margin-top: 60px">
             <div class="col-sm-12">
@@ -33,43 +33,47 @@
                                 <div class="card">
                                     <div class="card-header ch-alt text-center">
                                         <i class="ion-ios-navigate-outline f-30"></i>
-                                        <h4 class="f-300">Local próximo de você</h4>
+                                        <h4 class="f-300">Encontre o profissional ideal</h4>
                                     </div>
                                     <div class="card-body card-padding">
-                                        <span class="f-300">Some text here...</span>
+                                        <span class="f-300">
+                                        Procure por profissionais para te ajudarem a atingir seus objetivos de saúde, bem estar e estética próximos à você. Você pode procurar por especialidade como Personal Trainer, Crossfit, Nutrição, Fisioterapia e muitas outras.
+                                        </span>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-6 wow fadeInUp">
                                 <div class="card">
                                     <div class="card-header ch-alt text-center">
-                                        <i class="ion-ios-calendar-outline f-30"></i>
-                                        <h4 class="f-300">Agenda</h4>
+                                        <i class="ion-clipboard f-30"></i>
+                                        <h4 class="f-300">Dashboard</h4>
                                     </div>
                                     <div class="card-body card-padding">
-                                        <span class="f-300">Some text here...</span>
+                                        <span class="f-300">
+                                            Um painel de controle de sua saúde em suas mãos, cadastre seus treinamentos ou fichas de exercícios, suas dietas, suas avaliações físicas e de saúde, exames e restrições para que a próxima vez que você for a um profisisonal ele tenha acesso às informações que precisa para te ajudar à atingir seus objetivos e você tenha ótimos resultados.
+                                        </span>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-6 wow fadeInUp">
                                 <div class="card">
                                     <div class="card-header ch-alt text-center">
-                                        <i class="ion-ios-star-outline f-30"></i>
-                                        <h4 class="f-300">Avaliações</h4>
+                                        <i class="ion-lock-combination f-30"></i>
+                                        <h4 class="f-300">Privacidade</h4>
                                     </div>
                                     <div class="card-body card-padding">
-                                        <span class="f-300">Some text here...</span>
+                                        <span class="f-300">Selecione os módulos que cada empresa e seus profissionais poderão acessar de seu Dashboard, assim você poderá compartilhar por exemplo somente suas dietas e avaliações com seu nutricionista ou somente seus treinamentos com seu personal ou fisioterapeuta.</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-6 wow fadeInUp">
                                 <div class="card">
                                     <div class="card-header ch-alt text-center">
-                                        <i class="ion-ios-star-outline f-30"></i>
-                                        <h4 class="f-300">Feature</h4>
+                                        <i class="ion-flag f-30"></i>
+                                        <h4 class="f-300">Resultados</h4>
                                     </div>
                                     <div class="card-body card-padding">
-                                        <span class="f-300">Some text here...</span>
+                                        <span class="f-300">Acompanhe o resultado de suas avaliações a qualquer momento com um gráfico cronológico dos indicadores que você fez avaliações para ajudar você e seus profissionais a medirem os resultados e ajustar as medidas necessárias para que você atinja seus objetivos</span>
                                     </div>
                                 </div>
                             </div>

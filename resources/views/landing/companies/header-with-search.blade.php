@@ -4,6 +4,11 @@
         .btn-buscar {
             margin-top: -20px;
         }
+
+        .input-cat{
+          margin-top: -20px;
+        }
+
         #search-area { padding: 80px 0 10px 0px !important; }
 
         .navbar-default.navbar-fixed-top.animated .navbar-toggle,
@@ -42,9 +47,16 @@
     <div class="container" style="border-color: blue !important;">
        <div class="row">
            <h3 class="text-center">Encontre empresas e profissionais de saúde próximos à você</h3>
-           <div class="col-xs-12 col-sm-8 col-md-8">
+           <div class="col-xs-12 col-sm-4 col-md-4">
                <div class="form-group">
                    <input class="form-control" id="autocomplete" placeholder="Informe a cidade" />
+               </div>
+           </div>
+           <div class="col-xs-12 col-sm-4 col-md-4 input-cat">
+               <div class="form-group">
+                   <select v-model="category" class="form-control" @change="setCategory($event)">
+                      <option :value="category.slug" v-for="(category, indexCat) in categories">@{{category.name}}</option>
+                   </select>
                </div>
            </div>
            <div class="col-xs-12 col-sm-4 col-md-4 text-center">
@@ -52,8 +64,9 @@
                    <input type="hidden" name="city" id="city" value="">
                    <input type="hidden" name="lat" id="lat" value="">
                    <input type="hidden" name="lng" id="lng" value="">
+                   <input type="hidden" name="category" id="category" value="">
                    <div class="form-group">
-                       <button type="submit" class="btn btn-primary btn-block btn-buscar">Buscar</button>
+                       <button type="submit" class="btn btn-primary btn-block btn-buscar" :disabled="!category">Buscar</button>
                    </div>
                </form>
            </div>
@@ -101,12 +114,15 @@
             });
           }
 
+            Vue.http.headers.common['X-CSRF-TOKEN'] = $('input[name=_token]').val();
+
             Vue.config.debug = true;
             var vm = new Vue({
                 el: '#search-area',
                 data: {
                     city: '',
                     category: '',
+                    categories: [],
                     pathSearch: false
                 },
                 mounted: function() {
@@ -120,8 +136,28 @@
                         this.pathSearch = true
                     }
 
+                    this.getCategories();
+
                 },
                 methods: {
+                  getCategories: function(){
+                      let that = this
+                
+                        this.$http.get('/api/company/category/list').then(response => {
+
+                            that.categories = response.body;
+
+                        }, response => {
+                            // error callback
+                        });
+                  },
+
+                  setCategory: function(ev){
+
+                    var city = document.getElementById('category');
+                    city.setAttribute('value', ev.target.value)
+                      
+                  },
                 }
 
             })

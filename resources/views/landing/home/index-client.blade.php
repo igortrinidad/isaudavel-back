@@ -19,7 +19,6 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ elixir('build/landing/css/build_vendors_custom.css') }}">
-        <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 
         <!-- Hotjar Tracking Code for https://isaudavel.com -->
         @include('components.hotjar')

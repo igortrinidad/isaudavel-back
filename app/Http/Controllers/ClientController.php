@@ -33,41 +33,37 @@ class ClientController extends Controller
      */
     public function companyClients(Request $request)
     {
-        $currentPage = LengthAwarePaginator::resolveCurrentPage();
 
-        $per_page = 10;
+        $clients_confirmed = Client::with(['companies'])
+            ->withPivot('is_confirmed', 'requested_by_client', 'trainnings_show', 'trainnings_edit', 'diets_show', 'diets_edit',
+                'evaluations_show', 'evaluations_edit', 'restrictions_show', 'restrictions_edit', 'exams_show', 'exams_edit')
+            ->wherePivot('is_confirmed', 1)
+            ->wherePivot('is_deleted', 0)
+            ->wherePivot('company_id', $request->get('company_id'))
+            ->orderBy('name')->paginate(10);
 
-        $clients = Client::whereHas('companies', function ($query) use($request){
-            $query->where('company_id', $request->get('company_id'));
-        })->orderBy('name')->get();
+        $clients_unconfirmed = Client::companies()->with(['companies'])
+            ->withPivot('is_confirmed', 'requested_by_client', 'trainnings_show', 'trainnings_edit', 'diets_show', 'diets_edit',
+                'evaluations_show', 'evaluations_edit', 'restrictions_show', 'restrictions_edit', 'exams_show', 'exams_edit')
+            ->wherePivot('is_confirmed', 1)
+            ->wherePivot('is_deleted', 0)
+            ->wherePivot('company_id', $request->get('company_id'))
+            ->orderBy('name')->paginate(10);
 
-        $verified_clients = [];
-        foreach ($clients as $client){
-            //check if is a company client
-            $is_client = $client->companies->contains($request->get('company_id'));
 
-            //check if is confirmed
-            $is_confirmed = $client->companies()
-                ->wherePivot('company_id', '=',$request->get('company_id'))
-                ->wherePivot('is_confirmed', '=', true)->count();
+        $clients_deleted = Client::companies()->with(['companies'])
+            ->withPivot('is_confirmed', 'requested_by_client', 'trainnings_show', 'trainnings_edit', 'diets_show', 'diets_edit',
+                'evaluations_show', 'evaluations_edit', 'restrictions_show', 'restrictions_edit', 'exams_show', 'exams_edit')
+            ->wherePivot('is_confirmed', 1)
+            ->wherePivot('is_deleted', 0)
+            ->wherePivot('company_id', $request->get('company_id'))
+            ->orderBy('name')->paginate(10);
 
-            $requested_by_client = $client->companies()
-                ->wherePivot('company_id', '=',$request->get('company_id'))
-                ->wherePivot('requested_by_client', '=', true)->count();
-
-            $client['is_client'] = $is_client ? true : false;
-            $client['is_confirmed'] = $is_confirmed ? true : false;
-            $client['requested_by_client'] = $requested_by_client ? true : false;
-            $verified_clients[] = $client->setHidden(['companies']);
-        }
-
-        $verified_clients = collect($verified_clients);
-
-        $currentPageItems = $verified_clients->slice(($currentPage - 1) * $per_page, $per_page);
-
-        $paged_clients =  new LengthAwarePaginator($currentPageItems->flatten(), count($verified_clients), $per_page);
-
-        return response()->json(custom_paginator($paged_clients, 'clients'));
+        return response()->json([
+            'clients_confirmed' => custom_paginator($clients_confirmed, 'clients_confirmed'),
+            'clients_unconfirmed' => custom_paginator($clients_unconfirmed, 'clients_unconfirmed'),
+            'clients_deleted' => custom_paginator($clients_deleted, 'clients_deleted'),
+        ]);
     }
 
     /**
