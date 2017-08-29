@@ -91,12 +91,25 @@
         transform: scale(1);
         transition: ease .3s;
     }
+
+    .swiper-button-prev,
+    .swiper-button-next {
+        background-image: none;
+        font-size: 40px;
+        height: 40px;
+        margin-top: -35px;
+        top: 50%;
+        padding: 0;
+        color: #88C657;
+    }
+
     /* List & Cards With Swiper */
     .swiper-pagination-bullet,
     .swiper-pagination-bullet { border-color: #88C657 !important }
 
     .swiper-pagination-bullet.swiper-pagination-bullet-active,
     .swiper-pagination-bullet.swiper-pagination-bullet-active { background-color: #88C657 !important }
+
 
     /* Interactions */
     .btn.out { display: none !important; }
@@ -227,29 +240,34 @@
                                 @endif
                             </span>
                         </div>
-
-                        <div class="card-body p-t-5 p-b-5">
-                            <div class="swiper-container swiper-default-show">
-                                <div class="swiper-wrapper">
-                                    @foreach($company_fetched->last_ratings as $rating)
-                                        <div class="swiper-slide text-center">
-                                            <div class="p-10" style="background-color: #f4f5f5; border-radius: 4px;">
-                                                <div class="picture-circle picture-circle-p" style="background-image:url({{$rating->client->avatar}})"></div>
-                                                <h4 class="m-t-10">{{$rating->client->full_name}}</h4>
-                                                <?php $rating_to_loop = $rating->rating; ?>
-                                                @include('components.rating', ['size' => '22'])
-                                                <p class="f-300 m-t-10">{{$rating->created_at->format('d/m/Y')}}</p>
-                                                <p class="f-300 m-t-10">{{$rating->content}}</p>
+                        @if(count($company_fetched->last_ratings) == 0)
+                            <span class="f-300 m-t-30 m-b-30 d-block">Esta empresa ainda não possui avaliações</span>
+                        @endif
+                        @if(count($company_fetched->last_ratings) > 0)
+                            <div class="card-body p-t-5 p-b-5">
+                                <div class="swiper-container swiper-default-show">
+                                    <div class="swiper-wrapper">
+                                        @foreach($company_fetched->last_ratings as $rating)
+                                            <div class="swiper-slide text-center">
+                                                <div class="p-10" style="background-color: #f4f5f5; border-radius: 4px;">
+                                                    <div class="picture-circle picture-circle-p" style="background-image:url({{$rating->client->avatar}})"></div>
+                                                    <h4 class="m-t-10">{{$rating->client->full_name}}</h4>
+                                                    <?php $rating_to_loop = $rating->rating; ?>
+                                                    @include('components.rating', ['size' => '22'])
+                                                    <p class="f-300 m-t-10">{{$rating->created_at->format('d/m/Y')}}</p>
+                                                    <p class="f-300 m-t-10">{{$rating->content}}</p>
+                                                </div>
                                             </div>
-                                        </div>
-                                    @endforeach
+                                        @endforeach
+                                    </div>
+                                    <div class="swiper-button-prev"><i class="ion-ios-arrow-back"></i></div>
+                                    <div class="swiper-button-next"><i class="ion-ios-arrow-forward"></i></div>
+                                    <div style="height: 50px;"></div>
+                                    <div class="swiper-pagination"></div>
                                 </div>
-                                <div class="swiper-button-prev swiper-button-black"></div>
-                                <div class="swiper-button-next swiper-button-black"></div>
-                                <div style="height: 50px;"></div>
-                                <div class="swiper-pagination"></div>
                             </div>
-                        </div>
+                        @endif
+
                     </div>
 
                     <!-- Ratings -->
@@ -257,68 +275,78 @@
                         <div class="card-header ch-alt">
                             <h2 class="f-300">Indicações</h2>
                         </div>
-
                         <div class="card-body p-t-5 p-b-5">
-                            <div class="swiper-container swiper-default-show">
-                                <div class="swiper-wrapper">
-                                    @foreach($company_fetched->last_ratings as $rating)
-                                        <div class="swiper-slide text-center">
-                                            <div class="p-10" style="background-color: #f4f5f5; border-radius: 4px;">
-                                                <div class="picture-circle picture-circle-p" style="background-image:url({{$rating->client->avatar}})"></div>
-                                                <h4 class="m-t-10">{{$rating->client->full_name}}</h4>
-                                                <p class="f-300 m-t-10">{{$rating->created_at->format('d/m/Y')}}</p>
-                                                <p class="f-300 m-t-10">{{$rating->content}}</p>
+                            @if(count($company_fetched->last_ratings) == 0)
+                                <span class="f-300 m-t-30 m-b-30 d-block">Esta empresa ainda não possui indicações</span>
+                            @endif
+                            @if(count($company_fetched->last_ratings) > 0)
+                                <div class="swiper-container swiper-default-show">
+                                    <div class="swiper-wrapper">
+                                        @foreach($company_fetched->last_ratings as $rating)
+                                            <div class="swiper-slide text-center">
+                                                <div class="p-10" style="background-color: #f4f5f5; border-radius: 4px;">
+                                                    <div class="picture-circle picture-circle-p" style="background-image:url({{$rating->client->avatar}})"></div>
+                                                    <h4 class="m-t-10">{{$rating->client->full_name}}</h4>
+                                                    <p class="f-300 m-t-10">{{$rating->created_at->format('d/m/Y')}}</p>
+                                                    <p class="f-300 m-t-10">{{$rating->content}}</p>
+                                                </div>
                                             </div>
-                                        </div>
-                                    @endforeach
+                                        @endforeach
+                                    </div>
+                                    <div class="swiper-button-prev"><i class="ion-ios-arrow-back"></i></div>
+                                    <div class="swiper-button-next"><i class="ion-ios-arrow-forward"></i></div>
+                                    <div style="height: 50px;"></div>
+                                    <div class="swiper-pagination"></div>
                                 </div>
-                                <div class="swiper-button-prev swiper-button-black"></div>
-                                <div class="swiper-button-next swiper-button-black"></div>
-                                <div style="height: 50px;"></div>
-                                <div class="swiper-pagination"></div>
-                            </div>
+                            @endif
                         </div>
                     </div>
 
                     <!-- Professional list -->
+
                     <div class="card">
                         <div class="card-header ch-alt">
                             <h2 class="f-300">Profissionais</h2>
                         </div>
                         <div class="card-body p-t-5 p-b-5">
-                            <div class="swiper-container swiper-default-show">
-                                <div class="swiper-wrapper">
-                                    @foreach($company_fetched->professionals as $professional)
-                                        <div class="swiper-slide text-center">
-                                            <div class="p-10" style="background-color: #f4f5f5; border-radius: 4px;">
-                                                <div class="picture-circle  picture-circle-p m-t-10" style="background-image:url({{$professional->avatar}})">
+                            @if(count($company_fetched->professionals) == 0)
+                            <span class="f-300 m-t-30 m-b-30 d-block">Esta empresa ainda não possui profissionais cadastrados</span>
+                            @endif
+                            @if(count($company_fetched->professionals) > 0)
+                                <div class="swiper-container swiper-default-show">
+                                    <div class="swiper-wrapper">
+                                        @foreach($company_fetched->professionals as $professional)
+                                            <div class="swiper-slide text-center">
+                                                <div class="p-10" style="background-color: #f4f5f5; border-radius: 4px;">
+                                                    <div class="picture-circle  picture-circle-p m-t-10" style="background-image:url({{$professional->avatar}})">
+                                                    </div>
+                                                    <h3 class="f-300">
+                                                        <a href="/new-landing/profissionais/{{$professional->id}}">{{$professional->full_name}}</a>
+                                                    </h3>
+                                                    <div class="">
+                                                        <?php $rating_to_loop = $professional->current_rating; ?>
+                                                        @include('components.rating', ['size' => '22'])
+                                                    </div>
+                                                    <div class="p-t-10 m-b-20">
+                                                        @foreach($professional->categories as $category)
+                                                            <a href="{!! route('landing.search.index', ['category' => $category->name]) !!}"><button class="btn btn-success btn-sm m-b-5">{{ $category->name }}</button></a>
+                                                        @endforeach
+                                                    </div>
+                                                    <a href="{!! route('landing.professionals.show', $professional->id) !!}" title="{{ $professional->full_name }}">
+                                                        <button class="btn btn-block btn-primary f-300 f-16">
+                                                            Ver perfil
+                                                        </button>
+                                                    </a>
                                                 </div>
-                                                <h3 class="f-300">
-                                                    <a href="/new-landing/profissionais/{{$professional->id}}">{{$professional->full_name}}</a>
-                                                </h3>
-                                                <div class="">
-                                                    <?php $rating_to_loop = $professional->current_rating; ?>
-                                                    @include('components.rating', ['size' => '22'])
-                                                </div>
-                                                <div class="p-t-10 m-b-20">
-                                                    @foreach($professional->categories as $category)
-                                                        <a href="{!! route('landing.search.index', ['category' => $category->name]) !!}"><button class="btn btn-success btn-sm m-b-5">{{ $category->name }}</button></a>
-                                                    @endforeach
-                                                </div>
-                                                <a href="{!! route('landing.professionals.show', $professional->id) !!}" title="{{ $professional->full_name }}">
-                                                    <button class="btn btn-block btn-primary f-300 f-16">
-                                                        Ver perfil
-                                                    </button>
-                                                </a>
                                             </div>
-                                        </div>
-                                    @endforeach
+                                        @endforeach
+                                    </div>
+                                    <div class="swiper-button-prev"><i class="ion-ios-arrow-back"></i></div>
+                                    <div class="swiper-button-next"><i class="ion-ios-arrow-forward"></i></div>
+                                    <div style="height: 50px;"></div>
+                                    <div class="swiper-pagination"></div>
                                 </div>
-                                <div class="swiper-button-prev swiper-button-black"></div>
-                                <div class="swiper-button-next swiper-button-black"></div>
-                                <div style="height: 50px;"></div>
-                                <div class="swiper-pagination"></div>
-                            </div>
+                            @endif
                         </div>
                     </div>
 
@@ -440,7 +468,7 @@
             })
             var swiperCertifications = new Swiper('.swiper-default-show', {
                 centeredSlides: true,
-                spaceBetween: 15,
+                spaceBetween: 4,
                 loop: false,
                 slidesPerView: 1,
                 slideToClickedSlide: true,
@@ -642,7 +670,7 @@
             function initMap() {
                 var myLatLng = {lat: {{$company_fetched->lat}}, lng: {{$company_fetched->lng}} };
 
-                var contentString = 
+                var contentString =
                     '<div id="content">'+
                         '<div id="siteNotice">'+
                         '</div>'+
