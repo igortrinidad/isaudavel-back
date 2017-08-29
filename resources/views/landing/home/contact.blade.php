@@ -62,10 +62,14 @@
                 errors.push("Mensagem")
             }
             if (errors.length) {
-                console.log();
+                var startMessage = errors.length > 1 ? "Os campos: " : "O campo: "
+                var errorFields =  errors.join(", ")
+                var endMessage = errors.length > 1 ? " são obrigatórios" : " é obrigatório"
+
+
                 swal({
                     title: "Todos os campos são obrigatórios!",
-                    text: "Os campos: " + errors.join(", ") + " são obrigatórios.",
+                    text: startMessage + errorFields + endMessage,
                     type: "warning",
                     showCancelButton: false,
                     confirmButtonColor: "#E14A45",
