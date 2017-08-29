@@ -149,20 +149,6 @@
     </div>
     <!-- / Screen Shots -->
 
-
-    <div class="wrapper call-to-client">
-        <div class="container">
-            <div class="row m-t-30">
-                <div class="col-md-12 col-xs-12 text-center">
-                    <h4 class="f-700 m-b-30">Saiba mais sobre o Isaudavel para clientes.</h4>
-                    <a href="{!! route('landing.clients.about') !!}">
-                        <button class="btn btn-success btn-xl m-t-10">Para Você</button>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Plans -->
     <div class="container" style="padding-top: 100px; padding-bottom: 100px;">
         <div class="text-center">
@@ -228,6 +214,20 @@
         </div>
     </div>
     <!-- / Plans -->
+
+    <!-- CLIENTS BANNER -->
+    <div class="wrapper call-to-client">
+        <div class="container">
+            <div class="row m-t-30">
+                <div class="col-md-12 col-xs-12 text-center">
+                    <h4 class="f-700 m-b-30">Saiba mais sobre o Isaudavel para clientes.</h4>
+                    <a href="{!! route('landing.clients.about') !!}">
+                        <button class="btn btn-success btn-xl m-t-10">Para Você</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 </section>

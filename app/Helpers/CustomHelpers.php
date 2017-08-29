@@ -21,3 +21,9 @@ if (! function_exists('custom_paginator')) {
 
     }
 }
+
+function getActiveRoute($route, $css_class = 'current'){
+    if(\Request::route()->getName() == $route){
+      return $css_class;
+    }
+}

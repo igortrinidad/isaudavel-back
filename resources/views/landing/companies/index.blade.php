@@ -49,7 +49,7 @@
 
         <div id="app">
 
-            @include('landing.companies.navbar')
+            @include('landing.home.navbar')
             @if($header_with_search)
                 @include('landing.companies.header-with-search')
             @else
