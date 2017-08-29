@@ -25,7 +25,7 @@
             <div class="col-sm-12">
                 <div class="row">
                     <div class="col-xs-12 col-sm-3 wow fadeInUp">
-                        <img class="img-responsive" src="https://weplaces.com.br/assets/weplaces/iphone_black/screen1.png" alt="Splash Screenshot">
+                        <img class="img-responsive" src="/images/screenshots/client/mc1.png" alt="">
                     </div>
                     <div class="col-xs-12 col-sm-9">
                         <div class="row">
@@ -94,16 +94,16 @@
         <div class="swiper-container swiper-screenshots">
             <div class="swiper-wrapper" style="padding-top: 60px;">
                 <div class="swiper-slide">
-                    <img class="img-responsive" src="https://weplaces.com.br/assets/weplaces/iphone_black/screen2.png" alt="">
+                    <img class="img-responsive" src="/images/screenshots/client/mc1.png" alt="">
                 </div>
                 <div class="swiper-slide">
-                    <img class="img-responsive" src="https://weplaces.com.br/assets/weplaces/iphone_black/screen2.png" alt="">
+                    <img class="img-responsive" src="/images/screenshots/client/mc2.png" alt="">
                 </div>
                 <div class="swiper-slide">
-                    <img class="img-responsive" src="https://weplaces.com.br/assets/weplaces/iphone_black/screen2.png" alt="">
+                    <img class="img-responsive" src="/images/screenshots/client/mc3.png" alt="">
                 </div>
                 <div class="swiper-slide">
-                    <img class="img-responsive" src="https://weplaces.com.br/assets/weplaces/iphone_black/screen2.png" alt="">
+                    <img class="img-responsive" src="/images/screenshots/client/mc4.png" alt="">
                 </div>
             </div>
             <div class="swiper-button-prev"><i class="ion-ios-arrow-back"></i></div>
