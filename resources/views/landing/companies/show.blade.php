@@ -103,6 +103,8 @@
         color: #88C657;
     }
 
+    .plan-limit{ display: block;}
+
     /* List & Cards With Swiper */
     .swiper-pagination-bullet,
     .swiper-pagination-bullet { border-color: #88C657 !important }
@@ -121,11 +123,9 @@
       }
 
  </style>
-
     <header>
         <div class="bg-picture" style="background-image:url({{$company_fetched->avatar}})"></div>
     </header>
-
     <section class="section p-t-20" id="show-company">
         <!-- GRID -->
         <div class="container" style="margin-top: 120px;">
@@ -210,17 +210,29 @@
                         </div>
                     </div>
 
-                    <!-- ADS EXEMPLE -->
+                    <!-- Plan -->
                     <div class="card">
                         <div class="card-header ch-alt text-center">
-                            <h4>ADS EXEMPLO</h4>
+                            <h4>Planos</h4>
                         </div>
-                        <div class="card-body card-padding text-center">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <img class="img-responsive" src="http://phandroid.s3.amazonaws.com/wp-content/uploads/2013/05/Flavyr-banner.png" alt="">
+                        <div class="card-body card-padding p-b-10 text-center">
+                            @if(count($company_fetched->plans) == 0)
+                                <span class="f-300 m-t-30 m-b-30 d-block">Esta empresa ainda não possui planos</span>
+                            @endif
+                            @foreach($company_fetched->plans as $plan)
+                                <div class="card">
+                                    <div class="card-header ch-alt">
+                                        <h4 class="m-b-10">{{ $plan->name }}</h4>
+                                        <small class="label label-success p-10">R$ {{ $plan->value }}</small>
+                                        <span class="plan-limit m-t-10 f-300">
+                                            Esse plano conta com
+                                            {{ $plan->limit_quantity ? $plan->quantity : "não possui limite de ".$plan->label."s" }}
+                                            {{ $plan->quantity > 1 ? $plan->label."s" : $plan->label }}
+                                            <p class="plan-description f-300 m-t-10">{{ $plan->description }}</p>
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -260,10 +272,12 @@
                                             </div>
                                         @endforeach
                                     </div>
-                                    <div class="swiper-button-prev"><i class="ion-ios-arrow-back"></i></div>
-                                    <div class="swiper-button-next"><i class="ion-ios-arrow-forward"></i></div>
-                                    <div style="height: 50px;"></div>
-                                    <div class="swiper-pagination"></div>
+                                    @if($company_fetched->total_rating > 1)
+                                        <div class="swiper-button-prev"><i class="ion-ios-arrow-back"></i></div>
+                                        <div class="swiper-button-next"><i class="ion-ios-arrow-forward"></i></div>
+                                        <div style="height: 50px;"></div>
+                                        <div class="swiper-pagination"></div>
+                                    @endif
                                 </div>
                             </div>
                         @endif
@@ -274,6 +288,13 @@
                     <div class="card">
                         <div class="card-header ch-alt">
                             <h2 class="f-300">Indicações</h2>
+                            <span class="f-14 f-300">Total de {{$company_fetched->total_rating}}
+                                @if($company_fetched->total_rating > 1)
+                                    indicações
+                                @else
+                                    indicação
+                                @endif
+                            </span>
                         </div>
                         <div class="card-body p-t-5 p-b-5">
                             @if(count($company_fetched->last_ratings) == 0)
@@ -293,20 +314,28 @@
                                             </div>
                                         @endforeach
                                     </div>
-                                    <div class="swiper-button-prev"><i class="ion-ios-arrow-back"></i></div>
-                                    <div class="swiper-button-next"><i class="ion-ios-arrow-forward"></i></div>
-                                    <div style="height: 50px;"></div>
-                                    <div class="swiper-pagination"></div>
+                                    @if($company_fetched->total_rating > 1)
+                                        <div class="swiper-button-prev"><i class="ion-ios-arrow-back"></i></div>
+                                        <div class="swiper-button-next"><i class="ion-ios-arrow-forward"></i></div>
+                                        <div style="height: 50px;"></div>
+                                        <div class="swiper-pagination"></div>
+                                    @endif
                                 </div>
                             @endif
                         </div>
                     </div>
 
                     <!-- Professional list -->
-
                     <div class="card">
                         <div class="card-header ch-alt">
                             <h2 class="f-300">Profissionais</h2>
+                            <span class="f-14 f-300">Total de {{ count($company_fetched->professionals) }}
+                                @if(count($company_fetched->professionals) > 1)
+                                    profissionais
+                                @else
+                                    profissional
+                                @endif
+                            </span>
                         </div>
                         <div class="card-body p-t-5 p-b-5">
                             @if(count($company_fetched->professionals) == 0)
@@ -341,10 +370,12 @@
                                             </div>
                                         @endforeach
                                     </div>
-                                    <div class="swiper-button-prev"><i class="ion-ios-arrow-back"></i></div>
-                                    <div class="swiper-button-next"><i class="ion-ios-arrow-forward"></i></div>
-                                    <div style="height: 50px;"></div>
-                                    <div class="swiper-pagination"></div>
+                                    @if(count($company_fetched->professionals) > 0)
+                                        <div class="swiper-button-prev"><i class="ion-ios-arrow-back"></i></div>
+                                        <div class="swiper-button-next"><i class="ion-ios-arrow-forward"></i></div>
+                                        <div style="height: 50px;"></div>
+                                        <div class="swiper-pagination"></div>
+                                    @endif
                                 </div>
                             @endif
                         </div>
