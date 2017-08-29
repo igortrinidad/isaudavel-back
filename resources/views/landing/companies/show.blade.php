@@ -215,10 +215,13 @@
                         <div class="card-header ch-alt text-center">
                             <h4>Planos</h4>
                         </div>
-                        <div class="card-body card-padding p-b-10">
+                        <div class="card-body card-padding p-b-10 text-center">
+                            @if(count($company_fetched->plans) == 0)
+                                <span class="f-300 m-t-30 m-b-30 d-block">Esta empresa ainda não possui planos</span>
+                            @endif
                             @foreach($company_fetched->plans as $plan)
                                 <div class="card">
-                                    <div class="card-header ch-alt text-center">
+                                    <div class="card-header ch-alt">
                                         <h4 class="m-b-10">{{ $plan->name }}</h4>
                                         <small class="label label-success p-10">R$ {{ $plan->value }}</small>
                                         <span class="plan-limit m-t-10 f-300">
