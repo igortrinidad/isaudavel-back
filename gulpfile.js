@@ -35,6 +35,7 @@ elixir(function(mix) {
         '../prelaunch/css/responsive.css',
         '../helpers.css',
         '../landing/css/general.css',
+        '../landing/css/fonts.css',
     ], 'public/build/prelaunch/css/build_vendors_custom.css');
 
     mix.copy([
@@ -57,6 +58,7 @@ elixir(function(mix) {
         '../prelaunch/css/responsive.css',
         '../helpers.css',
         '../landing/css/general.css',
+        '../landing/css/fonts.css',
     ], 'public/build/landing/css/build_vendors_custom.css');
 
 

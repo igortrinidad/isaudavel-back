@@ -13,11 +13,6 @@
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
         @include('components.opengraph')
 
-        <!-- Fonts -->
-        <!-- Lato -->
-        <!-- <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'> -->
-        <link rel="stylesheet" href="/css/lato.css">
-
         <!-- Styles -->
         <link rel="stylesheet" href="{{ elixir('build/landing/css/build_vendors_custom.css') }}">
 
