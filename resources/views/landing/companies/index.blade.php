@@ -59,9 +59,6 @@
         <!-- Js -->
         <script src="{{ elixir('build/landing/js/build_vendors_custom.js') }}"></script>
 
-        <!-- GOOGLE ANALYTICS -->
-        @include('components.googleanalytics')
-
 
         @section('scripts')
         @show

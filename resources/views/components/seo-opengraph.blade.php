@@ -266,3 +266,5 @@
 		?>
 	</script>
 @endif
+
+<?php include_once("analyticstracking.php") ?>

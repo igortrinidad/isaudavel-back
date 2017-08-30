@@ -290,8 +290,5 @@
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAc7FRXAfTUbAG_lUOjKzzFa41JbRCCbbM&libraries=places&callback=initAutocomplete"
              async defer></script>
 
-        <!-- GOOGLE ANALYTICS -->
-        @include('components.googleanalytics')
-
     </body>
 </html>
