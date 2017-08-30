@@ -89,7 +89,7 @@
 <!-- LANDING COMPANIES SHOW -->
 @if($routeName == 'landing.companies.show')
 
-	<title>{{$company_fetched->name}} no iSaudavel - {{$company_fetched->city}}</title> 
+	<title>{{$company_fetched->name}} no iSaudavel</title> 
 	<meta name="description" content="Veja o perfil de {{$company_fetched->name}} no iSaudavel, cuide de sua saúde na primeira plataforma fitness do mundo.">
 
 	<meta property="og:url" content="{{ $current_url }}">
