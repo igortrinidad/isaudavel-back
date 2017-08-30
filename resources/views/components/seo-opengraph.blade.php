@@ -123,6 +123,7 @@
 				];
 			}
 
+
 			$context = [
 				'@context' => 'http://schema.org',
 				'@type' => 'LocalBusiness',
@@ -134,7 +135,7 @@
 			    'url' => $current_url,
 			    'aggregateRating' => [
 			    	'@type' => 'AggregateRating',
-			    	'ratingValue' => ($company_fetched->total_rating > 0) ?  $company_fetched->total_rating : 1,
+			    	'ratingValue' => ($company_fetched->current_rating > 0) ?  $company_fetched->current_rating : 1,
 			    	'reviewCount' => ($company_fetched->total_rating > 0) ?  $company_fetched->total_rating : 1,
 			    	'bestRating' => 5,
 			    	'worstRating' => ($company_fetched->current_rating > 0) ? $company_fetched->current_rating : 1
