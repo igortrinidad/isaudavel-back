@@ -253,7 +253,9 @@
 			    'aggregateRating' => [
 			    	'@type' => 'AggregateRating',
 			    	'ratingValue' => $professional_fetched->current_rating,
-			    	'reviewCount' => $professional_fetched->total_rating,
+			    	'reviewCount' => ($professional_fetched->total_rating > 0) ?  $professional_fetched->total_rating : 1,
+			    	'bestRating' => 5,
+			    	'worstRating' => ($professional_fetched->current_rating > 0) ? $professional_fetched->current_rating : 1
 			    ],
 
 			];
