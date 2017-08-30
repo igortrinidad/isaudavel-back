@@ -147,7 +147,10 @@
                         </div>
                         <div class="card-body card-padding text-center">
                             <div>
+                                <h2>Avaliação</h2>
+                                <p class="f-14 m-t-10">{{$company_fetched->current_rating}} de {{$company_fetched->total_rating}} avaliações</p>
                                 <?php $rating_to_loop = $company_fetched->current_rating; ?>
+                                <h2>{{$company_fetched->current_rating}}</h2>
                                 @include('components.rating', ['size' => '35'])
                             </div>
 
@@ -363,7 +366,9 @@
                                                         <a  href="{!! route('landing.professionals.show', $professional->id) !!}">{{$professional->full_name}}</a>
                                                     </h3>
                                                     <div class="">
+                                                        <h4>Avaliação</h4>
                                                         <?php $rating_to_loop = $professional->current_rating; ?>
+                                                        <h4>{{$professional->current_rating}}</h4>
                                                         @include('components.rating', ['size' => '22'])
                                                     </div>
                                                     <div class="p-t-10 m-b-20">

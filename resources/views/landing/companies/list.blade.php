@@ -140,6 +140,7 @@
                             <h4>Avaliação</h4>
                             <div class="wp-rating-div">
                                 <?php $rating_to_loop = $company->current_rating; ?>
+                                <h3>{{$company->current_rating}}</h3>
                                 @include('components.rating', ['size' => '22'])
                             </div>
 

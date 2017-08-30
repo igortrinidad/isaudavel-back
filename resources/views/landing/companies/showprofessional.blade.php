@@ -86,6 +86,7 @@
                     <h2>Avaliações</h2>
                     <p class="f-14 m-t-10">{{$professional_fetched->current_rating}} de {{$professional_fetched->total_rating}} avaliações</p>
                     <?php $rating_to_loop = $professional_fetched->current_rating; ?>
+                    <h2>{{$professional_fetched->current_rating}}</h2>
                     @include('components.rating', ['size' => '35'])
                 </div>
             </div>
@@ -100,6 +101,7 @@
                             <h4>{{$rating->client->full_name}}</h4>
                             <?php $rating_to_loop = $rating->rating; ?>
                             @include('components.rating', ['size' => '22'])
+                            <h3>{{$rating->rating}}</h3>
                             <p>{{$rating->created_at->format('d/m/Y')}}</p>
                         </div>
                         <div class="card-body p-10">
@@ -173,6 +175,7 @@
                             <div class="picture-circle picture-circle-p" style="background-image:url({{$company->avatar}})"></div>
                             <h4 class="m-b-10"><a class="f-400"  href="{!! route('landing.companies.show', $company->slug) !!}"> {{$company->name}}</a></h4>
                             <?php $rating_to_loop = $company->current_rating; ?>
+                            <h3>{{$company->current_rating}}</h3>
                             @include('components.rating', ['size' => '24'])
                             <br>
                              <span class="f-300 f-18 m-t-10">
