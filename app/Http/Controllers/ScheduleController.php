@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
 use App\Models\ProfessionalCalendarSetting;
 use App\Models\Schedule;
 use Carbon\Carbon;
@@ -103,6 +104,38 @@ class ScheduleController extends Controller
         return response()->json(['schedules' => $calendar_settings]);
     }
 
+    /**
+     * Display a listing of schedules for calendar by month.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function clientCalendar(Request $request)
+    {
+
+        $client_schedules = Schedule::whereHas('subscription', function ($query) {
+            $query->where('client_id', \Auth::user()->id);
+        })->whereBetween('date', [$request->get('start'), $request->get('end')])
+            ->with('category')
+            ->get()
+            ->groupBy('company_id');
+
+            $companies = [];
+            foreach($client_schedules as $key => $schedules)
+            {
+                foreach ($schedules as $schedule){
+                    $schedule->professional->setHidden(['companies','categories','blank_password', 'password', 'remember_token']);
+                }
+                $company = Company::find($key);
+
+                $company->setAttribute('schedules', $schedules);
+
+                $companies[] = $company;
+            }
+
+        return response()->json(['schedules' => $companies]);
+    }
+
 
     /**
      * Display the specified resource.
@@ -176,7 +209,7 @@ class ScheduleController extends Controller
 
         return response()->json([
             'message' => 'Scheduled.',
-            'schedule' => $schedule
+            'schedule' => $schedule->load('category')
         ]);
     }
 

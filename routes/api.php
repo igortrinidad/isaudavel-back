@@ -288,10 +288,6 @@ Route::group(['prefix' => 'client'], function () {
 
     });
 
-    Route::group(['middleware' => 'auth:client'], function () {
-
-    });
-
     //Client protected routes 
     Route::group(['middleware' => 'auth:client'], function () {
 
@@ -315,6 +311,9 @@ Route::group(['prefix' => 'client'], function () {
         Route::post('/activity/update', 'ActivityController@update');
         Route::get('/activity/destroy/{id}', 'ActivityController@destroy');
 
+        //calendar
+        Route::post('/calendar/list', 'ScheduleController@clientCalendar');
+
 
         //Company resources
         Route::group(['prefix' => 'company'], function() {
@@ -332,14 +331,18 @@ Route::group(['prefix' => 'client'], function () {
             Route::post('/rating/create', 'CompanyRatingController@store');
             Route::post('/rating/update', 'CompanyRatingController@update');
             Route::get('/rating/destroy/{id}', 'CompanyRatingController@destroy');
+
+            //calendar settings to reschedule
+            Route::post('/calendar_settings/to_reschedule', 'ProfessionalCalendarSettingController@toReschedule');
+
+            //reschedule
+            Route::post('/schedule/reschedule', 'ScheduleController@reschedule');
         });
 
         //Professional rating
         Route::post('/professional/rating/create', 'ProfessionalRatingController@store');
         Route::post('/professional/rating/update', 'ProfessionalRatingController@update');
         Route::get('/professional/rating/destroy/{id}', 'ProfessionalRatingController@destroy');
-
-
 
     });
 
