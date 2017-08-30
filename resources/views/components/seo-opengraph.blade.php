@@ -98,10 +98,57 @@
 	<meta property="og:title" content="iSaudavel: {{$company_fetched->name}}">
 	<meta property="og:image:type" content="image/png">
 
-	<script type="application/ld+json">
+
+			<script type="application/ld+json">
 
 		<?php
 
+			$review = [];
+			foreach($company_fetched->last_ratings as $rating){
+				$review[] = [
+					"@context" =>  "http://schema.org/",
+					"@type" => "Review",
+					"itemReviewed" => [
+						"@type" => "Person",
+						"name" => $company_fetched->name
+					],
+					"reviewRating"=> [
+					    "@type" => "Rating",
+					    "ratingValue" => $rating->rating
+					],
+					"reviewBody" => $rating->description,
+					"author" => [
+						"@type" => "Person",
+						"name" => $rating->client->full_name
+					]
+				];
+			}
+
+			$context = [
+				'@context' => 'http://schema.org',
+				'@type' => 'Person',
+				'name' => $company_fetched->full_name,
+			    'image' => $company_fetched->avatar,
+			    'url' => $current_url,
+			    'aggregateRating' => [
+			    	'@type' => 'AggregateRating',
+			    	'ratingValue' => ($company_fetched->current_rating > 0) ? $company_fetched->current_rating : 1,
+			    	'reviewCount' => ($company_fetched->total_rating > 0) ?  $company_fetched->total_rating : 1,
+			    	'bestRating' => 5,
+			    	'worstRating' => ($company_fetched->current_rating > 0) ? $company_fetched->current_rating : 1
+			    ],
+			    'review' => $review,
+
+			];
+
+			echo json_encode($context, JSON_UNESCAPED_SLASHES);
+
+		?>
+		</script>
+
+		<script type="application/ld+json">
+
+		<?php
 
 			$context = [
 				'@context' => 'http://schema.org',
@@ -113,7 +160,7 @@
 			    'telephone' => $company_fetched->phone,
 			    'aggregateRating' => [
 			    	'@type' => 'AggregateRating',
-			    	'ratingValue' => ($company_fetched->current_rating > 0) ?  $company_fetched->current_rating : 1,
+			    	'ratingValue' => ($company_fetched->total_rating > 0) ?  $company_fetched->total_rating : 1,
 			    	'reviewCount' => ($company_fetched->total_rating > 0) ?  $company_fetched->total_rating : 1,
 			    	'bestRating' => 5,
 			    	'worstRating' => ($company_fetched->current_rating > 0) ? $company_fetched->current_rating : 1
@@ -125,35 +172,6 @@
 
 		?>
 	</script>
-
-	<?php 
-
-		foreach($company_fetched->professionals as $professional){
-
-			echo '<script type="application/ld+json">';
-
-			$context = [
-				'@context' => 'http://schema.org',
-				'@type' => 'Person',
-				'name' => $professional->full_name,
-			    'image' => $professional->avatar,
-			    'url' => $root_url . '/profissionais/' . $professional->id,
-			    'aggregateRating' => [
-			    	'@type' => 'AggregateRating',
-			    	'ratingValue' => $professional->current_rating,
-			    	'reviewCount' => 5,
-			    	'bestRating' => 5,
-			    	'worstRating' => $professional->current_rating,
-			    ],
-			];
-
-			echo json_encode($context, JSON_UNESCAPED_SLASHES);
-
-			echo '</script>';
-		}
-
-
-	?>
 
 
 
