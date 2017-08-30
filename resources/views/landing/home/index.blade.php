@@ -8,6 +8,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <link rel="icon" href="/icons/icon_p.png" type="image/x-icon"/>
         <link rel="shortcut icon" href="/icons/icon_g.png" type="image/x-icon"/>
+        <meta name="google-site-verification" content="Ed4IGd5eqro1sXT8-Cz5eYyKFThT078JpfWLnQP3-VQ" />
 
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
