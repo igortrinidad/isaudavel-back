@@ -241,8 +241,9 @@
                 <!-- CENTER COL -->
                 <div class="col-sm-7 text-center">
                     <!-- Ratings -->
-                    <div class="card">
-                        <div class="card-header ch-alt">
+                    <div class="card" itemscope itemtype="http://schema.org/Review">
+                        <div class="card-header ch-alt" itemprop="itemReviewed" itemscope itemtype="http://http://schema.org/LocalBusiness">
+                            <h1 itemprop="name">{{$company_fetched->name}}</h1>
                             <h2 class="f-300">Avaliações</h2>
                             <span class="f-14 f-300">Total de {{$company_fetched->total_rating}}
                                 @if($company_fetched->total_rating > 1)
@@ -260,16 +261,25 @@
                                 <div class="swiper-container swiper-default-show">
                                     <div class="swiper-wrapper">
                                         @foreach($company_fetched->last_ratings as $rating)
-                                            <div class="swiper-slide text-center">
-                                                <div class="p-10" style="background-color: #f4f5f5; border-radius: 4px;">
+
+                                            <div class="swiper-slide text-center" itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">
+                                                <div class="p-10" style="background-color: #f4f5f5; border-radius: 4px;" >
+
                                                     <div class="picture-circle picture-circle-p" style="background-image:url({{$rating->client->avatar}})"></div>
-                                                    <h4 class="m-t-10">{{$rating->client->full_name}}</h4>
+
+                                                    <div class="" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                                                        <h4 class="m-t-10" itemprop="name">{{$rating->client->full_name}}</h4>
+                                                    </div>
+
+                                                    <h4 class="m-t-10" itemprop="ratingValue">{{$rating->rating}}</h4>
+
                                                     <?php $rating_to_loop = $rating->rating; ?>
                                                     @include('components.rating', ['size' => '22'])
                                                     <p class="f-300 m-t-10">{{$rating->created_at->format('d/m/Y')}}</p>
-                                                    <p class="f-300 m-t-10">{{$rating->content}}</p>
+                                                    <p class="f-300 m-t-10" itemprop="reviewBody">{{$rating->content}}</p>
                                                 </div>
                                             </div>
+
                                         @endforeach
                                     </div>
                                     @if($company_fetched->total_rating > 1)

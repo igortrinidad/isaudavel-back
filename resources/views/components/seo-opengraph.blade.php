@@ -31,9 +31,24 @@
 	<meta property="og:description" content="iSaudavel é uma ferramenta para conectar você e os melhores profissionais para cuidar da sua saúde.">
 	<meta property="og:image" content="https://isaudavel.com/logos/LOGO-1-02.png">
 	<meta property="og:image:type" content="image/png">
+
 @endif
 
 @if($routeName == 'landing.search.index')
+
+	<?php
+
+		$context = \JsonLd\Context::create('search_box', [
+		    'url' => 'https://isaudavel.com/',
+		    'potentialAction' => [
+		        'target' => 'https://isaudavel.com/buscar?category={search_term_string}',
+		        'query-input' => 'required name=search_term_string',
+		    ],
+		]);
+
+		echo $context;
+
+	?>
 
 	@if( !$category_query )
 
@@ -45,6 +60,7 @@
 		<meta property="og:title" content="iSaudavel">
 		<meta property="og:url" content="https://isaudavel.com">
 		<meta property="og:description" content="iSaudavel é uma ferramenta para conectar você e os melhores profissionais para cuidar da sua saúde.">
+
 	@else
 
 		<title>{{$category_query->name}} no iSaudavel - encontre os melhores profissionais</title> 
@@ -69,6 +85,24 @@
 	<meta property="og:image" content="{{$company_fetched->avatar}}">
 	<meta property="og:title" content="iSaudavel: {{$company_fetched->name}}">
 	<meta property="og:image:type" content="image/png">
+
+
+		<?php
+
+			$context = \JsonLd\Context::create('local_business', [
+			    'name' => $company_fetched->name,
+			    'description' => $company_fetched->description,
+			    'telephone' => $company_fetched->phone,
+			    'geo' => [
+			        'latitude' => $company_fetched->lat,
+			        'longitude' => $company_fetched->lng,
+			    ],
+			]);
+
+			echo $context;
+
+		?>
+
 @endif
 
 <!-- LANDING INDEX -->
