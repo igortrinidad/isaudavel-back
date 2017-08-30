@@ -134,10 +134,10 @@
 			    'url' => $current_url,
 			    'aggregateRating' => [
 			    	'@type' => 'AggregateRating',
-			    	'ratingValue' => $company_fetched->current_rating,
-			    	'reviewCount' => $company_fetched->total_rating,
+			    	'ratingValue' => ($comapny_fetched->total_rating > 0) ?  $comapny_fetched->total_rating : 1,
+			    	'reviewCount' => ($comapny_fetched->total_rating > 0) ?  $comapny_fetched->total_rating : 1,
 			    	'bestRating' => 5,
-			    	'worstRating' => $company_fetched->current_rating,
+			    	'worstRating' => ($comapny_fetched->current_rating > 0) ? $comapny_fetched->current_rating : 1
 			    ],
 			    'review' => $review,
 			];
