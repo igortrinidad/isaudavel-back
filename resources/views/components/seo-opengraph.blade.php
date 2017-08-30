@@ -250,9 +250,11 @@
 				'name' => $professional_fetched->full_name,
 			    'image' => $professional_fetched->avatar,
 			    'url' => $current_url,
+			    'address' => '',
+			    'phone' => '',
 			    'aggregateRating' => [
 			    	'@type' => 'AggregateRating',
-			    	'ratingValue' => $professional_fetched->current_rating,
+			    	'ratingValue' => ($professional_fetched->total_rating > 0) ?  $professional_fetched->total_rating : 1,
 			    	'reviewCount' => ($professional_fetched->total_rating > 0) ?  $professional_fetched->total_rating : 1,
 			    	'bestRating' => 5,
 			    	'worstRating' => ($professional_fetched->current_rating > 0) ? $professional_fetched->current_rating : 1
