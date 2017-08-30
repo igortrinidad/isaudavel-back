@@ -12,6 +12,7 @@
 */
 
 use App\Models\Company;
+use App\Models\Professional;
 
 Route::post('/leadStoreForm', 'LandingController@leadStoreForm');
 
@@ -91,6 +92,22 @@ Route::get('sitemap', function(){
             }
 
             $sitemap->add($root . '/empresas/'. $company->slug, $company->updated_at, '1.0', 'daily', $photos);
+        }
+
+        $professionals = Professional::all();
+
+        foreach($professionals as $professional){
+
+            $photos = [];
+            foreach ($professional->photos as $photo) {
+                $photos[] = [
+                    'url' => $photo->photo_url,
+                    'title' => 'Imagem de '. $professional->full_name ,
+                    'caption' => 'Imagem de '. $professional->full_name
+                ];
+            }
+
+            $sitemap->add($root . '/profissionais/'. $professional->id, $professional->updated_at, '1.0', 'daily', $photos);
         }
 
     }
