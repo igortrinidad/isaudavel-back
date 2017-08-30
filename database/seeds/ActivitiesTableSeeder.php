@@ -11,6 +11,8 @@ class ActivitiesTableSeeder extends Seeder
      */
     public function run()
     {
+
+        /*
         $faker = \Faker\Factory::create('pt_BR');
 
         $professionals = \App\Models\Professional::all()->take(10)->pluck('id')->flatten()->toArray();
@@ -27,5 +29,6 @@ class ActivitiesTableSeeder extends Seeder
 
             ]);
         }
+        */
     }
 }

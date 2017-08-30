@@ -31,7 +31,7 @@ class Activity extends Model
      * @var array
      */
     protected $fillable = [
-        'client_id','is_confirmed', 'xp_earned', 'confirmed_by_id', 'confirmed_by_type', 'confirmed_at'
+        'client_id','is_public', 'xp_earned', 'content', 'created_by_id', 'created_by_type', 'about_id', 'about_type'
     ];
 
     /**
@@ -39,7 +39,7 @@ class Activity extends Model
      *
      * @var array
      */
-    protected $casts = ['is_confirmed' => 'boolean'];
+    protected $casts = ['is_public' => 'boolean'];
 
     /**
      * -------------------------------
@@ -58,9 +58,17 @@ class Activity extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
-    public function confirmed_by()
+    public function user()
     {
-        return $this->morphTo(null, 'confirmed_by_type', 'confirmed_by_id');
+        return $this->morphTo(null, 'created_by_type', 'created_by_id');
+    }
+
+        /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     */
+    public function about()
+    {
+        return $this->morphTo(null, 'about_type', 'about_id');
     }
 
 }

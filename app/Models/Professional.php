@@ -222,6 +222,14 @@ class Professional extends Authenticatable implements JWTSubject
             }])->withPivot('is_admin', 'is_confirmed', 'is_public');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function activities()
+    {
+        return $this->hasMany(Activity::class);
+    }
+
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

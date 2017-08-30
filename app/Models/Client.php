@@ -188,6 +188,14 @@ class Client extends Authenticatable implements JWTSubject
         return $this->hasMany(Trainning::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function activities()
+    {
+        return $this->hasMany(Activity::class);
+    }
+
     /** Overide some attributes on update
      * @param array $attributes
      * @param array $options

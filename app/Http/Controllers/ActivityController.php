@@ -12,11 +12,39 @@ class ActivityController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function client_list($id)
     {
-        $activities = Activity::with('client', 'confirmed_by')->paginate(10);
+        $activities = Activity::where('client_id', $id)->with('client')->paginate(20);
 
         return response()->json(custom_paginator($activities));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function client_list_public($id)
+    {
+        $activities = Activity::where('client_id', $id)->where('is_public', 1)->with('client')->paginate(20);
+
+        return response()->json(custom_paginator($activities));
+    }
+
+        /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function client_store(Request $request)
+    {
+        $activity = Activity::create($request->all());
+
+        return response()->json([
+            'message' => 'Activity created.',
+            'activity' => $activity
+        ]);
     }
 
     /**
@@ -27,6 +55,9 @@ class ActivityController extends Controller
      */
     public function store(Request $request)
     {
+
+        $request->merge(['created_by_id' => \Auth::user()->id, 'created_by_type' => get_class(\Auth::user())]);
+
         $activity = Activity::create($request->all());
 
         return response()->json([

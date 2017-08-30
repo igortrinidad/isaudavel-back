@@ -192,6 +192,26 @@ class ClientController extends Controller
         return response()->json(['client' => $client]);
     }
 
+        /**
+     * Display the specified resource.
+     *
+     * @param $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show_public($id)
+    {
+
+
+        $client = Client::where('id', $id)->with(['activities' => function($query){
+            $query->where('is_public', 1)->with(['user' => function($querytwo){
+                $querytwo->select('id', 'name', 'last_name');
+            }]);
+        }])->first();
+
+
+        return response()->json(['client' => $client]);
+    }
+
     /**
      * Display the specified resource.
      *

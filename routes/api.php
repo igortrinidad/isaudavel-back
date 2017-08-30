@@ -140,11 +140,6 @@ Route::group(['prefix' => 'professional'], function () {
         Route::post('/photo/update', 'ProfessionalPhotoController@update');
         Route::get('/photo/destroy/{id}', 'ProfessionalPhotoController@destroy');
 
-        //Activity resources
-        Route::post('/activity/create', 'ActivityController@store');
-        Route::post('/activity/update', 'ActivityController@update');
-        Route::get('/activity/destroy/{id}', 'ActivityController@destroy');
-
         //trainning resources
         Route::get('/trainning/list/{id}', 'TrainningController@index');
         Route::get('/trainning/list/destroyeds/{id}', 'TrainningController@listdestroyeds');
@@ -223,6 +218,8 @@ Route::group(['prefix' => 'client'], function () {
 
     //test client professional middleware
 
+
+    ////SHARED
     //Shared between professional and client
     Route::group(['middleware' => 'check.professional'], function () {
 
@@ -283,6 +280,11 @@ Route::group(['prefix' => 'client'], function () {
         Route::post('/evaluation/photo/upload', 'EvaluationPhotoController@store');
         Route::post('/evaluation/photo/destroy', 'EvaluationPhotoController@destroy');
 
+        //Activity resources
+        Route::get('/activity/client_list/{$}', 'ActivityController@client_list');
+        Route::post('/activity/cre', 'ActivityController@update');
+        Route::get('/activity/destroy/{id}', 'ActivityController@destroy');
+
 
     });
 
@@ -293,6 +295,9 @@ Route::group(['prefix' => 'client'], function () {
     //Client protected routes 
     Route::group(['middleware' => 'auth:client'], function () {
 
+        //Activties
+        Route::get('/activity/list/{id}', 'ActivityController@client_list');
+        Route::post('/activity/store', 'ActivityController@client_store');
 
         //Client Profile update
         Route::post('/profile/show', 'ClientController@show');
@@ -351,6 +356,14 @@ Route::group(['prefix' => 'company'], function(){
     Route::post('/search/category', 'CompanyController@searchByCategory');
     Route::get('/category/list', 'CategoryController@forSelect');
     Route::get('/recomendation/received/{id}', 'RecomendationController@receivedList');
+});
+
+/*
+* Unprotected Company Router
+*/
+Route::group(['prefix' => 'client_public'], function(){
+    Route::get('/show/{id}', 'ClientController@show_public');
+    Route::get('/activity/list/{id}', 'ActivityController@client_list_public');
 });
 
 /*
