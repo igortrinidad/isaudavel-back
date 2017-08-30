@@ -213,4 +213,14 @@ class LandingController extends Controller
         return view('landing.signup.company');
     }
 
+    public function terms()
+    {
+        return view('landing.home.terms');
+    }
+
+    public function privacy()
+    {
+        return view('landing.home.privacy');
+    }
+
 }

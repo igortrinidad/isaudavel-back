@@ -22,7 +22,7 @@
     <body id="body">
 
         @include('landing.home.navbar')
-        @include('landing.companies.header')
+        @include('landing.companies.header-blank')
         
         @section('content')
         @show

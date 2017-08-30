@@ -6,6 +6,8 @@
 
 	$current_url = \Request::fullUrl();
 
+	$root_url = \Request::root();
+
 	if($category_query){
 		$category_query = \App\Models\Category::where('slug', ($category_query))->first(); 
 	}
@@ -36,19 +38,19 @@
 
 @if($routeName == 'landing.search.index')
 
-	<?php
+	<script type="application/ld+json">
+		{
+		  "@context": "http://schema.org",
+		  "@type": "WebSite",
+		  "url": "https://isaudavel.com/",
+		  "potentialAction": {
+		    "@type": "SearchAction",
+		    "target": "https://isaudavel.com/buscar?q={search_term_string}",
+		    "query-input": "required name=search_term_string"
+		  }
+		}
 
-		$context = \JsonLd\Context::create('search_box', [
-		    'url' => 'https://isaudavel.com/',
-		    'potentialAction' => [
-		        'target' => 'https://isaudavel.com/buscar?category={search_term_string}',
-		        'query-input' => 'required name=search_term_string',
-		    ],
-		]);
-
-		echo $context;
-
-	?>
+	</script>
 
 	@if( !$category_query )
 
@@ -71,6 +73,16 @@
 		<meta property="og:url" content="{{ $current_url }}">
 		<meta property="og:title" content="{{$category_query->name}}: encontre os melhores profissionais no iSaudavel.">
 		<meta property="og:description" content="Profissionais para {{$category_query->name}} e outras especialidades para ajudar você a cuidar de sua saúde, bem estar e estética.">
+
+			<script type="application/ld+json">
+				{
+				  	"@context": "http://schema.org",
+				  	"@type": "WebSite",
+				  	"name": "iSaudavel - sua saúde em boas mãos",
+				  	"alternateName": "{{$category_query->name}} no iSaudavel - encontre os melhores profissionais",
+				  	"url": "http://www.your-site.com"
+				}
+			</script>
 	@endif
 @endif
 
@@ -86,22 +98,88 @@
 	<meta property="og:title" content="iSaudavel: {{$company_fetched->name}}">
 	<meta property="og:image:type" content="image/png">
 
+	<script type="application/ld+json">
 
 		<?php
 
-			$context = \JsonLd\Context::create('local_business', [
-			    'name' => $company_fetched->name,
-			    'description' => $company_fetched->description,
+			$review = [];
+			foreach($company_fetched->last_ratings as $rating){
+				$review[] = [
+					"@context" =>  "http://schema.org/",
+					"@type" => "Review",
+					"itemReviewed" => [
+						"@type" => "Person",
+						"name" => $company_fetched->full_name
+					],
+					"reviewRating"=> [
+					    "@type" => "Rating",
+					    "ratingValue" => $rating->rating
+					],
+					"reviewBody" => $rating->description,
+					"author" => [
+						"@type" => "Person",
+						"name" => $rating->client->full_name
+					]
+				];
+			}
+
+			$context = [
+				'@context' => 'http://schema.org',
+				'@type' => 'LocalBusiness',
+				'name' => $company_fetched->name,
+				'description' => $company_fetched->description,
 			    'telephone' => $company_fetched->phone,
+			    'homepage' => $current_url,
+			    'url' => $current_url,
 			    'geo' => [
 			        'latitude' => $company_fetched->lat,
 			        'longitude' => $company_fetched->lng,
 			    ],
-			]);
+			    'aggregateRating' => [
+			    	'@type' => 'AggregateRating',
+			    	'ratingValue' => $company_fetched->current_rating,
+			    	'reviewCount' => $company_fetched->total_rating,
+			    	'bestRating' => 5,
+			    	'worstRating' => $company_fetched->current_rating,
+			    ],
+			    'review' => $review,
+			];
 
-			echo $context;
+			echo json_encode($context, JSON_UNESCAPED_SLASHES);
 
 		?>
+	</script>
+
+	<?php 
+
+		foreach($company_fetched->professionals as $professional){
+
+			echo '<script type="application/ld+json">';
+
+			$context = [
+				'@context' => 'http://schema.org',
+				'@type' => 'Person',
+				'name' => $professional->full_name,
+			    'homepage' => $root_url . '/profissionais/' . $professional->id,
+			    'url' => $root_url . '/profissionais/' . $professional->id,
+			    'aggregateRating' => [
+			    	'@type' => 'AggregateRating',
+			    	'ratingValue' => $professional->current_rating,
+			    	'reviewCount' => 5,
+			    	'bestRating' => 5,
+			    	'worstRating' => $professional->current_rating,
+			    ],
+			];
+
+			echo json_encode($context, JSON_UNESCAPED_SLASHES);
+
+			echo '</script>';
+		}
+
+
+	?>
+
+
 
 @endif
 
@@ -116,4 +194,75 @@
 	<meta property="og:description" content="iSaudavel é uma ferramenta para conectar você e os melhores profissionais para cuidar da sua saúde.">
 	<meta property="og:image" content="{{$professional_fetched->avatar}}">
 	<meta property="og:image:type" content="image/png">
+
+
+		<script type="application/ld+json">
+
+		<?php
+
+			$review = [];
+			foreach($professional_fetched->last_ratings as $rating){
+				$review[] = [
+					"@context" =>  "http://schema.org/",
+					"@type" => "Review",
+					"itemReviewed" => [
+						"@type" => "Person",
+						"name" => $professional_fetched->full_name
+					],
+					"reviewRating"=> [
+					    "@type" => "Rating",
+					    "ratingValue" => $rating->rating
+					],
+					"reviewBody" => $rating->description,
+					"author" => [
+						"@type" => "Person",
+						"name" => $rating->client->full_name
+					]
+				];
+			}
+
+			$context = [
+				'@context' => 'http://schema.org',
+				'@type' => 'Person',
+				'name' => $professional_fetched->full_name,
+			    'homepage' => $current_url,
+			    'url' => $current_url,
+			    'aggregateRating' => [
+			    	'@type' => 'AggregateRating',
+			    	'ratingValue' => $professional_fetched->current_rating,
+			    	'reviewCount' => $professional_fetched->total_rating,
+			    	'bestRating' => 5,
+			    	'worstRating' => $professional_fetched->current_rating
+			    ],
+			    'review' => $review,
+
+			];
+
+			echo json_encode($context, JSON_UNESCAPED_SLASHES);
+
+		?>
+		</script>
+
+		<script type="application/ld+json">
+
+		<?php
+
+			$context = [
+				'@context' => 'http://schema.org',
+				'@type' => 'LocalBusiness',
+				'name' => $professional_fetched->full_name,
+			    'homepage' => $current_url,
+			    'url' => $current_url,
+			    'aggregateRating' => [
+			    	'@type' => 'AggregateRating',
+			    	'ratingValue' => $professional_fetched->current_rating,
+			    	'reviewCount' => $professional_fetched->total_rating,
+			    ],
+
+			];
+
+			echo json_encode($context, JSON_UNESCAPED_SLASHES);
+
+		?>
+	</script>
 @endif

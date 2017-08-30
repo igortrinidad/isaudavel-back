@@ -43,10 +43,10 @@
                     <a href="#">
                         Planos de assinatura
                     </a>
-                    <a href="#">
+                    <a href="{{ route('landing.terms') }}">
                         Termos de uso
                     </a>
-                    <a href="#">
+                    <a  href="{{ route('landing.privacy') }}">
                         Política de Privacidade
                     </a>
                     <a href="#">

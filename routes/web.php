@@ -47,6 +47,9 @@ Route::group(['as' => 'landing.'], function () {
 		Route::get('/login', ['uses' => 'LandingController@showProfessionalLogin', 'as' => 'login']);
 	});
 
+    Route::get('/termos-de-uso', ['uses' => 'LandingController@terms', 'as' => 'terms']);
+    Route::get('/politicas', ['uses' => 'LandingController@privacy', 'as' => 'privacy']);
+
 });
 
 
