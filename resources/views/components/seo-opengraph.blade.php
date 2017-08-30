@@ -129,12 +129,9 @@
 				'name' => $company_fetched->name,
 				'description' => $company_fetched->description,
 			    'telephone' => $company_fetched->phone,
-			    'homepage' => $current_url,
+			    'image' => $company_fetched->avatar,
+			    'address' => $company_fetched->address['full_address'],
 			    'url' => $current_url,
-			    'geo' => [
-			        'latitude' => $company_fetched->lat,
-			        'longitude' => $company_fetched->lng,
-			    ],
 			    'aggregateRating' => [
 			    	'@type' => 'AggregateRating',
 			    	'ratingValue' => $company_fetched->current_rating,
@@ -160,7 +157,7 @@
 				'@context' => 'http://schema.org',
 				'@type' => 'Person',
 				'name' => $professional->full_name,
-			    'homepage' => $root_url . '/profissionais/' . $professional->id,
+			    'image' => $professional->avatar,
 			    'url' => $root_url . '/profissionais/' . $professional->id,
 			    'aggregateRating' => [
 			    	'@type' => 'AggregateRating',
@@ -225,7 +222,7 @@
 				'@context' => 'http://schema.org',
 				'@type' => 'Person',
 				'name' => $professional_fetched->full_name,
-			    'homepage' => $current_url,
+			    'image' => $professional_fetched->avatar,
 			    'url' => $current_url,
 			    'aggregateRating' => [
 			    	'@type' => 'AggregateRating',
@@ -251,7 +248,7 @@
 				'@context' => 'http://schema.org',
 				'@type' => 'LocalBusiness',
 				'name' => $professional_fetched->full_name,
-			    'homepage' => $current_url,
+			    'image' => $professional_fetched->avatar,
 			    'url' => $current_url,
 			    'aggregateRating' => [
 			    	'@type' => 'AggregateRating',
