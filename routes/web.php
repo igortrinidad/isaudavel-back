@@ -13,16 +13,15 @@
 
 use App\Models\Company;
 
-Route::get('/', 'LandingController@index');
 Route::post('/leadStoreForm', 'LandingController@leadStoreForm');
 
 //New Landing
 
 
-Route::group(['prefix' => 'new-landing', 'as' => 'landing.'], function () {
+Route::group(['as' => 'landing.'], function () {
 
 	//Index
-	Route::get('/', ['uses' => 'LandingController@NewIndex', 'as' => 'index']);
+	Route::get('/', ['uses' => 'LandingController@index', 'as' => 'index']);
 
 	//Companies
 	Route::group(['prefix' => 'buscar', 'as' => 'search.'], function () {
@@ -62,6 +61,8 @@ Route::get('sitemap', function(){
     // create new sitemap object
     $sitemap = App::make("sitemap");
 
+    $root = \Request::root();
+
     // set cache key (string), duration in minutes (Carbon|Datetime|int), turn on/off (boolean)
     // by default cache is disabled
     //$sitemap->setCache('laravel.sitemap', 60);
@@ -70,8 +71,8 @@ Route::get('sitemap', function(){
     if (!$sitemap->isCached())
     {
         // add item to the sitemap (url, date, priority, freq)
-        $sitemap->add('/new-landing/clientes/sobre', \Carbon\Carbon::now(), '1.0', 'monthly');
-        $sitemap->add('/new-landing/profissionais/sobre', \Carbon\Carbon::now(), '1.0', 'monthly');
+        $sitemap->add($root . '/clientes/sobre', \Carbon\Carbon::now(), '1.0', 'monthly');
+        $sitemap->add($root . '/profissionais/sobre', \Carbon\Carbon::now(), '1.0', 'monthly');
 
         $companies = Company::all();
 
@@ -86,7 +87,7 @@ Route::get('sitemap', function(){
                 ];
             }
 
-            $sitemap->add('/new-landing/empresas/'. $company->slug, $company->updated_at, '1.0', 'daily', $photos);
+            $sitemap->add($root . '/empresas/'. $company->slug, $company->updated_at, '1.0', 'daily', $photos);
         }
 
     }

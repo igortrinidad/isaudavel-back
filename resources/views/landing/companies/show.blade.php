@@ -350,7 +350,7 @@
                                                     <div class="picture-circle  picture-circle-p m-t-10" style="background-image:url({{$professional->avatar}})">
                                                     </div>
                                                     <h3 class="f-300">
-                                                        <a href="/new-landing/profissionais/{{$professional->id}}">{{$professional->full_name}}</a>
+                                                        <a  href="{!! route('landing.professionals.show', $professional->id) !!}">{{$professional->full_name}}</a>
                                                     </h3>
                                                     <div class="">
                                                         <?php $rating_to_loop = $professional->current_rating; ?>

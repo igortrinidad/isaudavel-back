@@ -61,7 +61,7 @@
                </div>
            </div>
            <div class="col-xs-12 col-sm-4 col-md-4 text-center">
-               <form method="GET" action="/new-landing/buscar">
+               <form method="GET" action="/buscar">
                    <input type="hidden" name="city" id="city" value="">
                    <input type="hidden" name="lat" id="lat" value="">
                    <input type="hidden" name="lng" id="lng" value="">
@@ -133,7 +133,7 @@
                     var city = url.searchParams.get("city");
                     this.category = category
                     this.city = city
-                    if (window.location.pathname === '/new-landing/buscar') {
+                    if (window.location.pathname === '/buscar') {
                         this.pathSearch = true
                     }
 

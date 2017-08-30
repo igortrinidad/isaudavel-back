@@ -1,17 +1,15 @@
 <!DOCTYPE html>
 <html class="no-js">
     <head>
+    
+        @include('components.seo-opengraph')
+
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>iSaudavel - Cadastro profissionais</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-
         <link rel="icon" href="/icons/icon_p.png" type="image/x-icon"/>
         <link rel="shortcut icon" href="/icons/icon_g.png" type="image/x-icon"/>
 
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-        @include('components.opengraph')
 
         <!-- Fonts -->
         <!-- Lato -->
@@ -79,9 +77,11 @@
               <header class="section-header text-center wow flipInX" data-wow-delay=".15s">
                 <div class="row">
                   <div class="col-6 block-center">
-                    <img src="/logos/LOGO-1-01.PNG" width="200px" style="padding-top: 70px; "/>
+                    <a href="/">
+                      <img src="/logos/LOGO-1-01.PNG" width="200px" style="padding-top: 70px; "/>
+                    </a>
                     <h1 class="section-title" >Você esta quase lá!</h1>
-                    <h4 class="f-300 m-t-10 p-20" style="color: #fff; margin-bottom: 40px;">Falta pouco para você utilizar o melhor da tecnologia para ajudar seus clientes a atingirem seus objetivos!</h4>
+                    <h4 class="f-300 m-t-10 p-20" style="color: #fff; margin-bottom: 40px;">Falta pouco para você utilizar o melhor da tecnologia para promover a saúde de seus clientes e ajudá-los a atingir seus objetivos!</h4>
                   </div>
                 </div>
               </header> <!--|End Section Header|-->
@@ -100,25 +100,29 @@
                        <label>CPF</label>
                        <input class="form-control" name="cpf" placeholder="CPF" required type="text">
                     </div>
-                    <div class="entry-field">
-                       <label>Endereço</label>
-                        <input class="form-control" id="autocomplete" placeholder="Informe o endereço da empresa" />
-                   </div>
+                   <div class="entry-field">
+                       <label>Email</label>
+                       <input class="form-control" name="email" placeholder="email@exemplo.com" required type="email">
+                    </div>
                     <div class="entry-field">
                        <label>Telefone</label>
                        <input class="form-control" name="phone" placeholder="Telefone com ddd" required type="text">
                     </div>
                     <div class="entry-field">
-                       <label>Email</label>
-                       <input class="form-control" name="email" placeholder="email@exemplo.com" required type="email">
-                    </div>
-                    <div class="entry-field">
                        <label>Empresa</label>
                        <input class="form-control" name="company_name" placeholder="Nome da empresa" required type="text">
                     </div>
+                    <div class="entry-field">
+                       <label>Website</label>
+                        <input class="form-control" name="website" placeholder="Informe o website da empresa" />
+                   </div>
+                    <div class="entry-field">
+                       <label>Endereço</label>
+                        <input class="form-control" id="autocomplete" placeholder="Informe o endereço da empresa" />
+                   </div>
 
                     <div class="entry-field">
-                       <label>Especialidades</label>
+                       <label>Especialidades (R$37,90 / especialidade)</label>
                        <multiselect 
                         v-model="category" 
                         :options="categories"
@@ -131,13 +135,13 @@
                     </div>
 
                     <div class="entry-field">
-                       <label>Quantidade de profissionais</label>
+                       <label>Quantidade de profissionais (R$17,90 / profissional)</label>
                        <input class="form-control" name="professional_numbers" placeholder="" v-model="professional_numbers" required type="number" @blur="calcValue()">
                     </div>
 
                     <hr class="m-t-30">
 
-                    <div class="entry-field">
+                    <div class="entry-field text-center">
                        <label>Valor total</label>
                        <h1 class="text-center">@{{total | formatCurrency}}</h1>
                     </div>
@@ -236,7 +240,7 @@
                     var city = url.searchParams.get("city");
                     this.category = category
                     this.city = city
-                    if (window.location.pathname === '/new-landing/buscar') {
+                    if (window.location.pathname === '/buscar') {
                         this.pathSearch = true
                     }
 
@@ -267,7 +271,7 @@
                         if(this.professional_numbers == 1){
                             var cost_professional = 0;
                         } else {
-                            var cost_professional = 19.90 * (this.professional_numbers - 1); 
+                            var cost_professional = 17.90 * (this.professional_numbers - 1); 
                         }
 
 

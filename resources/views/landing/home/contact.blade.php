@@ -12,22 +12,22 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="form-group">
-                        <input type="text" class="form-control f-300 p-t-25 p-b-25" id="contact-name" placeholder="Nome">
+                        <input type="text" class="form-control f-300 p-t-25 p-b-25" id="contact-name" placeholder="Nome e sobrenome (obrigatório)">
                     </div>
                 </div>
                 <div class="col-sm-12">
                     <div class="form-group">
-                        <input type="text" class="form-control f-300 p-t-25 p-b-25" id="contact-email" placeholder="email@exemplo.com.br">
+                        <input type="text" class="form-control f-300 p-t-25 p-b-25" id="contact-email" placeholder="email@exemplo.com.br (obrigatório)">
                     </div>
                 </div>
                 <div class="col-sm-12">
                     <div class="form-group">
-                        <input type="text" class="form-control f-300 p-t-25 p-b-25" id="contact-subject" placeholder="Assunto">
+                        <input type="text" class="form-control f-300 p-t-25 p-b-25" id="contact-subject" placeholder="Assunto (obrigatório)">
                     </div>
                 </div>
                 <div class="col-sm-12">
                     <div class="form-group" id="teste">
-                        <textarea class="form-control f-300 p-t-25 p-b-25" id="contact-msg" rows="5" placeholder="Sua mensagem"></textarea>
+                        <textarea class="form-control f-300 p-t-25 p-b-25" id="contact-msg" rows="5" placeholder="Sua mensagem (obrigatório)"></textarea>
                     </div>
                 </div>
                 <div class="col-sm-12 text-center">

@@ -22,10 +22,11 @@ class LandingController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('prelaunch.index');
+        $companies = Company::with('categories')->get()->random(8);
 
+        return view('landing.home.home', compact('companies'));
     }
 
     /**
@@ -70,21 +71,6 @@ class LandingController extends Controller
 
         return 'ok';
 
-    }
-
-
-
-    /**
-     * New Index
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function NewIndex(Request $request)
-    {
-        $companies = Company::with('categories')->get()->random(8);
-
-        return view('landing.home.index', compact('companies'));
     }
 
 
@@ -212,14 +198,14 @@ class LandingController extends Controller
     {
         $companies = Company::with('categories')->get()->random(8);
 
-        return view('landing.home.index-client', compact('companies'));
+        return view('landing.home.for-client', compact('companies'));
     }
 
     public function showProfessionalsLanding(Request $reques)
     {
         $companies = Company::with('categories')->get()->random(8);
 
-        return view('landing.home.index-professionals', compact('companies'));
+        return view('landing.home.for-professional', compact('companies'));
     }
 
     public function registerProfessional()

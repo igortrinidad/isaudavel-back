@@ -133,7 +133,7 @@
                             <div class="picture-circle  picture-circle-p m-b-10" style="background-image:url({{$company->avatar}})">
                             </div>
                             <h3 class="m-b-0 t-overflow">
-                                <a href="/new-landing/empresas/{{$company->slug}}" title="{{ $company->name }}">{{ $company->name }}</a>
+                                <a  href="{!! route('landing.companies.show', $company->slug) !!}" title="{{ $company->name }}">{{ $company->name }}</a>
                             </h3>
                         </div>
                         <div class="card-body card-padding text-center">
@@ -163,8 +163,8 @@
                                 </span>
                             </div>
                             @endif
-                            <a href="/new-landing/empresas/{{$company->slug}}" title="{{ $company->name }}">
-                                <button class="btn btn-block btn-primary m-t-20 f-300 f-16" href="/new-landing/empresas/{{$company->slug}}">
+                            <a  href="{!! route('landing.companies.show', $company->slug) !!}" title="{{ $company->name }}">
+                                <button class="btn btn-block btn-primary m-t-20 f-300 f-16">
                                     Mais informações
                                 </button>
                             </a>
@@ -203,11 +203,6 @@
 
                     initSwiperTabs() {
                         setTimeout(() => {
-                            // Ver um jeito de redirecionar no onSlideChangeEnd do swiper para a categoria certa
-
-                            // let currentTab
-                            // if (window.location.href === 'http://isaudavel-api.dev/new-landing/buscar') currentTab = 0
-
 
                             var url = new URL(window.location.href);
                             var category = url.searchParams.get("category");

@@ -171,7 +171,7 @@
                     <div class="card">
                         <div class="card-header ch-alt">
                             <div class="picture-circle picture-circle-p" style="background-image:url({{$company->avatar}})"></div>
-                            <h4 class="m-b-10"><a class="f-400" href="/new-landing/empresas/{{$company->slug}}"> {{$company->name}}</a></h4>
+                            <h4 class="m-b-10"><a class="f-400"  href="{!! route('landing.companies.show', $company->slug) !!}"> {{$company->name}}</a></h4>
                             <?php $rating_to_loop = $company->current_rating; ?>
                             @include('components.rating', ['size' => '24'])
                             <br>
