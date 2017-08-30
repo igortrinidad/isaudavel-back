@@ -102,45 +102,23 @@
 
 		<?php
 
-			$review = [];
-			foreach($company_fetched->last_ratings as $rating){
-				$review[] = [
-					"@context" =>  "http://schema.org/",
-					"@type" => "Review",
-					"itemReviewed" => [
-						"@type" => "Person",
-						"name" => $company_fetched->full_name
-					],
-					"reviewRating"=> [
-					    "@type" => "Rating",
-					    "ratingValue" => $rating->rating
-					],
-					"reviewBody" => $rating->description,
-					"author" => [
-						"@type" => "Person",
-						"name" => $rating->client->full_name
-					]
-				];
-			}
-
 
 			$context = [
 				'@context' => 'http://schema.org',
 				'@type' => 'LocalBusiness',
-				'name' => $company_fetched->name,
-				'description' => $company_fetched->description,
-			    'telephone' => $company_fetched->phone,
+				'name' => $company_fetched->full_name,
 			    'image' => $company_fetched->avatar,
-			    'address' => $company_fetched->address['full_address'],
 			    'url' => $current_url,
+			    'address' => $company_fetched->address['full_address'],
+			    'telephone' => $company_fetched->phone,
 			    'aggregateRating' => [
 			    	'@type' => 'AggregateRating',
-			    	'ratingValue' => ($company_fetched->current_rating > 0) ?  $company_fetched->current_rating : 1,
+			    	'ratingValue' => ($company_fetched->total_rating > 0) ?  $company_fetched->total_rating : 1,
 			    	'reviewCount' => ($company_fetched->total_rating > 0) ?  $company_fetched->total_rating : 1,
 			    	'bestRating' => 5,
 			    	'worstRating' => ($company_fetched->current_rating > 0) ? $company_fetched->current_rating : 1
 			    ],
-			    'review' => $review,
+
 			];
 
 			echo json_encode($context, JSON_UNESCAPED_SLASHES);
