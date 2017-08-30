@@ -106,14 +106,14 @@
 			$context = [
 				'@context' => 'http://schema.org',
 				'@type' => 'LocalBusiness',
-				'name' => $company_fetched->full_name,
+				'name' => $company_fetched->name,
 			    'image' => $company_fetched->avatar,
 			    'url' => $current_url,
 			    'address' => $company_fetched->address['full_address'],
 			    'telephone' => $company_fetched->phone,
 			    'aggregateRating' => [
 			    	'@type' => 'AggregateRating',
-			    	'ratingValue' => ($company_fetched->total_rating > 0) ?  $company_fetched->total_rating : 1,
+			    	'ratingValue' => ($company_fetched->current_rating > 0) ?  $company_fetched->current_rating : 1,
 			    	'reviewCount' => ($company_fetched->total_rating > 0) ?  $company_fetched->total_rating : 1,
 			    	'bestRating' => 5,
 			    	'worstRating' => ($company_fetched->current_rating > 0) ? $company_fetched->current_rating : 1
