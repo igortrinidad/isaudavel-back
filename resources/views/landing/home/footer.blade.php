@@ -60,8 +60,8 @@
 
                 <div class="col-sm-4 col-xs-12 m-b-20">
                     <h4 class="f-400">Acesso</h4>
-                    <a href="#">Download para android</a>
-                    <a href="#">Download para iphone</a>
+                    <a href="https://play.google.com/store/apps/details?id=com.isaudavel">Download para android</a>
+                    <a href="#">Download para iphone - Em breve!</a>
                     <a href="#">Login Cliente</a>
                     <a href="#">Login Profissional</a>
                 </div>

@@ -77,6 +77,7 @@ Route::get('sitemap', function(){
         // add item to the sitemap (url, date, priority, freq)
         $sitemap->add($root . '/clientes/sobre', \Carbon\Carbon::now(), '1.0', 'monthly');
         $sitemap->add($root . '/profissionais/sobre', \Carbon\Carbon::now(), '1.0', 'monthly');
+        $sitemap->add($root . '/buscar', \Carbon\Carbon::now(), '1.0', 'monthly');
 
         $companies = Company::all();
 

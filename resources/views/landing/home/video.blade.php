@@ -98,7 +98,7 @@
 
 
     <!-- Screenshot -->
-    <img class="screenshot" src="https://weplaces.com.br/assets/weplaces/iphone_black/screen1.png" alt="Screen 1">
+    <img class="screenshot" src="https://s3.amazonaws.com/isaudavel-assets/img/SCREEN_SEM_BG_1.png" alt="Screen 1">
 
     <!-- Slogan -->
     <div class="slogan-container">
