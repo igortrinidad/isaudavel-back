@@ -8,16 +8,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <link rel="icon" href="/icons/icon_p.png" type="image/x-icon"/>
         <link rel="shortcut icon" href="/icons/icon_g.png" type="image/x-icon"/>
-
-        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-
-        <!-- Fonts -->
-        <!-- Lato -->
-        <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
-
         <!-- Styles -->
         <link rel="stylesheet" href="{{ elixir('build/landing/css/build_vendors_custom.css') }}">
-        <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 
         <!-- Hotjar Tracking Code for https://isaudavel.com -->
         @include('components.hotjar')
@@ -78,7 +70,7 @@
                 <div class="row">
                   <div class="col-6 block-center">
                     <a href="/">
-                      <img src="/logos/LOGO-1-01.PNG" width="200px" style="padding-top: 70px; "/>
+                      <img src="/logos/LOGO-1-01.png" width="200px" style="padding-top: 70px; "/>
                     </a>
                     <h1 class="section-title" >Você esta quase lá!</h1>
                     <h4 class="f-300 m-t-10 p-20" style="color: #fff; margin-bottom: 40px;">Falta pouco para você utilizar o melhor da tecnologia para promover a saúde de seus clientes e ajudá-los a atingir seus objetivos!</h4>
