@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.35.1",
+            "version": "3.35.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "b4391177bda332c226afcde73a12068547834535"
+                "reference": "47856d436ad8eb172c43c88b1861cd645882de56"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/b4391177bda332c226afcde73a12068547834535",
-                "reference": "b4391177bda332c226afcde73a12068547834535",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/47856d436ad8eb172c43c88b1861cd645882de56",
+                "reference": "47856d436ad8eb172c43c88b1861cd645882de56",
                 "shasum": ""
             },
             "require": {
@@ -84,7 +84,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2017-08-29T15:23:50+00:00"
+            "time": "2017-08-31T21:23:59+00:00"
         },
         {
             "name": "barryvdh/laravel-cors",
@@ -3104,16 +3104,16 @@
         },
         {
             "name": "webpatser/laravel-uuid",
-            "version": "2.0.3",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webpatser/laravel-uuid.git",
-                "reference": "b95a131db730dedec7604a731f39d6c327f5eca1"
+                "reference": "317b835cf492240187e00673582e056ec4dc076a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webpatser/laravel-uuid/zipball/b95a131db730dedec7604a731f39d6c327f5eca1",
-                "reference": "b95a131db730dedec7604a731f39d6c327f5eca1",
+                "url": "https://api.github.com/repos/webpatser/laravel-uuid/zipball/317b835cf492240187e00673582e056ec4dc076a",
+                "reference": "317b835cf492240187e00673582e056ec4dc076a",
                 "shasum": ""
             },
             "require": {
@@ -3130,7 +3130,7 @@
             "extra": {
                 "laravel": {
                     "aliases": {
-                        "Uuid": "Webpatser\\Uuid\\UuidFacade"
+                        "Uuid": "Webpatser\\Uuid\\Uuid"
                     }
                 }
             },
@@ -3154,7 +3154,7 @@
             "keywords": [
                 "UUID RFC4122"
             ],
-            "time": "2017-06-26T09:33:47+00:00"
+            "time": "2017-08-30T20:45:29+00:00"
         }
     ],
     "packages-dev": [
@@ -3470,22 +3470,22 @@
         },
         {
             "name": "phpdocumentor/reflection-docblock",
-            "version": "3.2.2",
+            "version": "3.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-                "reference": "4aada1f93c72c35e22fb1383b47fee43b8f1d157"
+                "reference": "86e24012a3139b42a7b71155cfaa325389f00f1f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/4aada1f93c72c35e22fb1383b47fee43b8f1d157",
-                "reference": "4aada1f93c72c35e22fb1383b47fee43b8f1d157",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/86e24012a3139b42a7b71155cfaa325389f00f1f",
+                "reference": "86e24012a3139b42a7b71155cfaa325389f00f1f",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.5",
+                "php": "^7.0",
                 "phpdocumentor/reflection-common": "^1.0@dev",
-                "phpdocumentor/type-resolver": "^0.3.0",
+                "phpdocumentor/type-resolver": "^0.4.0",
                 "webmozart/assert": "^1.0"
             },
             "require-dev": {
@@ -3511,20 +3511,20 @@
                 }
             ],
             "description": "With this component, a library can provide support for annotations via DocBlocks or otherwise retrieve information that is embedded in a DocBlock.",
-            "time": "2017-08-08T06:39:58+00:00"
+            "time": "2017-08-29T19:37:41+00:00"
         },
         {
             "name": "phpdocumentor/type-resolver",
-            "version": "0.3.0",
+            "version": "0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/TypeResolver.git",
-                "reference": "fb3933512008d8162b3cdf9e18dba9309b7c3773"
+                "reference": "9c977708995954784726e25d0cd1dddf4e65b0f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/fb3933512008d8162b3cdf9e18dba9309b7c3773",
-                "reference": "fb3933512008d8162b3cdf9e18dba9309b7c3773",
+                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/9c977708995954784726e25d0cd1dddf4e65b0f7",
+                "reference": "9c977708995954784726e25d0cd1dddf4e65b0f7",
                 "shasum": ""
             },
             "require": {
@@ -3558,7 +3558,7 @@
                     "email": "me@mikevanriel.com"
                 }
             ],
-            "time": "2017-06-03T08:32:36+00:00"
+            "time": "2017-07-14T14:27:02+00:00"
         },
         {
             "name": "phpspec/prophecy",

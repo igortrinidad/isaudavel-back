@@ -29,17 +29,23 @@
 
                         <!-- HEADER LOGO WE PLANNER -->
                         <tr>
-                            <td style="padding: 50px 50px 50px 50px; text-align: center; max-width: 80% !important; background-color: rgb(255, 255, 255); color: rgb(85, 85, 85); "
+                            <td style="padding: 50px 50px 50px 50px; text-align: {{ $data['align'] }}; max-width: 80% !important; background-color: rgb(255, 255, 255); color: rgb(85, 85, 85); "
                                 align="center">
                                 <img src="https://s3.amazonaws.com/isaudavel-assets/logos/i_saudavel-LOGO-01.png"
                                      width="200" alt="Logo" border="0" style="-ms-interpolation-mode:bicubic">
                             </td>
                         </tr>
 
+                        <?php
+                            if(!isset($data['align']) && empty($data['align'])){
+                                $data['align'] = 'center';
+                            }
+                        ?>
+
                         <!-- TITULO -->
                         @if(isset($data['messageTitle']) && !empty($data['messageTitle']))
                         <tr>
-                            <td style="padding: 10px 20px; text-align: center; max-width: 80% !important; background-color: rgb(255, 255, 255); color: rgb(85, 85, 85);"
+                            <td style="padding: 10px 20px; text-align: {{ $data['align'] }}; max-width: 80% !important; background-color: rgb(255, 255, 255); color: rgb(85, 85, 85);"
                                 align="center">
                                 <span style="font-size: 16px;">
                                     {!! $data['messageTitle'] !!}
@@ -51,9 +57,9 @@
                         <!-- MESSAGE TWO -->
                         @if(isset($data['messageOne']) && !empty($data['messageOne']))
                         <tr>
-                            <td style="padding: 10px 20px; text-align: center; max-width: 80% !important; background-color: rgb(255, 255, 255); color: rgb(85, 85, 85);"
+                            <td style="padding: 10px 20px; text-align: {{ $data['align'] }}; max-width: 80% !important; background-color: rgb(255, 255, 255); color: rgb(85, 85, 85);"
                                 align="center">
-                                <p style="text-align: center; ">
+                                <p style="text-align: {{ $data['align'] }}; ">
                                     <span style="font-size: 14px;">
                                         {!! $data['messageOne'] !!}
                                     </span>
@@ -65,9 +71,9 @@
                         <!-- MESSAGE THREE -->
                         @if(isset($data['messageTwo']) && !empty($data['messageTwo']))
                         <tr>
-                            <td style="padding: 10px 20px; text-align: center; max-width: 80% !important; background-color: rgb(255, 255, 255); color: rgb(85, 85, 85);"
+                            <td style="padding: 10px 20px; text-align: {{ $data['align'] }}; max-width: 80% !important; background-color: rgb(255, 255, 255); color: rgb(85, 85, 85);"
                                 align="center">
-                                <p style="text-align: center; ">
+                                <p style="text-align: {{ $data['align'] }}; ">
                                     <span style="font-size: 14px;">
                                         {!! $data['messageTwo'] !!}
                                     </span>
@@ -79,9 +85,9 @@
                         <!-- MESSAGE THREE -->
                         @if(isset($data['messageThree']) && !empty($data['messageThree']))
                         <tr>
-                            <td style="padding: 10px 20px; text-align: center; max-width: 80% !important; background-color: rgb(255, 255, 255); color: rgb(85, 85, 85);"
+                            <td style="padding: 10px 20px; text-align: {{ $data['align'] }}; max-width: 80% !important; background-color: rgb(255, 255, 255); color: rgb(85, 85, 85);"
                                 align="center">
-                                <p style="text-align: center; ">
+                                <p style="text-align: {{ $data['align'] }}; ">
                                     <span style="font-size: 14px;">
                                         {!! $data['messageThree'] !!}
                                     </span>
@@ -93,9 +99,9 @@
                         <!-- MESSAGE THREE -->
                         @if(isset($data['access_code']) && !empty($data['access_code']))
                         <tr>
-                            <td style="padding: 10px 20px; text-align: center; max-width: 80% !important; background-color: rgb(255, 255, 255); color: rgb(85, 85, 85);"
+                            <td style="padding: 10px 20px; text-align: {{ $data['align'] }}; max-width: 80% !important; background-color: rgb(255, 255, 255); color: rgb(85, 85, 85);"
                                 align="center">
-                                <p style="text-align: center; ">
+                                <p style="text-align: {{ $data['align'] }}; ">
                                     <span style="font-size: 22px;">
                                         {!!$data['access_code'] !!}
                                     </span>
@@ -108,10 +114,10 @@
 
                         @if(isset($data['button_link']) && !empty($data['button_link']))
                         <tr>
-                            <td style="padding: 20px; text-align: center; max-width: 80% !important; background-color: rgb(255, 255, 255);"
+                            <td style="padding: 20px; text-align: {{ $data['align'] }}; max-width: 80% !important; background-color: rgb(255, 255, 255);"
                                 align="center">
                                 <center>
-                                    <a style="transition: all 100ms ease-in; display: block; font-weight: bold; text-align: center; margin: 10px 10px 10px; text-decoration: none; max-width: 80% !important; background-color: rgb(255, 255, 255);"
+                                    <a style="transition: all 100ms ease-in; display: block; font-weight: bold; text-align: {{ $data['align'] }}; margin: 10px 10px 10px; text-decoration: none; max-width: 80% !important; background-color: rgb(255, 255, 255);"
                                        class="button-a" align="center"
                                        href="{{$data['button_link']}}">
                                         <span style="color: rgb(255, 255, 255); border-color: #69A7BE; background-color: #69A7BE; width: 200px; height: 70px; border-radius: 5px; border-width: 5px; font-size: 20px; padding: 15px 30px 15px 30px; margin: 30px 10px;">
@@ -126,9 +132,9 @@
                         <!-- ULTIMO BLOCO -->
                         @if(isset($data['messageFour']) && !empty($data['messageFour']))
                         <tr>
-                            <td style="padding: 20px 20px 40px 20px; text-align: center; max-width: 80% !important; background-color: rgb(255, 255, 255); color: rgb(85, 85, 85);"
+                            <td style="padding: 20px 20px 40px 20px; text-align: {{ $data['align'] }}; max-width: 80% !important; background-color: rgb(255, 255, 255); color: rgb(85, 85, 85);"
                                 align="center">
-                                <p style="text-align: center; "><span style="font-size: 14px;">
+                                <p style="text-align: {{ $data['align'] }}; "><span style="font-size: 14px;">
                                     {!! $data['messageFour'] !!}
                                 </span>
                                 </p>
@@ -138,9 +144,9 @@
                         @endif
 
                         <tr>
-                            <td style="padding: 20px 20px 0px 20px; text-align: center; max-width: 80% !important; background-color: rgb(255, 255, 255); color: rgb(85, 85, 85);"
+                            <td style="padding: 20px 20px 0px 20px; text-align: {{ $data['align'] }}; max-width: 80% !important; background-color: rgb(255, 255, 255); color: rgb(85, 85, 85);"
                                 align="center">
-                                <p style="text-align: center; "><span style="font-size: 14px;">
+                                <p style="text-align: {{ $data['align'] }}; "><span style="font-size: 14px;">
                                 </span>
                                 </p>
 

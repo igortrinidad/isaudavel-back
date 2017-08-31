@@ -243,7 +243,7 @@ class LandingController extends Controller
         $company_data = [
             'id' => Uuid::generate()->string,
             'owner_id' => $professional->id,
-            'is_active' => true,
+            'is_active' => false,
             'name' => $request->get('company_name'),
             'slug' => str_slug($request->get('company_name'),'-'),
             'website' => $request->get('website'),
@@ -268,6 +268,38 @@ class LandingController extends Controller
             'confirmed_by_type' => get_class($professional),
             'confirmed_at' => Carbon::now()
         ]);
+
+
+        //Email para nós
+        $data = [];
+        $data['align'] = 'left';
+
+        $data['messageTitle'] = 'Novo cadastro iSaudavel';
+        $data['messageOne'] = 'Nome: ' . $request->get('name') .  ' ' . $request->get('last_name');
+        $data['messageTwo'] = 'Email: ' . $request->get('email');
+        $data['messageThree'] = 'Phone: ' . $request->get('phone');
+        $data['messageSubject'] = 'iSaudavel nova empresa: ' . $request->get('company_name');
+
+        \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data){
+            $message->from('no-reply@isaudavel.com', 'Landing iSaudavel');
+            $message->to('contato@maisbartenders.com.br', 'iSaudavel')->subject($data['messageSubject']);
+        });
+
+        //Email para cliente
+        $data = [];
+        $data['align'] = 'left';
+        $data['messageTitle'] = 'Olá, ' . $request->get('name') .  ' ' . $request->get('last_name');
+        $data['messageOne'] = 'Obrigado por se inscrever na plataforma iSaudavel. <br>
+            Vamos processar suas informações e retornamos este email com os próximos passos para habilitar sua empresa na plataforma fitness mais completa do mundo.
+        ';
+        $data['messageTwo'] = 'Nos vemos em breve!';
+        $data['messageSubject'] = $request->get('company_name') . ' no iSaudavel';
+
+        \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $request){
+            $message->from('no-reply@isaudavel.com', 'iSaudavel - sua saúde em boas mãos.');
+            $message->to($request->get('email'), $request->get('name'))->subject($data['messageSubject']);
+        });
+
 
         return redirect()->to(route('landing.professionals.signup-success'));
     }

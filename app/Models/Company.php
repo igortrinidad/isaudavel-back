@@ -117,6 +117,19 @@ class Company extends Model
         return $ratings;
     }
 
+    /*
+    * Rating
+    */
+    public function getWebsiteAttribute($website)
+    {
+        if(strpos($website, 'http://') !== false || strpos($website, 'https://') !== false){
+            return $website;
+        } 
+
+        return 'http://' . $website;
+
+    }
+
     /**
      * -------------------------------
      * Relationships

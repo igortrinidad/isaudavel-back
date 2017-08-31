@@ -722,7 +722,6 @@
                         '</div>'+
                         '<h1 id="firstHeading" class="firstHeading">{{$company_fetched->name}}</h1>'+
                         '<div id="bodyContent" style="font-size: 11px;">'+
-                            '<p><b>Descrição:</b> {{$company_fetched->description}}</p>'+
                             '<p><b>Endereço:</b> {{$company_fetched->address['full_address']}}</p>'+
                         '</div>'+
                     '</div>';
