@@ -38,7 +38,7 @@ class ProfessionalCalendarSettingController extends Controller
             }])->get();
 
         foreach($professional_calendar_settings as $professional_calendar_setting){
-            $professional_calendar_setting->professional->setHidden(['companies', 'categories', 'blank_password']);
+            $professional_calendar_setting->professional->makeHidden(['companies', 'categories', 'blank_password']);
 
             $schedules = Schedule::where('company_id', $request->get('company_id'))
                 ->where('category_id', $request->get('category_id'))

@@ -55,7 +55,7 @@ class ClientController extends Controller
                 ->where('is_confirmed', false)
                 ->where('is_deleted', true);
         })->with(['companies' => function($query) use($request){
-            $query->where('company_id', $request->get('company_id'));
+            $query->where('company_id', $request->get('company_id'))->withPivot('deleted_by_id');
         }])->orderBy('name')->paginate(10);
 
 
@@ -74,13 +74,13 @@ class ClientController extends Controller
      */
     public function search(Request $request)
     {
-        $currentPage = LengthAwarePaginator::resolveCurrentPage();
-
-        $per_page = 10;
-
         $search = explode(' ', $request->get('search'));
 
-        $clients = Client::where(function ($query) use ($search, $request) {
+        $clients_confirmed = Client::whereHas('companies', function ($query) use($request){
+            $query->where('company_id', $request->get('company_id'))
+                ->where('is_confirmed', true)
+                ->where('is_deleted', false);
+        })->where(function($query) use($request, $search){
             $query->where('name', 'LIKE', '%' . $request->get('search') . '%');
             $query->orWhere('last_name', 'LIKE', '%' . $request->get('search') . '%');
             $query->orWhere('email', 'LIKE', '%' . $request->get('search') . '%');
@@ -90,36 +90,58 @@ class ClientController extends Controller
             $query->orWhere(function ($query) use ($search) {
                 $query->whereIn('last_name', $search);
             });
+        })->with(['companies' => function($query) use($request){
+            $query->where('company_id', $request->get('company_id'));
+        }])->orderBy('name')->paginate(10);
 
-        })->get();
+        $clients_unconfirmed = Client::whereHas('companies', function ($query) use($request){
+            $query->where('company_id', $request->get('company_id'))
+                ->where('is_confirmed', false)
+                ->where('is_deleted', false);
+        })->where(function($query) use($request, $search){
+            $query->where('name', 'LIKE', '%' . $request->get('search') . '%');
+            $query->orWhere('last_name', 'LIKE', '%' . $request->get('search') . '%');
+            $query->orWhere('email', 'LIKE', '%' . $request->get('search') . '%');
 
-        $verified_clients = [];
-        foreach ($clients as $client){
-            //check if is a company client
-            $is_client = $client->companies->contains($request->get('company_id'));
+            //for full name
+            $query->orWhereIn('name', $search);
+            $query->orWhere(function ($query) use ($search) {
+                $query->whereIn('last_name', $search);
+            });
+        })->with(['companies' => function($query) use($request){
+            $query->where('company_id', $request->get('company_id'));
+        }])->orderBy('name')->paginate(10);
 
-            //check if is confirmed
-            $is_confirmed = $client->companies()
-                ->wherePivot('company_id', '=',$request->get('company_id'))
-                ->wherePivot('is_confirmed', '=', true)->count();
 
-            $requested_by_client = $client->companies()
-                ->wherePivot('company_id', '=',$request->get('company_id'))
-                ->wherePivot('requested_by_client', '=', true)->count();
+        $clients_deleted = Client::whereHas('companies', function ($query) use($request){
+            $query->where('company_id', $request->get('company_id'))
+                ->where('is_confirmed', false)
+                ->where('is_deleted', true);
+        })->with(['companies' => function($query) use($request){
+            $query->where('company_id', $request->get('company_id'));
+        }])->orderBy('name')->paginate(10);
 
-            $client['is_client'] = $is_client ? true : false;
-            $client['is_confirmed'] = $is_confirmed ? true : false;
-            $client['requested_by_client'] = $requested_by_client ? true : false;
-            $verified_clients[] = $client->setHidden(['companies']);
-        }
+        $non_clients = Client::whereDoesntHave('companies', function ($query) use($request, $search){
+            $query->where('company_id', $request->get('company_id'));
+        })->where(function($query) use($request, $search){
+            $query->where('name', 'LIKE', '%' . $request->get('search') . '%');
+            $query->orWhere('last_name', 'LIKE', '%' . $request->get('search') . '%');
+            $query->orWhere('email', 'LIKE', '%' . $request->get('search') . '%');
 
-        $verified_clients = collect($verified_clients);
+            //for full name
+            $query->orWhereIn('name', $search);
+            $query->orWhere(function ($query) use ($search) {
+                $query->whereIn('last_name', $search);
+            });
+        })->orderBy('name')->paginate(10);
 
-        $currentPageItems = $verified_clients->slice(($currentPage - 1) * $per_page, $per_page);
 
-        $paged_clients =  new LengthAwarePaginator($currentPageItems->flatten(), count($verified_clients), $per_page);
-
-        return response()->json(custom_paginator($paged_clients, 'clients'));
+        return response()->json([
+            'clients_confirmed' => custom_paginator($clients_confirmed, 'clients_confirmed'),
+            'clients_unconfirmed' => custom_paginator($clients_unconfirmed, 'clients_unconfirmed'),
+            'clients_deleted' => custom_paginator($clients_deleted, 'clients_deleted'),
+            'non_clients' => custom_paginator($non_clients, 'non_clients'),
+        ]);
     }
 
     /**
@@ -439,6 +461,38 @@ class ClientController extends Controller
             $client->companies()->updateExistingPivot($request->get('company_id'), $request->all());
 
             return response()->json(['message' => 'Relationship updated']);
+        }
+
+        if(!$client){
+            return response()->json([
+                'message' => 'Client not found.',
+            ], 404);
+        }
+
+    }
+
+    /**
+     *  Reactivate client company relationship
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function reactivateCompanyRelationship(Request $request)
+    {
+        $client = Client::find($request->get('client_id'));
+
+        if($client){
+
+            $client->companies()->updateExistingPivot($request->get('company_id'),
+                [
+                    'is_deleted' => false,
+                    'deleted_by_id' => null,
+                    'deleted_by_type' => null,
+                    'deleted_at' => null
+                ]
+            );
+
+            return response()->json(['message' => 'Relationship reactivated']);
         }
 
         if(!$client){

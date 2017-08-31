@@ -63,7 +63,7 @@ class ProfessionalController extends Controller
             $professional['is_confirmed'] = $is_confirmed ? true : false;
             $professional['is_public'] = $is_public ? true : false;
             $professional['is_admin'] = $is_admin ? true : false;
-            $verified_professionals[] = $professional->setHidden(['companies']);
+            $verified_professionals[] = $professional->makeHidden(['companies']);
         }
 
         $verified_professionals = collect($verified_professionals);
@@ -120,7 +120,7 @@ class ProfessionalController extends Controller
             $professional['is_professional'] = $is_professional;
             $professional['is_confirmed'] = $is_confirmed ? true : false;
             $professional['is_admin'] = $is_admin ? true : false;
-            $verified_professionals[] = $professional->setHidden(['companies']);
+            $verified_professionals[] = $professional->makeHidden(['companies']);
         }
 
         $verified_professionals = collect($verified_professionals);

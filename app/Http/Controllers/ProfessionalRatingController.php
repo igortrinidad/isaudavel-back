@@ -36,7 +36,7 @@ class ProfessionalRatingController extends Controller
         return response()->json([
             'message' => 'Professional rating created.',
             'rating' => $rating->fresh(['client']),
-            'professional' => $rating->professional->setHidden(['companies','categories','blank_password'])
+            'professional' => $rating->professional->makeHidden(['companies','categories','blank_password'])
         ]);
     }
 

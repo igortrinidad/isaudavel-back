@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="no-js">
     <head>
-    
+
         @include('components.seo-opengraph')
 
         <meta charset="utf-8">
@@ -69,7 +69,7 @@
 
         </style>
 
-        
+
         <section id="company-signup" class="contact contact-signup section gradient-overlay-black">
           <div class="overlay-inner">
             <div class="container">
@@ -88,33 +88,41 @@
 
               <div class="row">
                 <div class="col-md-8 block-center">
+
+                {{--Alert display--}}
+                @include('flash::message')
+
                   <!--|Contact Form|-->
-                  <form class="contact-form" method="POST" action="/sendSignupForm">
+                  <form class="contact-form" method="POST" action="{{route('landing.professionals.send-signup-form')}}">
                   {!! csrf_field() !!}
                     <!--|Action Message|-->
                     <div class="entry-field">
-                       <label>Nome completo</label>
-                       <input class="form-control" name="name" placeholder="Nome completo" required type="text">
+                       <label>Nome</label>
+                       <input class="form-control" name="name" placeholder="Nome"  value="{{ old('name') }}" required type="text">
                     </div>
+                      <div class="entry-field">
+                          <label>Sobrenome</label>
+                          <input class="form-control" name="last_name" placeholder="Sobrenome" value="{{ old('last_name') }}" required type="text" >
+                      </div>
                     <div class="entry-field">
                        <label>CPF</label>
-                       <input class="form-control" name="cpf" placeholder="CPF" required type="text">
+                       <input class="form-control" name="cpf"  value="{{ old('cpf') }}" placeholder="CPF" required type="text" >
                     </div>
                    <div class="entry-field">
                        <label>Email</label>
-                       <input class="form-control" name="email" placeholder="email@exemplo.com" required type="email">
+                       <input class="form-control" name="email" value="{{ old('email') }}" placeholder="email@exemplo.com" required type="email">
                     </div>
                     <div class="entry-field">
                        <label>Telefone</label>
-                       <input class="form-control" name="phone" placeholder="Telefone com ddd" required type="text">
+                       <input class="form-control" name="phone" value="{{ old('phone') }}" placeholder="Telefone com ddd" required type="text">
                     </div>
                     <div class="entry-field">
                        <label>Empresa</label>
-                       <input class="form-control" name="company_name" placeholder="Nome da empresa" required type="text">
+                       <input class="form-control" name="company_name" value="{{ old('company_name') }}" placeholder="Nome da empresa" required type="text">
                     </div>
                     <div class="entry-field">
                        <label>Website</label>
-                        <input class="form-control" name="website" placeholder="Informe o website da empresa" />
+                        <input class="form-control" name="website" value="{{ old('website') }}" placeholder="Informe o website da empresa" />
                    </div>
                     <div class="entry-field">
                        <label>Endereço</label>
@@ -123,8 +131,8 @@
 
                     <div class="entry-field">
                        <label>Especialidades (R$37,90 / especialidade)</label>
-                       <multiselect 
-                        v-model="category" 
+                       <multiselect
+                        v-model="category"
                         :options="categories"
                         :label="'name'"
                         :multiple="true"
@@ -145,6 +153,14 @@
                        <label>Valor total</label>
                        <h1 class="text-center">@{{total | formatCurrency}}</h1>
                     </div>
+
+                      {{--Hidden inputs to send vue data on request--}}
+                      <input type="hidden" id="categories" name="categories" v-model="categories_parsed">
+                      <input type="hidden" id="city" name="city" value="{{ old('city') }}">
+                      <input type="hidden" id="state" name="state" value="{{ old('state') }}">
+                      <input type="hidden" id="lat" name="lat" value="{{ old('lat') }}">
+                      <input type="hidden" id="lng" name="lng" value="{{ old('lng') }}">
+                      <input type="hidden" id="address" name="address" value="{{ old('address') }}">
 
                     <div class="text-center m-t-30">
                         <button class="btn btn-lg btn-primary btn-block" type="submit">Cadastrar</button>
@@ -178,37 +194,62 @@
     }
 }
 
-          function initAutocomplete() {
+            function initAutocomplete() {
 
 
-            var autocomplete = new google.maps.places.Autocomplete(
-            (
-                document.getElementById('autocomplete')), {
-              language: 'pt-BR',
-              componentRestrictions: {'country': 'br'}
-            });
+                var autocomplete = new google.maps.places.Autocomplete(
+                    (
+                        document.getElementById('autocomplete')), {
+                        language: 'pt-BR',
+                        componentRestrictions: {'country': 'br'}
+                    });
 
 
-            autocomplete.addListener('place_changed', function() {
-              var place = autocomplete.getPlace();
-                if (place.geometry) {
-/*
-                    var city = document.getElementById('city');
-                    city.setAttribute('value', place.name)
+                autocomplete.addListener('place_changed', function () {
+                    var place = autocomplete.getPlace();
+                    if (place.geometry) {
 
-                    var lat = document.getElementById('lat');
-                    lat.setAttribute('value', place.geometry.location.lat())
+                        var city = document.getElementById('city');
+                        var state = document.getElementById('state');
 
-                    var lng = document.getElementById('lng');
-                    lng.setAttribute('value', place.geometry.location.lng())
-*/
+                        place.address_components.map((current) =>{
+                            current.types.map((type) => {
 
-                } else {
-                    document.getElementById('autocomplete').placeholder = 'Enter a city';
-                }
+                                if(type == 'administrative_area_level_1'){
+                                    state.setAttribute('value', current.short_name)
+                                }
 
-            });
-          }
+                                if(type == 'administrative_area_level_2'){
+
+                                    city.setAttribute('value', current.short_name)
+
+                                }
+                            })
+                        })
+
+                        var lat = document.getElementById('lat');
+                        lat.setAttribute('value', place.geometry.location.lat())
+
+                        var lng = document.getElementById('lng');
+                        lng.setAttribute('value', place.geometry.location.lng())
+
+
+                        var address = document.getElementById('address');
+
+                        var address_data = {
+                            name:  place.name,
+                            url:  place.url,
+                            full_address: place.formatted_address,
+                        }
+
+                        address.setAttribute('value', JSON.stringify(address_data))
+
+                    } else {
+                        document.getElementById('autocomplete').placeholder = 'Enter a city';
+                    }
+
+                });
+            }
 
             Vue.http.headers.common['X-CSRF-TOKEN'] = $('input[name=_token]').val();
 
@@ -232,6 +273,7 @@
                     },
                     total: 0,
                     professional_numbers: 0,
+                    categories_parsed: [],
                 },
                 mounted: function() {
 
@@ -246,11 +288,12 @@
 
                     this.getCategories();
 
+
                 },
                 methods: {
                     getCategories: function(){
                         let that = this
-                
+
                         this.$http.get('/api/company/category/list').then(response => {
 
                             that.categories = response.body;
@@ -264,6 +307,7 @@
 
                         var cost_categories = this.category.length * 37.90;
 
+
                         if(isNaN(this.professional_numbers) || this.professional_numbers == 0){
                             this.professional_numbers = 1;
                         }
@@ -271,16 +315,24 @@
                         if(this.professional_numbers == 1){
                             var cost_professional = 0;
                         } else {
-                            var cost_professional = 17.90 * (this.professional_numbers - 1); 
+                            var cost_professional = 17.90 * (this.professional_numbers - 1);
                         }
 
 
                         var total = cost_professional + cost_categories;
 
                         this.total = total;
-                      
+
+                        this.categories_parsed = []
+                        var categories_parsed = []
+
+                        this.category.map((category) => {
+                            categories_parsed.push(category.id)
+                        })
+
+                        this.categories_parsed = JSON.stringify(categories_parsed);
+
                     }
-            
                 }
 
             })

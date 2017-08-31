@@ -57,7 +57,7 @@ class RecomendationController extends Controller
         return response()->json([
             'message' => 'Recomendation created.',
             'recomendation' => $recomendation->fresh(['from']),
-            'from' => $recomendation->from->setHidden(['companies','categories','blank_password'])
+            'from' => $recomendation->from->makeHidden(['companies','categories','blank_password'])
         ]);
     }
 

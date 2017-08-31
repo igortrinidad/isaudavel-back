@@ -50,7 +50,17 @@ class Schedule extends Model
         'canceled_at',
     ];
 
-    
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'is_confirmed' => 'boolean',
+        'is_rescheduled' => 'boolean',
+        'is_canceled' => 'boolean',
+    ];
+
 
     /**
      * The relations to eager load on every query.

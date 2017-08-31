@@ -37,7 +37,7 @@ class ScheduleController extends Controller
 
         foreach($calendar_settings as $calendar_setting){
 
-            $calendar_setting->professional->setHidden(['companies','categories','blank_password', 'password', 'remember_token']);
+            $calendar_setting->professional->makeHidden(['companies','categories','blank_password']);
 
             $schedules = Schedule::where('company_id', $request->get('company_id'))
                 ->where('category_id', $request->get('category_id'))
@@ -50,11 +50,11 @@ class ScheduleController extends Controller
 
             foreach($schedules as $schedule){
 
-                $schedule->professional->setHidden(['companies','categories','blank_password']);
+                $schedule->professional->makeHidden(['companies','categories','blank_password']);
 
                 $schedule->setAttribute('client', $schedule->subscription->client);
 
-                $schedule->setHidden(['subscription', 'professional']);
+                $schedule->makeHidden(['subscription', 'professional']);
             }
 
             $calendar_setting->setAttribute('schedules', $schedules);
@@ -77,7 +77,7 @@ class ScheduleController extends Controller
 
         foreach($calendar_settings as $calendar_setting){
 
-            $calendar_setting->setHidden(['professional']);
+            $calendar_setting->makeHidden(['professional']);
 
             $schedules = Schedule::where('company_id', $calendar_setting->company_id)
                 ->where('category_id', $calendar_setting->category_id)
@@ -90,11 +90,11 @@ class ScheduleController extends Controller
 
             foreach($schedules as $schedule){
 
-                $schedule->professional->setHidden(['companies','categories','blank_password']);
+                $schedule->professional->makeHidden(['companies','categories','blank_password']);
 
                 $schedule->setAttribute('client', $schedule->subscription->client);
 
-                $schedule->setHidden(['subscription', 'professional']);
+                $schedule->makeHidden(['subscription', 'professional']);
             }
 
             $calendar_setting->setAttribute('schedules', $schedules);
@@ -124,7 +124,7 @@ class ScheduleController extends Controller
             foreach($client_schedules as $key => $schedules)
             {
                 foreach ($schedules as $schedule){
-                    $schedule->professional->setHidden(['companies','categories','blank_password', 'password', 'remember_token']);
+                    $schedule->professional->makeHidden(['companies','categories','blank_password', 'password', 'remember_token']);
                 }
                 $company = Company::find($key);
 
@@ -203,9 +203,9 @@ class ScheduleController extends Controller
 
         $schedule->setAttribute('professional_workdays', $calendar_settings->workdays);
 
-        $schedule->professional->setHidden(['companies', 'categories', 'blank_password', 'password', 'remember_token']);
+        $schedule->professional->makeHidden(['companies', 'categories', 'blank_password', 'password', 'remember_token']);
 
-        $schedule->setHidden(['subscription']);
+        $schedule->makeHidden(['subscription']);
 
         return response()->json([
             'message' => 'Scheduled.',
