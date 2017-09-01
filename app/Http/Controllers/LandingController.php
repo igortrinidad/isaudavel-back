@@ -321,6 +321,17 @@ class LandingController extends Controller
         return view('landing.signup.success');
     }
 
+    public function invitedClient()
+    {
+        return view('landing.signup.invited-client');
+    }
+
+    public function invitedProfessional()
+    {
+        return view('landing.signup.invited-professional');
+    }
+
+
     public function sendContactForm(Request $request)
     {
 

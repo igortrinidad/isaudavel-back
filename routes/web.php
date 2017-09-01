@@ -25,6 +25,10 @@ Route::group(['as' => 'landing.'], function () {
 	Route::get('/', ['uses' => 'LandingController@index', 'as' => 'index']);
 	Route::post('/sendContact', ['uses' => 'LandingController@sendContactForm', 'as' => 'send-contact-form']);
 
+    // Inviteds
+    Route::get('/convite/cliente', ['uses' => 'LandingController@invitedClient', 'as' => 'create']);
+    Route::get('/convite/profissional', ['uses' => 'LandingController@invitedProfessional', 'as' => 'create']);
+
 	//Companies
 	Route::group(['prefix' => 'buscar', 'as' => 'search.'], function () {
 		Route::get('/', ['uses' => 'LandingController@NewIndexSearch', 'as' => 'index']);
