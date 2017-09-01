@@ -79,7 +79,7 @@
               </header> <!--|End Section Header|-->
 
               <div class="row">
-                <div class="col-md-8 block-center">
+              <div class="col-md-8 block-center">
 
                 {{--Alert display--}}
                 @include('flash::message')
@@ -96,54 +96,17 @@
                           <label>Sobrenome</label>
                           <input class="form-control" name="last_name" placeholder="Sobrenome" value="{{ old('last_name') }}" required type="text" >
                       </div>
-                    <div class="entry-field">
-                       <label>CPF</label>
-                       <input class="form-control" name="cpf"  value="{{ old('cpf') }}" placeholder="CPF" required type="text" >
-                    </div>
+
                    <div class="entry-field">
                        <label>Email</label>
                        <input class="form-control" name="email" value="{{ old('email') }}" placeholder="email@exemplo.com" required type="email">
                     </div>
-                    <div class="entry-field">
-                       <label>Telefone</label>
-                       <input class="form-control" name="phone" value="{{ old('phone') }}" placeholder="Telefone com ddd" required type="text">
-                    </div>
-                    <div class="entry-field">
-                       <label>Empresa</label>
-                       <input class="form-control" name="company_name" value="{{ old('company_name') }}" placeholder="Nome da empresa" required type="text">
-                    </div>
-                    <div class="entry-field">
-                       <label>Website</label>
-                        <input class="form-control" name="website" value="{{ old('website') }}" placeholder="Informe o website da empresa" />
-                   </div>
-                    <div class="entry-field">
-                       <label>Endereço</label>
-                        <input class="form-control" id="autocomplete" placeholder="Informe o endereço da empresa" />
-                   </div>
 
-                    <div class="entry-field">
-                       <label>Especialidades (R$37,90 / especialidade)</label>
-                       <multiselect
-                        v-model="category"
-                        :options="categories"
-                        :label="'name'"
-                        :multiple="true"
-                        placeholder="Selecione ao menos uma categoria"
-                        @input="calcValue"
-                        >
-                      </multiselect>
-                    </div>
 
-                    <div class="entry-field">
-                       <label>Quantidade de profissionais (R$17,90 / profissional)</label>
-                       <input class="form-control" name="professional_numbers" placeholder="" v-model="professional_numbers" required type="number" @blur="calcValue()">
-                    </div>
-
-                    <hr class="m-t-30">
 
                     <div class="entry-field text-center">
                        <label>Valor total</label>
-                       <h1 class="text-center">@{{total | formatCurrency}}</h1>
+                       <h1 class="text-center">É de graça!</h1>
                     </div>
 
                       {{--Hidden inputs to send vue data on request--}}
