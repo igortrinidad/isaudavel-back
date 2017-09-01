@@ -57,7 +57,7 @@
         .wrapper.call-to-client { background-image: url('/images/gym.jpg'); }
     </style>
 
-    <section id="about" class="section p-b-0">
+    <section id="about" class="section p-b-0 m-b-0">
         <!-- CLIENT FEATURES -->
         <div class="container p-b-30">
             <div class="text-center">
@@ -124,34 +124,36 @@
         </div>
         <!-- / CLIENT FEATURES -->
 
-        <hr>
 
-        <!-- Screen Shots -->
-        <div class="container text-center p-t-10">
-            <h2 class="f-300">Conheça</h2>
-            <span class="f-300">Confira as telas do aplicativo!</span>
-            <div class="swiper-container swiper-screenshots">
-                <div class="swiper-wrapper" style="padding-top: 60px;">
-                    <div class="swiper-slide">
-                        <img class="img-responsive" src="/images/screenshots/professional/mc1.png" alt="">
+        <div style="background-color: #fff;">
+            <!-- Screen Shots -->
+            <div class="container text-center" style="padding: 100px 0;">
+                <h2 class="f-300">Conheça</h2>
+                <span class="f-300">Confira as telas do aplicativo!</span>
+                <div class="swiper-container swiper-screenshots">
+                    <div class="swiper-wrapper" style="padding-top: 60px;">
+                        <div class="swiper-slide">
+                            <img class="img-responsive" src="/images/screenshots/professional/mc1.png" alt="">
+                        </div>
+                        <div class="swiper-slide">
+                            <img class="img-responsive" src="/images/screenshots/professional/mc2.png" alt="">
+                        </div>
+                        <div class="swiper-slide">
+                            <img class="img-responsive" src="/images/screenshots/professional/mc3.png" alt="">
+                        </div>
+                        <div class="swiper-slide">
+                            <img class="img-responsive" src="/images/screenshots/professional/mc4.png" alt="">
+                        </div>
                     </div>
-                    <div class="swiper-slide">
-                        <img class="img-responsive" src="/images/screenshots/professional/mc2.png" alt="">
-                    </div>
-                    <div class="swiper-slide">
-                        <img class="img-responsive" src="/images/screenshots/professional/mc3.png" alt="">
-                    </div>
-                    <div class="swiper-slide">
-                        <img class="img-responsive" src="/images/screenshots/professional/mc4.png" alt="">
-                    </div>
+                    <div class="swiper-button-prev"><i class="ion-ios-arrow-back"></i></div>
+                    <div class="swiper-button-next"><i class="ion-ios-arrow-forward"></i></div>
+                    <div style="height: 50px;"></div>
+                    <div class="swiper-pagination"></div>
                 </div>
-                <div class="swiper-button-prev"><i class="ion-ios-arrow-back"></i></div>
-                <div class="swiper-button-next"><i class="ion-ios-arrow-forward"></i></div>
-                <div style="height: 50px;"></div>
-                <div class="swiper-pagination"></div>
             </div>
+            <!-- / Screen Shots -->
         </div>
-        <!-- / Screen Shots -->
+
 
         <!-- Plans -->
         <div class="container" style="padding-top: 100px; padding-bottom: 100px;">
