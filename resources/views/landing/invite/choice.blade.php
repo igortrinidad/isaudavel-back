@@ -1,3 +1,4 @@
+
 <style media="screen">
     a, a:hover{ color: #383939; text-decoration: none; }
     .gradient-bg {
@@ -11,7 +12,7 @@
     }
 </style>
 
-<section id="convite" class="section gradient-bg contact-section">
+<section id="choice" class="section gradient-bg contact-section">
     <div class="container">
         <div class="text-center">
             <h2>Recebi um convite.</h2>

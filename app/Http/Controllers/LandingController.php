@@ -321,6 +321,13 @@ class LandingController extends Controller
         return view('landing.signup.success');
     }
 
+    public function invitedChoice(Request $reques)
+    {
+        $companies = Company::with('categories')->get()->random(8);
+
+        return view('landing.invite.index', compact('companies'));
+    }
+
     public function invitedClient()
     {
         return view('landing.signup.invited-client');
