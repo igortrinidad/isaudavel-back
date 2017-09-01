@@ -1,6 +1,12 @@
 /* CHECKBOX FROM MAILCHIMP */
 
 
+h1, h2, h3, h4, h5{
+  color: #383938;
+  font-weight: 300;
+}
+
+
 .checkbox-group label:last-child {
     margin-bottom: 12px;
 }

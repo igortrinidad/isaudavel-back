@@ -16,11 +16,6 @@
     .btn.btn-facebook{ background-color: #3b5998; color: #F4F5F5; }
     .btn.btn-whatsapp{ background-color: #1ebea5; color: #F4F5F5; }
 
-    h1, h2, h3, h4, h5{
-        color: #383938;
-        font-weight: 300;
-    }
-
     .bg-picture {
         display: block;
         box-sizing: border-box;
