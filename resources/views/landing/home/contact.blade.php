@@ -2,8 +2,7 @@
     a, a:hover{ color: #383939; text-decoration: none; }
 </style>
 
-<section id="contact" class="section contact-section p-30 p-r-0 p-l-0">
-    <hr>
+<section id="contact" class="section contact-section">
     <div class="container">
         <div class="text-center">
             <h2>Contato</h2>
