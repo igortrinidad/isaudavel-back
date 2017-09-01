@@ -3,6 +3,7 @@
 </style>
 
 <section id="contact" class="section contact-section">
+    <hr>
     <div class="container">
         <div class="text-center">
             <h2>Contato</h2>

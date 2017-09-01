@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="no-js">
     <head>
-    
+
         @include('components.seo-opengraph')
 
         <meta charset="utf-8">
@@ -25,11 +25,12 @@
         @include('landing.home.video')
         @include('landing.home.navbar')
         @include('landing.companies.header-with-search')
-        
+
         @section('content')
         @show
-        
+
         @include('landing.home.featured')
+        @include('landing.home.download')
         @include('landing.home.contact')
         @include('landing.home.footer')
 
