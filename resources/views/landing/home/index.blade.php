@@ -31,6 +31,7 @@
 
         @include('landing.home.featured')
         @include('landing.home.download')
+        @include('landing.home.section-video')
         @include('landing.home.contact')
         @include('landing.home.footer')
 
