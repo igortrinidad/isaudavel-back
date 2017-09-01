@@ -261,6 +261,16 @@ class ClientController extends Controller
      */
     public function update(Request $request)
     {
+        if($request->has('current_password') && !empty($request->get('current_password'))){
+
+            $user = \Auth::user();
+
+            if(!\Hash::check($request->get('current_password'), $user->password)){
+
+                return response()->json(['error' => true, 'message' => 'Senha atual incorreta'], 200);
+            }
+        }
+
         if($request->has('password') && !empty($request['password'])){
             $request->merge([
                 'password' => bcrypt($request->get('password')),

@@ -321,6 +321,43 @@ class LandingController extends Controller
         return view('landing.signup.success');
     }
 
+    public function sendContactForm(Request $request)
+    {
+
+        //Email
+        $data = [];
+        $data['align'] = 'left';
+
+        $data['messageTitle'] = 'Contato iSaudavel';
+        $data['messageOne'] = 'Nome: ' . $request['name'];
+        $data['messageTwo'] = 'Email: ' . $request['email'];
+        $data['messageThree'] = 'Assunto: ' . $request['subject'];
+        $data['messageFour'] = 'Mensagem: ' . $request['message'];
+        $data['messageSubject'] = 'Contato iSaudavel';
+
+        \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data){
+            $message->from('no-reply@isaudavel.com', 'Landing iSaudavel');
+            $message->to('contato@maisbartenders.com.br', 'iSaudavel')->subject($data['messageSubject']);
+        });
+
+        //Email
+        $data = [];
+        $data['align'] = 'left';
+        $data['messageTitle'] = 'Olá, ' . $request['name'];
+        $data['messageOne'] = 'Sua mensagem foi enviada com sucesso, em breve entraremos em contato';
+        $data['messageTwo'] = 'Nos vemos em breve!';
+        $data['messageSubject'] = $request['name'] . ' obrigado por entrar em contato!';
+
+        \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $request){
+            $message->from('no-reply@isaudavel.com', 'iSaudavel - sua saúde em boas mãos.');
+            $message->to($request['email'], $request['name'])->subject($data['messageSubject']);
+        });
+
+        flash('Sua mensagem foi enviada com sucesso, em breve entraremos em contato.')->success()->important();
+
+        return redirect()->back();
+    }
+
 
 
 }

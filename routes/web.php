@@ -23,6 +23,7 @@ Route::group(['as' => 'landing.'], function () {
 
 	//Index
 	Route::get('/', ['uses' => 'LandingController@index', 'as' => 'index']);
+	Route::post('/sendContact', ['uses' => 'LandingController@sendContactForm', 'as' => 'send-contact-form']);
 
 	//Companies
 	Route::group(['prefix' => 'buscar', 'as' => 'search.'], function () {
