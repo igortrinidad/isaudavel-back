@@ -11,7 +11,7 @@
     }
 </style>
 
-<section id="contact" class="section gradient-bg contact-section">
+<section id="convite" class="section gradient-bg contact-section">
     <div class="container">
         <div class="text-center">
             <h2>Recebi um convite.</h2>
