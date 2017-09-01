@@ -228,7 +228,7 @@ Route::group(['prefix' => 'client'], function () {
         Route::post('/show', 'ClientController@show');
 
         //Photo resources
-        Route::get('/photo/list', 'ClientPhotoController@index');
+        Route::post('/photo/list', 'ClientPhotoController@index');
 
          //activity resources
         Route::get('/activity/list', 'ActivityController@index');
@@ -302,7 +302,7 @@ Route::group(['prefix' => 'client'], function () {
         Route::get('/profile/show/{id}', 'ClientController@show');
 
         //Photo resources
-        Route::post('/photo/list', 'ClientPhotoController@index');
+        //Route::post('/photo/list', 'ClientPhotoController@index');
         Route::post('/photo/upload', 'ClientPhotoController@store');
         Route::post('/photo/update', 'ClientPhotoController@update');
         Route::get('/photo/destroy/{id}', 'ClientPhotoController@destroy');

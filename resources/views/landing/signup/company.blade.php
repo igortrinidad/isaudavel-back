@@ -12,7 +12,7 @@
         <link rel="stylesheet" href="{{ elixir('build/landing/css/build_vendors_custom.css') }}">
 
         <!-- Hotjar Tracking Code for https://isaudavel.com -->
-        @include('components.hotjar')
+        {{--@include('components.hotjar')--}}
 
     </head>
 
@@ -85,7 +85,7 @@
                 @include('flash::message')
 
                   <!--|Contact Form|-->
-                  <form class="contact-form" method="POST" action="{{route('landing.professionals.send-signup-form')}}">
+                  <form class="contact-form" id="signup-form" method="POST" action="{{route('landing.professionals.send-signup-form')}}">
                   {!! csrf_field() !!}
                     <!--|Action Message|-->
                     <div class="entry-field">
@@ -136,7 +136,7 @@
 
                     <div class="entry-field">
                        <label>Quantidade de profissionais (R$17,90 / profissional)</label>
-                       <input class="form-control" name="professional_numbers" placeholder="" v-model="professional_numbers" required type="number" @blur="calcValue()">
+                       <input class="form-control" name="professionals" placeholder="" v-model="professionals" required type="number" @blur="calcValue()">
                     </div>
 
                     <hr class="m-t-30">
@@ -153,6 +153,7 @@
                       <input type="hidden" id="lat" name="lat" value="{{ old('lat') }}">
                       <input type="hidden" id="lng" name="lng" value="{{ old('lng') }}">
                       <input type="hidden" id="address" name="address" value="{{ old('address') }}">
+                      <input type="hidden" id="total" name="total" value="{{ old('total') }}" v-model="total">
 
                     <div class="text-center m-t-30">
                         <button class="btn btn-lg btn-primary btn-block" type="submit">Cadastrar</button>
@@ -171,6 +172,8 @@
 
         <script>
 
+
+
             accounting.settings = {
     currency: {
         symbol : "R$ ",   // default currency symbol is '$'
@@ -188,6 +191,13 @@
 
             function initAutocomplete() {
 
+                //prevent form submit on enter
+                document.getElementById('signup-form').onkeypress = function(e) {
+                    var key = e.charCode || e.keyCode || 0;
+                    if (key == 13) {
+                        e.preventDefault();
+                    }
+                }
 
                 var autocomplete = new google.maps.places.Autocomplete(
                     (
@@ -264,7 +274,7 @@
                     form: {
                     },
                     total: 0,
-                    professional_numbers: 0,
+                    professionals: 0,
                     categories_parsed: [],
                 },
                 mounted: function() {
@@ -300,20 +310,20 @@
                         var cost_categories = this.category.length * 37.90;
 
 
-                        if(isNaN(this.professional_numbers) || this.professional_numbers == 0){
-                            this.professional_numbers = 1;
+                        if(isNaN(this.professionals) || this.professionals == 0){
+                            this.professionals = 1;
                         }
 
-                        if(this.professional_numbers == 1){
+                        if(this.professionals == 1){
                             var cost_professional = 0;
                         } else {
-                            var cost_professional = 17.90 * (this.professional_numbers - 1);
+                            var cost_professional = 17.90 * (this.professionals - 1);
                         }
 
 
                         var total = cost_professional + cost_categories;
 
-                        this.total = total;
+                        this.total = total.toFixed(2);
 
                         this.categories_parsed = []
                         var categories_parsed = []

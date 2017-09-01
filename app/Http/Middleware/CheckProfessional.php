@@ -30,8 +30,11 @@ class CheckProfessional
             //get professional companies
             $professional_companies = $user->companies()->get()->pluck('id')->flatten()->toArray();
 
+            //handle  client id
+            $client_id = $request->get('client_id') ?  $request->get('client_id') : $request->route('id');
+
             //get client
-            $client = Client::find($request->route('id'));
+            $client = Client::find($client_id);
 
             $client_companies = $client->companies()->get()->pluck('id')->flatten();
 
