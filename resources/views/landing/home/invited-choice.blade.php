@@ -19,8 +19,8 @@
         </div>
 
         <div class="text-center m-t-30">
-            <a href="#" class="btn btn-success m-r-5" title="Convite cliente">Convite de cliente</a>
-            <a href="#" class="btn btn-success " title="Convite profissional">Convite de profissional</a>
+            <a href="#" class="btn btn-success m-r-5" title="Convite cliente">Convite para cliente</a>
+            <a href="#" class="btn btn-success " title="Convite profissional">Convite para profissional</a>
         </div>
 
     </div>
