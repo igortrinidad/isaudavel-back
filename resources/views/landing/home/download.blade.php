@@ -6,7 +6,7 @@
     <div class="container">
         <div class="text-center">
             <h2>Download</h2>
-            <span class="f-300">Isaudavel, disponível para Iphone, Android e online</span>
+            <span class="f-300">Isaudavel, disponível para Iphone, Android.</span>
         </div>
 
         <div class="text-center m-t-30">
