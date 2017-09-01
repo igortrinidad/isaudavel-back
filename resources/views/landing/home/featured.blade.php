@@ -84,7 +84,6 @@
 
 </style>
 
-<hr class="m-0">
  <section id="contact" class="section">
     <div class="container">
         <h2 class="text-center m-t-20 m-b-20">Empresas em destaque</h2>
