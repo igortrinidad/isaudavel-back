@@ -24,6 +24,20 @@ class ClientPhotoController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function set_profile(Request $request)
+    {
+        ClientPhoto::where('client_id', $request->get('client_id'))->update(['is_profile' => false]);
+
+        $photo = ClientPhoto::where('client_id', $request->get('client_id'))->where('id', $request->get('photo_id'))->update(['is_profile' => true]);
+
+        return response()->json(['message' => 'Profile updated']);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param Request $request

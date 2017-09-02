@@ -306,6 +306,7 @@ Route::group(['prefix' => 'client'], function () {
         Route::post('/photo/upload', 'ClientPhotoController@store');
         Route::post('/photo/update', 'ClientPhotoController@update');
         Route::get('/photo/destroy/{id}', 'ClientPhotoController@destroy');
+        Route::post('/photo/set_profile', 'ClientPhotoController@set_profile');
 
         //activity resources
         Route::post('/activity/create', 'ActivityController@store');
