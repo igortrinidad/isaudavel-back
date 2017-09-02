@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Activity;
 use App\Models\Diet;
 use Illuminate\Http\Request;
 
@@ -45,6 +46,21 @@ class DietController extends Controller
         $request->merge(['created_by_id' => \Auth::user()->id, 'created_by_type' => get_class(\Auth::user())]);
 
         $diet = Diet::create($request->all());
+
+
+        //Atividade
+        if($request->get('share_profile')){
+            Activity::create([
+                'client_id' => $request->get('client_id'),
+                'content' => 'Adicionou uma dieta',
+                'created_by_id' => \Auth::user()->id,
+                'created_by_type' => get_class(\Auth::user()),
+                'about_id' => $diet->id,
+                'about_type' => get_class($diet),
+                'is_public' => 1,
+                'xp_earned' => 50,
+            ]);
+        }
 
         return response()->json([
             'message' => 'Diet created.',

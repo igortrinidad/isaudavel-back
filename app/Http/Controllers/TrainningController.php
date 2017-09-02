@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Activity;
 use App\Models\Trainning;
 use Illuminate\Http\Request;
 
@@ -45,6 +46,20 @@ class TrainningController extends Controller
         $request->merge(['created_by_id' => \Auth::user()->id, 'created_by_type' => get_class(\Auth::user())]);
 
         $trainning = Trainning::create($request->all());
+
+        //Atividade
+        if($request->get('share_profile')){
+            Activity::create([
+                'client_id' => $request->get('client_id'),
+                'content' => 'Adicionou uma ficha de treinamento',
+                'created_by_id' => \Auth::user()->id,
+                'created_by_type' => get_class(\Auth::user()),
+                'about_id' => $trainning->id,
+                'about_type' => get_class($trainning),
+                'is_public' => 1,
+                'xp_earned' => 50,
+            ]);
+        }
 
         return response()->json([
             'message' => 'Trainning created.',
@@ -90,6 +105,8 @@ class TrainningController extends Controller
     public function destroy(Request $request)
     {
         $destroyed = Trainning::destroy($request->get('trainning_id'));
+
+        //Activity::where('about_id', $request->get('trainning_id'))->delete();
 
         if($destroyed){
             return response()->json([

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Activity;
 use App\Models\Evaluation;
 use App\Models\EvaluationPhoto;
 use Illuminate\Http\Request;
@@ -39,6 +40,21 @@ class EvaluationController extends Controller
         ]);
 
         $evaluation = Evaluation::create($request->all());
+
+
+        //Adiciona atividade
+        if($request->get('share_profile')){
+            Activity::create([
+                'client_id' => $request->get('client_id'),
+                'content' => 'Adicionou uma avaliação',
+                'created_by_id' => \Auth::user()->id,
+                'created_by_type' => get_class(\Auth::user()),
+                'about_id' => $evaluation->id,
+                'about_type' => get_class($evaluation),
+                'is_public' => 1,
+                'xp_earned' => 50,
+            ]);
+        }
 
         //update photos
         if (array_key_exists('photos', $request->all())) {

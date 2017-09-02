@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Activity;
 use App\Models\Restriction;
 use Illuminate\Http\Request;
 
@@ -45,6 +46,20 @@ class RestrictionController extends Controller
         $request->merge(['created_by_id' => \Auth::user()->id, 'created_by_type' => get_class(\Auth::user())]);
 
         $restriction = Restriction::create($request->all());
+
+        //Adiciona atividade
+        if($request->get('share_profile')){
+            Activity::create([
+                'client_id' => $request->get('client_id'),
+                'content' => 'Adicionou uma restrição',
+                'created_by_id' => \Auth::user()->id,
+                'created_by_type' => get_class(\Auth::user()),
+                'about_id' => $restriction->id,
+                'about_type' => get_class($restriction),
+                'is_public' => 1,
+                'xp_earned' => 50,
+            ]);
+        }
 
         return response()->json([
             'message' => 'Restriction created.',

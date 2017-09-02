@@ -14,7 +14,11 @@ class ActivityController extends Controller
      */
     public function client_list($id)
     {
-        $activities = Activity::where('client_id', $id)->with('client')->paginate(20);
+        $activities = Activity::where('client_id', $id)->with(['about' => function($query){
+            $query->select('id');
+        }, 'user' => function($query){
+            $query->select('id', 'avatar', 'name', 'last_name', 'full_name');
+        }])->paginate(20);
 
         return response()->json(custom_paginator($activities));
     }
@@ -26,7 +30,7 @@ class ActivityController extends Controller
      */
     public function client_list_public($id)
     {
-        $activities = Activity::where('client_id', $id)->where('is_public', 1)->with('client')->paginate(20);
+        $activities = Activity::where('client_id', $id)->where('is_public', 1)->with('about', 'user')->paginate(20);
 
         return response()->json(custom_paginator($activities));
     }
