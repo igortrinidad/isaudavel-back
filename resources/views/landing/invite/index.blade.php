@@ -29,7 +29,6 @@
         @section('content')
         @show
 
-        <!-- @include('landing.home.invited-choice') -->
         @include('landing.invite.choice')
 
         @include('landing.home.featured')

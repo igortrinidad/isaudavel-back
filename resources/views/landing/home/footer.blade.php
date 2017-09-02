@@ -25,6 +25,10 @@
         footer h4,
         footer .footer-logo { text-align: center; }
     }
+
+    @media (min-width: 768px) {
+        .footer-logo{ margin-top: 30px; }
+    }
 </style>
 <footer>
 
@@ -40,17 +44,11 @@
             <div class="col-sm-9 col-xs-12">
                 <div class="col-sm-4 col-xs-12 m-b-20">
                     <h4 class="f-400">Sobre</h4>
-                    <a href="#">
-                        Planos de assinatura
-                    </a>
                     <a href="{{ route('landing.terms') }}">
                         Termos de uso
                     </a>
                     <a  href="{{ route('landing.privacy') }}">
                         Política de Privacidade
-                    </a>
-                    <a href="#">
-                        Contato
                     </a>
                 </div>
 
@@ -62,8 +60,6 @@
                     <h4 class="f-400">Acesso</h4>
                     <a href="https://play.google.com/store/apps/details?id=com.isaudavel">Download para android</a>
                     <a href="#">Download para iphone - Em breve!</a>
-                    <a href="#">Login Cliente</a>
-                    <a href="#">Login Profissional</a>
                 </div>
 
                 <div class="col-xs-12 hidden-lg hidden-md hidden-sm">
@@ -72,10 +68,10 @@
 
                 <div class="col-sm-4 col-xs-12">
                     <h4 class="f-400">Social</h4>
-                    <a href="" @click.prevent="openUrlLinks('https://www.facebook.com/weplanner')">
+                    <a href="https://facebook.com/isaudavel" target="_blank">
                         Facebook
                     </a>
-                    <a href="" @click.prevent="openUrlLinks('https://www.instagram.com/we.planner')">
+                    <a href="https://instagram.com/isaudavel.app" target="_blank">
                         Instagram
                     </a>
                 </div>

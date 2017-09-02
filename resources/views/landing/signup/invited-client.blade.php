@@ -59,6 +59,10 @@
            .form-control{ height: 46px; }
            option{ padding: 0px 2px 1px 10px; }
 
+           h1, h2, h3, h4 ,h5 {
+                color: #fff;
+           }
+
         </style>
 
 
@@ -73,7 +77,7 @@
                       <img src="/logos/LOGO-1-01.png" width="200px" style="padding-top: 70px; "/>
                     </a>
                     <h1 class="section-title" >Você esta quase lá!</h1>
-                    <h4 class="f-300 m-t-10 p-20" style="color: #fff; margin-bottom: 40px;">Falta pouco para você utilizar o melhor da tecnologia para promover a saúde de seus clientes e ajudá-los a atingir seus objetivos!</h4>
+                    <h4 class="f-300 m-t-10 p-20 m-b-30">Falta pouco para você utilizar o melhor da tecnologia para cuidar da sua saúde, bem estar e estética!</h4>
                   </div>
                 </div>
               </header> <!--|End Section Header|-->
@@ -97,17 +101,12 @@
                           <input class="form-control" name="last_name" placeholder="Sobrenome" value="{{ old('last_name') }}" required type="text" >
                       </div>
 
-                   <div class="entry-field">
+                    <div class="entry-field">
                        <label>Email</label>
                        <input class="form-control" name="email" value="{{ old('email') }}" placeholder="email@exemplo.com" required type="email">
                     </div>
 
-
-
-                    <div class="entry-field text-center">
-                       <label>Valor total</label>
-                       <h1 class="text-center">É de graça!</h1>
-                    </div>
+                    <hr class="m-t-30">
 
                       {{--Hidden inputs to send vue data on request--}}
                       <input type="hidden" id="categories" name="categories" v-model="categories_parsed">
@@ -117,8 +116,16 @@
                       <input type="hidden" id="lng" name="lng" value="{{ old('lng') }}">
                       <input type="hidden" id="address" name="address" value="{{ old('address') }}">
 
+                    <div class="checkbox-group">
+                        <label class="checkbox">
+                        <input type="checkbox" class="wp-checkbox-reset wp-checkbox-input" v-model="terms_accepted" >
+                        <div class="wp-checkbox-reset wp-checkbox-inline wp-checkbox">
+                        </div>
+                        <span class="wp-checkbox-text" style="color: #fff">Aceito os <a href="{{ route('landing.terms')}}" target="blank">Termos de Uso</a> e <a href="{{ route('landing.privacy')}}" target="blank">Política de privacidade</a></span></label>
+                    </div>
+
                     <div class="text-center m-t-30">
-                        <button class="btn btn-lg btn-primary btn-block" type="submit">Cadastrar</button>
+                        <button class="btn btn-lg btn-primary btn-block" type="submit" :disabled="!terms_accepted">Cadastrar</button>
                     </div>
                   </form> <!--|End Contact Form|-->
 
@@ -134,20 +141,6 @@
 
         <script>
 
-            accounting.settings = {
-    currency: {
-        symbol : "R$ ",   // default currency symbol is '$'
-        format: "%s%v", // controls output: %s = symbol, %v = value/number (can be object: see below)
-        decimal : ",",  // decimal point separator
-        thousand: ".",  // thousands separator
-        precision : 2   // decimal places
-    },
-    number: {
-        precision: 2,  // default precision on numbers is 0
-        thousand: ".",
-        decimal : ","
-    }
-}
 
             function initAutocomplete() {
 
@@ -229,6 +222,7 @@
                     total: 0,
                     professional_numbers: 0,
                     categories_parsed: [],
+                    terms_accepted: false,
                 },
                 mounted: function() {
 
