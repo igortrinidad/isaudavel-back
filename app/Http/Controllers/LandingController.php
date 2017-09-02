@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CompanyInvoice;
+use App\Models\CompanySubscription;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -217,8 +219,11 @@ class LandingController extends Controller
 
     public function sendSignupForm(Request $request)
     {
+
         $address = json_decode($request->get('address'));
         $categories = json_decode($request->get('categories'));
+
+        $user_password = str_random(6);
 
         $professional_exists = Professional::where('email', $request->get('email'))->first();
 
@@ -233,6 +238,7 @@ class LandingController extends Controller
             'email' => $request->get('email'),
             'cpf' => $request->get('cpf'),
             'phone' => $request->get('phone'),
+            'password' => bcrypt($user_password),
         ];
 
 
@@ -269,6 +275,55 @@ class LandingController extends Controller
             'confirmed_at' => Carbon::now()
         ]);
 
+        $subscription_data = [
+            'company_id' => $company->id,
+            'professionals' => $request->get('professionals'),
+            'categories' => count($categories),
+            'total' => $request->get('total'),
+            'is_active' => false,
+            'start_at' => Carbon::now()->format('d/m/Y'),
+            'expire_at' => Carbon::now()->addMonth(1)->format('d/m/Y')
+        ];
+
+        $company_subscription = CompanySubscription::create($subscription_data);
+
+        // Company Invoice
+        $invoice_items = [
+            [
+                'description' => 'Especialidades da empresa',
+                'quantity' => $company_subscription->categories,
+                'total' => ($company_subscription->categories * 37.90) ,
+                'is_partial' => false,
+                'reference' => 'Referente ao período de '.  Carbon::now()->format('d/m/Y').' à '.Carbon::now()->addMonth(1)->format('d/m/Y')
+            ],
+            [
+                'description' => 'Profissionais da empresa',
+                'quantity' => $company_subscription->professionals,
+                'total' => (($company_subscription->professionals - 1) * 17.90),
+                'is_partial' => false,
+                'reference' => 'Referente ao período de '.  Carbon::now()->format('d/m/Y').' à '.Carbon::now()->addMonth(1)->format('d/m/Y')
+            ],
+
+        ];
+
+        $invoice_history = [
+            [
+                'full_name' =>'Sistema iSaudavel',
+                'action' => 'invoice-created',
+                'label' => 'Fatura gerada',
+                'date' => Carbon::now()->format('Y-m-d H:i:s')
+            ]
+        ];
+
+        $invoice = CompanyInvoice::create([
+            'company_id' => $company->id,
+            'subscription_id' => $company_subscription->id,
+            'total' => $company_subscription->total,
+            'expire_at' => $company_subscription->expire_at,
+            'items' => $invoice_items,
+            'history' => $invoice_history,
+        ]);
+
 
         //Email para nós
         $data = [];
@@ -292,7 +347,9 @@ class LandingController extends Controller
         $data['messageOne'] = 'Obrigado por se inscrever na plataforma iSaudavel. <br>
             Vamos processar suas informações e retornamos este email com os próximos passos para habilitar sua empresa na plataforma fitness mais completa do mundo.
         ';
-        $data['messageTwo'] = 'Nos vemos em breve!';
+        $data['messageTwo'] = 'Confira abaixo os dados para acesso: <br>Usuário:  <strong>'. $request->get('email') .'</strong> | Senha: <strong>'. $user_password .'</strong>';
+        $data['messageThree'] = 'É muito importante que você altere sua senha no primeiro acesso.';
+        $data['messageFour'] = 'Nos vemos em breve!';
         $data['messageSubject'] = $request->get('company_name') . ' no iSaudavel';
 
         \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $request){

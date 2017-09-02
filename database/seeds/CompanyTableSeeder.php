@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\CompanyInvoice;
+use App\Models\CompanySubscription;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Webpatser\Uuid\Uuid;
 
@@ -87,7 +90,7 @@ class CompanyTableSeeder extends Seeder
                 'is_public' => true,
                 'confirmed_by_id' => $professional,
                 'confirmed_by_type' => \App\Models\Professional::class,
-                'confirmed_at' => \Carbon\Carbon::now()
+                'confirmed_at' => Carbon::now()
             ]);
 
             // attach other professionals (exept admins)
@@ -96,7 +99,7 @@ class CompanyTableSeeder extends Seeder
                 'is_public' => true,
                 'confirmed_by_id' => $professional,
                 'confirmed_by_type' => \App\Models\Professional::class,
-                'confirmed_at' => \Carbon\Carbon::now()
+                'confirmed_at' => Carbon::now()
             ]);
 
 
@@ -132,6 +135,55 @@ class CompanyTableSeeder extends Seeder
 
             $company->categories()->attach($categories_new);
 
+            $subscription_total  = ($company->categories->count() * 37.90) + (($company->professionals->count() - 1) * 17.90);
+
+            //Company Subscription
+            $company_subscription = CompanySubscription::create([
+                'company_id' => $company->id,
+                'professionals' => $company->professionals->count(),
+                'categories' => $company->categories->count(),
+                'total' => $subscription_total,
+                'is_active' => true,
+                'start_at' => Carbon::now()->format('d/m/Y'),
+                'expire_at' => Carbon::now()->addMonth(1)->format('d/m/Y')
+            ]);
+
+            // Company Invoice
+            $invoice_items = [
+                [
+                    'description' => 'Especialidades da empresa',
+                    'quantity' => $company->categories->count(),
+                    'total' => ($company->categories->count() * 37.90) ,
+                    'is_partial' => false,
+                    'reference' => 'Referente ao período de '.  Carbon::now()->format('d/m/Y').' à '.Carbon::now()->addMonth(1)->format('d/m/Y')
+                ],
+                [
+                    'description' => 'Profissionais da empresa',
+                    'quantity' => $company->professionals->count(),
+                    'total' => (($company->professionals->count() - 1) * 17.90),
+                    'is_partial' => false,
+                    'reference' => 'Referente ao período de '.  Carbon::now()->format('d/m/Y').' à '.Carbon::now()->addMonth(1)->format('d/m/Y')
+                ],
+
+            ];
+
+            $invoice_history = [
+                [
+                    'full_name' =>'Sistema iSaudavel',
+                    'action' => 'invoice-created',
+                    'label' => 'Fatura gerada',
+                    'date' => Carbon::now()->format('Y-m-d H:i:s')
+                ]
+            ];
+
+            $invoice = CompanyInvoice::create([
+                'company_id' => $company->id,
+                'subscription_id' => $company_subscription->id,
+                'total' => $company_subscription->total,
+                'expire_at' => $company_subscription->expire_at,
+                'items' => $invoice_items,
+                'history' => $invoice_history,
+            ]);
 
             foreach($company->categories as $category){
                 //Category Calendar Settings

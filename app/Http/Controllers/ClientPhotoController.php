@@ -14,9 +14,9 @@ class ClientPhotoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $photos = ClientPhoto::where('client_id', \Auth::user()->id)
+        $photos = ClientPhoto::where('client_id', $request->get('client_id'))
             ->orderBy('created_at', 'DESC')
             ->paginate(12);
 
