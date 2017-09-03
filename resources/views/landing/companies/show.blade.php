@@ -115,7 +115,12 @@
 
     #mapShow {
         height: 100%;
-      }
+    }
+
+    #show-company{
+        background-color: RGBA(136, 198, 87, 1);
+        background-image: url(https://www.transparenttextures.com/patterns/bright-squares.png) !important;
+    }
 
  </style>
     <header>
@@ -223,11 +228,12 @@
                                         <h4 class="m-b-10">{{ $plan->name }}</h4>
                                         <small class="label label-success p-10">R$ {{ $plan->value }}</small>
                                         <span class="plan-limit m-t-10 f-300">
-                                            Esse plano conta com
-                                            {{ $plan->limit_quantity ? $plan->quantity : "não possui limite de ".$plan->label."s" }}
-                                            {{ $plan->quantity > 1 ? $plan->label."s" : $plan->label }}
-                                            <p class="plan-description f-300 m-t-10">{{ $plan->description }}</p>
+                                            Quantidade de {{ $plan->label }}: <b>{{$plan->limit_quantity ? $plan->quantity : 'ilimitado'}}</b>
                                         </span>
+                                        <span class="plan-limit f-300">
+                                           Período: <b>{{ $plan->expiration }}</b> mês(es)
+                                        </span>
+                                        <p class="plan-description f-300 m-t-10">{{ $plan->description }}</p>
                                     </div>
                                 </div>
                             @endforeach
@@ -422,7 +428,7 @@
                         <div class="card-header ch-alt text-center">
                             <h2 class="f-300">Fotos</h2>
                         </div>
-                        <div class="card-body card-padding">
+                        <div class="card-body card-padding" style="min-height: 250px">
 
                             <div id="gallery" style="display:none;">
                                 @foreach($company_fetched->photos as $photo)
