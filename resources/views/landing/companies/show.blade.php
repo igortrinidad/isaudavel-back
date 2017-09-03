@@ -118,8 +118,8 @@
     }
 
     #show-company{
-        background-color: RGBA(136, 198, 87, 1);
-        background-image: url(https://www.transparenttextures.com/patterns/bright-squares.png) !important;
+        background-color: #88C657;
+        background-image: url("https://www.transparenttextures.com/patterns/concrete-wall.png");
     }
 
  </style>
