@@ -140,6 +140,7 @@ Route::group(['prefix' => 'professional'], function () {
         Route::post('/photo/upload', 'ProfessionalPhotoController@store');
         Route::post('/photo/update', 'ProfessionalPhotoController@update');
         Route::get('/photo/destroy/{id}', 'ProfessionalPhotoController@destroy');
+        Route::post('/photo/set_profile', 'ProfessionalPhotoController@set_profile');
 
         //trainning resources
         Route::get('/trainning/list/{id}', 'TrainningController@index');

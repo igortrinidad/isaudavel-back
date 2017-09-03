@@ -22,6 +22,20 @@ class ProfessionalPhotoController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function set_profile(Request $request)
+    {
+        ProfessionalPhoto::where('professional_id', $request->get('professional_id'))->update(['is_profile' => false]);
+
+        $photo = ProfessionalPhoto::where('professional_id', $request->get('professional_id'))->where('id', $request->get('photo_id'))->update(['is_profile' => true]);
+
+        return response()->json(['message' => 'Profile updated']);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param Request $request
