@@ -136,8 +136,8 @@
                 <div class="col-sm-4">
                     <div class="card">
                         <div class="card-header ch-alt">
-                            <h3 class="f-300">Objetivo</h3>
-                            <span class="f-300">{{ $client_fetched->target }}</span>
+                            <h3 class="f-300">Level <small class="">(algum dado para colocar aqui)</small></h3>
+                            <span class="f-300">{{ $client_fetched->level }}</span>
                         </div>
                     </div>
                 </div>
@@ -163,7 +163,7 @@
                 <div class="col-md-12 col-xs-12 text-center">
                     <h2 class="m-b-30">Atividades</h2>
                 </div>
-                @if(count($client_fetched->action) === 0)
+                @if(count($client_fetched->activities) === 0)
                     <div class="col-sm-12 text-center">
                         <span class="f-300">Nenhuma atividade recente.</span>
                     </div>
@@ -172,11 +172,16 @@
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-header ch-alt">
-                                <h3 class="f-300">Título</h3>
-                                <small class="f-300">Há 3 horas atrás</small>
-                            </div>
-                            <div class="card-body card-padding">
-                                may the force be with you.
+                                <div class="picture-circle picture-circle-p" style="background-image:url('{{ $activity->user->avatar }}')">
+                                </div>
+                                <div class="m-t-10 m-b-10 text-center">
+                                    <h4 class="f-300 t-overflow m-t-10 m-b-10">{{ $activity->user->full_name }},
+                                        <small class="f-300">{{ $activity->content }}</small>
+                                    </h4>
+                                    <small class="label label-success from-now p-5 f-300 f-10">
+                                        {{ $activity->created_at }}
+                                    </small>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -299,6 +304,14 @@
                 jQuery("#gallery").unitegallery({
                     tiles_type:"justified"
                 });
+
+                var fromNowValues = $('.from-now')
+                fromNowValues.each(function() {
+                    var date = $.trim($(this).text())
+                    console.log(date);
+                    $(this).text(moment(date, "YYYYMMDD, h:mm:ss").fromNow())
+                });
+
                 var swiperFeatureds = new Swiper('.swiper-featureds', {
                     initialSlide: 0,
                     centeredSlides: true,
