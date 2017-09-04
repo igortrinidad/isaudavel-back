@@ -197,14 +197,14 @@ class LandingController extends Controller
     }
 
     // PS: Não sei se é o correto mas assim functionou haha
-    public function showClientLanding(Request $reques)
+    public function forClientLanding(Request $reques)
     {
         $companies = Company::with('categories')->get()->random(8);
 
         return view('landing.home.for-client', compact('companies'));
     }
 
-    public function showProfessionalsLanding(Request $reques)
+    public function forProfessionalsLanding(Request $reques)
     {
         $companies = Company::with('categories')->get()->random(8);
 
