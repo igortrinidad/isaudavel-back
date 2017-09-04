@@ -189,7 +189,7 @@
         <!-- Base informations -->
         <div class="container">
             <div class="row">
-                <div class="col-md-12 col-xs-12 text-center">
+                <div class="col-sm-12 text-center">
                     <h2 class="m-b-30">Informações</h2>
                 </div>
                 <div class="col-sm-4">
@@ -227,7 +227,7 @@
         <!-- activities -->
         <div class="container">
             <div class="row">
-                <div class="col-md-12 col-xs-12 text-center">
+                <div class="col-sm-12 text-center">
                     <h2 class="m-b-30">Atividades</h2>
                 </div>
                 @if(count($client_fetched->activities) === 0)
@@ -238,36 +238,32 @@
             </div>
 
             @if(count($client_fetched->activities) > 0)
-            <!-- List Feed -->
-            <div class="m-t-20">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="line line-row">
-                            <div class="line-border"></div>
-                            @foreach($client_fetched->activities as $activity)
-                                <div class="line-item">
-                                    <div class="line-icon success"></div>
-                                    <small class="line-date p-5 f-700">
-                                        {{ $activity->created_at->format('d/m/Y') }}
-                                    </small>
-                                    <div class="row">
-                                        <div class="col-sm-12 line-padding">
-                                            <div class="picture-circle picture-circle-xs m-0" style="background-image:url('{{ $activity->user->avatar }}')"></div>
-                                        </div>
-                                        <div class="col-sm-12 line-padding">
-                                            <h5 class="f-400 t-overflow m-b-10">
-                                                {{ $activity->user->full_name }}
-                                            </h5>
-                                            <h5 class="f-300 m-t-10 m-b-10">{{ $activity->content }}</h5>
-                                        </div>
+                <!-- List Feed -->
+                <div class="m-t-30">
+                    <div class="line line-row">
+                        <div class="line-border"></div>
+                        @foreach($client_fetched->activities as $activity)
+                            <div class="line-item">
+                                <div class="line-icon success"></div>
+                                <small class="line-date p-5 f-700">
+                                    {{ $activity->created_at->format('d/m/Y') }}
+                                </small>
+                                <div class="row">
+                                    <div class="col-sm-12 line-padding">
+                                        <div class="picture-circle picture-circle-xs m-0" style="background-image:url('{{ $activity->user->avatar }}')"></div>
+                                    </div>
+                                    <div class="col-sm-12 line-padding">
+                                        <h5 class="f-400 t-overflow m-b-10">
+                                            {{ $activity->user->full_name }}
+                                        </h5>
+                                        <h5 class="f-300 m-t-10 m-b-10">{{ $activity->content }}</h5>
                                     </div>
                                 </div>
-                            @endforeach
-                        </div>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
-            </div>
-            <!-- / List Feed -->
+                <!-- / List Feed -->
             @endif
         </div>
         <!-- / activities -->
@@ -279,7 +275,7 @@
         <!-- companies -->
         <div class="container">
             <div class="row">
-                <div class="col-md-12 col-xs-12 text-center">
+                <div class="col-sm-12 text-center">
                     <h2 class="m-b-30">Empresas</h2>
                 </div>
 
@@ -348,7 +344,7 @@
         <!-- Photos -->
         <div class="container">
             <div class="row">
-                <div class="col-md-12 col-xs-12 text-center">
+                <div class="col-sm-12 text-center">
                     <h2 class="m-b-30">Fotos</h2>
                 </div>
                 @if(count($client_fetched->photos) === 0)
