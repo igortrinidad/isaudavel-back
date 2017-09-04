@@ -171,6 +171,7 @@ class EvaluationController extends Controller
 
         $evaluations = Evaluation::where('client_id', $request->get('client_id'))
         ->where('items', 'like', '%' . $request->get('index') . '%')
+        ->orderBy('created_at', 'ASC')
         ->get();
 
         $data = new Class{};
