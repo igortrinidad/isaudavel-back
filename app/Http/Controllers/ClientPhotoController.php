@@ -55,7 +55,7 @@ class ClientPhotoController extends Controller
 
         \Storage::disk('media')->put($filePath, file_get_contents($image), 'public');
 
-        $request->merge(['path' => $filePath, 'client_id' => \Auth::user()->id, 'is_profile' => $is_profile]);
+        $request->merge(['path' => $filePath, 'is_profile' => $is_profile]);
 
         $clientPhoto = ClientPhoto::create($request->all());
 

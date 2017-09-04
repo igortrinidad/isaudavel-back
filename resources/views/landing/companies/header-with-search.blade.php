@@ -5,6 +5,10 @@
             margin-top: -20px;
         }
 
+        .header-mobile{
+          margin-top: 15px;
+        }
+
         .input-cat{
           margin-top: -20px;
         }
@@ -45,7 +49,7 @@
 <header id="search-area" :class="{ 'search-page' : pathSearch }">
 
     <div class="container" style="border-color: blue !important;">
-       <div class="row">
+       <div class="row header-mobile">
            <h3 class="text-center">Encontre empresas e profissionais de saúde próximos à você</h3>
            <div class="col-xs-12 col-sm-4 col-md-4">
                <div class="form-group">

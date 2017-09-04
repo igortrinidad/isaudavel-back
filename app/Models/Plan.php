@@ -51,7 +51,7 @@ class Plan extends Model
      *
      * @var array
      */
-    protected $casts = ['limit_quantity' => 'boolean', 'is_active' => 'boolean', 'is_starred' => 'boolean'];
+    protected $casts = ['limit_quantity' => 'boolean', 'is_active' => 'boolean', 'is_starred' => 'boolean', 'value' => 'double'];
 
 
     /**

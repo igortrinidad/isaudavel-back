@@ -374,7 +374,7 @@
                                                     </div>
                                                     <div class="p-t-10 m-b-20">
                                                         @foreach($professional->categories as $category)
-                                                            <a href="{!! route('landing.search.index', ['category' => $category->name]) !!}"><button class="btn btn-success btn-sm m-b-5">{{ $category->name }}</button></a>
+                                                            <a href="{!! route('landing.search.index', ['category' => $category->slug]) !!}"><button class="btn btn-success btn-sm m-b-5">{{ $category->name }}</button></a>
                                                         @endforeach
                                                     </div>
                                                     <a href="{!! route('landing.professionals.show', $professional->id) !!}" title="{{ $professional->full_name }}">

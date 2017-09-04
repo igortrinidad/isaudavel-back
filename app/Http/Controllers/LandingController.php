@@ -13,6 +13,7 @@ use App\Models\Lead;
 use App\Models\Category;
 use App\Models\Company;
 use App\Models\Professional;
+use App\Models\Client;
 use Webpatser\Uuid\Uuid;
 
 class LandingController extends Controller
@@ -197,14 +198,25 @@ class LandingController extends Controller
     }
 
     // PS: Não sei se é o correto mas assim functionou haha
-    public function showClientLanding(Request $reques)
+    public function forClientLanding(Request $reques)
     {
         $companies = Company::with('categories')->get()->random(8);
 
         return view('landing.home.for-client', compact('companies'));
     }
 
-    public function showProfessionalsLanding(Request $reques)
+    public function showClient($id)
+    {
+        $client_fetched = Client::where('id', $id)->first();
+
+        if ($client_fetched) {
+            return view('landing.home.showclient', compact('client_fetched'));
+        }
+
+        abort(404);
+    }
+
+    public function forProfessionalsLanding(Request $reques)
     {
         $companies = Company::with('categories')->get()->random(8);
 

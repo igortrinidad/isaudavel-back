@@ -209,7 +209,7 @@ class ClientController extends Controller
     public function show(Request $request)
     {
 
-        $client = Client::find($request->get('client_id'))->load(['photos', 'subscriptions.plan', 'subscriptions.invoices']);
+        $client = Client::find($request->get('client_id'))->load(['photos', 'subscriptions.plan', 'subscriptions.invoices', 'companies']);
 
         return response()->json(['client' => $client]);
     }
