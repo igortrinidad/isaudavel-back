@@ -65,13 +65,13 @@
         </div>
     </header>
 
-    <section class="p-t-20" style="background-color: #F4F5F5;">
+    <section class="m-0 p-t-30" style="background-color: #F4F5F5;">
 
         <!-- Base Informations -->
         <div class="container">
             <div class="row">
                 <div class="col-md-12 col-xs-12 text-center">
-                    <h2 class="m-b-20">Informações</h2>
+                    <h2 class="m-b-30">Informações</h2>
                 </div>
                 <div class="col-md-12 col-xs-12 text-center">
                     <h4 class="m-b-15">Especialidades</h4>
@@ -83,7 +83,9 @@
         </div>
         <!-- /Base Informations -->
 
-        <hr class="hr-style m-30 m-r-0 m-l-0">
+        <div class="container">
+            <hr class="hr-style m-30 m-r-0 m-l-0">
+        </div>
 
         <!-- Ratings -->
         <div class="container">
@@ -92,7 +94,7 @@
                     <h2 class="">Avaliações</h2>
                     <p class="f-14 m-t-10">{{$professional_fetched->current_rating}} de {{$professional_fetched->total_rating}} avaliações</p>
                     <?php $rating_to_loop = $professional_fetched->current_rating; ?>
-                    <h2>{{$professional_fetched->current_rating}}</h2>
+                    <h2 class="m-b-30">{{$professional_fetched->current_rating}}</h2>
                     @include('components.rating', ['size' => '35'])
                 </div>
             </div>
@@ -123,13 +125,15 @@
         </div>
         <!-- /Ratings  -->
 
-        <hr class="hr-style m-30 m-r-0 m-l-0">
+        <div class="container">
+            <hr class="hr-style m-30 m-r-0 m-l-0">
+        </div>
 
         <!-- Courses & Certifications -->
         <div class="container">
             <div class="row">
                 <div class="col-md-12 col-xs-12 text-center">
-                    <h2>Cursos e certificados</h2>
+                    <h2 class="m-b-30">Cursos e certificados</h2>
                 </div>
             </div>
 
@@ -163,13 +167,15 @@
         </div>
         <!-- /Courses & Certifications -->
 
-        <hr class="hr-style m-30 m-r-0 m-l-0">
+        <div class="container">
+            <hr class="hr-style m-30 m-r-0 m-l-0">
+        </div>
 
         <!-- Companies -->
         <div class="container">
             <div class="row">
                 <div class="col-md-12 col-xs-12 text-center">
-                    <h2>Empresas</h2>
+                    <h2 class="m-b-30">Empresas</h2>
                 </div>
             </div>
             <div class="row">
