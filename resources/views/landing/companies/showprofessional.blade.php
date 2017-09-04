@@ -68,7 +68,7 @@
                 <div class="col-md-12 col-xs-12 text-center">
                     <h4 class="m-b-15">Especialidades</h4>
                     @foreach($professional_fetched->categories as $category)
-                        <a href="{!! route('landing.search.index', ['category' => $category->name]) !!}"><button class="btn btn-success btn-sm m-b-5">{{ $category->name }}</button></a>
+                        <a href="{!! route('landing.search.index', ['category' => $category->slug]) !!}"><button class="btn btn-success btn-sm m-b-5">{{ $category->name }}</button></a>
                     @endforeach                    
                 </div>
             </div>
