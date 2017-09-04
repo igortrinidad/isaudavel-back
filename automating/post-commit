@@ -8,84 +8,20 @@ commits=(`git log -1 --pretty=%s`)
 for commit in "${commits[@]}"
 do
     #Se houver a palavra --build-testing ele atualiza a versão, altera no arquivo de configurações antes de gerar o build o ENV: 'testing'
-    if [ $commit == "--build-simple" ]; then
+    if [ $commit == "--merge-and-push" ]; then
 
-        git push
-        wait
+        git pull;
+        wait;
 
-        cd automating
-        version=(`env=simple  node update-version.js`);
-        wait
-        echo "Version updated to ${version}."
-        cd ../
-
-        gulp --production
-        wait
-
-        #npm run build
-        #wait
-
-        git add -A;
-        git commit -m "Build generated version: ${version}.";
-        git push
-
-    #Se houver a palavra --build-production ele atualiza a versão, altera no arquivo de configurações antes de gerar o build o ENV: 'production'
-    elif [ $commit == "--build-production" ]; then
-
-        git push
-        wait
-
-        cd automating
-        version=(`env=production  node update-version.js`);
-        wait
-        echo "Version updated to ${version}."
-        cd ../
-
-        gulp --production
-        wait
-
-        #npm run build
-        #wait
-
-        git add -A;
-        echo "**********************************************";
-        git commit -m "Build generated version: ${version}.";
-        git push
-        git checkout development
-        git merge master
-        git pull
-        echo "BRANCH ALTERADA PARA: DEVELOPMENT"
-        git push
-
-    elif [ $commit == "--update" ]; then
-
-        cd automating
-        version=(`env=production  node update-version.js`);
-        wait
-        echo "Version updated to ${version}."
-        
-        cd ../
-        git add -A;
-        echo "**********************************************";
-        git commit -m "Build generated version: ${version}.";
-        git push
         git checkout master;
-        echo "BRANCH ALTERADA PARA: MASTER"
-        git merge development;
+        git merge dev;
+        git push;
+        wait;
 
-        git add -A;
-        git commit -m "Merge from development: ${version}.";
-        git push
+        git checkout dev;
+        git push;
 
-        git checkout development
-        echo "BRANCH ALTERADA PARA: DEVELOPMENT"
-        git merge master;
-        git add -A;
-        git commit -m "Merge from master: ${version}.";
-
-        echo "FINISHING THE JOB"
-        git push
-        git pull
+        echo "******************************************";
+        echo "...Merge feito com sucesso...";
     fi
 done
-
