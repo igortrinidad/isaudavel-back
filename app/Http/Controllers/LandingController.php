@@ -207,7 +207,7 @@ class LandingController extends Controller
 
     public function showClient($id)
     {
-        $client_fetched = Client::where('id', $id)->first();
+        $client_fetched = Client::where('id', $id)->with(['companies', 'activities'])->first();
 
         if ($client_fetched) {
             return view('landing.home.showclient', compact('client_fetched'));

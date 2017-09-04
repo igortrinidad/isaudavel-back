@@ -156,7 +156,7 @@
     @parent
 
     <script>
-        let swiperFeatureds = new Swiper('.swiper-featureds', {
+        var swiperFeatureds = new Swiper('.swiper-featureds', {
             centeredSlides: true,
             spaceBetween: 15,
             loop: false,
