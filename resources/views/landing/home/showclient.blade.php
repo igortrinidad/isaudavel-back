@@ -108,6 +108,73 @@
             .swiper-button-next { height: 30px ; width: 30px ; font-size: 16px; }
         }
 
+        /* TimeLine Styles */
+        .line {
+            width: 100%;
+            position: relative;
+            background: #fff;
+            padding: 4px;
+            border-radius: 4px 4px 0 0;
+        }
+
+        .line .line-padding{ padding-left: 110px; }
+
+        .line.line-row{ margin: -4px 0;}
+
+        .line .line-border {
+            position: absolute;
+            width: 2px; height: 100%;
+            top: 0; left: 40px; bottom: 0;
+            background: #e8e8e8;
+            z-index: 50;
+        }
+
+        .line .line-date {
+            margin-top: 25px;
+            display: block;
+            width: 110px;
+            z-index: 1;
+            height: 28px;
+            text-align: right;
+            background: #f4f5f5;
+            border-radius: 4px;
+            position: absolute;
+            top: 50%; left: 15px;
+            margin-top: -14px;
+        }
+
+        .line .line-item {
+            padding: 10px 10px 10px 50px;
+            position: relative;
+            display: block;
+            background-color: transparent;
+            margin: 0;
+            z-index: 60;
+            margin: 30px 0;
+        }
+        .line .line-icon {
+            position: absolute;
+            top: 50%; left: 23.4px;
+            width: 15px; height: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: -7.5px;
+            font-size: 30px;
+            border-radius: 50%;
+            border: 2px solid;
+            background-color: #f4f5f5;
+            z-index: 10;
+        }
+
+        .line .line-item .picture-circle.picture-circle-xs { width: 35px; height: 35px; }
+        .line .line-item .line-icon.success { border-color: #00A369; }
+        .line .line-item .line-icon.danger { border-color: #E14A45; }
+        .line .line-item .line-icon.warning { border-color: #FFCC5F; }
+        .line .line-item .line-icon.default { border-color: #383938; }
+        .line .line-item .line-icon.info { border-color: #488FEE; }
+
+
     </style>
 
     <header>
@@ -168,28 +235,40 @@
                         <span class="f-300">Nenhuma atividade recente.</span>
                     </div>
                 @endif
-                @foreach($client_fetched->activities as $indexActivities => $activity)
+            </div>
 
-                    @if($indexActivities < 3)
-                        <div class="col-sm-12">
-                            <div class="card">
-                                <div class="card-header ch-alt">
-                                    <div class="picture-circle picture-circle-p" style="background-image:url('{{ $activity->user->avatar }}')">
-                                    </div>
-                                    <div class="m-t-10 m-b-10 text-center">
-                                        <h4 class="f-300 t-overflow m-t-10 m-b-10">{{ $activity->user->full_name }},
-                                            <small class="f-300">{{ $activity->content }}</small>
-                                        </h4>
-                                        <small class="label label-success from-now p-5 f-300 f-10">
-                                            {{ $activity->created_at }}
-                                        </small>
+            @if(count($client_fetched->activities) > 0)
+            <!-- List Feed -->
+            <div class="m-t-20">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="line line-row">
+                            <div class="line-border"></div>
+                            @foreach($client_fetched->activities as $activity)
+                                <div class="line-item">
+                                    <div class="line-icon success"></div>
+                                    <small class="line-date p-5 f-700">
+                                        {{ $activity->created_at->format('d/m/Y') }}
+                                    </small>
+                                    <div class="row">
+                                        <div class="col-sm-12 line-padding">
+                                            <div class="picture-circle picture-circle-xs m-0" style="background-image:url('{{ $activity->user->avatar }}')"></div>
+                                        </div>
+                                        <div class="col-sm-12 line-padding">
+                                            <h5 class="f-400 t-overflow m-b-10">
+                                                {{ $activity->user->full_name }}
+                                            </h5>
+                                            <h5 class="f-300 m-t-10 m-b-10">{{ $activity->content }}</h5>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endforeach
                         </div>
-                    @endif
-                @endforeach
+                    </div>
+                </div>
             </div>
+            <!-- / List Feed -->
+            @endif
         </div>
         <!-- / activities -->
 
