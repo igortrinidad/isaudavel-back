@@ -187,7 +187,7 @@ Route::group(['prefix' => 'professional'], function () {
         Route::post('/exam/attachment/upload', 'ExamAttachmentController@store');
         Route::get('/exam/attachment/destroy/{id}', 'ExamAttachmentController@destroy');
 
-        //Rating
+        //Professional Rating
         Route::get('/rating/list/{id}', 'ProfessionalRatingController@index');
 
         //Recomendations
@@ -397,6 +397,8 @@ Route::group(['prefix' => 'tools'], function(){
  */
 Route::group(['prefix' => 'oracle'], function () {
     Route::post('/auth/login', 'Auth\OracleLoginController@login');
+
+    Route::post('/tools/send_log_erro', 'SystemController@send_log_erro');
 
     //Oracle protected routes
     Route::group(['middleware' => 'auth:oracle'], function () {
