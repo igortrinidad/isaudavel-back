@@ -43,7 +43,8 @@ Route::group(['as' => 'landing.'], function () {
 
 	//Clients
 	Route::group(['prefix' => 'clientes', 'as' => 'clients.'], function () {
-    	Route::get('/sobre', ['uses' => 'LandingController@forClientLanding', 'as' => 'about']);
+        Route::get('/sobre', ['uses' => 'LandingController@forClientLanding', 'as' => 'about']);
+    	Route::get('/{id}', ['uses' => 'LandingController@showClient', 'as' => 'show']);
 	});
 
 	//Professionals
