@@ -48,6 +48,14 @@
             color: #fff;
             font-weight:400;
         }
+        .hr-style {
+            border: 0;
+            height: 1px;
+            background-image: -webkit-linear-gradient(left, #F4F5F5, rgba(56, 57, 56, .2), #F4F5F5);
+            background-image: -moz-linear-gradient(left, #F4F5F5, rgba(56, 57, 56, .2), #F4F5F5);
+            background-image: -ms-linear-gradient(left, #F4F5F5, rgba(56, 57, 56, .2), #F4F5F5);
+            background-image: -o-linear-gradient(left, #F4F5F5, rgba(56, 57, 56, .2), #F4F5F5);
+        }
     </style>
 
     <header>
@@ -57,7 +65,9 @@
         </div>
     </header>
 
-    <section class="m-t-20">
+    <section class="p-t-20" style="background-color: #F4F5F5;">
+
+        <!-- Base Informations -->
         <div class="container">
             <div class="row">
                 <div class="col-md-12 col-xs-12 text-center">
@@ -70,14 +80,16 @@
                     @endforeach
                 </div>
             </div>
-
         </div>
+        <!-- /Base Informations -->
 
+        <hr class="hr-style m-30 m-r-0 m-l-0">
+
+        <!-- Ratings -->
         <div class="container">
-            <div class="row m-t-20">
+            <div class="row">
                 <div class="col-md-12 col-xs-12 text-center">
-                    <hr>
-                    <h2>Avaliações</h2>
+                    <h2 class="">Avaliações</h2>
                     <p class="f-14 m-t-10">{{$professional_fetched->current_rating}} de {{$professional_fetched->total_rating}} avaliações</p>
                     <?php $rating_to_loop = $professional_fetched->current_rating; ?>
                     <h2>{{$professional_fetched->current_rating}}</h2>
@@ -85,10 +97,10 @@
                 </div>
             </div>
 
-            <div class="row m-t-20">
+            <div class="row m-t-30">
                 @foreach($professional_fetched->last_ratings as $rating)
-                    <div class="col-md-4  col-sm-6 col-xs-12 text-center">
-                        <div class="card">
+                    <div class="col-md-4 col-sm-6 col-xs-12 text-center">
+                        <div class="card" style="min-height: 370px;">
                             <div class="card-header ch-alt">
                                 <div class="picture-circle picture-circle-p" style="background-image:url({{$rating->client->avatar}})"></div>
                                 <h4>{{$rating->client->full_name}}</h4>
@@ -107,87 +119,90 @@
                 @if(!$professional_fetched->last_ratings->count())
                 <p class="text-center">Este profissional ainda não possui avaliações</p>
                 @endif
-
-            </div>
-
-            <div class="container">
-                <div class="row m-t-20">
-                    <div class="col-md-12 col-xs-12 text-center">
-                        <hr>
-                        <h2>Cursos e certificados</h2>
-                    </div>
-                </div>
-
-                <div class="row m-t-20">
-                    @foreach($professional_fetched->certifications as $certification)
-                    <div class="col-md-4  col-sm-6 col-xs-12 text-center">
-                        <div class="card">
-                            <div class="bg-picture" style="background-image:url({{$certification->photo_url}}); height: 200px"></div>
-                            <div class="card-header ch-alt">
-                                <h4>{{$certification->name}}</h4>
-                            </div>
-                            <div class="card-body p-10 text-center">
-                                <p class="f-13">Instituição</p>
-                                <p class="f-16">{{$certification->institution}}</p>
-
-                                <p class="f-13">Descrição</p>
-                                <p class="f-16">{{$certification->description}}</p>
-
-                                <p class="f-13">Concluído em</p>
-                                <p class="f-16">{{$certification->granted_at}}</p>
-
-                            </div>
-                        </div>
-
-                    </div>
-                    @endforeach
-
-                    @if(!$professional_fetched->certifications->count())
-                        <p class="text-center">Este profissional ainda não possui cursos e certificados cadastrados</p>
-                    @endif
-
-                </div>
-            </div>
-
-            <div class="container">
-                <div class="row m-t-20">
-
-                    <div class="col-md-12 col-xs-12 text-center">
-                        <hr>
-                        <h2>Empresas</h2>
-                    </div>
-                </div>
-
-                <div class="row m-t-20">
-                    @foreach($professional_fetched->companies as $company)
-                        <div class="col-md-4  col-sm-6 col-xs-12 text-center">
-                            <div class="card">
-                                <div class="card-header ch-alt">
-                                    <div class="picture-circle picture-circle-p" style="background-image:url({{$company->avatar}})"></div>
-                                    <h4 class="m-b-10"><a class="f-400"  href="{!! route('landing.companies.show', $company->slug) !!}"> {{$company->name}}</a></h4>
-                                    <?php $rating_to_loop = $company->current_rating; ?>
-                                    <h3>{{$company->current_rating}}</h3>
-                                    @include('components.rating', ['size' => '24'])
-                                    <br>
-                                    <span class="f-300 f-18 m-t-10">
-                                        <i class="ion-ios-location-outline m-r-5"></i>
-                                        {{ $company->city }} -  {{ $company->state }}
-                                    </span>
-                                </div>
-                                <div class="card-body p-10">
-                                    @foreach($company->categories as $category)
-                                        <a href="{!! route('landing.search.index', ['category' => $category->name]) !!}"><button class="btn btn-success btn-sm m-b-5">{{ $category->name }}</button></a>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                    @if(!$professional_fetched->companies->count())
-                        <p class="text-center">Este profissional ainda não possui empresas que atua</p>
-                    @endif
-                </div>
             </div>
         </div>
+        <!-- /Ratings  -->
+
+        <hr class="hr-style m-30 m-r-0 m-l-0">
+
+        <!-- Courses & Certifications -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-xs-12 text-center">
+                    <h2>Cursos e certificados</h2>
+                </div>
+            </div>
+
+            <div class="row">
+                @foreach($professional_fetched->certifications as $certification)
+                <div class="col-md-4  col-sm-6 col-xs-12 text-center">
+                    <div class="card">
+                        <div class="bg-picture" style="background-image:url({{$certification->photo_url}}); height: 200px"></div>
+                        <div class="card-header ch-alt">
+                            <h4>{{$certification->name}}</h4>
+                        </div>
+                        <div class="card-body p-10 text-center">
+                            <p class="f-13">Instituição</p>
+                            <p class="f-16">{{$certification->institution}}</p>
+
+                            <p class="f-13">Descrição</p>
+                            <p class="f-16">{{$certification->description}}</p>
+
+                            <p class="f-13">Concluído em</p>
+                            <p class="f-16">{{$certification->granted_at}}</p>
+
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+
+                @if(!$professional_fetched->certifications->count())
+                    <p class="text-center">Este profissional ainda não possui cursos e certificados cadastrados</p>
+                @endif
+            </div>
+        </div>
+        <!-- /Courses & Certifications -->
+
+        <hr class="hr-style m-30 m-r-0 m-l-0">
+
+        <!-- Companies -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-xs-12 text-center">
+                    <h2>Empresas</h2>
+                </div>
+            </div>
+            <div class="row">
+                @foreach($professional_fetched->companies as $company)
+                    <div class="col-md-4  col-sm-6 col-xs-12 text-center">
+                        <div class="card">
+                            <div class="card-header ch-alt">
+                                <div class="picture-circle picture-circle-p" style="background-image:url({{$company->avatar}})"></div>
+                                <h4 class="m-b-10"><a class="f-400"  href="{!! route('landing.companies.show', $company->slug) !!}"> {{$company->name}}</a></h4>
+                                <?php $rating_to_loop = $company->current_rating; ?>
+                                <h3>{{$company->current_rating}}</h3>
+                                @include('components.rating', ['size' => '24'])
+                                <br>
+                                <span class="f-300 f-18 m-t-10">
+                                    <i class="ion-ios-location-outline m-r-5"></i>
+                                    {{ $company->city }} -  {{ $company->state }}
+                                </span>
+                            </div>
+                            <div class="card-body p-10">
+                                @foreach($company->categories as $category)
+                                    <a href="{!! route('landing.search.index', ['category' => $category->name]) !!}"><button class="btn btn-success btn-sm m-b-5 m-t-5">{{ $category->name }}</button></a>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+                @if(!$professional_fetched->companies->count())
+                    <p class="text-center">Este profissional ainda não possui empresas que atua</p>
+                @endif
+            </div>
+        </div>
+        <!-- /Companies -->
+
     </section>
 
     @section('scripts')
