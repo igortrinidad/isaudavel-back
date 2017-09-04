@@ -168,23 +168,26 @@
                         <span class="f-300">Nenhuma atividade recente.</span>
                     </div>
                 @endif
-                @foreach($client_fetched->activities as $activity)
-                    <div class="col-sm-12">
-                        <div class="card">
-                            <div class="card-header ch-alt">
-                                <div class="picture-circle picture-circle-p" style="background-image:url('{{ $activity->user->avatar }}')">
-                                </div>
-                                <div class="m-t-10 m-b-10 text-center">
-                                    <h4 class="f-300 t-overflow m-t-10 m-b-10">{{ $activity->user->full_name }},
-                                        <small class="f-300">{{ $activity->content }}</small>
-                                    </h4>
-                                    <small class="label label-success from-now p-5 f-300 f-10">
-                                        {{ $activity->created_at }}
-                                    </small>
+                @foreach($client_fetched->activities as $indexActivities => $activity)
+
+                    @if($indexActivities < 3)
+                        <div class="col-sm-12">
+                            <div class="card">
+                                <div class="card-header ch-alt">
+                                    <div class="picture-circle picture-circle-p" style="background-image:url('{{ $activity->user->avatar }}')">
+                                    </div>
+                                    <div class="m-t-10 m-b-10 text-center">
+                                        <h4 class="f-300 t-overflow m-t-10 m-b-10">{{ $activity->user->full_name }},
+                                            <small class="f-300">{{ $activity->content }}</small>
+                                        </h4>
+                                        <small class="label label-success from-now p-5 f-300 f-10">
+                                            {{ $activity->created_at }}
+                                        </small>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
                 @endforeach
             </div>
         </div>
