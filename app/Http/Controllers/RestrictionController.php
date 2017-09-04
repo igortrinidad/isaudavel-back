@@ -88,7 +88,7 @@ class RestrictionController extends Controller
      */
     public function update(Request $request)
     {
-        $restriction = tap(Restriction::find($request->get('restriction_id')))->update($request->all())->fresh();
+        $restriction = tap(Restriction::find($request->get('id')))->update($request->all())->fresh();
 
         return response()->json([
             'message' => 'Restriction updated.',

@@ -21,7 +21,7 @@ class ClientRestrictionsTableSeeder extends Seeder
                 'client_id' => $client,
                 'created_by_id' => $faker->randomElement($professionals),
                 'created_by_type' => \App\Models\Professional::class,
-                'type' => 'medication',
+                'type' => 'Medicamento',
                 'restriction' => 'Dipirona',
                 'observation' => 'Alergia'
             ]);
@@ -30,7 +30,7 @@ class ClientRestrictionsTableSeeder extends Seeder
                 'client_id' => $client,
                 'created_by_id' => $faker->randomElement($professionals),
                 'created_by_type' => \App\Models\Professional::class,
-                'type' => 'food',
+                'type' => 'Alimento',
                 'restriction' => 'Hamburger de Siri',
                 'observation' => 'Alergia'
             ]);
@@ -39,7 +39,7 @@ class ClientRestrictionsTableSeeder extends Seeder
                 'client_id' => $client,
                 'created_by_id' => $faker->randomElement($professionals),
                 'created_by_type' => \App\Models\Professional::class,
-                'type' => 'exercise',
+                'type' => 'Exercício',
                 'restriction' => 'Duplo carpado invertido',
                 'observation' => 'Deve ser evitado pois quase levou a morte do paciente.'
             ]);

@@ -59,7 +59,7 @@ class Restriction extends Model
     public function getTypeLabelAttribute()
     {
         if ($this->type == 'medication') {
-            return 'Mediacamento';
+            return 'Medicamento';
         }
 
         if ($this->type == 'food') {

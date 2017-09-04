@@ -53,10 +53,12 @@ Route::group(['prefix' => 'professional'], function () {
 
             //Plan resources
             Route::get('/plan/list/{id}', 'PlanController@index');
+            Route::get('/plan/list/destroyed/{id}', 'PlanController@listDestroyed');
             Route::post('/plan/store', 'PlanController@store');
             Route::post('/plan/update', 'PlanController@update');
             Route::get('/plan/show/{id}', 'PlanController@show');
             Route::get('/plan/destroy/{id}', 'PlanController@destroy');
+            Route::get('/plan/undestroy/{id}', 'PlanController@undestroy');
 
             //Photo resources
             Route::get('/photo/list/{id}', 'CompanyPhotosController@index');

@@ -21,6 +21,19 @@ class PlanController extends Controller
     }
 
     /**
+     * Display a listing of destroyed resources.
+     *
+     * @param $id
+     * @return \Illuminate\Http\Response
+     */
+    public function listDestroyed($id)
+    {
+        $plans = Plan::with('category')->where('company_id', $id)->onlyTrashed()->get();
+
+        return response()->json(['destroyed_plans' => $plans]);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
