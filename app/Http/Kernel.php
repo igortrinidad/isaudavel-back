@@ -3,6 +3,8 @@
 namespace App\Http;
 
 use App\Http\Middleware\AuthBoth;
+use App\Http\Middleware\AuthProfessional;
+use App\Http\Middleware\CheckOwner;
 use App\Http\Middleware\CheckProfessional;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -60,6 +62,8 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'both.auth' => AuthBoth::class,
-        'check.professional' => CheckProfessional::class
+        'check.professional' => CheckProfessional::class,
+        'check.owner' => CheckOwner::class,
+
     ];
 }

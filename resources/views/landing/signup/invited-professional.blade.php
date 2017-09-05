@@ -89,7 +89,7 @@
                 @include('flash::message')
 
                   <!--|Contact Form|-->
-                  <form class="contact-form" method="POST" action="{{route('landing.professionals.send-signup-form')}}">
+                  <form class="contact-form" method="POST" action="{{route('landing.professional.send.sigup')}}">
                   {!! csrf_field() !!}
                     <!--|Action Message|-->
                     <div class="entry-field">
@@ -118,7 +118,7 @@
                         :label="'name'"
                         :multiple="true"
                         placeholder="Selecione ao menos uma categoria"
-                        @input="calcValue"
+                        @input="handleCategories"
                         >
                       </multiselect>
                     </div>
@@ -127,15 +127,11 @@
 
                       {{--Hidden inputs to send vue data on request--}}
                       <input type="hidden" id="categories" name="categories" v-model="categories_parsed">
-                      <input type="hidden" id="city" name="city" value="{{ old('city') }}">
-                      <input type="hidden" id="state" name="state" value="{{ old('state') }}">
-                      <input type="hidden" id="lat" name="lat" value="{{ old('lat') }}">
-                      <input type="hidden" id="lng" name="lng" value="{{ old('lng') }}">
-                      <input type="hidden" id="address" name="address" value="{{ old('address') }}">
+                      <input type="hidden" id="terms" name="terms" v-model="terms">
 
                     <div class="checkbox-group">
                         <label class="checkbox">
-                        <input type="checkbox" class="wp-checkbox-reset wp-checkbox-input" v-model="terms_accepted" >
+                        <input type="checkbox" class="wp-checkbox-reset wp-checkbox-input" v-model="terms_accepted" @change="handleTerms">
                         <div class="wp-checkbox-reset wp-checkbox-inline wp-checkbox">
                         </div>
                         <span class="wp-checkbox-text" style="color: #fff">Aceito os <a href="{{ route('landing.terms')}}" target="blank">Termos de Uso</a> e <a href="{{ route('landing.privacy')}}" target="blank">Política de privacidade</a></span></label>
@@ -157,64 +153,6 @@
         <script src="{{ elixir('build/landing/js/build_vendors_custom.js') }}"></script>
 
         <script>
-
-
-            function initAutocomplete() {
-
-
-                var autocomplete = new google.maps.places.Autocomplete(
-                    (
-                        document.getElementById('autocomplete')), {
-                        language: 'pt-BR',
-                        componentRestrictions: {'country': 'br'}
-                    });
-
-
-                autocomplete.addListener('place_changed', function () {
-                    var place = autocomplete.getPlace();
-                    if (place.geometry) {
-
-                        var city = document.getElementById('city');
-                        var state = document.getElementById('state');
-
-                        place.address_components.map((current) =>{
-                            current.types.map((type) => {
-
-                                if(type == 'administrative_area_level_1'){
-                                    state.setAttribute('value', current.short_name)
-                                }
-
-                                if(type == 'administrative_area_level_2'){
-
-                                    city.setAttribute('value', current.short_name)
-
-                                }
-                            })
-                        })
-
-                        var lat = document.getElementById('lat');
-                        lat.setAttribute('value', place.geometry.location.lat())
-
-                        var lng = document.getElementById('lng');
-                        lng.setAttribute('value', place.geometry.location.lng())
-
-
-                        var address = document.getElementById('address');
-
-                        var address_data = {
-                            name:  place.name,
-                            url:  place.url,
-                            full_address: place.formatted_address,
-                        }
-
-                        address.setAttribute('value', JSON.stringify(address_data))
-
-                    } else {
-                        document.getElementById('autocomplete').placeholder = 'Enter a city';
-                    }
-
-                });
-            }
 
             Vue.http.headers.common['X-CSRF-TOKEN'] = $('input[name=_token]').val();
 
@@ -239,22 +177,12 @@
                     total: 0,
                     professional_numbers: 0,
                     categories_parsed: [],
-                    terms_accepted: false
+                    terms_accepted: false,
+                    terms: {}
                 },
                 mounted: function() {
 
-                    var url = new URL(window.location.href);
-                    var category = url.searchParams.get("category");
-                    var city = url.searchParams.get("city");
-                    this.category = category
-                    this.city = city
-                    if (window.location.pathname === '/buscar') {
-                        this.pathSearch = true
-                    }
-
                     this.getCategories();
-
-
                 },
                 methods: {
                     getCategories: function(){
@@ -269,25 +197,7 @@
                         });
                     },
 
-                    calcValue: function(ev){
-
-                        var cost_categories = this.category.length * 37.90;
-
-
-                        if(isNaN(this.professional_numbers) || this.professional_numbers == 0){
-                            this.professional_numbers = 1;
-                        }
-
-                        if(this.professional_numbers == 1){
-                            var cost_professional = 0;
-                        } else {
-                            var cost_professional = 17.90 * (this.professional_numbers - 1);
-                        }
-
-
-                        var total = cost_professional + cost_categories;
-
-                        this.total = total;
+                    handleCategories: function(){
 
                         this.categories_parsed = []
                         var categories_parsed = []
@@ -298,15 +208,33 @@
 
                         this.categories_parsed = JSON.stringify(categories_parsed);
 
+                    },
+
+                    handleTerms: function () {
+                        var terms = {}
+                        if (this.terms_accepted) {
+                            var timestamp = (new Date((new Date((new Date(new Date())).toISOString())).getTime() - ((new Date()).getTimezoneOffset() * 60000))).toISOString().slice(0, 19).replace('T', ' ');
+
+                            terms = {
+                                accepted: this.terms_accepted,
+                                accepted_at: timestamp
+                            }
+
+                        }
+
+                        if (!this.terms_accepted) {
+                            terms = {
+                                accepted: this.terms_accepted,
+                                accepted_at: null
+                            }
+                        }
+
+                        this.terms = JSON.stringify(terms);
                     }
                 }
 
             })
 
         </script>
-
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAc7FRXAfTUbAG_lUOjKzzFa41JbRCCbbM&libraries=places&callback=initAutocomplete"
-             async defer></script>
-
     </body>
 </html>

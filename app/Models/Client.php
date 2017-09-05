@@ -37,6 +37,13 @@ class Client extends Authenticatable implements JWTSubject
     ];
 
     /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = ['terms' => 'json'];
+
+    /**
      * The attributes that should be hidden for arrays.
      *
      * @var array

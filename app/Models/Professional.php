@@ -27,13 +27,15 @@ class Professional extends Authenticatable implements JWTSubject
      */
     public $incrementing = false;
 
+    protected $primaryKey = 'id';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'last_name', 'email', 'phone', 'password', 'remember_token'
+        'name', 'last_name', 'email', 'phone', 'password', 'remember_token', 'terms'
     ];
 
     /**
@@ -41,9 +43,7 @@ class Professional extends Authenticatable implements JWTSubject
      *
      * @var array
      */
-    protected $casts = [
-
-    ];
+    protected $casts = ['terms' => 'json'];
 
     /**
      * The attributes that should be hidden for arrays.

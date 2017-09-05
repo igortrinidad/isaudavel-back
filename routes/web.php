@@ -27,8 +27,10 @@ Route::group(['as' => 'landing.'], function () {
 
     // Inviteds
     Route::get('/convite', ['uses' => 'LandingController@invitedChoice', 'as' => 'create']);
-    Route::get('/convite/cliente', ['uses' => 'LandingController@invitedClient', 'as' => 'create']);
-    Route::get('/convite/profissional', ['uses' => 'LandingController@invitedProfessional', 'as' => 'create']);
+    Route::get('/convite/cliente', ['uses' => 'LandingController@invitedClient', 'as' => 'create.client']);
+    Route::post('/convite/cliente/send-signup', ['uses' => 'LandingController@signupClient', 'as' => 'client.send.sigup']);
+    Route::get('/convite/profissional', ['uses' => 'LandingController@invitedProfessional', 'as' => 'create.profissional']);
+    Route::post('/convite/profissional/send-signup', ['uses' => 'LandingController@signupProfessional', 'as' => 'professional.send.sigup']);
 
 	//Companies
 	Route::group(['prefix' => 'buscar', 'as' => 'search.'], function () {
@@ -53,14 +55,27 @@ Route::group(['as' => 'landing.'], function () {
     	Route::get('/cadastro', ['uses' => 'LandingController@registerProfessional', 'as' => 'signup']);
     	Route::post('/sendSignupForm', ['uses' => 'LandingController@sendSignupForm', 'as' => 'send-signup-form']);
     	Route::get('/cadastro/sucesso', ['uses' => 'LandingController@signupSuccess', 'as' => 'signup-success']);
-		Route::get('/{id}', ['uses' => 'LandingController@showProfessional', 'as' => 'show']);
 		Route::get('/login', ['uses' => 'LandingController@showProfessionalLogin', 'as' => 'login']);
+		Route::post('/login', ['uses' => 'Auth\ProfessionalLoginController@landingLogin', 'as' => 'post-login']);
+        Route::get('/{id}', ['uses' => 'LandingController@showProfessional', 'as' => 'show']);
 	});
 
     Route::get('/termos-de-uso', ['uses' => 'LandingController@terms', 'as' => 'terms']);
     Route::get('/politicas', ['uses' => 'LandingController@privacy', 'as' => 'privacy']);
 
 });
+
+
+//Professionals
+Route::group(['prefix' => 'profissional', 'as' => 'professional.'], function () {
+
+    Route::group(['as' => 'dashboard.', 'middleware' => ['auth:professional_web', 'check.owner']], function () {
+        Route::get('/dashboard', ['uses' => 'DashboardController@index', 'as' => 'index']);
+    });
+
+    Route::post('/logout', ['uses' => 'Auth\ProfessionalLoginController@logout', 'as' => 'logout']);
+});
+
 
 
 

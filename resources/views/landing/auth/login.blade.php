@@ -20,19 +20,27 @@
 
                 <div class="col-xs-12 col-md-6 col-md-offset-3">
                     <div class="block">
-
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input class="form-control" name="email" placeholder="Email">
-                        </div>
-                        <div class="form-group">
-                            <label>Password</label>
-                            <input type="password" class="form-control" name="password" placeholder="Password">
+                        <div  class="m-t-20">
+                            {{--Alert display--}}
+                            @include('flash::message')
                         </div>
 
-                        <div class="form-group">
-                            <button class="btn btn-primary btn-block">Login</button>
-                        </div>
+                        <form class="contact-form" method="POST" action="{{route('landing.professionals.post-login')}}">
+                            {!! csrf_field() !!}
+
+                            <div class="entry-field">
+                                <label>E-mail</label>
+                                <input class="form-control" name="email" placeholder="Seu e-mail" value="{{old('email')}}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Senha</label>
+                                <input type="password" class="form-control" name="password" placeholder="Sua senha" required>
+                            </div>
+
+                            <div class="form-group">
+                                <button class="btn btn-primary btn-block" type="submit">Login</button>
+                            </div>
+                        </form>
                     </div>
 
                 </div>

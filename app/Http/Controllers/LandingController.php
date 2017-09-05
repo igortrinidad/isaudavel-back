@@ -14,6 +14,7 @@ use App\Models\Category;
 use App\Models\Company;
 use App\Models\Professional;
 use App\Models\Client;
+use Illuminate\Support\Str;
 use Webpatser\Uuid\Uuid;
 
 class LandingController extends Controller
@@ -234,13 +235,14 @@ class LandingController extends Controller
 
         $address = json_decode($request->get('address'));
         $categories = json_decode($request->get('categories'));
+        $terms = json_decode($request->get('terms'));
 
-        $user_password = str_random(6);
+        $user_password = Str::random(6);
 
         $professional_exists = Professional::where('email', $request->get('email'))->first();
 
         if($professional_exists){
-            flash('<strong>Atenção:</strong> este e-mail já está em uso, por favor escolha outro ou faça o login utilizand o e-mail informado')->error()->important();
+            flash('<strong>Atenção:</strong> este e-mail já está em uso, por favor escolha outro ou faça o login utilizando o e-mail informado')->error()->important();
             return redirect()->back()->withInput($request->input());
         }
 
@@ -251,6 +253,7 @@ class LandingController extends Controller
             'cpf' => $request->get('cpf'),
             'phone' => $request->get('phone'),
             'password' => bcrypt($user_password),
+            'terms' => $terms
         ];
 
 
@@ -272,6 +275,7 @@ class LandingController extends Controller
             'lat' => $request->get('lat'),
             'lng' => $request->get('lng'),
             'address' => $address,
+            'terms' => $terms
         ];
 
 
@@ -370,7 +374,7 @@ class LandingController extends Controller
         });
 
 
-        return redirect()->to(route('landing.professionals.signup-success'));
+        return redirect('https://app.isaudavel.com/#/login?new=true');
     }
 
 
@@ -402,9 +406,81 @@ class LandingController extends Controller
         return view('landing.signup.invited-client');
     }
 
+    public function signupClient(Request $request)
+    {
+        $terms = json_decode($request->get('terms'));
+        $user_password = Str::random(6);
+
+        $request->merge(['terms' => $terms, 'password' => bcrypt($user_password)]);
+
+        $client_exists = Client::where('email', $request->get('email'))->first();
+
+        if($client_exists){
+            flash('<strong>Atenção:</strong> este e-mail já está em uso, por favor escolha outro ou faça o login utilizando o e-mail informado')->error()->important();
+            return redirect()->back()->withInput($request->input());
+        }
+
+        $client = Client::create($request->all());
+
+        //Email para cliente
+        $data = [];
+        $data['align'] = 'left';
+        $data['messageTitle'] = 'Olá, ' . $request->get('name') .  ' ' . $request->get('last_name');
+        $data['messageOne'] = 'Obrigado por se inscrever na plataforma iSaudavel.';
+        $data['messageTwo'] = 'Confira abaixo os dados para acesso: <br>Usuário:  <strong>'. $request->get('email') .'</strong> | Senha: <strong>'. $user_password .'</strong>';
+        $data['messageThree'] = 'É muito importante que você altere sua senha no primeiro acesso.';
+        $data['messageFour'] = 'Nos vemos em breve!';
+        $data['messageSubject'] = 'Bem-vindo ao iSaudavel';
+
+        \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $request){
+            $message->from('no-reply@isaudavel.com', 'iSaudavel - sua saúde em boas mãos.');
+            $message->to($request->get('email'), $request->get('name'))->subject($data['messageSubject']);
+        });
+
+        return redirect('https://app.isaudavel.com/#/cliente/login?new=true');
+    }
+
     public function invitedProfessional()
     {
         return view('landing.signup.invited-professional');
+    }
+
+    public function signupProfessional(Request $request)
+    {
+        $categories = json_decode($request->get('categories'));
+        $terms = json_decode($request->get('terms'));
+        $user_password = Str::random(6);
+
+        $request->merge(['terms' => $terms, 'password' => bcrypt($user_password)]);
+
+
+        $professional_exists = Professional::where('email', $request->get('email'))->first();
+
+        if($professional_exists){
+            flash('<strong>Atenção:</strong> este e-mail já está em uso, por favor escolha outro ou faça o login utilizando o e-mail informado')->error()->important();
+            return redirect()->back()->withInput($request->input());
+        }
+
+        $professional = Professional::create($request->all());
+
+        $professional->categories()->attach($categories);
+
+        //Email para cliente
+        $data = [];
+        $data['align'] = 'left';
+        $data['messageTitle'] = 'Olá, ' . $request->get('name') .  ' ' . $request->get('last_name');
+        $data['messageOne'] = 'Obrigado por se inscrever na plataforma iSaudavel.';
+        $data['messageTwo'] = 'Confira abaixo os dados para acesso: <br>Usuário:  <strong>'. $request->get('email') .'</strong> | Senha: <strong>'. $user_password .'</strong>';
+        $data['messageThree'] = 'É muito importante que você altere sua senha no primeiro acesso.';
+        $data['messageFour'] = 'Nos vemos em breve!';
+        $data['messageSubject'] = 'Bem-vindo ao iSaudavel';
+
+        \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $request){
+            $message->from('no-reply@isaudavel.com', 'iSaudavel - sua saúde em boas mãos.');
+            $message->to($request->get('email'), $request->get('name'))->subject($data['messageSubject']);
+        });
+
+        return redirect('https://app.isaudavel.com/#/login?new=true');
     }
 
 

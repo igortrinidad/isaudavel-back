@@ -164,10 +164,11 @@
                         <input type="hidden" id="lng" name="lng" value="{{ old('lng') }}">
                         <input type="hidden" id="address" name="address" value="{{ old('address') }}">
                         <input type="hidden" id="total" name="total" value="{{ old('total') }}" v-model="total">
+                        <input type="hidden" id="terms" name="terms" v-model="terms">
 
                         <div class="checkbox-group">
                             <label class="checkbox">
-                            <input type="checkbox" class="wp-checkbox-reset wp-checkbox-input" v-model="terms_accepted" >
+                            <input type="checkbox" class="wp-checkbox-reset wp-checkbox-input" name="terms_accepted" v-model="terms_accepted" @change="handleTerms">
                             <div class="wp-checkbox-reset wp-checkbox-inline wp-checkbox">
                             </div>
                             <span class="wp-checkbox-text" style="color: #fff">Aceito os <a href="{{ route('landing.terms')}}" target="blank">Termos de Uso</a> e <a href="{{ route('landing.privacy')}}" target="blank">Política de privacidade</a></span></label>
@@ -295,7 +296,8 @@
                     total: 0,
                     professionals: 0,
                     categories_parsed: [],
-                    terms_accepted: false
+                    terms_accepted: false,
+                    terms: {}
                 },
                 mounted: function() {
 
@@ -354,6 +356,28 @@
 
                         this.categories_parsed = JSON.stringify(categories_parsed);
 
+                    },
+
+                    handleTerms: function () {
+                         var terms = {}
+                        if (this.terms_accepted) {
+                            var timestamp = (new Date((new Date((new Date(new Date())).toISOString())).getTime() - ((new Date()).getTimezoneOffset() * 60000))).toISOString().slice(0, 19).replace('T', ' ');
+
+                            terms = {
+                                accepted: this.terms_accepted,
+                                accepted_at: timestamp
+                            }
+
+                        }
+
+                        if (!this.terms_accepted) {
+                            terms = {
+                                accepted: this.terms_accepted,
+                                accepted_at: null
+                            }
+                        }
+
+                        this.terms = JSON.stringify(terms);
                     }
                 }
 

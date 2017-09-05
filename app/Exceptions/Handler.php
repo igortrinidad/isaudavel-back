@@ -96,6 +96,7 @@ class Handler extends ExceptionHandler
             return response()->json(['error' => 'Unauthenticated.'], 401);
         }
 
-        return redirect()->guest(route('login'));
+        flash('Você deve fazer login para continuar.')->error()->important();
+        return redirect()->guest(route('landing.professionals.login'));
     }
 }

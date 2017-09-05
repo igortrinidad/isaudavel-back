@@ -48,6 +48,7 @@ class Company extends Model
         'lng',
         'city',
         'state',
+        'terms'
     ];
 
 
@@ -63,6 +64,7 @@ class Company extends Model
         'address' => 'json',
         'lat' => 'float',
         'lng' => 'float',
+        'terms' => 'json',
     ];
 
 

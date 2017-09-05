@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Client;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -25,6 +26,14 @@ class ClientLoginController extends Controller
 
     public function login(Request $request)
     {
+        $client_exists = Client::where('email', $request->get('email'))->first();
+
+        if(!$client_exists){
+
+            return response()->json(['user_not_found' => true, 'message' => ' Não localizamos seu usuário.'], 200);
+        }
+
+
         $credentials = $request->only(['email', 'password']);
         try {
 

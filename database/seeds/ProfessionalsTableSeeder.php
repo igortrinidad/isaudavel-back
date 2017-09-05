@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 class ProfessionalsTableSeeder extends Seeder
@@ -15,12 +16,15 @@ class ProfessionalsTableSeeder extends Seeder
 
         $categories = \App\Models\Category::where('slug', '<>', 'all')->get()->pluck('id')->flatten()->toArray();
 
+        $terms = ['accepted' => true, 'accepted_at' => Carbon::now()->format('d/m/Y H:i:s')];
+
         factory(App\Models\Professional::class)->create([
             'name' => 'Matheus',
             'last_name' => 'Lima',
             'email' => 'me@matheuslima.com.br',
             'password' => bcrypt('password'),
             'remember_token' => str_random(10),
+            'terms' => $terms
         ]);
 
         factory(App\Models\Professional::class)->create([
@@ -29,6 +33,7 @@ class ProfessionalsTableSeeder extends Seeder
             'email' => 'igorlucast@hotmail.com',
             'password' => bcrypt('password'),
             'remember_token' => str_random(10),
+            'terms' => $terms
         ]);
 
         factory(App\Models\Professional::class)->create([
@@ -37,6 +42,7 @@ class ProfessionalsTableSeeder extends Seeder
             'email' => 'andrebf4@gmail.com',
             'password' => bcrypt('password'),
             'remember_token' => str_random(10),
+            'terms' => $terms
         ]);
 
         factory(App\Models\Professional::class, 30)->create();

@@ -41,6 +41,11 @@ return [
             'provider' => 'users',
         ],
 
+        'professional_web' => [
+            'driver' => 'session',
+            'provider' => 'professionals',
+        ],
+
         'professional' => [
             'driver' => 'jwt',
             'provider' => 'professionals',

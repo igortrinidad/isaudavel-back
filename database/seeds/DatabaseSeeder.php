@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,6 +15,7 @@ class DatabaseSeeder extends Seeder
         $this->command->info('Started database seeder');
 
         $this->call(CategoriesTableSeeder::class);
+        $terms = ['accepted' => true, 'accepted_at' => Carbon::now()->format('d/m/Y H:i:s')];
 
         /*
          * Clients
@@ -29,6 +31,7 @@ class DatabaseSeeder extends Seeder
             'current_xp' => rand(3500, 5000),
             'total_xp' => rand(50000, 150000),
             'level' => rand(50, 99),
+            'terms' => $terms
         ]);
 
         factory(App\Models\Client::class)->create([
@@ -41,6 +44,7 @@ class DatabaseSeeder extends Seeder
             'current_xp' => rand(3500, 5000),
             'total_xp' => rand(50000, 150000),
             'level' => rand(50, 99),
+            'terms' => $terms
         ]);
 
         factory(App\Models\Client::class)->create([
@@ -53,6 +57,7 @@ class DatabaseSeeder extends Seeder
             'current_xp' => rand(3500, 5000),
             'total_xp' => rand(50000, 150000),
             'level' => rand(50, 99),
+            'terms' => $terms
         ]);
 
         factory(App\Models\Client::class, 10)->create();

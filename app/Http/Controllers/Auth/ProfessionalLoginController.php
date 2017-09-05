@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Professional;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Tymon\JWTAuth\JWTAuth;
 
@@ -14,6 +16,14 @@ class ProfessionalLoginController extends Controller
 
     public function login(Request $request, JWTAuth $JWTAuth)
     {
+
+        $professional_exists = Professional::where('email', $request->get('email'))->first();
+
+        if(!$professional_exists){
+
+            return response()->json(['user_not_found' => true, 'message' => ' Não localizamos seu usuário.'], 200);
+        }
+
         $credentials = $request->only(['email', 'password']);
         try {
 
@@ -30,5 +40,28 @@ class ProfessionalLoginController extends Controller
             'access_token' => $token,
             'user' =>  $JWTAuth->user()
         ])->header('Authorization','Bearer '. $token);
+    }
+
+    public function landingLogin(Request $request)
+    {
+        $credentials = $request->only(['email', 'password']);
+
+        if (Auth::guard('professional_web')->attempt($credentials)) {
+
+            return redirect()->intended('profissional/dashboard');
+
+        }else{
+
+            flash('Usuário ou senha inválidos.')->error()->important();
+
+            return redirect()->back()->withInput($request->only(['email']));
+        }
+    }
+
+    public function logout()
+    {
+        Auth::guard('professional_web')->logout();
+
+        return redirect()->to('/');
     }
 }

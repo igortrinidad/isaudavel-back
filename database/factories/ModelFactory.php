@@ -15,18 +15,21 @@
 use App\Models\Place;
 use App\Models\PlaceCategory;
 use App\Models\User;
+use Carbon\Carbon;
 
 $faker = \Faker\Factory::create('pt_BR');
 
+
 $factory->define(App\Models\Professional::class, function (Faker\Generator $faker) {
     static $password;
-
+    $terms = ['accepted' => true, 'accepted_at' => Carbon::now()->format('d/m/Y H:i:s')];
     return [
         'name' => $faker->firstName,
         'last_name' => $faker->lastName,
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('password'),
         'remember_token' => str_random(10),
+        'terms' => $terms
     ];
 });
 
@@ -34,6 +37,7 @@ $factory->define(App\Models\Professional::class, function (Faker\Generator $fake
 
 $factory->define(App\Models\Client::class, function () use($faker){
     static $password;
+    $terms = ['accepted' => true, 'accepted_at' => Carbon::now()->format('d/m/Y H:i:s')];
 
     return [
         'name' => $faker->firstName,
@@ -46,6 +50,7 @@ $factory->define(App\Models\Client::class, function () use($faker){
         'current_xp' => rand(3500, 5000),
         'total_xp' => rand(50000, 150000),
         'level' => rand(50, 99),
+        'terms' => $terms
     ];
 });
 

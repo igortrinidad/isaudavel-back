@@ -66,6 +66,8 @@ class CompanyTableSeeder extends Seeder
 
             unset($location['address']['geolocation']);
 
+            $terms = ['accepted' => true, 'accepted_at' => Carbon::now()->format('d/m/Y H:i:s')];
+
             $company = \App\Models\Company::create([
                 'id' => Uuid::generate()->string,
                 'owner_id' => $professional,
@@ -80,7 +82,8 @@ class CompanyTableSeeder extends Seeder
                 'lat' => $lat,
                 'lng' => $lng,
                 'city' => $location['city'],
-                'state' => $location['state']
+                'state' => $location['state'],
+                'terms' => $terms
             ]);
 
             //attach admin on company
