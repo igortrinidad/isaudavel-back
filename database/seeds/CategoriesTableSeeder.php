@@ -55,5 +55,20 @@ class CategoriesTableSeeder extends Seeder
             'name' => 'Academia',
             'slug' => 'academia'
         ]);
+
+        \App\Models\Category::create([
+            'name' => 'Dermatologia',
+            'slug' => 'dermatologia'
+        ]);
+
+        \App\Models\Category::create([
+            'name' => 'Cardiologia',
+            'slug' => 'cardiologia'
+        ]);
+
+        \App\Models\Category::create([
+            'name' => 'Ortopedia',
+            'slug' => 'ortopedia'
+        ]);
     }
 }
