@@ -12,7 +12,7 @@
         <link rel="stylesheet" href="{{ elixir('build/landing/css/build_vendors_custom.css') }}">
 
         <!-- Hotjar Tracking Code for https://isaudavel.com -->
-        {{--@include('components.hotjar')--}}
+        @include('components.hotjar')
 
     </head>
 

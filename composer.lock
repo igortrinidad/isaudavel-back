@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "21285d6ff8d78e6ed076d172bfbc6578",
+    "content-hash": "1bf2c2b2295bc02e670c655bd41b1232",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -612,6 +612,63 @@
             ],
             "description": "Easy flash notifications",
             "time": "2017-06-22T19:01:19+00:00"
+        },
+        {
+            "name": "laracasts/utilities",
+            "version": "3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laracasts/PHP-Vars-To-Js-Transformer.git",
+                "reference": "298fb3c6f29901a4550c4f98b57c05f368341d04"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laracasts/PHP-Vars-To-Js-Transformer/zipball/298fb3c6f29901a4550c4f98b57c05f368341d04",
+                "reference": "298fb3c6f29901a4550c4f98b57c05f368341d04",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpspec/phpspec": "~2.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Laracasts\\Utilities\\JavaScript\\JavaScriptServiceProvider"
+                    ],
+                    "aliases": {
+                        "JavaScript": "Laracasts\\Utilities\\JavaScript\\JavaScriptFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Laracasts\\Utilities\\JavaScript\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jeffrey Way",
+                    "email": "jeffrey@laracasts.com"
+                }
+            ],
+            "description": "Transform your PHP to JavaScript",
+            "keywords": [
+                "javascript",
+                "laravel"
+            ],
+            "time": "2017-09-01T17:25:57+00:00"
         },
         {
             "name": "laravel/framework",
@@ -1772,12 +1829,12 @@
             "version": "v2.6.5",
             "source": {
                 "type": "git",
-                "url": "https://github.com/RoumenDamianoff/laravel-sitemap.git",
+                "url": "https://github.com/Laravelium/laravel-sitemap.git",
                 "reference": "43747375a1dc19b11aa52442c99628a8d104c0f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/RoumenDamianoff/laravel-sitemap/zipball/43747375a1dc19b11aa52442c99628a8d104c0f7",
+                "url": "https://api.github.com/repos/Laravelium/laravel-sitemap/zipball/43747375a1dc19b11aa52442c99628a8d104c0f7",
                 "reference": "43747375a1dc19b11aa52442c99628a8d104c0f7",
                 "shasum": ""
             },

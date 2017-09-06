@@ -29,7 +29,7 @@ class LandingController extends Controller
      */
     public function index(Request $request)
     {
-        $companies = Company::with('categories')->get()->random(8);
+        $companies = Company::with('categories')->get();
 
         return view('landing.home.home', compact('companies'));
     }

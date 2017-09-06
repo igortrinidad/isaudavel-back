@@ -65,7 +65,7 @@ class SocialAuthController extends Controller
                 if(!$request->has('user_email')){
 
                     //Create client
-                    $user = Client::firstOrCreate([
+                    $user = Client::firstOrCreate(['email' =>$request->get('email')],[
                         'name' => $request->get('first_name'),
                         'last_name' => $request->get('last_name'),
                         'email' => $request->get('email')
@@ -113,7 +113,7 @@ class SocialAuthController extends Controller
                 if(!$request->has('user_email')){
 
                     //Create user
-                    $user = Professional::firstOrCreate([
+                    $user = Professional::firstOrCreate(['email' =>$request->get('email')],[
                         'name' => $request->get('first_name'),
                         'last_name' => $request->get('last_name'),
                         'email' => $request->get('email')

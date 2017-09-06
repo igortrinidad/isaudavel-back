@@ -185,7 +185,8 @@ return [
         Spatie\Fractal\FractalServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
         Roumen\Sitemap\SitemapServiceProvider::class,
-        Laracasts\Flash\FlashServiceProvider::class
+        Laracasts\Flash\FlashServiceProvider::class,
+        Laracasts\Utilities\JavaScript\JavaScriptServiceProvider::class
 
     ],
 
