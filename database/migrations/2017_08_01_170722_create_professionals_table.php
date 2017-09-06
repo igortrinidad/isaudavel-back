@@ -21,6 +21,7 @@ class CreateProfessionalsTable extends Migration
             $table->string('phone')->nullable();
             $table->string('password')->nullable();
             $table->rememberToken();
+            $table->json('terms')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->primary('id');

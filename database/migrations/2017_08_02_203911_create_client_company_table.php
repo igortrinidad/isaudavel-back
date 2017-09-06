@@ -31,6 +31,10 @@ class CreateClientCompanyTable extends Migration
             $table->uuid('confirmed_by_id')->nullable();
             $table->string('confirmed_by_type')->nullable();
             $table->dateTime('confirmed_at')->nullable();
+            $table->boolean('is_deleted')->default(0);
+            $table->uuid('deleted_by_id')->nullable();
+            $table->string('deleted_by_type')->nullable();
+            $table->dateTime('deleted_at')->nullable();
             $table->index(['company_id', 'client_id']);
         });
     }

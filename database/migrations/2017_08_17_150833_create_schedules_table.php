@@ -23,10 +23,15 @@ class CreateSchedulesTable extends Migration
             $table->date('date');
             $table->time('time');
             $table->integer('points_earned')->default(0);
+            $table->boolean('is_confirmed')->default(false);
             $table->string('confirmed_by')->nullable();
             $table->dateTime('confirmed_at')->nullable();
+            $table->boolean('is_rescheduled')->default(false);
             $table->string('reschedule_by')->nullable();
             $table->dateTime('reschedule_at')->nullable();
+            $table->boolean('is_canceled')->default(false);
+            $table->string('canceled_by')->nullable();
+            $table->dateTime('canceled_at')->nullable();
             $table->timestamps();
             $table->primary('id');
         });

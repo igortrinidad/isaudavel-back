@@ -69,8 +69,9 @@ Route::group(['as' => 'landing.'], function () {
 //Professionals
 Route::group(['prefix' => 'profissional', 'as' => 'professional.'], function () {
 
-    Route::group(['as' => 'dashboard.', 'middleware' => ['auth:professional_web', 'check.owner']], function () {
-        Route::get('/dashboard', ['uses' => 'DashboardController@index', 'as' => 'index']);
+    Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.', 'middleware' => ['auth:professional_web', 'check.owner']], function () {
+        Route::get('/', ['uses' => 'DashboardController@index', 'as' => 'index']);
+        Route::get('/empresas', ['uses' => 'DashboardController@companiesIndex', 'as' => 'company.index']);
     });
 
     Route::post('/logout', ['uses' => 'Auth\ProfessionalLoginController@logout', 'as' => 'logout']);

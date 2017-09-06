@@ -29,6 +29,7 @@ class CreateCompaniesTable extends Migration
             $table->float('lng', 10, 6);
             $table->string('city');
             $table->string('state');
+            $table->json('terms')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->primary('id');
