@@ -123,6 +123,18 @@ Route::get('sitemap', function(){
             $sitemap->add($root . '/empresas/'. $company->slug, $company->updated_at, '1.0', 'daily', $photos);
         }
 
+        $cities = Company::select('city', 'lat', 'lng')->groupBy('city', 'lat', 'lng')->get();
+
+        foreach($cities as $city){
+            $sitemap->add($root . '/buscar?city=' . $city->city . '&lat=' . $city->lat . '&lng=' . $city->lng, \Carbon\Carbon::now(), '1.0', 'daily');
+        }
+
+        $categories = \App\Models\Category::get();
+
+        foreach($categories as $category){
+            $sitemap->add($root . '/buscar?category=' . $category->slug, \Carbon\Carbon::now(), '1.0', 'daily');
+        }
+
         $professionals = Professional::all();
 
         foreach($professionals as $professional){
