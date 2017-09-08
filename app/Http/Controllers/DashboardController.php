@@ -37,7 +37,7 @@ class DashboardController extends Controller
     {
         $companies = Company::where('owner_id', Auth::user()->id)->with('categories', 'professionals')->get();
 
-        return view('dashboard.companies.index', compact('companies'));
+        return view('dashboard.companies.list', compact('companies'));
     }
 
     public function companyShow($id)
@@ -87,7 +87,7 @@ class DashboardController extends Controller
 
         flash('Empresa atualizada com sucesso')->success()->important();
 
-        return redirect()->route('professional.dashboard.company.index');
+        return redirect()->route('professional.dashboard.companies.list');
     }
 
 

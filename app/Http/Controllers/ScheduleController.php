@@ -177,6 +177,7 @@ class ScheduleController extends Controller
     {
         $schedule = tap(Schedule::find($request->get('id')))->update($request->all())->fresh();
 
+
         return response()->json([
             'message' => 'Schedule updated.',
             'schedule' => $schedule
@@ -193,6 +194,7 @@ class ScheduleController extends Controller
     {
         $request->merge(['is_rescheduled' => true, 'reschedule_by' => \Auth::user()->full_name, 'reschedule_at' => Carbon::now()]);
 
+        $old_schedule = Schedule::find($request->get('id'));
         $schedule = tap(Schedule::find($request->get('id')))->update($request->all())->fresh();
 
         $schedule->setAttribute('client', $schedule->subscription->client);
@@ -206,6 +208,26 @@ class ScheduleController extends Controller
         $schedule->professional->makeHidden(['companies', 'categories', 'blank_password', 'password', 'remember_token']);
 
         $schedule->makeHidden(['subscription']);
+
+
+        //Report email
+        $data = [];
+        $data['align'] = 'center';
+
+        $data['messageTitle'] = '<h4>Alteração de horário</h4>';
+        $data['messageOne'] = 'O usuário <b>'. \Auth::user()->full_name . '</b> acabou de alterar seu horário de  <b>' .$schedule->category->name . '</b> marcado anteriormente para ' . $old_schedule->date . ' ' . $old_schedule->time . '.<hr>
+        <p><b>Novo horário</b></p>
+        <b>' .$schedule->date . ' ' . $schedule->time . '</b>';
+
+        $data['messageSubject'] = 'Alteração de horário';
+
+        \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $schedule){
+            $message->from('no-reply@isaudavel.com', 'iSaudavel App');
+            $message->to($schedule->client->email, $schedule->client->full_name)->subject($data['messageSubject']);
+            if(\Auth::user()->id != $schedule->client->id){
+                $message->cc(\Auth::user()->email, \Auth::user()->full_name)->subject($data['messageSubject']);
+            }
+        });
 
         return response()->json([
             'message' => 'Scheduled.',

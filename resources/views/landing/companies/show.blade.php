@@ -119,7 +119,7 @@
 
     #show-company{
         background-color: #88C657;
-        background-image: url("https://www.transparenttextures.com/patterns/concrete-wall.png");
+        background-image: url("/images/pattern-isaudavel-5-300.png");
     }
 
  </style>

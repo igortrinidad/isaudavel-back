@@ -80,7 +80,7 @@
 				  	"@type": "WebSite",
 				  	"name": "iSaudavel - sua saúde em boas mãos",
 				  	"alternateName": "{{$category_query->name}} no iSaudavel - encontre os melhores profissionais",
-				  	"url": "http://www.your-site.com"
+				  	"url": "https://isaudavel.com"
 				}
 			</script>
 	@endif

@@ -24954,16 +24954,6 @@ $(document).ready(function(){
         scrollSpeed: 1200
     });
 
-     
-    //animated header class
-    $(window).scroll(function () {
-        if ($(window).scrollTop() > 100) {
-            $(".navbar-default").addClass("animated");
-        } else {
-            $(".navbar-default").removeClass('animated');
-        }
-    });
-
     $('.init-slider').owlCarousel({
         items:1,
         merge:true,

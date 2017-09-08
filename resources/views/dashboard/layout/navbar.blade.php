@@ -1,4 +1,4 @@
-<div class="navbar-default animated" id="navigation">
+<div class="navbar-default navbar-fixed-top animated" id="navigation">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -42,7 +42,7 @@
             </ul>
             <ul class="nav navbar-nav navbar-right" id="top-nav">
                 <li class="{{ getActiveRoute('landing.index') }}"><a href="{!! route('landing.index') !!}">Home</a></li>
-                <li class="{{ getActiveRoute('professional.dashboard.company.index') }}"><a href="{!! route('professional.dashboard.company.index') !!}">Minhas empresas</a></li>
+                <li class="{{ getActiveRoute('professional.dashboard.companies.list') }}"><a href="{!! route('professional.dashboard.companies.list') !!}">Minhas empresas</a></li>
             </ul>
         </nav><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->

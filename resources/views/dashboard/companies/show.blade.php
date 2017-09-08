@@ -1,9 +1,10 @@
 @extends('dashboard.layout.index')
 
 @section('content')
-    <div class="container">
+    <div class="container first-container">
         <div class="row m-t-20">
-            <h3>Exibir: {{$company->name}}</h3>
+            <h2>{{$company->name}}</h2>
+            <h4>Gerenciar assinatura e faturas</h4>
 
             <div class="row m-t-20">
 

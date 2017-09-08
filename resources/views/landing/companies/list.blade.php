@@ -101,6 +101,10 @@
             background-image: url('/images/gym.jpg');
         }
 
+        #companies-list{
+            background-image: url("/images/pattern-isaudavel-5-300.png");
+        }
+
     </style>
 
     <section class="section" id="companies-list">

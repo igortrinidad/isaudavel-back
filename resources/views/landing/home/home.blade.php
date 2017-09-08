@@ -4,9 +4,13 @@
 
     <style media="screen">
         a, a:hover{ color: #383939; text-decoration: none; }
+
+        .divider{
+            background-image: url("/images/pattern-isaudavel-5-300.png");
+        }
     </style>
 
-    <section id="contact" class="section">
+    <section id="contact" class="section divider">
         <div class="container">
 
             <h2 class="text-center">Para você e profissionais de saúde</h2>

@@ -1,7 +1,7 @@
 @extends('dashboard.layout.index')
 
 @section('content')
-    <div class="container">
+    <div class="container first-container">
         <div class="row m-t-20">
             <h3>Minhas empresas</h3>
 
@@ -38,13 +38,21 @@
                                     @if($company->current_rating <= 0)
                                         <span class="d-block f-300 f-14 m-t-10">Ainda não possui avaliações</span>
                                     @endif
+                                    <a class="btn btn-xs btn-primary m-t-10 btn-block" href="{{route('landing.companies.show', ['slug'=> $company->slug])}}" target="_blank">
+                                        Visualizar perfil
+                                    </a>
                                     <a class="btn btn-xs btn-primary m-t-10 btn-block" href="{{route('professional.dashboard.company.edit', ['id'=> $company->id])}}">
-                                        Editar
+                                        Editar infos
                                     </a>
 
-                                    <a class="btn btn-xs btn-success m-t-10 btn-block" href="{{route('professional.dashboard.company.show', ['id'=> $company->id])}}">
-                                        Gerenciar
+                                    <a class="btn btn-xs btn-primary m-t-10 btn-block" href="{{route('professional.dashboard.company.show', ['id'=> $company->id])}}">
+                                        Gerenciar assinatura
                                     </a>
+
+                                    <hr>
+                                    @if(!$company->is_active)
+                                        <label class="label label-danger">Pendente</label>
+                                    @endif
                                 </div>
                             </div>
                         </div>

@@ -1,8 +1,12 @@
 <style media="screen">
     a, a:hover{ color: #383939; text-decoration: none; }
+
+    .bg-pattern{
+        background-image: url("/images/pattern-isaudavel-5-300.png");
+    }
 </style>
 
-<section id="contact" class="section contact-section" style="background-color: #fff;">
+<section id="contact" class="section contact-section bg-pattern" style="background-color: #fff;">
     <div class="container">
         <div class="text-center">
             <h2>Download</h2>

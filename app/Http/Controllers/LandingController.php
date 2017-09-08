@@ -48,7 +48,7 @@ class LandingController extends Controller
 
         //Email
         $data = [];
-        $data['align'] = 'left';
+        $data['align'] = 'center';
 
         $data['messageTitle'] = 'LEAD iSaudavel';
         $data['messageOne'] = 'Nome: ' . $request['name'];
@@ -63,7 +63,7 @@ class LandingController extends Controller
 
         //Email
         $data = [];
-        $data['align'] = 'left';
+        $data['align'] = 'center';
         $data['messageTitle'] = 'Olá, ' . $request['name'];
         $data['messageOne'] = 'Obrigado por se inscrever em nossa lista, em breve você receberá informações exclusivas sobre essa novidade que estamos preparando com muito carinho para você.';
         $data['messageTwo'] = 'Nos vemos em breve!';
@@ -358,7 +358,7 @@ class LandingController extends Controller
 
         //Email para cliente
         $data = [];
-        $data['align'] = 'left';
+        $data['align'] = 'center';
         $data['messageTitle'] = 'Olá, ' . $request->get('name') .  ' ' . $request->get('last_name');
         $data['messageOne'] = 'Obrigado por se inscrever na plataforma iSaudavel. <br>
             Vamos processar suas informações e retornamos este email com os próximos passos para habilitar sua empresa na plataforma fitness mais completa do mundo.

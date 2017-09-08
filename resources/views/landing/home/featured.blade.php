@@ -41,31 +41,9 @@
 
     .swiper-button-prev,
     .swiper-button-next {
-        background-image: none;
-        top: 0;
-        margin-top: 0;
-        background-color: rgba(255, 255, 255, 1);
-        height: 40px;
-        width: 40px;
-        border-radius: 4px;
-        text-align: center;
         color: #383938;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 1px 1px rgba(0,0,0,.15);
-        font-size: 25px;
     }
-    .swiper-button-prev.swiper-button-disabled,
-    .swiper-button-next.swiper-button-disabled { opacity: 0; }
 
-    @media (max-width: 768px) {
-        .swiper-wrapper { padding-top: 50px; }
-        .swiper-button-prev { right: auto; left: 0; }
-        .swiper-button-next { right: 0; left: auto; }
-        .swiper-button-prev,
-        .swiper-button-next { height: 30px ; width: 30px ; font-size: 16px; }
-    }
     /* wrapper*/
     .wrapper {
         background-position: top center;
@@ -82,9 +60,13 @@
         background-image: url('/images/call-to-search.png');
     }
 
+    .featured{
+        background-color: #fff;
+        background-image: url("/images/pattern-isaudavel-5-300.png");
+    }
 </style>
 
- <section id="contact" class="section">
+ <section id="contact" class="section featured">
     <div class="container">
         <h2 class="text-center m-t-20 m-b-20">Empresas em destaque</h2>
 
@@ -130,8 +112,8 @@
                     </div>
                 @endforeach
             </div>
-            <div class="swiper-button-prev"><i class="ion-ios-arrow-back"></i></div>
-            <div class="swiper-button-next"><i class="ion-ios-arrow-forward"></i></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
             <div style="height: 50px;"></div>
             <div class="swiper-pagination"></div>
         </div>

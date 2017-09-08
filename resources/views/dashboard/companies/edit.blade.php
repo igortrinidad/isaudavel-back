@@ -1,20 +1,11 @@
 @extends('dashboard.layout.index')
 
 @section('content')
-    <div class="container">
-        <form class="m-t-25 m-b-25" action="{{route('professional.dashboard.company.update')}}" method="post" role="form" id="company-edit-form">
-            <legend>Editar: {{$company->name}}</legend>
-            <div class="form-group">
-                <label>Especialidades</label>
-                <multiselect
-                        v-model="category"
-                        :options="categories"
-                        :label="'name'"
-                        :multiple="true"
-                        placeholder="Selecione ao menos uma categoria"
-                        @input="handleCategories">
-                </multiselect>
-            </div>
+    <div class="container first-container">
+        <h2>{{$company->name}}</h2>
+        <h3>Editar informações</h3>
+        <form class="m-b-25" action="{{route('professional.dashboard.company.update')}}" method="post" role="form" id="company-edit-form">
+
             <div class="form-group">
                 <label>Nome</label>
                 <input type="text" class="form-control" name="name" placeholder="Nome" value="{{$company->name}}" required>

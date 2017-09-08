@@ -50,6 +50,28 @@ class InvoiceController extends Controller
             Schedule::create($schedule);
         }
 
+        //Email
+        $data = [];
+        $data['align'] = 'center';
+
+        $schedules = '';
+
+        foreach($invoice->schedules as $schedule){
+            $schedules .= $schedule->date. ' ' .$schedule->time. '<br>';
+        }
+
+        $data['messageTitle'] = '<h4>Novo plano</h4>';
+        $data['messageOne'] = 'A empresa '. $invoice->company->name. ' acabou de adicionar um plano de <b>' .$invoice->subscription->plan->category->name . '</b> para você através da plataforma iSaudavel no valor de <b>R$' . $invoice->value . '</b> com vencimento para <b>' . $invoice->expire_at . '</b>.<hr>
+        <p>Agendamentos</p>
+        <b>' .$schedules . '</b>';
+
+        $data['messageSubject'] = 'iSaudavel: Fatura recebida';
+
+        \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $invoice){
+            $message->from('no-reply@isaudavel.com', 'iSaudavel App');
+            $message->to($invoice->subscription->client->email, $invoice->subscription->client->full_name)->subject($data['messageSubject']);
+        });
+
         return response()->json([
             'message' => 'Invoice created.',
             'invoice' => $invoice->fresh(['schedules.professional'])
