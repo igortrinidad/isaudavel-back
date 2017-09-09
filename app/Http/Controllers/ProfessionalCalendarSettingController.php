@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ClientSubscription;
 use App\Models\ProfessionalCalendarSetting;
 use App\Models\Schedule;
 use Illuminate\Http\Request;
@@ -20,9 +21,50 @@ class ProfessionalCalendarSettingController extends Controller
                 $query->select('id', 'name', 'last_name');
             }])->get();
 
+        foreach ($professional_calendar_settings as $key => $calendar_setting){
+
+            $new_workdays = [];
+
+            foreach ($calendar_setting->workdays  as $key => $professional_workday) {
+                $professional_workday['clients_count'] = 0;
+                $professional_workday['is_available'] = true;
+
+                $new_workdays[$key] = $professional_workday;
+            }
+
+            $calendar_setting->workdays = $new_workdays;
+
+            $professional_workdays = $calendar_setting->workdays;
+
+            $client_subs = ClientSubscription::where('company_id', $request->get('company_id'))
+                ->whereHas('plan', function($query) use($request){
+                    $query ->where('category_id', $request->get('category_id'));
+                })->get();
+
+            foreach ($client_subs as $client_sub){
+                $client_workdays = $client_sub->workdays;
+
+                foreach($client_workdays as $workday){
+                    if($calendar_setting->professional_id == $workday['professional_id']){
+
+                        foreach ($professional_workdays as  $key2 => $professional_workday) {
+
+                            if ($professional_workday['dow'] == $workday['dow'] && $professional_workday['init'] == $workday['init']) {
+                                $professional_workday['clients_count'] = $professional_workday['clients_count'] + 1;
+                                $professional_workday['is_available'] = !($professional_workday['clients_count'] >= $professional_workday['quantity']);
+
+                                $professional_workdays[$key2] = $professional_workday;
+                            }
+
+                        }
+                    }
+                }
+
+            }
+            $calendar_setting->workdays  = $professional_workdays;
+        }
+
         return response()->json(['professional_calendar_settings' => $professional_calendar_settings]);
-
-
     }
 
     /**

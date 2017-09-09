@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\ClientSubscription;
+use App\Models\Invoice;
+use App\Models\Schedule;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ClientSubscriptionController extends Controller
@@ -41,7 +44,6 @@ class ClientSubscriptionController extends Controller
      */
     public function store(Request $request)
     {
-
         $subscription = ClientSubscription::create($request->all());
 
         return response()->json([
@@ -62,7 +64,7 @@ class ClientSubscriptionController extends Controller
 
         return response()->json([
             'message' => 'Subscription updated.',
-            'subscription' => $subscription
+            'subscription' => $subscription->load('plan')
         ]);
     }
 

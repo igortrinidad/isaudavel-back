@@ -176,7 +176,7 @@ class Client extends Authenticatable implements JWTSubject
      */
     public function subscriptions()
     {
-        return $this->hasMany(ClientSubscription::class);
+        return $this->hasMany(ClientSubscription::class)->orderBy('created_at', 'desc');
     }
 
     /**

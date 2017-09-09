@@ -42,9 +42,7 @@ class ClientSubscription extends Model
         'expire_at',
         'auto_renew',
         'is_active',
-        'workdays',
-        'created_at',
-        'updated_at'
+        'workdays'
     ];
 
     /**
