@@ -17,7 +17,7 @@ class EventController extends Controller
      */
     public function index(Request $request)
     {
-        $events = Event::with(['from', 'categories', 'photos', 'participants'])->get();
+        $events = Event::with(['from', 'categories', 'photos'])->get();
 
         return response()->json(['events' => $events]);
     }
@@ -63,7 +63,7 @@ class EventController extends Controller
      */
     public function show($id)
     {
-        $event = Event::with(['photos', 'participants', 'categories', 'from', 'comments'])->find($id);
+        $event = Event::with(['photos', 'categories', 'from', 'comments'])->find($id);
 
         return response()->json(['event' => $event]);
     }
@@ -76,11 +76,27 @@ class EventController extends Controller
      */
     public function update(Request $request)
     {
+
+        if(\Auth::user()->id != $request->get('created_by_id')){
+            return response()->json(['error' => 'Forbiden.'], 403);
+        }
+
         $event = tap(Event::find($request->get('id')))->update($request->all())->fresh();
 
+        // attach categories
+        $event->categories()->detach();
+        $event->categories()->attach($request->get('categories'));
+
+        //update photos
+        if (array_key_exists('photos', $request->all())) {
+            foreach ($request->get('photos') as $photo) {
+                EventPhoto::find($photo['id'])->update($photo);
+            }
+        }
+
         return response()->json([
-            'message' => 'event updated.',
-            'event' => $event
+            'message' => 'event created.',
+            'event' => $event->fresh(['from'])
         ]);
     }
 

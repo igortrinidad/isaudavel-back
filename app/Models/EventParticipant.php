@@ -55,7 +55,7 @@ class EventParticipant extends Model
      */
     public function participant()
     {
-        return $this->morphTo(null, 'participant_type', 'participant_id');
+        return $this->morphTo(null, 'participant_type', 'participant_id')->select('id', 'avatar', 'full_name', 'name', 'last_name', 'path');
     }
 
 

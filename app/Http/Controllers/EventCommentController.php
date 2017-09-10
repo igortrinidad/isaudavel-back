@@ -15,7 +15,7 @@ class EventCommentController extends Controller
      */
     public function index($id)
     {
-        $comments = EventComment::where('event_id', $id)->with('from')->orderBy('created_at', 'desc')->paginate(15);
+        $comments = EventComment::where('event_id', $id)->with(['from'])->orderBy('created_at', 'desc')->paginate(15);
 
         return response()->json(custom_paginator($comments));
     }
@@ -50,6 +50,10 @@ class EventCommentController extends Controller
     public function update(Request $request)
     {
 
+        if(\Auth::user()->id != $request->get('created_by_id')){
+            return response()->json(['error' => 'Forbiden.'], 403);
+        }
+
         $comment = EventComment::where('id', $request->get('id'))->update($request->all());
 
         return response()->json([
@@ -65,8 +69,11 @@ class EventCommentController extends Controller
      */
     public function destroy(Request $request)
     {
+        if(\Auth::user()->id != $request->get('created_by_id')){
+            return response()->json(['error' => 'Forbiden.'], 403);
+        }
 
-        $comment = EventComment::where('id', $request->get('id'))->destroy();
+        $comment = EventComment::where('id', $request->get('id'))->delete();
 
         return response()->json([
             'message' => 'Comment removed.',

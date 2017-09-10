@@ -59,7 +59,7 @@ class EventComment extends Model
      */
     public function from()
     {
-        return $this->morphTo(null, 'created_by_type', 'created_by_id');
+        return $this->morphTo(null, 'created_by_type', 'created_by_id')->select('id', 'avatar', 'full_name', 'name', 'last_name', 'path');
     }
 
 

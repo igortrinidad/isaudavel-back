@@ -7,6 +7,20 @@ use Illuminate\Http\Request;
 
 class EventParticipantController extends Controller
 {
+
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param $id
+     * @return \Illuminate\Http\Response
+     */
+    public function index($id)
+    {
+        $comments = EventParticipant::where('event_id', $id)->with('participant')->orderBy('created_at', 'desc')->paginate(50);
+
+        return response()->json(custom_paginator($comments));
+    }
     /**
      * Display a listing of the resource.
      *
@@ -36,10 +50,26 @@ class EventParticipantController extends Controller
     public function cancel(Request $request)
     {
 
-        $participation = EventParticipant::where('event_id', $request->get('event_id'))->where('participant_id', \Auth::user()->id)->destroy();
+        $participation = EventParticipant::where('event_id', $request->get('event_id'))->where('participant_id', \Auth::user()->id)->delete();
 
         return response()->json([
             'message' => 'Participation canceled.',
+        ], 200);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function check_presence(Request $request)
+    {
+
+        $participation = EventParticipant::where('event_id', $request->get('event_id'))->where('participant_id', \Auth::user()->id)->first();
+
+        return response()->json([
+            'presence' => ($participation) ? true : false,
         ], 200);
     }
 

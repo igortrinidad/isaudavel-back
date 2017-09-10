@@ -32,6 +32,7 @@ Route::group(['middleware' => 'both.auth'], function () {
 
             //Event resources
             Route::post('/store', 'EventController@store');
+            Route::post('/update', 'EventController@update');
 
             //Photo resources
             Route::get('/photo/list/{id}', 'EventPhotoController@index');
@@ -40,11 +41,13 @@ Route::group(['middleware' => 'both.auth'], function () {
             Route::get('/photo/destroy/{id}', 'EventPhotoController@destroy');
 
             //Participation
-            Route::post('/participation/confirm', 'EventParticipantController@confirm');
-            Route::post('/participation/cancel', 'EventParticipantController@cancel');
+            Route::post('/participant/confirm', 'EventParticipantController@confirm');
+            Route::post('/participant/cancel', 'EventParticipantController@cancel');
+            Route::post('/participant/check_presence', 'EventParticipantController@check_presence');
 
             //Comment
             Route::post('/comment/store', 'EventCommentController@store');
+            Route::post('/comment/destroy', 'EventCommentController@destroy');
         });
 
 });
@@ -402,11 +405,12 @@ Route::group(['prefix' => 'professional'], function(){
 });
 
 /*
-* Unprotected Professional Router
+* Unprotected Event Router
 */
 Route::get('event/show/{id}', 'EventController@show');
 Route::get('event/list', 'EventController@index');
 Route::get('event/comment/list/{id}', 'EventCommentController@index');
+Route::get('event/participant/list/{id}', 'EventParticipantController@index');
 
 
 /*
