@@ -27,6 +27,26 @@ Route::group(['middleware' => 'both.auth'], function () {
         Route::get('/tools/evaluation_index/list', 'EvaluationIndexController@index');
         Route::post('/tools/evaluation_index/create', 'EvaluationIndexController@store');
 
+
+        Route::group(['prefix' => 'event'], function () {
+
+            //Event resources
+            Route::post('/store', 'EventController@store');
+
+            //Photo resources
+            Route::get('/photo/list/{id}', 'EventPhotoController@index');
+            Route::post('/photo/upload', 'EventPhotoController@store');
+            Route::post('/photo/update', 'EventPhotoController@update');
+            Route::get('/photo/destroy/{id}', 'EventPhotoController@destroy');
+
+            //Participation
+            Route::post('/participation/confirm', 'EventParticipantController@confirm');
+            Route::post('/participation/cancel', 'EventParticipantController@cancel');
+
+            //Comment
+            Route::post('/comment/store', 'EventCommentController@store');
+        });
+
 });
 
 
@@ -380,6 +400,13 @@ Route::group(['prefix' => 'professional'], function(){
     Route::get('/recomendation/received/{id}', 'RecomendationController@receivedList');
     Route::get('/recomendation/sent/{id}', 'RecomendationController@sentList');
 });
+
+/*
+* Unprotected Professional Router
+*/
+Route::get('event/show/{id}', 'EventController@show');
+Route::get('event/list', 'EventController@index');
+Route::get('event/comment/list/{id}', 'EventCommentController@index');
 
 
 /*
