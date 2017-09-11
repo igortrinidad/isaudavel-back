@@ -175,7 +175,7 @@ class LandingController extends Controller
 
     public function ShowEvent($slug)
     {
-        $event_fetched = Event::where('slug', $slug)->first();
+        $event_fetched = Event::where('slug', $slug)->with(['participants', 'comments'])->first();
         $companies = Company::with('categories')->get()->random(8);
 
 
