@@ -44,7 +44,7 @@ class LandingController extends Controller
     {
         $events = Event::with('categories')->get();
 
-        return view('landing.events.index', compact('events'));
+        return view('landing.events.list', compact('events'));
     }
 
     /**
