@@ -89,7 +89,7 @@ class Invoice extends Model
      */
     public function schedules()
     {
-        return $this->hasMany(Schedule::class);
+        return $this->hasMany(Schedule::class)->orderBy('date', 'asc')->orderBy('time');
     }
 
 
@@ -110,7 +110,7 @@ class Invoice extends Model
             $value = '00/00/0000';
         }
 
-        $this->attributes['expire_at'] = Carbon::createFromFormat('d/m/Y', $value)->toDateString();;
+        $this->attributes['expire_at'] = Carbon::createFromFormat('d/m/Y', $value)->toDateString();
     }
 
 

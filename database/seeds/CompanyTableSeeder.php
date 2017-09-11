@@ -155,6 +155,7 @@ class CompanyTableSeeder extends Seeder
             $invoice_items = [
                 [
                     'description' => 'Especialidades da empresa',
+                    'item' => 'categories',
                     'quantity' => $company->categories->count(),
                     'total' => ($company->categories->count() * 37.90) ,
                     'is_partial' => false,
@@ -162,6 +163,7 @@ class CompanyTableSeeder extends Seeder
                 ],
                 [
                     'description' => 'Profissionais da empresa',
+                    'item' => 'professionals',
                     'quantity' => $company->professionals->count(),
                     'total' => (($company->professionals->count() - 1) * 17.90),
                     'is_partial' => false,
