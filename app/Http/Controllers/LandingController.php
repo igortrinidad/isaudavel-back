@@ -12,7 +12,7 @@ use App\Models\Lead;
 
 use App\Models\Category;
 use App\Models\Company;
-use App\Models\Professional;
+use App\Models\Event;
 use App\Models\Client;
 use Illuminate\Support\Str;
 use Webpatser\Uuid\Uuid;
@@ -32,6 +32,19 @@ class LandingController extends Controller
         $companies = Company::with('categories')->get();
 
         return view('landing.home.home', compact('companies'));
+    }
+
+    /**
+     * Index
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function ListEvents(Request $request)
+    {
+        $events = Event::with('categories')->get();
+
+        return view('landing.events.index', compact('events'));
     }
 
     /**
