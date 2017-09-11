@@ -1,19 +1,26 @@
 @extends('landing.events.index')
 
 @section('landing-content')
-    <style media="screen">
 
-    </style>
-
+    <!-- About Event -->
     <section class="section gray divider">
-        <!-- List Events -->
-        <div class="container">
-            <div class="row">
-                {{ $event_fetched->name }}
-            </div>
-        </div>
-        <!-- / List Events -->
+        {{ $event_fetched->name }}
     </section>
+    <!-- /About Event -->
+
+    <!-- Participants Event -->
+    <section class="section divider">
+        Participants
+    </section>
+
+    <!-- / Participants Event -->
+
+    <!-- Event Comments -->
+    <section class="section gray divider">
+        comments
+    </section>
+    <!-- / Event Comments -->
+
 
     @section('scripts')
         @parent

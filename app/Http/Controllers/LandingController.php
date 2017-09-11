@@ -185,7 +185,6 @@ class LandingController extends Controller
 
         abort(404);
     }
-
     /**
      * Index teste
      *
