@@ -2,12 +2,49 @@
 
 @section('landing-content')
 
+    <style media="screen">
+    .event-name {
+        height: 78px; width: 100%;
+        position: relative;
+        display: flex;
+        align-items: flex-end;
+        flex-flow: row wrap;
+    }
+    </style>
+
     <!-- About Event -->
     <section class="section gray divider">
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
-                    <h2 class="text-center m-t-20 m-b-20">{{ $event_fetched->name }}</h2>
+                    <div class="card">
+                        <div class="card-header p-5 ch-alt">
+                            <div class="row row-event m-t-0">
+                                <!-- Event Date -->
+                                <div class="col-xs-2 event-col">
+                                    <div class="event-date text-center">
+                                        <div class="event-date-header">
+                                            <span class="f-700 f-12">{{ $event_fetched->date->format('Y') }}</span>
+                                        </div>
+                                        <div class="event-date-body">
+                                            <span class="f-700 f-16">{{ $event_fetched->date->format('d') }}</span>
+                                            <span class="f-300">{{ $event_fetched->date->format('M') }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- / Event Date -->
+                                <div class="col-xs-10 event-col">
+                                    <div class="event-name">
+                                        <h3 class="f-300 m-0 t-overflow">{{ $event_fetched->name }}</h3>
+                                        <span>
+                                            <i class="ion-ios-clock-outline f-20"></i>
+                                            <span class="f-300">{{ $event_fetched->time }}</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
