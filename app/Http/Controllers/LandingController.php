@@ -334,6 +334,7 @@ class LandingController extends Controller
         $invoice_items = [
             [
                 'description' => 'Especialidades da empresa',
+                'item' => 'categories',
                 'quantity' => $company_subscription->categories,
                 'total' => ($company_subscription->categories * 37.90) ,
                 'is_partial' => false,
@@ -341,6 +342,7 @@ class LandingController extends Controller
             ],
             [
                 'description' => 'Profissionais da empresa',
+                'item' => 'professionals',
                 'quantity' => $company_subscription->professionals,
                 'total' => (($company_subscription->professionals - 1) * 17.90),
                 'is_partial' => false,

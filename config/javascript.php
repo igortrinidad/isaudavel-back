@@ -13,7 +13,7 @@ return [
     | Example: 'footer' or ['footer', 'bottom']
     |
     */
-    'bind_js_vars_to_this_view' => ['dashboard.companies.edit'],
+    'bind_js_vars_to_this_view' => ['dashboard.companies.edit', 'dashboard.companies.show'],
 
     /*
     |--------------------------------------------------------------------------
