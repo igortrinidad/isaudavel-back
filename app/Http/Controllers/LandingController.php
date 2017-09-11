@@ -173,6 +173,19 @@ class LandingController extends Controller
         abort(404);
     }
 
+    public function ShowEvent($slug)
+    {
+        $event_fetched = Event::where('slug', $slug)->first();
+        $companies = Company::with('categories')->get()->random(8);
+
+
+        if($event_fetched){
+            return view('landing.events.show', compact('event_fetched', 'companies'));
+        }
+
+        abort(404);
+    }
+
     /**
      * Index teste
      *
