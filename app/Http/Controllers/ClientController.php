@@ -548,5 +548,27 @@ class ClientController extends Controller
 
     }
 
+    /**
+     *  Check Slug
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+
+    public function check_slug($slug)
+    {
+        $client = Client::where('slug', $slug)->first();
+
+        if($client){
+            $already_exist = true;
+        } else {
+            $already_exist = false;
+        }
+
+        return response()->json([
+            'already_exist' => $already_exist,
+        ], 200);
+    }
+
 
 }

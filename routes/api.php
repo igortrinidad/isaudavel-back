@@ -412,6 +412,15 @@ Route::get('event/list', 'EventController@index');
 Route::get('event/comment/list/{id}', 'EventCommentController@index');
 Route::get('event/participant/list/{id}', 'EventParticipantController@index');
 
+/*
+* Unprotected Check Slug
+*/
+Route::get('check_slug/company/{slug}', 'CompanyController@check_slug');
+Route::get('check_slug/client/{slug}', 'ClientController@check_slug');
+Route::get('check_slug/professional/{slug}', 'ProfessionalController@check_slug');
+Route::get('check_slug/event/{slug}', 'EventController@check_slug');
+
+
 
 /*
 * Unprotected Router

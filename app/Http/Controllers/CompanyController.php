@@ -280,4 +280,26 @@ class CompanyController extends Controller
 
         return response()->json(['count' => $companies->count(), 'data' => $companies]);
     }
+
+        /**
+     *  Check Slug
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+
+    public function check_slug($slug)
+    {
+        $company = Company::where('slug', $slug)->first();
+
+        if($company){
+            $already_exist = true;
+        } else {
+            $already_exist = false;
+        }
+
+        return response()->json([
+            'already_exist' => $already_exist,
+        ], 200);
+    }
 }
