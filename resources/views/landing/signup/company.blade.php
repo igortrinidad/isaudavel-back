@@ -59,9 +59,19 @@
            .form-control{ height: 46px; }
            option{ padding: 0px 2px 1px 10px; }
 
-            h1, h2, h3, h4 ,h5 {
+            h1, h2, h3, h4 ,h5, p {
                 color: #fff;
            }
+
+           .slug-error{
+                color: red;
+                border-color: red;
+            }
+
+            .slug-checked{
+                color: green;
+                border-color: green;
+            }
 
         </style>
 
@@ -92,6 +102,7 @@
                     <form class="contact-form" id="signup-form" method="POST" action="{{route('landing.professionals.send-signup-form')}}">
                       {!! csrf_field() !!}
                         <!--|Action Message|-->
+                        <p class="text-center f-300">Por favor preencha o cadastro (todos os campos são obrigatórios)</p>
                         <div class="entry-field">
                            <label>Nome</label>
                            <input class="form-control" name="name" placeholder="Nome"  value="{{ old('name') }}" required type="text">
@@ -99,7 +110,7 @@
 
                         <div class="entry-field">
                             <label>Sobrenome</label>
-                            <input class="form-control" name="last_name" placeholder="Sobrenome" value="{{ old('last_name') }}" required type="text" >
+                            <input class="form-control" name="last_name" placeholder="Sobrenome" value="{{ old('last_name') }}" required type="text" @blur="setSlugUser()">
                         </div>
 
                         <div class="entry-field">
@@ -119,7 +130,12 @@
 
                         <div class="entry-field">
                            <label>Empresa</label>
-                           <input class="form-control" name="company_name" value="{{ old('company_name') }}" placeholder="Nome da empresa" required type="text">
+                           <input class="form-control" name="company_name" value="{{ old('company_name') }}" placeholder="Nome da empresa" required type="text" @blur="checkSlugBlur()">
+                        </div>
+
+                        <div class="entry-field">
+                           <label>URL única</label>
+                           <input class="form-control" name="slug" value="{{ old('slug') }}" placeholder="URL única para links de acesso rápido" required type="text" @blur="checkSlug()" :class="{'slug_error' : interactions.slug_error && interactions.slug_checked, 'slug-checked': !interactions.slug_error && interactions.slug_checked}">
                         </div>
 
                         <div class="entry-field">
@@ -158,6 +174,7 @@
 
                         {{--Hidden inputs to send vue data on request--}}
                         <input type="hidden" id="categories" name="categories" v-model="categories_parsed">
+                        <input id="slug_professional" name="slug_professional" value="{{ old('slug_professional') }}">
                         <input type="hidden" id="city" name="city" value="{{ old('city') }}">
                         <input type="hidden" id="state" name="state" value="{{ old('state') }}">
                         <input type="hidden" id="lat" name="lat" value="{{ old('lat') }}">
@@ -287,6 +304,10 @@
                         }
                 },
                 data: {
+                    interactions: {
+                        slug_error: false,
+                        slug_checked: false,
+                    },
                     city: '',
                     category: null,
                     categories: [],
@@ -324,6 +345,63 @@
 
                         }, response => {
                             // error callback
+                        });
+                    },
+
+                    setSlugUser: function(){
+                        let that = this
+
+                       var full_name = $('input[name="name"]').val() + ' ' + $('input[name="last_name"]').val();
+                        var slug2 = slug(full_name).toLowerCase();
+                        $('input[name="slug_professional"]').val(slug2);
+                        this.checkSlug('professional');
+                        
+                    },
+
+                    checkSlugBlur: function(){
+                        let that = this
+
+                        var slug2 = window.slug($('input[name="company_name"]').val()).toLowerCase();
+                        $('input[name="slug"]').val(slug2);
+                        this.checkSlug('company');
+                        
+                    },
+
+                    checkSlug: function(type){
+                        let that = this
+
+                        if(!$('input[name="slug"]').val() && !$('input[name="slug_professional"]').val()){
+                            return false;
+                        }
+
+                        $('input[name="slug"]').val(slug($('input[name="slug"]').val()).toLowerCase());
+
+                        if(type == 'company'){
+                            var slugtocheck = $('input[name="slug"]').val();
+                        } else {
+                             var slugtocheck = $('input[name="slug_professional"]').val();
+                        }
+                        that.$http.get(`/api/check_slug/${type}/${slugtocheck}`)
+                        .then(function (response) {
+
+                            that.interactions.slug_error = response.data.already_exist;
+                            that.interactions.slug_checked = true;
+
+                            if(type == 'company'){
+                                if(that.interactions.slug_error){
+                                    var newslug = $('input[name="slug"]').val() +'-'+Math.floor(Math.random() * 99999) + 1;
+
+                                    $('input[name="slug"]').val(newslug);
+                                }
+                            } else {
+                                if(that.interactions.slug_error){
+                                    var newslug = $('input[name="slug_professional"]').val() +'-'+Math.floor(Math.random() * 99999) + 1;
+                                    $('input[name="slug_professional"]').val(newslug);
+                                }
+                            }
+
+                        })
+                        .catch(function (error) {
                         });
                     },
 

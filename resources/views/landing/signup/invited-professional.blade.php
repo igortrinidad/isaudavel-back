@@ -59,7 +59,7 @@
            .form-control{ height: 46px; }
            option{ padding: 0px 2px 1px 10px; }
 
-           h1, h2, h3, h4 ,h5 {
+           h1, h2, h3, h4 ,h5, p {
                 color: #fff;
            }
 
@@ -92,17 +92,24 @@
                   <form class="contact-form" method="POST" action="{{route('landing.professional.send.sigup')}}">
                   {!! csrf_field() !!}
                     <!--|Action Message|-->
+                    <p class="text-center f-300">Por favor preencha o cadastro (todos os campos são obrigatórios)</p>
+
                     <div class="entry-field">
                        <label>Nome</label>
                        <input class="form-control" name="name" placeholder="Nome"  value="{{ old('name') }}" required type="text">
                     </div>
                       <div class="entry-field">
                           <label>Sobrenome</label>
-                          <input class="form-control" name="last_name" placeholder="Sobrenome" value="{{ old('last_name') }}" required type="text" >
+                          <input class="form-control" name="last_name" placeholder="Sobrenome" value="{{ old('last_name') }}" required type="text" @blur="checkSlugBlur()">
                       </div>
                     <div class="entry-field">
                        <label>Email</label>
                        <input class="form-control" name="email" value="{{ old('email') }}" placeholder="email@exemplo.com" required type="email">
+                    </div>
+
+                    <div class="entry-field">
+                       <label>URL única</label>
+                       <input class="form-control" name="slug" value="{{ old('slug') }}" placeholder="URL única para links de acesso rápido" required type="text" @blur="checkSlug()" :class="{'slug_error' : interactions.slug_error && interactions.slug_checked, 'slug-checked': !interactions.slug_error && interactions.slug_checked}">
                     </div>
 
                     <div class="entry-field">
@@ -168,6 +175,10 @@
                         }
                 },
                 data: {
+                    interactions: {
+                        slug_error: false,
+                        slug_checked: false,
+                    },
                     city: '',
                     category: null,
                     categories: [],
@@ -194,6 +205,45 @@
 
                         }, response => {
                             // error callback
+                        });
+                    },
+
+                    checkSlugBlur: function(){
+                        let that = this
+
+                        var full_name = $('input[name="name"]').val() + ' ' + $('input[name="last_name"]').val();
+                        var slug2 = slug(full_name).toLowerCase();
+                        $('input[name="slug"]').val(slug2);
+                        this.checkSlug();
+
+                        console.log($('input[name="slug"]').val());
+                        
+                    },
+
+                    checkSlug: function(){
+                        let that = this
+
+                        if(!$('input[name="slug"]').val()){
+                            return false;
+                        }
+
+
+                        $('input[name="slug"]').val(slug($('input[name="slug"]').val()).toLowerCase());
+
+                        that.$http.get(`/api/check_slug/professional/${$('input[name="slug"]').val()}`)
+                        .then(function (response) {
+
+                            that.interactions.slug_error = response.data.already_exist;
+                            that.interactions.slug_checked = true;
+
+                            if(that.interactions.slug_error){
+                                var newslug = $('input[name="slug"]').val() +'-'+Math.floor(Math.random() * 99999) + 1;
+
+                                $('input[name="slug"]').val(newslug);
+                            }
+
+                        })
+                        .catch(function (error) {
                         });
                     },
 
