@@ -149,13 +149,18 @@ class ProfessionalController extends Controller
             ]);
         }
 
+        if($request->has('password') && $request->get('password')){
+            $pass = $request->get('password');
+        } else {
+            $pass = str_random(6);
+        }
+
         $request->merge([
-            'password' => bcrypt($request->get('password')),
+            'password' => bcrypt($pass),
             'remember_token' => str_random(10)
         ]);
 
         $professional = Professional::create($request->all());
-
 
         //Attach professional categories
         $professional->categories()->attach($request->get('categories'));
@@ -169,6 +174,41 @@ class ProfessionalController extends Controller
                     'confirmed_by_type' => get_class(\Auth::user()),
                     'confirmed_at' => Carbon::now()
                 ]);
+
+
+            //Envia email para informar o cliente do cadastro
+            $data = [];
+            $data['align'] = 'center';
+            $data['messageTitle'] = '<h4>Cadastro iSaudavel</h4>';
+            $data['messageOne'] = '
+            <p>Olá ' . $request->get('name') . ',</p>
+            <p>O profissional <b>' . \Auth::user()->full_name . '</b> acabou de criar um <b>Usuário Profissional</b> para você na plataforma <a href="https://isaudavel.com" target="_blank">iSaudavel</a>.
+            </p>
+            <p>Veja o que você poderá fazer na plataforma:</p>
+            <p>Controle de agendamentos</p>
+            <p>Informações sobre a saúde de seus clientes como avaliações físicas, exames, dietas, treinamentos, observações.</p>
+            <p>Perfil profissional público para você divulgar seu trabalho</p>
+            <p>Cadastro de cursos e certificados</p>
+            <p>Avaliações de seus clientes</p>
+            </p>
+            <br>
+            <p>Acesse online em <a href="https://app.isaudavel.com">app.isaudavel.com</a> ou baixe o aplicativo 
+            para <a href="https://play.google.com/store/apps/details?id=com.isaudavel" target="_blank">Android</a> e <a href="https://itunes.apple.com/us/app/isaudavel/id1277115133?mt=8" target="_blank">iOS (Apple)</a></p>.
+            <hr>
+            <h4>Dados de acesso</h4>
+            <b>
+            <h5>Email de acesso</h5>
+            <p><b>' .$request->get('email') . '</b></p>
+            <h5>Password provisório</h5>
+            <p>' . $pass . '</p>
+            <p>Solicitamos que você altere sua senha no primeiro acesso.</p>';
+
+            $data['messageSubject'] = 'Cadastro iSaudavel';
+
+            \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $request){
+                $message->from('no-reply@isaudavel.com', 'iSaudavel App');
+                $message->to($request->get('email'), $request->get('name'))->subject($data['messageSubject']);
+            });
         }
 
         return response()->json([

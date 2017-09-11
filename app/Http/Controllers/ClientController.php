@@ -165,8 +165,15 @@ class ClientController extends Controller
 
         $request['bday'] = Carbon::createFromFormat('d/m/Y', $request['bday'])->toDateString();
 
+
+        if($request->has('password') && $request->get('password')){
+            $pass = $request->get('password');
+        } else {
+            $pass = str_random(6);
+        }
+        
         $request->merge([
-            'password' => bcrypt($request->get('password')),
+            'password' => bcrypt($pass),
             'remember_token' => str_random(10)
         ]);
 
@@ -192,6 +199,34 @@ class ClientController extends Controller
                     'exams_show' => true,
                     'exams_edit' => true,
                 ]);
+
+            //Envia email para informar o cliente do cadastro
+            $data = [];
+            $data['align'] = 'center';
+            $data['messageTitle'] = '<h4>Cadastro iSaudavel</h4>';
+            $data['messageOne'] = '
+            <p>Olá ' . $request->get('name') . ',</p>
+            <p>O profissional <b>' . \Auth::user()->full_name . '</b> acabou de criar um perfil para você na plataforma <a href="https://isaudavel.com" target="_blank">iSaudavel</a>. Agora você poderá acessar diretamente suas avaliações físicas, dietas, fichas de treinamento além de controlar seus agendamentos com as empresas que você adicionar e muito mais.
+            </p>
+            <br>
+            <p>Acesse online em <a href="https://app.isaudavel.com">app.isaudavel.com</a> ou baixe o aplicativo 
+            para <a href="https://play.google.com/store/apps/details?id=com.isaudavel" target="_blank">Android</a> e <a href="https://itunes.apple.com/us/app/isaudavel/id1277115133?mt=8" target="_blank">iOS (Apple)</a></p>.
+            <hr>
+            <h4>Dados de acesso</h4>
+            <b>
+            <h5>Email de acesso</h5>
+            <p><b>' .$request->get('email') . '</b></p>
+            <h5>Password provisório</h5>
+            <p>' . $pass . '</p>
+            <p>Solicitamos que você altere sua senha no primeiro acesso.</p>';
+
+            $data['messageSubject'] = 'Cadastro iSaudavel';
+
+            \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $request){
+                $message->from('no-reply@isaudavel.com', 'iSaudavel App');
+                $message->to($request->get('email'), $request->get('name'))->subject($data['messageSubject']);
+            });
+
         }
 
         return response()->json([
