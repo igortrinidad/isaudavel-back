@@ -360,6 +360,26 @@ class ProfessionalController extends Controller
 
             $professional->companies()->attach($request->get('company_id'), ['is_confirmed' => false]);
 
+            //Envia email para informar usuário da solicitação da empresa
+            $data = [];
+            $data['align'] = 'center';
+            $data['messageTitle'] = '<h4>Solicitação de empresa</h4>';
+            $data['messageOne'] = '
+            <p>Olá ' . $professional->full_name . ',</p>
+            <p>O profissional <b>' . $request->get('user_full_name') . '</b> acabou de adicionar você na empresa <b> ' .$request->get('company_name') .'</b>
+            </p>
+            <p>Acesse seu Dashboard profissional para aceitar ou excluir a solicitação desta empresa.</p>
+            <br>
+            <p>Acesse online em <a href="https://app.isaudavel.com">app.isaudavel.com</a> ou baixe o aplicativo 
+            para <a href="https://play.google.com/store/apps/details?id=com.isaudavel" target="_blank">Android</a> e <a href="https://itunes.apple.com/us/app/isaudavel/id1277115133?mt=8" target="_blank">iOS (Apple)</a></p>.';
+
+            $data['messageSubject'] = $professional->full_name . ' a empresa ' . $request->get('company_name') . ' adicionou você.';
+
+            \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $professional){
+                $message->from('no-reply@isaudavel.com', 'iSaudavel App');
+                $message->to($professional->email, $professional->full_name)->subject($data['messageSubject']);
+            });
+
             return response()->json(['message' => 'OK']);
         }
 
@@ -382,8 +402,6 @@ class ProfessionalController extends Controller
         $professional = Professional::find($request->get('professional_id'));
 
         if($professional){
-
-
 
             $professional->companies()->updateExistingPivot($request->get('company_id'),
                 [
