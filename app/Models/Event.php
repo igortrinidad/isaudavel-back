@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Storage;
 class Event extends Model
 {
 
+    protected $dates = ['date'];
+
     /**
      * The table associated with the model.
      *

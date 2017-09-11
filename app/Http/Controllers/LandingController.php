@@ -43,8 +43,9 @@ class LandingController extends Controller
     public function ListEvents(Request $request)
     {
         $events = Event::with('categories')->get();
+        $companies = Company::with('categories')->get()->random(8);
 
-        return view('landing.events.list', compact('events'));
+        return view('landing.events.list', compact('events', 'companies'));
     }
 
     /**
