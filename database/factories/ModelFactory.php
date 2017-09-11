@@ -27,6 +27,7 @@ $factory->define(App\Models\Professional::class, function (Faker\Generator $fake
         'name' => $faker->firstName,
         'last_name' => $faker->lastName,
         'email' => $faker->unique()->safeEmail,
+        'slug' => str_random(10),
         'password' => $password ?: $password = bcrypt('password'),
         'remember_token' => str_random(10),
         'terms' => $terms
@@ -43,6 +44,7 @@ $factory->define(App\Models\Client::class, function () use($faker){
         'name' => $faker->firstName,
         'last_name' => $faker->lastName,
         'email' => $faker->unique()->safeEmail,
+        'slug' => str_random(10),
         'password' => $password ?: $password = bcrypt('password'),
         'phone' => $faker->cellphoneNumber,
         'bday' => $faker->dateTimeBetween($startDate = '-40 years', $endDate ='-18 years'),

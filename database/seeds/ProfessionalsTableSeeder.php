@@ -22,6 +22,7 @@ class ProfessionalsTableSeeder extends Seeder
             'name' => 'Matheus',
             'last_name' => 'Lima',
             'email' => 'me@matheuslima.com.br',
+            'slug' => str_random(10),
             'password' => bcrypt('password'),
             'remember_token' => str_random(10),
             'terms' => $terms
@@ -31,6 +32,7 @@ class ProfessionalsTableSeeder extends Seeder
             'name' => 'Igor',
             'last_name' => 'Trindade',
             'email' => 'igorlucast@hotmail.com',
+            'slug' => str_random(10),
             'password' => bcrypt('password'),
             'remember_token' => str_random(10),
             'terms' => $terms
@@ -40,6 +42,7 @@ class ProfessionalsTableSeeder extends Seeder
             'name' => 'Andre',
             'last_name' => 'Brandão',
             'email' => 'andrebf4@gmail.com',
+            'slug' => str_random(10),
             'password' => bcrypt('password'),
             'remember_token' => str_random(10),
             'terms' => $terms
