@@ -50,7 +50,7 @@ Route::group(['as' => 'landing.'], function () {
 	});
 
     //Events
-	Route::group(['prefix' => 'eventos', 'as' => 'search.'], function () {
+	Route::group(['prefix' => 'eventos', 'as' => 'events.'], function () {
 		Route::get('/', ['uses' => 'LandingController@ListEvents', 'as' => 'list']);
         Route::get('/{slug}', ['uses' => 'LandingController@ShowEvent', 'as' => 'show']);
 	});

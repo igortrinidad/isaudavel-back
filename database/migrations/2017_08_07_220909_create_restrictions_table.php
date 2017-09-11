@@ -18,7 +18,7 @@ class CreateRestrictionsTable extends Migration
             $table->uuid('client_id')->index();
             $table->string('type');
             $table->string('restriction');
-            $table->text('observation');
+            $table->text('observation')->nullable();
             $table->uuid('created_by_id')->index();
             $table->string('created_by_type');
             $table->timestamps();

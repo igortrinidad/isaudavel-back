@@ -29,7 +29,7 @@
 
                         <!-- HEADER LOGO WE PLANNER -->
                         <tr>
-                            <td style="padding: 50px 50px 50px 50px; text-align: {{ $data['align'] }}; max-width: 80% !important; background-color: rgb(255, 255, 255); color: rgb(85, 85, 85); "
+                            <td style="padding: 50px 50px 20px 50px; text-align: {{ $data['align'] }}; max-width: 80% !important; background-color: rgb(255, 255, 255); color: rgb(85, 85, 85); "
                                 align="center">
                                 <img src="https://s3.amazonaws.com/isaudavel-assets/logos/i_saudavel-LOGO-01.png"
                                      width="200" alt="Logo" border="0" style="-ms-interpolation-mode:bicubic">
