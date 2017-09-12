@@ -56,7 +56,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
-                    <h2 class="text-center m-t-20 m-b-20">Participantes</h2>
+                    <div class="text-center">
+                        <h2 class="m-t-20 m-b-10">Participantes</h2>
+                        <span class="f-300">{{ count($event_fetched->participants) }} confirmados</span>
+                    </div>
                 </div>
 
                 @if(count($event_fetched->participants) == 0)
@@ -73,14 +76,20 @@
                 <div class="col-sm-3 col-xs-4 event-col">
                     <div class="card m-b-10">
                         <div class="card-header ch-alt p-5 text-center">
-                            <div class="picture-circle picture-circle-xs" style="background-image:url('{{ $participant->participant_avatar }}')"></div>
-                            <h5 class="m-b-0">{{ $participant->participant }}</h5>
+                            <div class="picture-circle picture-circle-xs" style="background-image:url('{{ $participant->participant->avatar }}')"></div>
+                            <h5 class="m-b-0 m-t-10 f-300">{{ $participant->participant->full_name }}</h5>
                         </div>
                     </div>
                 </div>
                 @endforeach
             </div>
             <!-- / List participants -->
+
+            <div class="row" style="margin-top: 60px;">
+                <div class="col-sm-12 text-center">
+                    <button type="button" class="btn btn-success">Confirmar participação</button>
+                </div>
+            </div>
 
         </div>
     </section>
