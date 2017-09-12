@@ -8,7 +8,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="{!! route('landing.index') !!}">
                     <img class="logo-1" src="/logos/LOGO-1-04.png" alt="LOGO" width="120px">
                     <img class="logo-2" src="/logos/LOGO-1-01.png" alt="LOGO" width="120px">
                 </a>
