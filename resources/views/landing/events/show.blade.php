@@ -103,23 +103,25 @@
             </div>
 
             <!-- List comments -->
-            <div class="row row-event m-t-30">
-                <div class="col-sm-12 event-col">
-                    <div class="card">
-                        @foreach($event_fetched->comments as $comment)
-                        <div class="card-body card-padding text-center">
-                            <p class="f-13">{{ $comment->content }}</p>
-                            <p class="f-12 m-t-0"><i class="ion-ios-clock-outline"></i>
-                                {{ $comment->created_at->format('d/m/Y') }}
-                            </p>
-                            @if(count($event_fetched->comments) > 1)
-                                <hr>
-                            @endif
+            @if(count($event_fetched->comments) > 0)
+                <div class="row row-event m-t-30">
+                    <div class="col-sm-12 event-col">
+                        <div class="card">
+                            @foreach($event_fetched->comments as $comment)
+                            <div class="card-body card-padding text-center">
+                                <p class="f-13">{{ $comment->content }}</p>
+                                <p class="f-12 m-t-0"><i class="ion-ios-clock-outline"></i>
+                                    {{ $comment->created_at->format('d/m/Y') }}
+                                </p>
+                                @if(count($event_fetched->comments) > 1)
+                                    <hr>
+                                @endif
+                            </div>
+                            @endforeach
                         </div>
-                        @endforeach
                     </div>
                 </div>
-            </div>
+            @endif
             <!-- / List comments -->
 
         </div>
