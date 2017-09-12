@@ -79,9 +79,7 @@
        </div>
     </header>
 
-    <section class="section gray divider">
-        @include('landing.events.events')
-    </section>
+    @include('landing.events.events', ['has_title' => false])
 
     @section('scripts')
         @parent

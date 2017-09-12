@@ -31,8 +31,9 @@ class LandingController extends Controller
     public function index(Request $request)
     {
         $companies = Company::with('categories')->get();
+        $events = Event::with('categories')->get();
 
-        return view('landing.home.home', compact('companies'));
+        return view('landing.home.home', compact('companies', 'events'));
     }
 
     /**
