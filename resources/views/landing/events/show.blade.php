@@ -38,13 +38,16 @@
         border-top: 20px solid #F7F7F7;
     }
 
-    </style>
+    .btn.btn-facebook{ background-color: #3b5998; color: #F4F5F5; }
+    .btn.btn-whatsapp{ background-color: #1ebea5; color: #F4F5F5; }
 
-    <!-- About Event -->
-    <section class="section gray divider">
+    .badge.badge-success { background-color: #00A369; color: #FFF; }
+    </style>
+    <section class="section divider">
         <div class="container">
             <div class="row">
-                <div class="col-sm-12">
+                <!-- CENTER COL "ABOUT" -->
+                <div class="col-sm-9">
                     <div class="card">
                         <div class="card-header p-5 ch-alt">
                             <div class="row row-event m-t-0">
@@ -72,65 +75,134 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- /About Event -->
+                        <div class="card-body" style="padding: 6px;">
 
-    <!-- Participants Event -->
-    <section class="section divider">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="text-center">
-                        <h2 class="m-t-20 m-b-10">Participantes</h2>
-                        @if(count($event_fetched->participants) > 0)
-                            <span class="f-300">{{ count($event_fetched->participants) }} confirmados</span>
-                        @endif
-                        @if(count($event_fetched->participants) == 0)
-                            <span class="f-300">Nenhum participante confirmando ainda.</span>
-                        @endif
-                    </div>
-                </div>
-            </div>
+                            @foreach($event_fetched->categories as $category)
+                                <span class="label label-success">{{ $category->name }}</span>
+                            @endforeach
 
-            <!-- List participants -->
-            <div class="row row-event m-t-30">
-                @foreach($event_fetched->participants as $participant)
-                <div class="col-sm-3 col-xs-4 event-col">
-                    <div class="card m-b-10">
-                        <div class="card-header ch-alt p-5 text-center">
-                            <div class="picture-circle picture-circle-xs" style="background-image:url('{{ $participant->participant->avatar }}')"></div>
-                            <h5 class="m-b-0 m-t-10 f-300">{{ $participant->participant->full_name }}</h5>
+                            <!-- Event Share -->
+                            <h4 class="f-300 m-t-15">Compartilhe:</h4>
+                            <div class="m-t-10 m-b-30">
+                                <button type="button" class="btn btn-facebook btn-xs p-5 p-l-10 p-r-10">Facebook</button>
+                                <button type="button" class="btn btn-whatsapp btn-xs p-5 p-l-10 p-r-10">Whatsapp</button>
+                            </div>
+                            <!-- / Event Share -->
+
+                            <hr>
+
+                            <!-- Event Description -->
+                            <h4 class="f-300">Descrição do evento:</h4>
+                            <div class="f-300 m-t-10 m-b-30">
+                                {!! $event_fetched->description !!}
+                            </div>
+                            <!-- / Event Description -->
+
+                            <hr>
+
+                            <!-- Event Details -->
+                            <h4 class="f-300">Detalhes do evento:</h4>
+                            <ul class="list-group m-t-10 m-b-30">
+                                <li class="list-group-item f-300">
+                                    <strong>Valor</strong> <span class="badge badge-success">{{ $event_fetched->value }}</span>
+                                </li>
+                                <li class="list-group-item f-300">
+                                    <strong>Data</strong> <span class="badge badge-success">{{ $event_fetched->date->format('d/m/Y') }}</span>
+                                </li>
+                                <li class="list-group-item f-300">
+                                    <strong>Início</strong> <span class="badge badge-success">{{ $event_fetched->time }}</span>
+                                </li>
+                                <li class="list-group-item f-300">
+                                    <strong>Participantes confirmados</strong> <span class="badge badge-success">{{ $event_fetched->total_participants }}</span>
+                                </li>
+                            </ul>
+                            <!-- / Event Details -->
+
+                            <hr>
+
+                            <!-- Event Photos -->
+                            @if(count($event_fetched->photos) > 0)
+                                <h4 class="f-300">Imagens do evento:</h4>
+                                <div class="row row-event m-t-10">
+                                    @foreach($event_fetched->photos as $photo)
+                                    <div class="col-sm-3 event-col">
+                                        <img class="img-responsive" src="{{ $photo->photo_url }}" alt="">
+                                    </div>
+                                    @endforeach
+                                </div>
+
+                            @else
+                                <h4 class="f-300">Este evento ainda não possui imagens</h4>
+                            @endif
+                            <!-- Event Photos -->
+
                         </div>
                     </div>
                 </div>
-                @endforeach
-            </div>
-            <!-- / List participants -->
+                <!-- / CENTER COL "ABOUT" -->
 
-            <div class="row" style="margin-top: 60px;">
-                <div class="col-sm-12 text-center">
-                    <button type="button" class="btn btn-success">Confirmar participação</button>
+                <!-- RIGHT COL "PARTICIPANTS" -->
+                <div class="col-sm-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="text-center">
+                                        <h2 class="m-t-20 m-b-10">Participantes</h2>
+                                        @if(count($event_fetched->participants) > 0)
+                                            <span class="f-300">
+                                                {{ count($event_fetched->participants) }}
+                                                {{ count($event_fetched->participants) > 1 ? 'confirmados' : 'confirmado' }}
+                                            </span>
+                                        @endif
+                                        @if(count($event_fetched->participants) == 0)
+                                            <span class="f-300">Nenhum participante confirmando ainda.</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- List participants -->
+                            <div class="row m-t-30">
+                                @foreach($event_fetched->participants as $indexParticipant => $participant)
+                                    @if($indexParticipant < 8)
+                                        <div class="col-sm-6 text-center">
+                                            <div class="picture-circle picture-circle-p" style="background-image:url('{{ $participant->participant->avatar }}')"></div>
+                                            <h5 class="m-b-0 m-t-10 f-300 t-overflow">{{ $participant->participant->full_name }}</h5>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </div>
+                            <!-- / List participants -->
+
+                            <div class="row m-t-30 m-b-20">
+                                @if(count($event_fetched->participants) > 8)
+                                    <div class="col-sm-12 text-center">
+                                        <button type="button" class="btn btn-primary btn-block btn-xs p-5 m-b-10">Ver todos participantes ({{ count($event_fetched->participants) }})</button>
+                                    </div>
+                                @endif
+                                <div class="col-sm-12 text-center">
+                                    <button type="button" class="btn btn-success btn-block btn-xs p-5">Confirmar participação</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
+                <!-- RIGHT COL "PARTICIPANTS" -->
 
+            </div>
         </div>
     </section>
 
-    <!-- / Participants Event -->
-
     <!-- Event Comments -->
-    <section class="section gray divider">
+    <section class="section gray">
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
                     <div class="text-center">
-                        <h2 class="m-t-20 m-b-20">Comentários</h2>
+                        <h2 class="m-t-20 m-b-20">Comentários do evento</h2>
                         @if(count($event_fetched->comments) > 0)
-                            <span class="f-300">{{ count($event_fetched->comments) }} comentários</span>
+                            <span class="f-300">Total de {{ count($event_fetched->comments) }} comentários</span>
                         @endif
                         @if(count($event_fetched->comments) == 0)
                             <span class="f-300">Nenhum comentário foi públicado ainda.</span>

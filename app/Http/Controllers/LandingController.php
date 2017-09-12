@@ -183,7 +183,7 @@ class LandingController extends Controller
             }]);
         }, 'comments.from'])->first();
 
-        
+
         $companies = Company::with('categories')->limit(8)->get();
 
         if($event_fetched){
