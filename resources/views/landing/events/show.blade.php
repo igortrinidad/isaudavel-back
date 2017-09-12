@@ -178,7 +178,9 @@
                             <div class="row m-t-30 m-b-20">
                                 @if(count($event_fetched->participants) > 8)
                                     <div class="col-sm-12 text-center">
-                                        <button type="button" class="btn btn-primary btn-block btn-xs p-5 m-b-10">Ver todos participantes ({{ count($event_fetched->participants) }})</button>
+                                        <button type="button" data-toggle="modal" data-target="#modal-all-participants" class="btn btn-primary btn-block btn-xs p-5 m-b-10">
+                                            Ver todos participantes ({{ count($event_fetched->participants) }})
+                                        </button>
                                     </div>
                                 @endif
                                 <div class="col-sm-12 text-center">
@@ -245,6 +247,37 @@
     </section>
     <!-- / Event Comments -->
 
+    <!-- MODAL PARTICIPANTS -->
+    <div id="modal-all-participants" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Todos participantes confirmados</h4>
+                </div>
+                <div class="modal-body">
+                    <!-- List participants -->
+                    <div class="row row-event m-t-30">
+                        @foreach($event_fetched->participants as $participant)
+                            <div class="col-sm-4 col-event text-center">
+                                <div class="card">
+                                    <div class="card-header ch-alt">
+                                        <div class="picture-circle picture-circle-p" style="background-image:url('{{ $participant->participant->avatar }}')"></div>
+                                        <h5 class="m-b-0 m-t-10 f-300 t-overflow">{{ $participant->participant->full_name }}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    <!-- / List participants -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- / MODAL PARTICIPANTS -->
 
     @section('scripts')
         @parent
