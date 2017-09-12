@@ -69,12 +69,6 @@ class Professional extends Authenticatable implements JWTSubject
      */
     protected $appends = ['full_name', 'blank_password', 'role', 'avatar', 'current_rating', 'total_rating'];
 
-    /**
-     * The relations to eager load on every query.
-     *
-     * @var array
-     */
-    protected $with = ['categories', 'companies'];
 
 
     /**
