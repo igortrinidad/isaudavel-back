@@ -4,9 +4,9 @@
 
     <style media="screen">
         a, a:hover{ color: #383939; text-decoration: none; }
-
+        .min-height-card { min-height: 370px; }
         .divider{
-            background-image: url("/images/pattern-isaudavel-5-300.png");
+            background: rgba(0, 0, 0, 0) linear-gradient(180deg, #FFFFFF 50%, #F4F5F5 100%) repeat scroll 0 0;
         }
     </style>
 
@@ -17,7 +17,7 @@
 
             <div class="row m-t-30">
                 <div class="col-xs-12 col-sm-6 col-md-6">
-                    <div class="card wow fadeInUp m-t-30">
+                    <div class="card min-height-card wow fadeInUp m-t-30">
                         <div class="card-header ch-alt text-center">
                             <h2 class="f-300">Para você</h2>
                         </div>
@@ -33,7 +33,7 @@
                 </div>
 
                 <div class="col-xs-12 col-sm-6 col-md-6 ">
-        			<div class="card wow fadeInUp m-t-30">
+        			<div class="card min-height-card wow fadeInUp m-t-30">
         				<div class="card-header ch-alt text-center">
         					<h2 class="f-300">Para profissinoais</h2>
         				</div>

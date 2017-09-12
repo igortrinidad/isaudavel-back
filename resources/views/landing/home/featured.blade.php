@@ -62,7 +62,7 @@
 
     .featured{
         background-color: #fff;
-        background-image: url("/images/pattern-isaudavel-5-300.png");
+        background: rgba(0, 0, 0, 0) linear-gradient(180deg, #F4F5F5 50%, #FFFFFF 100%) repeat scroll 0 0;
     }
 </style>
 
