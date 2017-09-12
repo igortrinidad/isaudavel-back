@@ -5,8 +5,13 @@
     <style media="screen">
         a, a:hover{ color: #383939; text-decoration: none; }
         .min-height-card { min-height: 370px; }
-        .divider{
-            background: rgba(0, 0, 0, 0) linear-gradient(180deg, #FFFFFF 50%, #F4F5F5 100%) repeat scroll 0 0;
+        .section.divider{
+            background-color: #fff;
+            background-image: url('/images/bg_test.png') !important;
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed
         }
     </style>
 

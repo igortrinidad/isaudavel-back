@@ -61,8 +61,7 @@
     }
 
     .featured{
-        background-color: #fff;
-        background: rgba(0, 0, 0, 0) linear-gradient(180deg, #F4F5F5 50%, #FFFFFF 100%) repeat scroll 0 0;
+        background-color: rgba(244, 244, 245, 1);
     }
 </style>
 
