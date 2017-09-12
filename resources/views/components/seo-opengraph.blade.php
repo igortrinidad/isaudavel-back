@@ -265,6 +265,7 @@
 	</script>
 @endif
 
+<!-- ANALYTICS -->
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -274,4 +275,13 @@
   ga('create', 'UA-70761422-7', 'auto');
   ga('send', 'pageview');
 
+</script>
+
+<!-- GOOGLE ADSENSE -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-3086351824347551",
+    enable_page_level_ads: true
+  });
 </script>
