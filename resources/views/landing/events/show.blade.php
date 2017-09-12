@@ -12,7 +12,11 @@
     }
 
     .card-header { position: relative; }
-    .comment { padding: 10px 80px !important; }
+    .comment {
+        background-image: url('/images/comment.png');
+        background-repeat: no-repeat;
+        background-position: center right;
+    }
     .comment .icon {
         position: absolute;
         top: 10px; right: 10px;
@@ -142,12 +146,13 @@
                         <div class="card">
                             @foreach($event_fetched->comments as $comment)
                             <div class="card-header ch-alt comment">
-                                <img class="icon" src="/images/comment.png" alt="">
-                                <p class="f-13 text-center">{{ $comment->content }}
+                                <!-- <img class="icon" src="/images/comment.png" alt=""> -->
+                                <p class="f-13 text-center">
+                                    {{ $comment->content }}
                                 </p>
                             </div>
                             <div class="card-body card-padding">
-                                <div class="text-center m-t-10">
+                                <div class="text-center m-t-20">
                                     <div class="picture-circle picture-circle-p" style="background-image:url('{{ $comment->from->avatar }}')">
                                     </div>
                                     <h5 class="f-300 m-t-15">{{ $comment->from->full_name }} em:
