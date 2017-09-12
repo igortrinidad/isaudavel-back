@@ -236,8 +236,9 @@ class LandingController extends Controller
     public function forClientLanding(Request $reques)
     {
         $companies = Company::with('categories')->limit(8)->get();
+        $events = Event::with('categories')->limit(8)->get();
 
-        return view('landing.home.for-client', compact('companies'));
+        return view('landing.home.for-client', compact('companies', 'events'));
     }
 
     public function showClient($id)
@@ -254,8 +255,9 @@ class LandingController extends Controller
     public function forProfessionalsLanding(Request $reques)
     {
         $companies = Company::with('categories')->limit(8)->get();
+        $events = Event::with('categories')->limit(8)->get();
 
-        return view('landing.home.for-professional', compact('companies'));
+        return view('landing.home.for-professional', compact('companies', 'events'));
     }
 
     public function registerProfessional()
