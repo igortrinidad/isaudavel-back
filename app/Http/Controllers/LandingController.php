@@ -175,9 +175,12 @@ class LandingController extends Controller
 
     public function ShowEvent($slug)
     {
-        $event_fetched = Event::where('slug', $slug)->with(['participants', 'comments'])->first();
-        $companies = Company::with('categories')->get()->random(8);
-
+        $event_fetched = Event::where('slug', $slug)->with(['participants' => function($query){
+            $query->with(['participant' => function($querytwo){
+                $querytwo->select('id', 'avatar', 'full_name', 'name', 'last_name', 'path');
+            }]);
+        }, 'comments.from'])->first();
+        $companies = Company::with('categories')->limit(8)->get();
 
         if($event_fetched){
             return view('landing.events.show', compact('event_fetched', 'companies'));
@@ -227,7 +230,7 @@ class LandingController extends Controller
     // PS: Não sei se é o correto mas assim functionou haha
     public function forClientLanding(Request $reques)
     {
-        $companies = Company::with('categories')->get()->random(8);
+        $companies = Company::with('categories')->limit(8)->get();
 
         return view('landing.home.for-client', compact('companies'));
     }

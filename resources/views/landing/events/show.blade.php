@@ -74,7 +74,7 @@
                     <div class="card m-b-10">
                         <div class="card-header ch-alt p-5 text-center">
                             <div class="picture-circle picture-circle-xs" style="background-image:url('{{ $participant->participant_avatar }}')"></div>
-                            <h5 class="m-b-0">{{ $participant->participant_full_name }}</h5>
+                            <h5 class="m-b-0">{{ $participant->participant }}</h5>
                         </div>
                     </div>
                 </div>
