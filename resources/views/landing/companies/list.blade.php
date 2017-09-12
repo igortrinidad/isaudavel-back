@@ -107,7 +107,7 @@
 
     </style>
 
-    <section class="section" id="companies-list">
+    <section class="section p-b-0" id="companies-list">
 
         <!-- Categories Tabs -->
         <div class="swiper-container tabs" ref="tabs">
@@ -123,6 +123,11 @@
 
         <div class="container">
 
+            @if(count($companies) == 0)
+                <div style="padding: 0 0 100px 0;">
+                    <h3 class="f-300">Nenhuma empresa encontrada em <strong>{{$category->name}}</strong>.</h3>
+                </div>
+            @endif
 
             <div class="row m-t-20">
                 @foreach($companies as $company)
