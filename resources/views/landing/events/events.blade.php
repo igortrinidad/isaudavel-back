@@ -76,7 +76,7 @@
     }
 </style>
 
-<section class="section gray">
+<section class="section {{ $has_title ? 'gray' : 'divider' }}">
     <!-- List Events -->
     <div class="container">
         @if($has_title)

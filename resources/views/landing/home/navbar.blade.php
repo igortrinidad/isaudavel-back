@@ -46,6 +46,7 @@
                     <li class="{{ getActiveRoute('landing.clients.about') }}"><a href="{!! route('landing.clients.about') !!}">Para você</a></li>
                     <li class="{{ getActiveRoute('landing.professionals.about') }}"><a href="{!! route('landing.professionals.about') !!}">Para profissionais</a></li>
                     <li class="{{ getActiveRoute('landing.search.index') }}"><a href="{!! route('landing.search.index', ['category' => 'pilates']) !!}">Buscar empresas</a></li>
+                    <li class="{{ getActiveRoute('landing.events.list') }}"><a href="{!! route('landing.events.list') !!}">Buscar eventos</a></li>
                     <li class="{{ getActiveRoute('landing.professionals.signup') }}"><a href="{!! route('landing.professionals.signup') !!}">Cadastrar empresa</a></li>
                 </ul>
             </nav><!-- /.navbar-collapse -->

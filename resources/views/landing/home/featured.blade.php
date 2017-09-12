@@ -68,7 +68,10 @@
 
  <section id="contact" class="section featured">
     <div class="container">
-        <h2 class="text-center m-t-20 m-b-20">Empresas em destaque</h2>
+        <div class="text-center">
+            <h2 class="f-300">Empresas em destaque</h2>
+            <span class="f-300">Já são mais de 100 empresas cadastradas.</span>
+        </div>
 
         <div class="swiper-container swiper-featureds wow fadeInUp">
             <div class="swiper-wrapper">
