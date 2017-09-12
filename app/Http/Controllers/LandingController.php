@@ -14,6 +14,7 @@ use App\Models\Category;
 use App\Models\Company;
 use App\Models\Event;
 use App\Models\Client;
+use App\Models\Professional;
 use Illuminate\Support\Str;
 use Webpatser\Uuid\Uuid;
 
@@ -43,7 +44,11 @@ class LandingController extends Controller
     public function ListEvents(Request $request)
     {
         $events = Event::with('categories')->get();
+<<<<<<< HEAD
         $companies = Company::with('categories')->get(8)->random();
+=======
+        $companies = Company::with('categories')->limit(8)->get();
+>>>>>>> dev
 
         return view('landing.events.list', compact('events', 'companies'));
     }
@@ -175,9 +180,15 @@ class LandingController extends Controller
 
     public function ShowEvent($slug)
     {
-        $event_fetched = Event::where('slug', $slug)->with(['participants', 'comments'])->first();
-        $companies = Company::with('categories')->get()->random(8);
+        $event_fetched = Event::where('slug', $slug)->with(['participants' => function($query){
+            $query->select('event_id', 'participant_id', 'participant_type');
+            $query->with(['participant' => function($querydois){
+                $querydois->select('id', 'name', 'full_name', 'email', 'slug');
+            }]);
+        }, 'comments.from'])->first();
 
+        
+        $companies = Company::with('categories')->limit(8)->get();
 
         if($event_fetched){
             return view('landing.events.show', compact('event_fetched', 'companies'));
@@ -193,7 +204,7 @@ class LandingController extends Controller
      */
     public function showProfessional($id)
     {
-        $professional_fetched = Professional::where('id', $id)->with(['companies', 'last_ratings', 'certifications'])->first();
+        $professional_fetched = Professional::where('id', $id)->with(['companies', 'last_ratings', 'certifications', 'categories'])->first();
 
         if($professional_fetched){
             return view('landing.companies.showprofessional', compact('professional_fetched'));
