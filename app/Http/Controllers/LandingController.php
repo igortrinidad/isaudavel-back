@@ -175,11 +175,13 @@ class LandingController extends Controller
 
     public function ShowEvent($slug)
     {
-        $event_fetched = Event::where('slug', $slug)->with(['participants' => function($query){
-            $query->with(['participant' => function($querytwo){
-                $querytwo->select('id', 'avatar', 'full_name', 'name', 'last_name', 'path');
-            }]);
-        }, 'comments.from'])->first();
+        $event_fetched = Event::where('slug', $slug)->with(['participants', 'comments.from'])->first();
+
+        $event_fetched->participants->each(function($participant){
+            $participant->participant
+                ->setHidden(['categories','companies','password', 'blank_password', 'created_at', 'updated_at', 'role', 'current_rating', 'total_rating']);
+        });
+        
         $companies = Company::with('categories')->limit(8)->get();
 
         if($event_fetched){
