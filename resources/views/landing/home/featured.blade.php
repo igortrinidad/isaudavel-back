@@ -112,8 +112,8 @@
                     </div>
                 @endforeach
             </div>
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev swiper-button-black"></div>
+            <div class="swiper-button-next swiper-button-black"></div>
             <div style="height: 50px;"></div>
             <div class="swiper-pagination"></div>
         </div>

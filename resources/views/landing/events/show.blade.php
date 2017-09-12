@@ -10,6 +10,30 @@
         align-items: flex-end;
         flex-flow: row wrap;
     }
+
+    .card-header { position: relative; }
+    .comment { padding: 10px 80px !important; }
+    .comment .icon {
+        position: absolute;
+        top: 10px; right: 10px;
+        max-width: 100%;
+    }
+    .comment:before {
+        content: "";
+        position: absolute;
+        bottom: -20px; left: 50%;
+        margin-left: -20px;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+        width: 0;
+        height: 0;
+
+        border-left: 20px solid transparent;
+        border-right: 20px solid transparent;
+        border-top: 20px solid #F7F7F7;
+    }
+
     </style>
 
     <!-- About Event -->
@@ -58,16 +82,14 @@
                 <div class="col-sm-12">
                     <div class="text-center">
                         <h2 class="m-t-20 m-b-10">Participantes</h2>
-                        <span class="f-300">{{ count($event_fetched->participants) }} confirmados</span>
+                        @if(count($event_fetched->participants) > 0)
+                            <span class="f-300">{{ count($event_fetched->participants) }} confirmados</span>
+                        @endif
+                        @if(count($event_fetched->participants) == 0)
+                            <span class="f-300">Nenhum participante confirmando ainda.</span>
+                        @endif
                     </div>
                 </div>
-
-                @if(count($event_fetched->participants) == 0)
-                    <div class="col-sm-12 text-center">
-                        <span class="f-300">Nenhum participante confirmando ainda.</span>
-                    </div>
-                @endif
-
             </div>
 
             <!-- List participants -->
@@ -101,14 +123,16 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
-                    <h2 class="text-center m-t-20 m-b-20">Comentários</h2>
-                </div>
-
-                @if(count($event_fetched->comments) == 0)
-                    <div class="col-sm-12 text-center">
-                        <span class="f-300">Nenhum comentário foi públicado ainda.</span>
+                    <div class="text-center">
+                        <h2 class="m-t-20 m-b-20">Comentários</h2>
+                        @if(count($event_fetched->comments) > 0)
+                            <span class="f-300">{{ count($event_fetched->comments) }} comentários</span>
+                        @endif
+                        @if(count($event_fetched->comments) == 0)
+                            <span class="f-300">Nenhum comentário foi públicado ainda.</span>
+                        @endif
                     </div>
-                @endif
+                </div>
             </div>
 
             <!-- List comments -->
@@ -117,14 +141,21 @@
                     <div class="col-sm-12 event-col">
                         <div class="card">
                             @foreach($event_fetched->comments as $comment)
-                            <div class="card-body card-padding text-center">
-                                <p class="f-13">{{ $comment->content }}</p>
-                                <p class="f-12 m-t-0"><i class="ion-ios-clock-outline"></i>
-                                    {{ $comment->created_at->format('d/m/Y') }}
+                            <div class="card-header ch-alt comment">
+                                <img class="icon" src="/images/comment.png" alt="">
+                                <p class="f-13 text-center">{{ $comment->content }}
                                 </p>
-                                @if(count($event_fetched->comments) > 1)
-                                    <hr>
-                                @endif
+                            </div>
+                            <div class="card-body card-padding">
+                                <div class="text-center m-t-10">
+                                    <div class="picture-circle picture-circle-p" style="background-image:url('{{ $comment->from->avatar }}')">
+                                    </div>
+                                    <h5 class="f-300 m-t-15">{{ $comment->from->full_name }} em:
+                                        <span class="f-12">
+                                            {{ $comment->created_at->format('d/m/Y') }}
+                                        </span>
+                                    </h5>
+                                </div>
                             </div>
                             @endforeach
                         </div>
