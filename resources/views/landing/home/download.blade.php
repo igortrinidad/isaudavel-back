@@ -14,8 +14,8 @@
         </div>
 
         <div class="text-center wow fadeInUp m-t-30">
-            <a href="#" class="m-r-5" title="Download para Iphone"><img src="/images/app_store_btn.png" alt=""></a>
-            <a href="#" title="Download para Android"><img src="/images/play_store_btn.png" alt=""></a>
+            <a href="https://itunes.apple.com/us/app/isaudavel/id1277115133?mt=8" target="_blank" class="m-r-5" title="Download para Iphone"><img src="/images/app_store_btn.png" alt=""></a>
+            <a href="https://play.google.com/store/apps/details?id=com.isaudavel" target="_blank" title="Download para Android"><img src="/images/play_store_btn.png" alt=""></a>
         </div>
     </div>
 </section>
