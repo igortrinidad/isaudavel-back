@@ -43,7 +43,7 @@ class LandingController extends Controller
     public function ListEvents(Request $request)
     {
         $events = Event::with('categories')->get();
-        $companies = Company::with('categories')->get()->random(8);
+        $companies = Company::with('categories')->get(8)->random();
 
         return view('landing.events.list', compact('events', 'companies'));
     }
@@ -227,7 +227,7 @@ class LandingController extends Controller
     // PS: Não sei se é o correto mas assim functionou haha
     public function forClientLanding(Request $reques)
     {
-        $companies = Company::with('categories')->get()->random(8);
+        $companies = Company::with('categories')->limit(8)->get();
 
         return view('landing.home.for-client', compact('companies'));
     }
@@ -245,7 +245,7 @@ class LandingController extends Controller
 
     public function forProfessionalsLanding(Request $reques)
     {
-        $companies = Company::with('categories')->get()->random(8);
+        $companies = Company::with('categories')->limit(8)->get();
 
         return view('landing.home.for-professional', compact('companies'));
     }
@@ -425,7 +425,7 @@ class LandingController extends Controller
 
     public function invitedChoice(Request $reques)
     {
-        $companies = Company::with('categories')->get()->random(8);
+        $companies = Company::with('categories')->limit()->get();
 
         return view('landing.invite.index', compact('companies'));
     }
