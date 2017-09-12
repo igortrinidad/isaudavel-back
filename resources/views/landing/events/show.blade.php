@@ -10,13 +10,44 @@
         align-items: flex-end;
         flex-flow: row wrap;
     }
-    </style>
 
-    <!-- About Event -->
-    <section class="section gray divider">
+    .card-header { position: relative; }
+    .comment {
+        background-image: url('/images/comment.png');
+        background-repeat: no-repeat;
+        background-position: center right;
+    }
+    .comment .icon {
+        position: absolute;
+        top: 10px; right: 10px;
+        max-width: 100%;
+    }
+    .comment:before {
+        content: "";
+        position: absolute;
+        bottom: -20px; left: 50%;
+        margin-left: -20px;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+        width: 0;
+        height: 0;
+
+        border-left: 20px solid transparent;
+        border-right: 20px solid transparent;
+        border-top: 20px solid #F7F7F7;
+    }
+
+    .btn.btn-facebook{ background-color: #3b5998; color: #F4F5F5; }
+    .btn.btn-whatsapp{ background-color: #1ebea5; color: #F4F5F5; }
+
+    .badge.badge-success { background-color: #00A369; color: #FFF; }
+    </style>
+    <section class="section divider">
         <div class="container">
             <div class="row">
-                <div class="col-sm-12">
+                <!-- CENTER COL "ABOUT" -->
+                <div class="col-sm-9">
                     <div class="card">
                         <div class="card-header p-5 ch-alt">
                             <div class="row row-event m-t-0">
@@ -44,88 +75,209 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- /About Event -->
+                        <div class="card-body" style="padding: 6px;">
 
-    <!-- Participants Event -->
-    <section class="section divider">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12">
-                    <h2 class="text-center m-t-20 m-b-20">Participantes</h2>
-                </div>
+                            @foreach($event_fetched->categories as $category)
+                                <span class="label label-success">{{ $category->name }}</span>
+                            @endforeach
 
-                @if(count($event_fetched->participants) == 0)
-                    <div class="col-sm-12 text-center">
-                        <span class="f-300">Nenhum participante confirmando ainda.</span>
-                    </div>
-                @endif
+                            <!-- Event Share -->
+                            <h4 class="f-300 m-t-15">Compartilhe:</h4>
+                            <div class="m-t-10 m-b-30">
+                                <button type="button" class="btn btn-facebook btn-xs p-5 p-l-10 p-r-10">Facebook</button>
+                                <button type="button" class="btn btn-whatsapp btn-xs p-5 p-l-10 p-r-10">Whatsapp</button>
+                            </div>
+                            <!-- / Event Share -->
 
-            </div>
+                            <hr>
 
-            <!-- List participants -->
-            <div class="row row-event m-t-30">
-                @foreach($event_fetched->participants as $participant)
-                <div class="col-sm-3 col-xs-4 event-col">
-                    <div class="card m-b-10">
-                        <div class="card-header ch-alt p-5 text-center">
-                            <div class="picture-circle picture-circle-xs" style="background-image:url('{{ $participant->participant_avatar }}')"></div>
-                            <h5 class="m-b-0">{{ $participant->participant }}</h5>
+                            <!-- Event Description -->
+                            <h4 class="f-300">Descrição do evento:</h4>
+                            <div class="f-300 m-t-10 m-b-30">
+                                {!! $event_fetched->description !!}
+                            </div>
+                            <!-- / Event Description -->
+
+                            <hr>
+
+                            <!-- Event Details -->
+                            <h4 class="f-300">Detalhes do evento:</h4>
+                            <ul class="list-group m-t-10 m-b-30">
+                                <li class="list-group-item f-300">
+                                    <strong>Valor</strong> <span class="badge badge-success">{{ $event_fetched->value }}</span>
+                                </li>
+                                <li class="list-group-item f-300">
+                                    <strong>Data</strong> <span class="badge badge-success">{{ $event_fetched->date->format('d/m/Y') }}</span>
+                                </li>
+                                <li class="list-group-item f-300">
+                                    <strong>Início</strong> <span class="badge badge-success">{{ $event_fetched->time }}</span>
+                                </li>
+                                <li class="list-group-item f-300">
+                                    <strong>Participantes confirmados</strong> <span class="badge badge-success">{{ $event_fetched->total_participants }}</span>
+                                </li>
+                            </ul>
+                            <!-- / Event Details -->
+
+                            <hr>
+
+                            <!-- Event Photos -->
+                            @if(count($event_fetched->photos) > 0)
+                                <h4 class="f-300">Imagens do evento:</h4>
+                                <div class="row row-event m-t-10">
+                                    @foreach($event_fetched->photos as $photo)
+                                    <div class="col-sm-3 event-col">
+                                        <img class="img-responsive" src="{{ $photo->photo_url }}" alt="">
+                                    </div>
+                                    @endforeach
+                                </div>
+
+                            @else
+                                <h4 class="f-300">Este evento ainda não possui imagens</h4>
+                            @endif
+                            <!-- Event Photos -->
+
                         </div>
                     </div>
                 </div>
-                @endforeach
-            </div>
-            <!-- / List participants -->
+                <!-- / CENTER COL "ABOUT" -->
 
+                <!-- RIGHT COL "PARTICIPANTS" -->
+                <div class="col-sm-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="text-center">
+                                        <h2 class="m-t-20 m-b-10">Participantes</h2>
+                                        @if(count($event_fetched->participants) > 0)
+                                            <span class="f-300">
+                                                {{ count($event_fetched->participants) }}
+                                                {{ count($event_fetched->participants) > 1 ? 'confirmados' : 'confirmado' }}
+                                            </span>
+                                        @endif
+                                        @if(count($event_fetched->participants) == 0)
+                                            <span class="f-300">Nenhum participante confirmando ainda.</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- List participants -->
+                            <div class="row m-t-30">
+                                @foreach($event_fetched->participants as $indexParticipant => $participant)
+                                    @if($indexParticipant < 8)
+                                        <div class="col-sm-6 text-center">
+                                            <div class="picture-circle picture-circle-p" style="background-image:url('{{ $participant->participant->avatar }}')"></div>
+                                            <h5 class="m-b-0 m-t-10 f-300 t-overflow">{{ $participant->participant->full_name }}</h5>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </div>
+                            <!-- / List participants -->
+
+                            <div class="row m-t-30 m-b-20">
+                                @if(count($event_fetched->participants) > 8)
+                                    <div class="col-sm-12 text-center">
+                                        <button type="button" data-toggle="modal" data-target="#modal-all-participants" class="btn btn-primary btn-block btn-xs p-5 m-b-10">
+                                            Ver todos participantes ({{ count($event_fetched->participants) }})
+                                        </button>
+                                    </div>
+                                @endif
+                                <div class="col-sm-12 text-center">
+                                    <button type="button" class="btn btn-success btn-block btn-xs p-5">Confirmar participação</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- RIGHT COL "PARTICIPANTS" -->
+
+            </div>
         </div>
     </section>
 
-    <!-- / Participants Event -->
-
     <!-- Event Comments -->
-    <section class="section gray divider">
+    <section class="section gray">
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
-                    <h2 class="text-center m-t-20 m-b-20">Comentários</h2>
-                </div>
-
-                @if(count($event_fetched->comments) == 0)
-                    <div class="col-sm-12 text-center">
-                        <span class="f-300">Nenhum comentário foi públicado ainda.</span>
+                    <div class="text-center">
+                        <h2 class="m-t-20 m-b-20">Comentários do evento</h2>
+                        @if(count($event_fetched->comments) > 0)
+                            <span class="f-300">Total de {{ count($event_fetched->comments) }} comentários</span>
+                        @endif
+                        @if(count($event_fetched->comments) == 0)
+                            <span class="f-300">Nenhum comentário foi públicado ainda.</span>
+                        @endif
                     </div>
-                @endif
+                </div>
             </div>
 
             <!-- List comments -->
-            <div class="row row-event m-t-30">
-                <div class="col-sm-12 event-col">
-                    <div class="card">
-                        @foreach($event_fetched->comments as $comment)
-                        <div class="card-body card-padding text-center">
-                            <p class="f-13">{{ $comment->content }}</p>
-                            <p class="f-12 m-t-0"><i class="ion-ios-clock-outline"></i>
-                                {{ $comment->created_at->format('d/m/Y') }}
-                            </p>
-                            @if(count($event_fetched->comments) > 1)
-                                <hr>
-                            @endif
+            @if(count($event_fetched->comments) > 0)
+                <div class="row row-event m-t-30">
+                    <div class="col-sm-12 event-col">
+                        <div class="card">
+                            @foreach($event_fetched->comments as $comment)
+                            <div class="card-header ch-alt comment">
+                                <!-- <img class="icon" src="/images/comment.png" alt=""> -->
+                                <p class="f-13 text-center">
+                                    {{ $comment->content }}
+                                </p>
+                            </div>
+                            <div class="card-body card-padding">
+                                <div class="text-center m-t-20">
+                                    <div class="picture-circle picture-circle-p" style="background-image:url('{{ $comment->from->avatar }}')">
+                                    </div>
+                                    <h5 class="f-300 m-t-15">{{ $comment->from->full_name }} em:
+                                        <span class="f-12">
+                                            {{ $comment->created_at->format('d/m/Y') }}
+                                        </span>
+                                    </h5>
+                                </div>
+                            </div>
+                            @endforeach
                         </div>
-                        @endforeach
                     </div>
                 </div>
-            </div>
+            @endif
             <!-- / List comments -->
 
         </div>
     </section>
     <!-- / Event Comments -->
 
+    <!-- MODAL PARTICIPANTS -->
+    <div id="modal-all-participants" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Todos participantes confirmados</h4>
+                </div>
+                <div class="modal-body">
+                    <!-- List participants -->
+                    <div class="row row-event m-t-30">
+                        @foreach($event_fetched->participants as $participant)
+                            <div class="col-sm-4 col-event text-center">
+                                <div class="card">
+                                    <div class="card-header ch-alt">
+                                        <div class="picture-circle picture-circle-p" style="background-image:url('{{ $participant->participant->avatar }}')"></div>
+                                        <h5 class="m-b-0 m-t-10 f-300 t-overflow">{{ $participant->participant->full_name }}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    <!-- / List participants -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- / MODAL PARTICIPANTS -->
 
     @section('scripts')
         @parent

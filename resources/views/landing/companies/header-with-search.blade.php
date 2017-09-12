@@ -48,7 +48,7 @@
 
 <header id="search-area" :class="{ 'search-page' : pathSearch }">
 
-    <div class="container" style="border-color: blue !important;">
+    <div class="container">
        <div class="row header-mobile">
            <h3 class="text-center">Encontre empresas e profissionais de saúde próximos à você</h3>
            <div class="col-xs-12 col-sm-4 col-md-4">
@@ -147,7 +147,7 @@
                 methods: {
                   getCategories: function(){
                       let that = this
-                
+
                         this.$http.get('/api/company/category/list').then(response => {
 
                             that.categories = response.body;
@@ -161,7 +161,7 @@
 
                     var city = document.getElementById('category');
                     city.setAttribute('value', ev.target.value)
-                      
+
                   },
                 }
 
@@ -174,4 +174,3 @@
 
 
     @stop
-    
