@@ -78,12 +78,27 @@ Route::group(['prefix' => 'profissional', 'as' => 'professional.'], function () 
     Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.', 'middleware' => ['auth:professional_web', 'check.owner']], function () {
         Route::get('/empresas', ['uses' => 'DashboardController@companiesIndex', 'as' => 'companies.list']);
         Route::get('/empresas/{id}', ['uses' => 'DashboardController@companyShow', 'as' => 'company.show']);
+        Route::get('/empresas/{id}/faturas', ['uses' => 'DashboardController@invoicesList', 'as' => 'invoices.list']);
+        Route::get('/empresas/{id}/faturas/{invoice_id}', ['uses' => 'DashboardController@invoiceShow', 'as' => 'invoice.show']);
         Route::get('/empresas/editar/{id}', ['uses' => 'DashboardController@showCompanyEdit', 'as' => 'company.edit']);
         Route::post('/empresas/update', ['uses' => 'DashboardController@companyUpate', 'as' => 'company.update']);
         Route::post('/empresas/subscription/update', ['uses' => 'DashboardController@subscriptionUpdate', 'as' => 'subscription.update']);
     });
 
     Route::post('/logout', ['uses' => 'Auth\ProfessionalLoginController@logout', 'as' => 'logout']);
+});
+
+//Oracle routes
+Route::group(['prefix' => 'oracle', 'as' => 'oracle.'], function () {
+
+    Route::get('/login', ['uses' => 'OracleController@showLogin', 'as' => 'show.login']);
+    Route::post('/login', ['uses' => 'Auth\OracleLoginController@landingLogin', 'as' => 'post.login']);
+    
+    Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.', 'middleware' => ['auth:oracle_web']], function () {
+        Route::get('/',function(){
+            dd(\Auth::user()->toArray());
+        });
+    });
 });
 
 

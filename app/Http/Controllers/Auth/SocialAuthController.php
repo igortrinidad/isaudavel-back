@@ -130,7 +130,7 @@ class SocialAuthController extends Controller
                 }
 
             }else{
-                $user = $userSocialProvider->professional;
+                $user = $userSocialProvider->professional->load('companies', 'categories');
             }
         }
 

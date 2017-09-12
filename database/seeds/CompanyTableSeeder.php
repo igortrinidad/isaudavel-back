@@ -2,6 +2,7 @@
 
 use App\Models\CompanyInvoice;
 use App\Models\CompanySubscription;
+use App\Models\Professional;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Webpatser\Uuid\Uuid;
@@ -17,9 +18,9 @@ class CompanyTableSeeder extends Seeder
     {
         $faker = \Faker\Factory::create('pt_BR');
 
-        $professionals = \App\Models\Professional::all()->take(10)->pluck('id')->flatten()->toArray();
+        $professionals = Professional::all()->take(10)->pluck('id')->flatten()->toArray();
 
-        $other_professionals = \App\Models\Professional::all()->pluck('id')->flatten()->toArray();
+        $other_professionals = Professional::all()->pluck('id')->flatten()->toArray();
 
         $other_professionals = array_diff_assoc($other_professionals, $professionals);
 
@@ -92,7 +93,7 @@ class CompanyTableSeeder extends Seeder
                 'is_confirmed' => true,
                 'is_public' => true,
                 'confirmed_by_id' => $professional,
-                'confirmed_by_type' => \App\Models\Professional::class,
+                'confirmed_by_type' => Professional::class,
                 'confirmed_at' => Carbon::now()
             ]);
 
@@ -101,7 +102,7 @@ class CompanyTableSeeder extends Seeder
                 'is_confirmed' => true,
                 'is_public' => true,
                 'confirmed_by_id' => $professional,
-                'confirmed_by_type' => \App\Models\Professional::class,
+                'confirmed_by_type' => Professional::class,
                 'confirmed_at' => Carbon::now()
             ]);
 
@@ -150,6 +151,25 @@ class CompanyTableSeeder extends Seeder
                 'start_at' => Carbon::now()->format('d/m/Y'),
                 'expire_at' => Carbon::now()->addMonth(1)->format('d/m/Y')
             ]);
+
+
+            //Subscription History
+            \App\Models\SubscriptionHistory::create(
+                [
+                    'company_id' => $company_subscription->company_id,
+                    'subscription_id' => $company_subscription->id,
+                    'action' => 'subscription-created',
+                    'description' => 'Assinatura criada',
+                    'professionals_old_value' => 0,
+                    'professionals_new_value' => $company->professionals->count(),
+                    'categories_old_value' => 0,
+                    'categories_new_value' => $company->categories->count(),
+                    'total_old_value' => 0,
+                    'total_new_value' => round($company_subscription->total,2),
+                    'user_id' =>    $company->owner_id,
+                    'user_type' => Professional::class
+                ]
+            );
 
             // Company Invoice
             $invoice_items = [
@@ -243,7 +263,7 @@ class CompanyTableSeeder extends Seeder
 
                 \App\Models\Recomendation::create([
                     'from_id' => $professional,
-                    'from_type' => \App\Models\Professional::class,
+                    'from_type' => Professional::class,
                     'to_id' => $company->id,
                     'to_type' => \App\Models\Company::class,
                     'content' => $faker->sentence(15)

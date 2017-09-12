@@ -1,7 +1,7 @@
 @extends('dashboard.layout.index')
 
 @section('content')
-    <div class="container first-container">
+    <div class="container first-container" id="company-edit-form">
         <div class="row m-t-20">
             <h2>{{$company->name}}</h2>
             <h4>Gerenciar assinatura e faturas</h4>
@@ -10,9 +10,9 @@
                 @include('flash::message')
             </div>
 
-            <form class="m-b-25" action="{{route('professional.dashboard.subscription.update')}}" method="post" role="form" id="company-edit-form">
+            <form class="m-b-25" action="{{route('professional.dashboard.subscription.update')}}" method="post" role="form">
                 <div class="alert alert-info" v-if="!is_disabled">
-                    <strong>Atenção</strong>: as alterações de especialidades e quantidade de profissionais serão refletidas na fatura em aberto ou na posterior.
+                    <strong>Atenção</strong>: remoções de especialidades e quantidade de profissionais serão refletidas na próxima fatura, para as adições será criada uma fatura com a diferença parcial.
                 </div>
 
                 <div class="form-group">
@@ -24,7 +24,12 @@
                             :multiple="true"
                             placeholder="Selecione ao menos uma categoria"
                             @input="calcValue"
-                            :disabled="is_disabled">
+                            :disabled="is_disabled"
+                            track-by="name"
+                            :select-label="'Selecionar'"
+                            :selected-label="'Selecionado'"
+                            :deselect-label="'Remover'"
+                    >
                     </multiselect>
                 </div>
 
@@ -87,6 +92,62 @@
                 <button class="btn btn-default btn-block" v-if="!is_disabled" @click.prevent="cancelUpdate">Cancelar</button>
 
             </form>
+
+            <a class="btn btn-primary btn-block m-b-25" href="{{route('professional.dashboard.invoices.list', ['id'=> $company->id])}}">Minhas faturas</a>
+
+            <button class="btn btn-primary btn-block"  @click.prevent="interactions.showSubscriptionHistory = true" v-if="!interactions.showSubscriptionHistory">Exibir histórico da assinatura</button>
+            <button class="btn btn-default btn-block"  @click.prevent="interactions.showSubscriptionHistory = false" v-if="interactions.showSubscriptionHistory">Esconder histórico da assinatura</button>
+
+            <div class="m-t-20 m-b-20 table-responsive">
+                <table class="table table-striped table-hover" v-if="interactions.showSubscriptionHistory">
+                    <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Descrição</th>
+                        <th>Usuário</th>
+                        <th>Detalhe</th>
+                    </tr>
+                    </thead>
+                    <tbody v-for="history in company.subscription.histories">
+                            <tr>
+                                <td>@{{history.created_at}}</td>
+                                <td>@{{history.description}}</td>
+                                <td v-if="history.user">@{{history.user.full_name}}</td>
+                                <td>
+                                    <button class="btn btn-info btn-sm" @click.prevent="handleDetail(history.id)">
+                                        <i class="ion-plus" v-if="interactions.historiesOpened.indexOf(history.id) < 0"></i>
+                                        <i class="ion-minus" v-if="interactions.historiesOpened.indexOf(history.id) > -1"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr v-if="interactions.historiesOpened.indexOf(history.id) > -1">
+                                <td width="auto">
+                                    <div>
+                                        <p><strong>Profissionais</strong></p>
+                                        <span><strong>Valor atual: </strong> @{{history.professionals_new_value}} </span><br>
+                                        <span><strong>Valor antigo: </strong>@{{history.professionals_old_value}} </span>
+                                    </div>
+                                </td>
+                                <td  width="auto">
+                                    <div>
+                                        <p><strong>Categorias</strong></p>
+                                        <span><strong>Valor atual: </strong> @{{history.categories_new_value}} </span><br>
+                                        <span><strong>Valor antigo: </strong>@{{history.categories_old_value}} </span>
+                                    </div>
+                                </td>
+                                <td  width="auto">
+                                    <div>
+                                        <p><strong>Total</strong></p>
+                                        <span><strong>Valor atual: </strong> @{{history.total_new_value | formatCurrency}} </span><br>
+                                        <span><strong>Valor antigo: </strong>@{{history.total_old_value  | formatCurrency}} </span>
+                                    </div>
+                                </td>
+                                <td></td>
+                            </tr>
+                    </tbody>
+                </table>
+            </div>
+
         </div>
     </div>
 @endsection
@@ -123,6 +184,10 @@
                 }
             },
             data: {
+                interactions:{
+                    showSubscriptionHistory: false,
+                    historiesOpened: []
+                },
                 city: '',
                 category: null,
                 categories: [],
@@ -224,7 +289,16 @@
                 cancelUpdate: function(){
                     this.is_disabled = true
                     this.professionals_for_remove = []
-                    this.professionals = []
+                },
+
+                handleDetail: function(id){
+                    let index = this.interactions.historiesOpened.indexOf(id)
+
+                    if(index > -1){
+                        this.interactions.historiesOpened.splice(index,1)
+                    } else {
+                        this.interactions.historiesOpened.push(id);
+                    }
                 }
             }
 

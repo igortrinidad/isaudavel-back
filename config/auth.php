@@ -60,6 +60,11 @@ return [
             'driver' => 'jwt',
             'provider' => 'oracle_users',
         ],
+
+        'oracle_web' => [
+            'driver' => 'session',
+            'provider' => 'oracle_users',
+        ],
     ],
 
     /*

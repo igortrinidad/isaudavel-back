@@ -42,4 +42,20 @@ class OracleLoginController extends Controller
             'user' =>  $this->guard()->user()->load('socialProviders')
         ])->header('Authorization','Bearer '. $token);
     }
+
+    public function landingLogin(Request $request)
+    {
+        $credentials = $request->only(['email', 'password']);
+
+        if (\Auth::guard('oracle_web')->attempt($credentials)) {
+
+            return redirect()->intended('oracle/dashboard');
+
+        }else{
+
+            flash('Usuário ou senha inválidos.')->error()->important();
+
+            return redirect()->back()->withInput($request->only(['email']));
+        }
+    }
 }

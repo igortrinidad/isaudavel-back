@@ -19,12 +19,14 @@ class CheckOwner
 
         foreach (Auth::user()->companies as $company) {
             // redirect if the user owns any company
-            if ($company->owner_id == Auth::user()->id) {
+            if ($company->owner_id == Auth::user()->id || $company->pivot->is_admin) {
                 return $next($request);
             }
+
+
         }
 
-        flash('Somente proprietários de empresas podem realizar este login.')->info()->important();
+        flash('Somente proprietários ou administradores de empresas podem realizar este login.')->info()->important();
 
         return redirect()->back();
 

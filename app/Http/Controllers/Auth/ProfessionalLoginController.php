@@ -38,7 +38,7 @@ class ProfessionalLoginController extends Controller
         
         return response()->json([
             'access_token' => $token,
-            'user' =>  $JWTAuth->user()
+            'user' =>  $JWTAuth->user()->load('companies', 'categories')
         ])->header('Authorization','Bearer '. $token);
     }
 

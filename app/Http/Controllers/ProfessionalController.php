@@ -38,7 +38,7 @@ class ProfessionalController extends Controller
 
         $professionals = Professional::whereHas('companies', function ($query) use($request){
             $query->where('company_id', $request->get('company_id'));
-        })->orderBy('name')->get();
+        })->with('categories')->orderBy('name')->get();
 
 
         $verified_professionals = [];

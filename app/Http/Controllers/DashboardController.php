@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Services\InvoiceServices;
 use App\Models\CompanyInvoice;
 use App\Models\CompanySubscription;
+use App\Models\SubscriptionHistory;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -21,7 +23,19 @@ use Webpatser\Uuid\Uuid;
 
 class DashboardController extends Controller
 {
+    /**
+     * @var InvoiceServices
+     */
+    private $invoiceServices;
 
+    /**
+     * DashboardController constructor.
+     * @param InvoiceServices $invoiceServices
+     */
+    public function __construct(InvoiceServices $invoiceServices)
+    {
+        $this->invoiceServices = $invoiceServices;
+    }
 
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -43,7 +57,7 @@ class DashboardController extends Controller
 
     public function companyShow($id)
     {
-        $company = Company::where('owner_id', Auth::user()->id)->where('id', $id)->with('categories', 'professionals', 'subscription')->first();
+        $company = Company::where('owner_id', Auth::user()->id)->where('id', $id)->with('categories', 'professionals', 'subscription.histories.user')->first();
 
         \JavaScript::put(['company' => $company]);
 
@@ -89,15 +103,16 @@ class DashboardController extends Controller
 
         //Check for changes
         if (count($categories) != $subscription->categories || $professionals != $subscription->professionals) {
-            $new_items = [];
 
-            foreach($last_invoice->items as $item){
-                $new_items[] = $item;
-            }
+            $new_items = [];
+            $subscription_total = $subscription->total;
+            $new_total = 0;
+
             //category added
             if (count($categories) > $subscription->categories) {
-                $start = Carbon::createFromFormat('d/m/Y', $subscription->start_at);
-                $period = $start->diffInDays(Carbon::createFromFormat('d/m/Y', $last_invoice->expire_at));
+                $new_items = [];
+                $start = Carbon::now();
+                $period = $start->diffInDays(Carbon::createFromFormat('d/m/Y', $subscription->expire_at));
 
                 $new_item = [
                     'item' => 'categories',
@@ -114,27 +129,16 @@ class DashboardController extends Controller
 
             //category removed
             if (count($categories) < $subscription->categories) {
-                $start = Carbon::createFromFormat('d/m/Y', $subscription->start_at);
-                $period = $start->diffInDays(Carbon::createFromFormat('d/m/Y', $last_invoice->expire_at));
 
-                $new_item = [
-                    'item' => 'categories',
-                    'total' => ((37.9 / 30) * ($period-30)) - 37.9 * ($subscription->categories - count($categories)),
-                    'quantity' => $subscription->categories - count($categories),
-                    'reference' => 'Referente ao período de ' . Carbon::now()->format('d/m/Y') . ' à ' . $last_invoice->expire_at,
-                    'is_partial' => true,
-                    'description' => 'Remoção de categoria(s) da empresa',
-                ];
-                $new_items[] = $new_item;
+                $new_total += -37.9 * ($subscription->categories - count($categories));
 
-                //dd($new_item);
             }
+
             //professional added
-
             if ($professionals > $subscription->professionals) {
-
-                $start = Carbon::createFromFormat('d/m/Y', $subscription->start_at);
-                $period = $start->diffInDays(Carbon::createFromFormat('d/m/Y', $last_invoice->expire_at));
+                count($new_items) ? $new_items : [];
+                $start = Carbon::now();
+                $period = $start->diffInDays(Carbon::createFromFormat('d/m/Y', $subscription->expire_at));
 
                 $new_item = [
                     'item' => 'professionals',
@@ -150,49 +154,96 @@ class DashboardController extends Controller
 
             //professional removed
             if ($professionals < $subscription->professionals) {
-                $start = Carbon::createFromFormat('d/m/Y', $subscription->start_at);
-                $period = $start->diffInDays(Carbon::createFromFormat('d/m/Y', $last_invoice->expire_at));
 
-                $new_item = [
-                    'item' => 'professionals',
-                    'total' => ((17.9 / 30) * (30-$period) - 17.9 ) * ($subscription->professionals - $professionals),
-                    'quantity' => $subscription->professionals - $professionals,
-                    'reference' => 'Referente ao período de ' . Carbon::now()->format('d/m/Y') . ' à ' . $last_invoice->expire_at,
-                    'is_partial' => true,
-                    'description' => 'Remoção de profissional da empresa',
+                $new_total += -17.9 * ($subscription->professionals - $professionals);
+            }
+
+            if(count($new_items)) {
+
+                foreach ($new_items as $item) {
+                    $new_total += $item['total'];
+                }
+
+                $total = $subscription_total + $new_total;
+
+                $invoice_history = [
+                    [
+                        'full_name' =>'Sistema iSaudavel',
+                        'action' => 'invoice-created',
+                        'label' => 'Fatura gerada',
+                        'date' => Carbon::now()->format('Y-m-d H:i:s')
+                    ]
                 ];
-                $new_items[] = $new_item;
+
+                $new_invoice = CompanyInvoice::create([
+                    'company_id' => $subscription->company_id,
+                    'subscription_id' => $subscription->id,
+                    'total' => round($new_total,2),
+                    'expire_at' => $subscription->expire_at,
+                    'items' => $new_items,
+                    'history'=> $invoice_history
+                ]);
+
+                $this->invoiceServices->SendNewInvoiceMail($new_invoice->load('company.owner'));
             }
 
-            $total = 0;
-            foreach ($new_items as $item) {
-                $total += $item['total'];
+            if(!count($new_items)){
+                $total = $subscription_total - abs($new_total);
             }
 
-            //dd(count($categories),$professionals, $total, $new_items);
+
+            SubscriptionHistory::create(
+                [
+                    'company_id' => $subscription->company_id,
+                    'subscription_id' => $subscription->id,
+                    'action' => 'subscription-update',
+                    'description' => 'Assinatura atualizada',
+                    'professionals_old_value' => $subscription->professionals,
+                    'professionals_new_value' => $professionals,
+                    'categories_old_value' => $subscription->categories,
+                    'categories_new_value' => count($categories),
+                    'total_old_value' => $subscription->total,
+                    'total_new_value' => round($total,2),
+                    'user_id' => \Auth::user()->id,
+                    'user_type' => get_class(\Auth::user())
+                ]
+            );
 
             $subscription->categories = count($categories);
             $subscription->professionals = $professionals;
-            $subscription->total = $total;
+            $subscription->total = round($total,2);
             $subscription->save();
 
-            $last_invoice->total = $total;
-            $last_invoice->items = $new_items;
-            $last_invoice->save();
+            //Sync current categories and $professionals
+            $company->categories()->sync($categories);
+
+            if(count($company_professionals)){
+                $company->professionals()->sync($company_professionals);
+            }
+
+            flash('Assinatura atualizada com sucesso')->success()->important();
+
+            return redirect()->back();
 
         }
 
-        //Sync current categories and $professionals
-        $company->categories()->sync($categories);
-
-        if(count($company_professionals)){
-            $company->professionals()->sync($company_professionals);
-        }
-
-        flash('Assinatura atualizada com sucesso')->success()->important();
+        flash('Não houve alteração na assinatura.')->info()->important();
 
         return redirect()->back();
     }
 
+    public function invoicesList($id)
+    {
+       $invoices = CompanyInvoice::where('company_id', $id)->get();
+
+        return view('dashboard.companies.invoices', compact('invoices'));
+    }
+
+    public function invoiceShow($company_id, $invoice_id)
+    {
+        $invoice = CompanyInvoice::with('company.owner')->find($invoice_id);
+
+        return view('dashboard.companies.invoice-show', compact('invoice'));
+    }
 
 }

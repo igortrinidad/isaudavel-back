@@ -123,7 +123,7 @@ class CompanyController extends Controller
      */
     public function show($id)
     {
-        $company = Company::with(['professionals', 'photos', 'clients', 'categories'])->find($id);
+        $company = Company::with(['professionals.categories', 'professionals.companies', 'photos', 'clients', 'categories'])->find($id);
 
         return response()->json(['company' => $company]);
     }

@@ -72,6 +72,14 @@ class CompanySubscription extends Model
         return $this->hasMany(CompanyInvoice::class, 'subscription_id', 'id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function histories()
+    {
+        return $this->hasMany(SubscriptionHistory::class, 'subscription_id', 'id');
+    }
+
     /*
      * Format to display
      */

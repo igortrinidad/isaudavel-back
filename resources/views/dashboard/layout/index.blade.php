@@ -32,6 +32,14 @@
             .navbar-default.navbar-fixed-top.animated { background: #fff !important; }
         }
 
+        .invoice-title h2, .invoice-title h3 {
+            display: inline-block;
+        }
+
+        .table-vmiddle td {
+            vertical-align: middle !important;
+        }
+
     </style>
 
     <!-- Hotjar Tracking Code for https://isaudavel.com -->
