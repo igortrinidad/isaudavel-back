@@ -366,7 +366,7 @@ class ProfessionalController extends Controller
             $data['messageTitle'] = '<h4>Solicitação de empresa</h4>';
             $data['messageOne'] = '
             <p>Olá ' . $professional->full_name . ',</p>
-            <p>O profissional <b>' . $request->get('user_full_name') . '</b> acabou de adicionar você na empresa <b> ' .$request->get('company_name') .'</b>
+            <p>O profissional <b>' . $request->get('user_full_name') . '</b> acabou de adicionar você na empresa <b> ' .$request->get('company_name') .'</b>.
             </p>
             <p>Acesse seu Dashboard profissional para aceitar ou excluir a solicitação desta empresa.</p>
             <br>

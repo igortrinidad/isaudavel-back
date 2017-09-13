@@ -153,9 +153,6 @@ class CompanyController extends Controller
     {
         $company = tap(Company::find($request->get('id')))->update($request->all());
 
-        //Sync categories
-        $company->categories()->sync($request->get('categories'));
-
         //update photos
         if (array_key_exists('photos', $request->all())) {
             foreach ($request->get('photos') as $photo) {
