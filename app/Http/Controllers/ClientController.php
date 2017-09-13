@@ -169,7 +169,7 @@ class ClientController extends Controller
         if($request->has('password') && $request->get('password')){
             $pass = $request->get('password');
         } else {
-            $pass = str_random(6);
+            $pass = rand(100000, 999999);
         }
         
         $request->merge([
