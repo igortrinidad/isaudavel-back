@@ -468,4 +468,54 @@ class ProfessionalController extends Controller
             'already_exist' => $already_exist,
         ], 200);
     }
+
+
+    /**
+     * Generate new Password to the user and send the email for him.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function generateNewPass($email)
+    {
+        $user = Professional::where(['email' => $email])->first();
+
+        if(!$user){
+            return response()->json(['alert' => ['type' => 'success', 'title' => 'Atenção!', 'message' => 'Email não localizado', 'status_code' => 404]], 404);
+        }
+
+        $pass = rand(100000, 999999);
+
+        $user->password = bcrypt($pass);
+        $user->save();
+
+        //Email
+        $data = [];
+        $data['full_name'] = $user->full_name;
+        $data['user_email'] = $user->email;
+        $data['align'] = 'center';
+        $data['messageTitle'] = 'Olá, ' . $user->full_name;
+        $data['messageOne'] = 'Alguém solicitou recentemente uma alteração na senha da sua conta do iSaudavel';
+        $data['messageTwo'] = 'Caso não tenha sido você, acesse sua conta vinculada a este email e altere a senha para sua segurança.';
+        $data['messageThree'] = 'Nova senha:';
+        $data['button_link'] = 'https://app.isaudavel.com';
+        $data['button_name'] = $pass;
+        $data['messageFour'] = 'Para manter sua conta segura, não encaminhe este e-mail para ninguém.';
+        $data['messageSubject'] = 'Alteração de senha iSaudavel';
+
+        \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data){
+            $message->from('no-reply@isaudavel.com', 'iSaudavel');
+            $message->to($data['user_email'], $data['full_name'])->subject($data['messageSubject']);
+        });
+
+        if(!count(\Mail::failures())) {
+            return response()->json(['alert' => ['type' => 'success', 'title' => 'Atenção!', 'message' => 'Senha alterada com sucesso.', 'status_code' => 200]], 200);
+        }
+
+        if(count(\Mail::failures())){
+            return response()->json(['alert' => ['type' => 'error', 'title' => 'Atenção!', 'message' => 'Ocorreu um erro ao enviar o e-mail.', 'status_code' => 500]], 500);
+        }
+
+        return view('users.show', compact('user'));
+    }
 }
