@@ -273,7 +273,7 @@ class LandingController extends Controller
         $categories = json_decode($request->get('categories'));
         $terms = json_decode($request->get('terms'));
 
-        $user_password = Str::random(6);
+        $user_password = rand(101010,999999);
 
         $professional_exists = Professional::where('email', $request->get('email'))->first();
 
@@ -448,7 +448,7 @@ class LandingController extends Controller
     public function signupClient(Request $request)
     {
         $terms = json_decode($request->get('terms'));
-        $user_password = Str::random(6);
+        $user_password = rand(101010,999999);
 
         $request->merge(['terms' => $terms, 'password' => bcrypt($user_password)]);
 
@@ -488,7 +488,7 @@ class LandingController extends Controller
     {
         $categories = json_decode($request->get('categories'));
         $terms = json_decode($request->get('terms'));
-        $user_password = Str::random(6);
+        $user_password = rand(101010,999999);
 
         $request->merge(['terms' => $terms, 'password' => bcrypt($user_password)]);
 
