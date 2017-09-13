@@ -77,7 +77,7 @@ class CompanySubscription extends Model
      */
     public function histories()
     {
-        return $this->hasMany(SubscriptionHistory::class, 'subscription_id', 'id');
+        return $this->hasMany(SubscriptionHistory::class, 'subscription_id', 'id')->orderByDesc('created_at');
     }
 
     /*

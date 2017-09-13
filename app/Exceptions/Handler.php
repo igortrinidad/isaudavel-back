@@ -97,6 +97,11 @@ class Handler extends ExceptionHandler
         }
 
         flash('Você deve fazer login para continuar.')->error()->important();
+
+        if(str_contains($request->route()->uri, 'oracle')){
+            return redirect()->guest(route('oracle.login'));
+        }
+
         return redirect()->guest(route('landing.professionals.login'));
     }
 }

@@ -49,7 +49,8 @@ class OracleLoginController extends Controller
 
         if (\Auth::guard('oracle_web')->attempt($credentials)) {
 
-            return redirect()->intended('oracle/dashboard');
+
+            return redirect()->intended('oracle/dashboard/');
 
         }else{
 
@@ -57,5 +58,12 @@ class OracleLoginController extends Controller
 
             return redirect()->back()->withInput($request->only(['email']));
         }
+    }
+
+    public function logout()
+    {
+        \Auth::guard('oracle_web')->logout();
+
+        return redirect()->to('/');
     }
 }

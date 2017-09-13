@@ -18,6 +18,12 @@ class TrainningController extends Controller
     {
         $trainnings = Trainning::where('client_id', $request->get('client_id'))->with('from')->orderBy('updated_at', 'DESC')->get();
 
+        foreach($trainnings as $trainning){
+           if($trainning->from->role == 'professional'){
+              $trainning->from->load('categories');
+           }
+        }
+
         return response()->json(['trainnings' => $trainnings]);
     }
 
