@@ -43,7 +43,7 @@
 
     .badge.badge-success { background-color: #00A369; color: #FFF; }
     </style>
-    <section class="section divider">
+    <section id="events-show" class="section divider">
         <div class="container">
             <div class="row">
                 <!-- CENTER COL "ABOUT" -->
@@ -84,8 +84,12 @@
                             <!-- Event Share -->
                             <h4 class="f-300 m-t-15">Compartilhe:</h4>
                             <div class="m-t-10 m-b-30">
-                                <button type="button" class="btn btn-facebook btn-xs p-5 p-l-10 p-r-10">Facebook</button>
-                                <button type="button" class="btn btn-whatsapp btn-xs p-5 p-l-10 p-r-10">Whatsapp</button>
+                                <button type="button" class="btn btn-facebook btn-xs p-5 p-l-10 p-r-10" @click="openShareFacebook()">
+                                    <i class="ion-social-facebook m-r-5"></i>Facebook
+                                </button>
+                                <button type="button" class="btn btn-whatsapp btn-xs p-5 p-l-10 p-r-10" @click="openShareWhatsapp()">
+                                    <i class="ion-social-whatsapp m-r-5"></i>Whatsapp
+                                </button>
                             </div>
                             <!-- / Event Share -->
 
@@ -282,22 +286,44 @@
     @section('scripts')
         @parent
         <script>
-            // Vue.config.debug = true;
-            // var vm = new Vue({
-            //     el: '#list-events',
-            //     data: {
-            //     },
-            //     computed: {
-            //
-            //     },
-            //     mounted: function() {
-            //
-            //     },
-            //     methods: {
-            //
-            //     }
-            //
-            // })
+            Vue.config.debug = true;
+            var vm = new Vue({
+                el: '#events-show',
+                data: {
+                },
+                computed: {
+
+                },
+                mounted: function() {
+
+                },
+                methods: {
+                    // Facebook share
+                    openShareFacebook: function() {
+                        let that = this
+                        var url = 'https://www.facebook.com/dialog/share?app_id=151705885358217&href=https://isaudavel.com/eventos/{{ $event_fetched->slug }}&display=popup&mobile_iframe=true';
+                            if(window.cordova){
+                                var ref = window.open(url, '_blank', 'location=yes');
+                                ref.addEventListener('loadstart', function(event) {
+                                    var url = "https://www.facebook.com/dialog/return/close";
+                                    if (event.url.indexOf(url) !== -1) {
+                                        ref.close();
+                                        successNotify('', 'Evento compartilhado com sucesso!')
+                                    }
+                                });
+                            } else {
+                                window.open(url, '_blank', 'location=yes');
+                            }
+                    },
+                    // Whatsapp share
+                    openShareWhatsapp: function() {
+                        var that = this
+                        var url = 'https://api.whatsapp.com/send?text=Encontrei o evento {{ $event_fetched->name }} no iSaudavel, veja o abaixo: https://isaudavel.com/eventos/{{ $event_fetched->slug }}';
+                        window.open(url, '_system', null);
+                    },
+                }
+
+            })
         </script>
     @stop
 @stop
