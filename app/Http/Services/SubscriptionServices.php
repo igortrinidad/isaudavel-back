@@ -26,9 +26,13 @@ class SubscriptionServices{
 
     public function updateSubscription(Request $request){
 
+
+
+
         $categories = json_decode($request->get('categories'));
         $company_professionals = json_decode($request->get('company_professionals'));
         $professionals = (Integer)$request->get('professionals');
+        $is_active = $request->get('is_active') ? true : false;
 
         $company = Company::find($request->get('id'));
 
@@ -184,7 +188,7 @@ class SubscriptionServices{
 
         }
 
-        if($request->has('update_expiration')){
+        if($request->has('update_expiration') && $request->get('update_expiration') == 'true'){
 
             SubscriptionHistory::create(
                 [
@@ -204,6 +208,32 @@ class SubscriptionServices{
             );
 
             $subscription->expire_at = $request->get('expire_at');
+            $subscription->save();
+
+            flash('Assinatura atualizada com sucesso')->success()->important();
+
+            return redirect()->back();
+        }
+
+        if($subscription->is_active != $is_active){
+            SubscriptionHistory::create(
+                [
+                    'company_id' => $subscription->company_id,
+                    'subscription_id' => $subscription->id,
+                    'action' => 'subscription-update',
+                    'description' => 'Assinatura ' . ($is_active ? 'ativada' : 'desativada'),
+                    'professionals_old_value' => $subscription->professionals,
+                    'professionals_new_value' => $professionals,
+                    'categories_old_value' => $subscription->categories,
+                    'categories_new_value' => count($categories),
+                    'total_old_value' => $subscription->total,
+                    'total_new_value' => $subscription->total,
+                    'user_id' => \Auth::user()->id,
+                    'user_type' => get_class(\Auth::user())
+                ]
+            );
+
+            $subscription->is_active = $is_active;
             $subscription->save();
 
             flash('Assinatura atualizada com sucesso')->success()->important();

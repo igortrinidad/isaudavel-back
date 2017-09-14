@@ -67,7 +67,7 @@ class OracleController extends Controller
 
     public function companyEdit($id)
     {
-        $company = Company::with('subscription.histories', 'categories', 'professionals')->find($id);
+        $company = Company::with('subscription.histories', 'categories', 'professionals.categories')->find($id);
 
         \JavaScript::put(['company' => $company]);
 
@@ -76,7 +76,10 @@ class OracleController extends Controller
 
     public function companyUpdate(Request $request)
     {
+
         $address = json_decode($request->get('address'));
+        $professionals_to_remove = json_decode($request->get('professionals_to_remove'));
+
 
         //checkboxes
         $address_is_available = $request->get('address_is_available') ? true : false;
@@ -87,9 +90,13 @@ class OracleController extends Controller
 
         $company = tap(Company::find($request->get('id')))->update($request->all())->fresh();
 
+        if($request->has('has_professionals_to_remove') && $request->get('has_professionals_to_remove') == 'true'){
+            $company->professionals()->detach($professionals_to_remove);
+        }
+
         flash('Empresa atualizada com sucesso')->success()->important();
 
-        return redirect()->route('oracle.dashboard.companies.list');
+        return redirect()->back();
     }
 
     public function companySubscription($id)

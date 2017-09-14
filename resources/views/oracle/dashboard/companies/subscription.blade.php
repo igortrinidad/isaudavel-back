@@ -118,6 +118,16 @@
                         <p>@{{expire_at}}</p>
                     </div>
 
+                    <div class="form-group">
+                        <label>Status</label><br>
+                        <p class="text">
+                            @{{is_active ? 'Ativa' : 'Inativa'}}</p>
+                        <label class="switch">
+                            <input type="checkbox" v-model="is_active" name="is_active" id="is_active" :disabled="is_disabled">
+                            <div class="slider round"></div>
+                        </label>
+                    </div>
+
                     <div class="form-group text-center">
                         <label>Valor assinatura</label>
                         <h1 class="text-center">@{{total | formatCurrency}}</h1>
@@ -249,6 +259,7 @@
                 update_expiration: false,
                 set_manual_expiration: false,
                 selectedExpirationAdd: null,
+                is_active: false,
             },
             mounted: function() {
 
@@ -256,6 +267,7 @@
                 this.company = company
                 this.category = company.categories
                 this.professionals = company.subscription.professionals
+                this.is_active = company.subscription.is_active
                 this.calcValue()
             },
             methods: {

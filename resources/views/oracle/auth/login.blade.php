@@ -20,6 +20,9 @@
 
                 <div class="col-xs-12 col-md-6 col-md-offset-3">
                     <div class="block">
+
+                        <p class="text-center m-t-20"><strong>Área restrita para administradores da plataforma.</strong></p>
+
                         <div  class="m-t-20">
                             {{--Alert display--}}
                             @include('flash::message')

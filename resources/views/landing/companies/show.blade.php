@@ -343,8 +343,8 @@
                     <div class="card">
                         <div class="card-header ch-alt">
                             <h2 class="f-300">Profissionais</h2>
-                            <span class="f-14 f-300">Total de {{ count($company_fetched->professionals) }}
-                                @if(count($company_fetched->professionals) > 1)
+                            <span class="f-14 f-300">Total de {{ count($company_fetched->public_confirmed_professionals) }}
+                                @if(count($company_fetched->public_confirmed_professionals) > 1)
                                     profissionais
                                 @else
                                     profissional
@@ -352,13 +352,13 @@
                             </span>
                         </div>
                         <div class="card-body p-t-5 p-b-5">
-                            @if(count($company_fetched->professionals) == 0)
+                            @if(count($company_fetched->public_confirmed_professionals) == 0)
                             <span class="f-300 m-t-30 m-b-30 d-block">Esta empresa ainda não possui profissionais cadastrados</span>
                             @endif
-                            @if(count($company_fetched->professionals) > 0)
+                            @if(count($company_fetched->public_confirmed_professionals) > 0)
                                 <div class="swiper-container swiper-default-show">
                                     <div class="swiper-wrapper">
-                                        @foreach($company_fetched->professionals as $professional)
+                                        @foreach($company_fetched->public_confirmed_professionals as $professional)
                                             <div class="swiper-slide text-center">
                                                 <div class="p-10" style="background-color: #f4f5f5; border-radius: 4px;">
                                                     <div class="picture-circle  picture-circle-p m-t-10" style="background-image:url({{$professional->avatar}})">
@@ -386,7 +386,7 @@
                                             </div>
                                         @endforeach
                                     </div>
-                                    @if(count($company_fetched->professionals) > 0)
+                                    @if(count($company_fetched->public_confirmed_professionals) > 0)
                                         <div class="swiper-button-prev"><i class="ion-ios-arrow-back"></i></div>
                                         <div class="swiper-button-next"><i class="ion-ios-arrow-forward"></i></div>
                                         <div style="height: 50px;"></div>

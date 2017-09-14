@@ -81,6 +81,19 @@
             </div>
 
         </div>
+
+        <div class="col-xs-12 hidden-lg hidden-md hidden-sm m-t-10">
+            <hr>
+        </div>
+
+        @if(Auth::guard('oracle_web')->guest())
+            <div class="center-block">
+                <a class=" btn btn- no-decoration" href="{{route('oracle.login')}}" target="_blank" >
+                    Administração iSaudavel
+                </a>
+            </div>
+        @endif
+
     </div>
 
 </footer>

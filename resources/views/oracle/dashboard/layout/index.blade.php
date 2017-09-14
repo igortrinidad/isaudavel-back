@@ -47,7 +47,7 @@
     </style>
 
     <!-- Hotjar Tracking Code for https://isaudavel.com -->
-   {{--@include('components.hotjar')--}}
+   @include('components.hotjar')
 
 </head>
 

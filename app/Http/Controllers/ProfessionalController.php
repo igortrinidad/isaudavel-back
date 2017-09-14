@@ -268,7 +268,7 @@ class ProfessionalController extends Controller
 
         return response()->json([
             'message' => 'Professional updated.',
-            'professional' => $professional->fresh()
+            'professional' => $professional->fresh()->load('companies', 'categories')
         ]);
     }
 
@@ -411,7 +411,7 @@ class ProfessionalController extends Controller
                     'confirmed_at' => Carbon::now()
                 ]);
 
-            return response()->json(['message' => 'OK']);
+            return response()->json(['message' => 'OK', 'companies' => $professional->companies]);
         }
 
         if(!$professional){
@@ -436,7 +436,7 @@ class ProfessionalController extends Controller
 
             $professional->companies()->detach($request->get('company_id'));
 
-            return response()->json(['message' => 'OK']);
+            return response()->json(['message' => 'OK', 'companies' => $professional->companies]);
         }
 
         if(!$professional){

@@ -19,7 +19,7 @@
                     <div class="form-group">
                         <label>Status</label><br>
                         <p class="text">
-                            @{{company.address_is_available ? 'Ativa' : 'Inativa'}}</p>
+                            @{{company.is_active ? 'Ativa' : 'Inativa'}}</p>
                         <label class="switch">
                             <input type="checkbox" v-model="company.is_active" name="is_active" id="is_active">
                             <div class="slider round"></div>
@@ -73,6 +73,40 @@
                         <input class="form-control" id="autocomplete" name="address" placeholder="Informe o endereço da empresa" value="{{$company->address['full_address']}}" />
                     </div>
 
+                    <fieldset class="m-t-20 m-b-20">
+                        <legend>Profissionais</legend>
+
+                       <div class="table-responsive">
+                           <table class="table table-striped table-hover table-vmiddle">
+                               <thead>
+                               <tr>
+                                   <th>Nome</th>
+                                   <th>Especialidades</th>
+                                   <th>Admin?</th>
+                                   <th>Ações</th>
+                               </tr>
+                               </thead>
+                               <tbody>
+                                   <tr v-for="professional in company.professionals" :class="{'danger': removed_professionals.indexOf(professional.id) > -1}">
+                                       <td>@{{ professional.full_name }}</td>
+                                       <td>
+                                           <span class="label label-success" v-for="category in professional.categories">@{{ category.name }}</span>
+                                       </td>
+                                       <td>
+                                           <span class="label label-primary" v-if="professional.pivot.is_admin">Sim</span>
+                                           <span class="label label-default" v-if="!professional.pivot.is_admin">Não</span>
+                                       </td>
+                                       <td>
+                                           <a class="btn btn-info btn-sm" :href="`/profissionais/${professional.id}`" title="Visualizar profissional"><i class="ion-search"></i></a>
+                                           <button class="btn btn-success btn-sm" title="Enviar nova senha para o profissional"><i class="ion-unlocked"></i></button>
+                                           <button class="btn btn-danger btn-sm" title="Remover profissional" @click.prevent="handleRemoveProfessional(professional)" :disabled="company.owner_id == professional.id || removed_professionals.indexOf(professional.id) > -1"><i class="ion-trash-b"></i></button>
+                                       </td>
+                                   </tr>
+                               </tbody>
+                           </table>
+                       </div>
+                    </fieldset>
+
                     {{--Hidden inputs to send vue data on request--}}
                     {{csrf_field()}}
                     <input type="hidden" id="id" name="id" value="{{ $company->id  }}">
@@ -82,8 +116,10 @@
                     <input type="hidden" id="lat" name="lat" value="{{ $company->lat }}">
                     <input type="hidden" id="lng" name="lng" value="{{ $company->lng }}">
                     <input type="hidden" id="address" name="address" v-model="address">
+                    <input type="hidden" id="has_professionals_to_remove" name="has_professionals_to_remove" v-model="has_professionals_to_remove">
+                    <input type="hidden" id="professionals_to_remove" name="professionals_to_remove" v-model="professionals_to_remove">
 
-                    <button type="submit" class="btn btn-primary btn-block">Salvar</button>
+                    <button type="submit" class="btn btn-primary btn-block">Salvar alterações</button>
                 </form>
             </div>
         </div>
@@ -173,7 +209,10 @@
                 categories: [],
                 categories_parsed: [],
                 address:{},
-                company : {}
+                company : {},
+                has_professionals_to_remove: false,
+                professionals_to_remove: [],
+                removed_professionals: []
             },
             mounted: function() {
 
@@ -209,6 +248,34 @@
                     this.categories_parsed = JSON.stringify(categories_parsed);
 
                 },
+
+                handleRemoveProfessional: function(professional){
+                    let that = this
+                    swal({
+                        title: 'Remover profissional',
+                        text: "Tem certeza que deseja remover este profissional da empresa?",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Tenho certeza',
+                        cancelButtonText: 'Cancelar',
+                        confirmButtonClass: 'btn btn-success m-l-10',
+                        cancelButtonClass: 'btn btn-danger m-r-10',
+                        buttonsStyling: false,
+                        reverseButtons: true
+                    }).then(function () {
+
+                        that.removed_professionals.push(professional.id)
+                        that.professionals_to_remove = JSON.stringify(that.removed_professionals)
+                        that.has_professionals_to_remove = true
+
+                    }, function (dismiss) {
+
+                        if( !that.professionals_to_remove.length){
+                            that.has_professionals_to_remove = false
+                        }
+
+                    })
+                }
             }
 
         })
