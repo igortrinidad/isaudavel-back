@@ -3,6 +3,10 @@
 @section('landing-content')
 
     <style media="screen">
+    #mapShow {
+        height: 100%;
+    }
+
     .event-name {
         height: 78px; width: 100%;
         position: relative;
@@ -218,8 +222,28 @@
         </div>
     </section>
 
-    <!-- Event Comments -->
+    <!-- Event Map -->
     <section class="section gray">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header ch-alt text-center">
+                            <h2 class="f-400 m-t-20 m-b-10">Mapa</h2>
+                            <span class="f-300">Saiba como chegar no local do evento</span>
+                        </div>
+                        <div class="card-body" height="400px" style="height: 400px;">
+                            <div id="mapShow" height="400px"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- / Event Map -->
+
+    <!-- Event Comments -->
+    <section class="section divider">
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
@@ -342,6 +366,236 @@
                 }
 
             })
+
+            var mapStyle = [
+              {
+                "elementType": "geometry",
+                "stylers": [
+                  {
+                    "color": "#ebe3cd"
+                  }
+                ]
+              },
+              {
+                "elementType": "labels.text.fill",
+                "stylers": [
+                  {
+                    "color": "#523735"
+                  }
+                ]
+              },
+              {
+                "elementType": "labels.text.stroke",
+                "stylers": [
+                  {
+                    "color": "#f5f1e6"
+                  }
+                ]
+              },
+              {
+                "featureType": "administrative",
+                "elementType": "geometry.stroke",
+                "stylers": [
+                  {
+                    "color": "#c9b2a6"
+                  }
+                ]
+              },
+              {
+                "featureType": "administrative.land_parcel",
+                "elementType": "geometry.stroke",
+                "stylers": [
+                  {
+                    "color": "#dcd2be"
+                  }
+                ]
+              },
+              {
+                "featureType": "administrative.land_parcel",
+                "elementType": "labels.text.fill",
+                "stylers": [
+                  {
+                    "color": "#ae9e90"
+                  }
+                ]
+              },
+              {
+                    "featureType": "landscape.natural",
+                    "elementType": "geometry",
+                    "stylers": [
+                        {
+                            "color": "#dfd2ae"
+                        }
+                    ]
+                },
+                {
+                    featureType: 'poi',
+                    stylers: [{visibility: 'off'}]
+                },
+                {
+                    featureType: 'transit',
+                    elementType: 'labels.icon',
+                    stylers: [{visibility: 'off'}]
+                },
+              {
+                "featureType": "road",
+                "elementType": "geometry",
+                "stylers": [
+                  {
+                    "color": "#f5f1e6"
+                  }
+                ]
+              },
+              {
+                "featureType": "road.arterial",
+                "elementType": "geometry",
+                "stylers": [
+                  {
+                    "color": "#fdfcf8"
+                  }
+                ]
+              },
+              {
+                "featureType": "road.highway",
+                "elementType": "geometry",
+                "stylers": [
+                  {
+                    "color": "#f8c967"
+                  }
+                ]
+              },
+              {
+                "featureType": "road.highway",
+                "elementType": "geometry.stroke",
+                "stylers": [
+                  {
+                    "color": "#e9bc62"
+                  }
+                ]
+              },
+              {
+                "featureType": "road.highway.controlled_access",
+                "elementType": "geometry",
+                "stylers": [
+                  {
+                    "color": "#e98d58"
+                  }
+                ]
+              },
+              {
+                "featureType": "road.highway.controlled_access",
+                "elementType": "geometry.stroke",
+                "stylers": [
+                  {
+                    "color": "#db8555"
+                  }
+                ]
+              },
+              {
+                "featureType": "road.local",
+                "elementType": "labels.text.fill",
+                "stylers": [
+                  {
+                    "color": "#806b63"
+                  }
+                ]
+              },
+              {
+                "featureType": "transit.line",
+                "elementType": "geometry",
+                "stylers": [
+                  {
+                    "color": "#dfd2ae"
+                  }
+                ]
+              },
+              {
+                "featureType": "transit.line",
+                "elementType": "labels.text.fill",
+                "stylers": [
+                  {
+                    "color": "#8f7d77"
+                  }
+                ]
+              },
+              {
+                "featureType": "transit.line",
+                "elementType": "labels.text.stroke",
+                "stylers": [
+                  {
+                    "color": "#ebe3cd"
+                  }
+                ]
+              },
+              {
+                "featureType": "transit.station",
+                "elementType": "geometry",
+                "stylers": [
+                  {
+                    "color": "#dfd2ae"
+                  }
+                ]
+              },
+              {
+                "featureType": "water",
+                "elementType": "geometry.fill",
+                "stylers": [
+                  {
+                    "color": "#b9d3c2"
+                  }
+                ]
+              },
+              {
+                "featureType": "water",
+                "elementType": "labels.text.fill",
+                "stylers": [
+                  {
+                    "color": "#92998d"
+                  }
+                ]
+              }
+            ];
+
+            function initMap() {
+                var myLatLng = {lat: {{$event_fetched->lat}}, lng: {{$event_fetched->lng}} };
+
+                var contentString =
+                    '<div id="content">'+
+                        '<div id="siteNotice">'+
+                        '</div>'+
+                        '<h1 id="firstHeading" class="firstHeading">{{$event_fetched->name}}</h1>'+
+                        '<div id="bodyContent" style="font-size: 11px;">'+
+                            '<p><b>Endereço:</b> {{$event_fetched->address['full_address']}}</p>'+
+                        '</div>'+
+                    '</div>';
+
+                var infowindow = new google.maps.InfoWindow({
+                  content: contentString,
+                  maxWidth: 200
+                });
+
+
+                var map = new google.maps.Map(document.getElementById('mapShow'), {
+                  zoom: 16,
+                  center: myLatLng,
+                  styles: mapStyle
+                });
+
+                var marker = new google.maps.Marker({
+                  position: myLatLng,
+                  map: map,
+                  icon: 'https://s3.amazonaws.com/isaudavel-assets/img/MAP+ICON-02.png',
+                  title: '{{$event_fetched->name}}'
+                });
+
+                marker.addListener('click', function() {
+                  infowindow.open(map, marker);
+                });
+              }
+        </script>
+
+        <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAc7FRXAfTUbAG_lUOjKzzFa41JbRCCbbM&callback=initMap">
         </script>
     @stop
 @stop
