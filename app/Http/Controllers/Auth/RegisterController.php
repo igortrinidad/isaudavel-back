@@ -30,6 +30,16 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
 
+        //Checar se o profissional já está cadastrado.
+        $checkClient = Professional::where('email', $request->get('email'))->first();
+
+        if($checkClient){
+            return response()->json([
+                'message' => 'Professional already exist.',
+                'status' => 422
+            ]);
+        }
+
         $request->merge([
             'password' => bcrypt($request->get('password')),
             'remember_token' => str_random(10)
@@ -45,6 +55,17 @@ class RegisterController extends Controller
      */
     public function registerClient(Request $request)
     {
+
+        //Checar se o cliente já está cadastrado.
+        $checkClient = Client::where('email', $request->get('email'))->first();
+
+        if($checkClient){
+            return response()->json([
+                'message' => 'Client already exist.',
+                'status' => 422
+            ]);
+        }
+
         $request->merge([
             'password' => bcrypt($request->get('password')),
             'remember_token' => str_random(10)

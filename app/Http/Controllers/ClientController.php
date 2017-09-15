@@ -259,11 +259,7 @@ class ClientController extends Controller
     {
 
 
-        $client = Client::where('id', $id)->with(['activities' => function($query){
-            $query->where('is_public', 1)->with(['user' => function($querytwo){
-                $querytwo->select('id', 'name', 'last_name');
-            }]);
-        }])->first();
+        $client = Client::where('id', $id)->select('name', 'last_name', 'id', 'total_xp')->first();
 
 
         return response()->json(['client' => $client]);

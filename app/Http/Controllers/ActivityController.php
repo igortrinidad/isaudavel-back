@@ -26,7 +26,9 @@ class ActivityController extends Controller
      */
     public function client_list_public($id)
     {
-        $activities = Activity::where('client_id', $id)->where('is_public', 1)->with('about', 'user')->paginate(20);
+        $activities = Activity::where('client_id', $id)->where('is_public', 1)->with(['about', 'user' => function($querytwo){
+                $querytwo->select('id', 'name', 'last_name');
+            }])->paginate(20);
 
         return response()->json(custom_paginator($activities));
     }
