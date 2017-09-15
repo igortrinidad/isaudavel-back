@@ -24,10 +24,91 @@ class SubscriptionServices{
         $this->invoiceServices = $invoiceServices;
     }
 
+    /*
+     * Subscription create
+     */
+    public function createSubscription(Request $request){
+
+        $categories = json_decode($request->get('categories'));
+        $professionals = (Integer)$request->get('professionals');
+        $is_active = $request->get('is_active') ? true : false;
+
+        $request->merge(['categories' => count($categories), 'professionals' => $professionals, 'is_active' => $is_active]);
+
+        $company = Company::find($request->get('company_id'));
+
+        //Sync current categories
+        $company->categories()->sync($categories);
+
+        $subscription = CompanySubscription::create($request->all());
+
+        SubscriptionHistory::create(
+            [
+                'company_id' => $subscription->company_id,
+                'subscription_id' => $subscription->id,
+                'action' => 'subscription-create',
+                'description' => 'Assinatura criada',
+                'professionals_old_value' => 0,
+                'professionals_new_value' =>  $subscription->professionals,
+                'categories_old_value' => 0,
+                'categories_new_value' => $subscription->categories,
+                'total_old_value' => 0,
+                'total_new_value' => round($subscription->total,2),
+                'user_id' => \Auth::user()->id,
+                'user_type' => get_class(\Auth::user())
+            ]
+        );
+
+        $invoice_items = [
+            [
+                'description' => 'Especialidades da empresa',
+                'item' => 'categories',
+                'quantity' => $company->categories->count(),
+                'total' => ($company->categories->count() * 37.90) ,
+                'is_partial' => false,
+                'reference' => 'Referente ao período de '.  $subscription->start_at.' à '.$subscription->expire_at
+            ],
+            [
+                'description' => 'Profissionais da empresa',
+                'item' => 'professionals',
+                'quantity' => $company->professionals->count(),
+                'total' => (($company->professionals->count() - 1) * 17.90),
+                'is_partial' => false,
+                'reference' => 'Referente ao período de '.  $subscription->start_at.' à '.$subscription->expire_at
+            ],
+
+        ];
+
+        $invoice_history = [
+            [
+                'full_name' =>\Auth::user()->full_name,
+                'action' => 'invoice-created',
+                'label' => 'Fatura gerada',
+                'date' => Carbon::now()->format('Y-m-d H:i:s')
+            ]
+        ];
+
+        $invoice = CompanyInvoice::create([
+            'company_id' => $company->id,
+            'subscription_id' => $subscription->id,
+            'total' => $subscription->total,
+            'expire_at' => $subscription->expire_at,
+            'items' => $invoice_items,
+            'history' => $invoice_history,
+        ]);
+
+        $this->invoiceServices->SendNewInvoiceMail($invoice->load('company.owner'));
+
+        flash('Assinatura criada com sucesso')->success()->important();
+
+        return redirect()->back();
+    }
+
+
+    /*
+     * Subscription update
+     */
     public function updateSubscription(Request $request){
-
-
-
 
         $categories = json_decode($request->get('categories'));
         $company_professionals = json_decode($request->get('company_professionals'));
@@ -129,7 +210,6 @@ class SubscriptionServices{
                 $total = $subscription_total - abs($new_total);
             }
 
-
             SubscriptionHistory::create(
                 [
                     'company_id' => $subscription->company_id,
@@ -152,14 +232,14 @@ class SubscriptionServices{
             $subscription->total = round($total,2);
             $subscription->save();
 
-            //Sync current categories and $professionals
+            //Sync current categories
             $company->categories()->sync($categories);
 
             if(count($company_professionals)){
                 $company->professionals()->sync($company_professionals);
             }
 
-            if($request->has('update_expiration')){
+            if($request->has('update_expiration') && $request->get('update_expiration') == 'true'){
 
                 SubscriptionHistory::create(
                     [

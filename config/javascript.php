@@ -13,7 +13,14 @@ return [
     | Example: 'footer' or ['footer', 'bottom']
     |
     */
-    'bind_js_vars_to_this_view' => ['dashboard.companies.edit', 'dashboard.companies.show', 'oracle.dashboard.companies.edit', 'oracle.dashboard.companies.subscription'],
+    'bind_js_vars_to_this_view' => [
+        'dashboard.companies.edit',
+        'dashboard.companies.show',
+        'oracle.dashboard.companies.edit',
+        'oracle.dashboard.companies.subscription',
+        'oracle.dashboard.companies.subscription-create',
+        'oracle.dashboard.companies.invoice-show'
+    ],
 
     /*
     |--------------------------------------------------------------------------

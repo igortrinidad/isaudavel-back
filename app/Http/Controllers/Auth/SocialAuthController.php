@@ -127,6 +127,8 @@ class SocialAuthController extends Controller
                     ]);
 
                     $this->uploadProfessionalAvatar($user->id, $request->get('photo_url'));
+
+                    $user->load('companies', 'categories');
                 }
 
             }else{

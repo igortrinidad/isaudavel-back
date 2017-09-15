@@ -105,7 +105,12 @@ Route::group(['prefix' => 'oracle', 'as' => 'oracle.'], function () {
             Route::get('/editar/{id}', ['uses' => 'OracleController@companyEdit', 'as' => 'edit']);
             Route::post('/update', ['uses' => 'OracleController@companyUpdate', 'as' => 'update']);
             Route::get('/assinatura/{id}', ['uses' => 'OracleController@companySubscription', 'as' => 'subscription']);
+            Route::get('/nova-assinatura/{id}', ['uses' => 'OracleController@subscriptionCreate', 'as' => 'subscription.create']);
+            Route::post('/assinatura/create', ['uses' => 'OracleController@subscriptionStore', 'as' => 'subscription.store']);
             Route::post('/assinatura/update', ['uses' => 'OracleController@subscriptionUpdate', 'as' => 'subscription.update']);
+            Route::get('/{id}/faturas', ['uses' => 'OracleController@companyInvoices', 'as' => 'invoices']);
+            Route::get('/{id}/faturas/{invoice_id}', ['uses' => 'OracleController@invoiceShow', 'as' => 'invoice.show']);
+            Route::post('/faturas/atualizar', ['uses' => 'OracleController@invoiceUpdate', 'as' => 'invoice.update']);
 
         });
 

@@ -1,20 +1,30 @@
 @extends('oracle.dashboard.layout.index')
 
 @section('content')
-    <div class="container first-container">
+
+    <div class="container first-container" id="company-edit-form">
+
+        <div class="loading-wrapper" v-if="is_loading">
+            <div class="loading-spinner">
+                <i class="ion-load-c fa-spin fa-3x"></i>
+                <h3 class="f-300" style="color: #5D5D5D">Carregando</h3>
+            </div>
+        </div>
+
+
         <div class="row m-t-20 m-b-20">
             <div class="col-md-12">
                 <div class="page-title m-b-10">
                     <h2>{{$company->name}}</h2>
                     <h3 class="pull-right">
-                        <a class="btn btn-primary" href="{{ url()->previous() }}"> <i class="ion-arrow-left-c"></i> Voltar</a>
+                        <a class="btn btn-primary" href="{{ route('oracle.dashboard.companies.list') }}"> <i class="ion-arrow-left-c"></i> Voltar</a>
                     </h3>
                 </div>
                 <hr>
                 <div class="m-t-20">
                     @include('flash::message')
                 </div>
-                <form class="m-b-25" action="{{route('oracle.dashboard.companies.update')}}" method="post" role="form" id="company-edit-form">
+                <form class="m-b-25" action="{{route('oracle.dashboard.companies.update')}}" method="post" role="form">
 
                     <div class="form-group">
                         <label>Status</label><br>
@@ -98,7 +108,7 @@
                                        </td>
                                        <td>
                                            <a class="btn btn-info btn-sm" :href="`/profissionais/${professional.id}`" title="Visualizar profissional"><i class="ion-search"></i></a>
-                                           <button class="btn btn-success btn-sm" title="Enviar nova senha para o profissional"><i class="ion-unlocked"></i></button>
+                                           <button class="btn btn-success btn-sm" title="Enviar nova senha para o profissional" @click.prevent="sendNewPass(professional)"><i class="ion-unlocked"></i></button>
                                            <button class="btn btn-danger btn-sm" title="Remover profissional" @click.prevent="handleRemoveProfessional(professional)" :disabled="company.owner_id == professional.id || removed_professionals.indexOf(professional.id) > -1"><i class="ion-trash-b"></i></button>
                                        </td>
                                    </tr>
@@ -193,6 +203,14 @@
         Vue.http.headers.common['X-CSRF-TOKEN'] = $('input[name=_token]').val();
 
         Vue.config.debug = true;
+
+        @php
+            if(\App::environment('production')){
+                echo 'Vue.config.devtools = false;
+                  Vue.config.debug = false;
+                  Vue.config.silent = true;';
+            }
+        @endphp
         var vm = new Vue({
             el: '#company-edit-form',
             components: {
@@ -204,6 +222,7 @@
                 }
             },
             data: {
+                is_loading: false,
                 city: '',
                 category: null,
                 categories: [],
@@ -273,6 +292,39 @@
                         if( !that.professionals_to_remove.length){
                             that.has_professionals_to_remove = false
                         }
+
+                    })
+                },
+
+                sendNewPass: function(professional){
+                    let that = this
+
+                    swal({
+                        title: 'Enviar nova senha',
+                        text: `Enviar uma nova senha para ${professional.full_name}?`,
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Enviar',
+                        cancelButtonText: 'Cancelar',
+                        confirmButtonClass: 'btn btn-success m-l-5',
+                        cancelButtonClass: 'btn btn-danger m-r-5',
+                        buttonsStyling: false,
+                        reverseButtons: true
+                    }).then(function () {
+                        that.is_loading = true
+
+                        that.$http.get(`/api/tools/users/generateNewPass/professional/${professional.email}`).then(response => {
+
+                            that.is_loading = false
+                            swal('', `Nova senha enviada com sucesso para ${professional.email}.`, 'success')
+
+                    }, response => {
+                            that.is_loading = false
+                            swal('', `Não foi possivel enviar a nova senha para ${professional.email}.`, 'error')
+                        });
+
+                    }, function (dismiss) {
+
 
                     })
                 }

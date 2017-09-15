@@ -4,10 +4,11 @@
     <div class="container first-container" id="manage-subscription">
         <div class="row m-t-20 m-b-20">
             <div class="col-md-12">
+
                 <div class="page-title m-b-10">
                     <h2>{{$company->name}}</h2>
                     <h3 class="pull-right">
-                        <a class="btn btn-primary" href="{{ url()->previous() }}"> <i class="ion-arrow-left-c"></i> Voltar</a>
+                        <a class="btn btn-primary" href="{{ route('oracle.dashboard.companies.list') }}"> <i class="ion-arrow-left-c"></i> Voltar</a>
                     </h3>
                 </div>
                 <hr>
@@ -141,10 +142,10 @@
                     <input type="hidden" id="expire_at" name="expire_at" v-model="expire_at">
                     <input type="hidden" id="update_expiration" name="update_expiration" v-model="update_expiration">
 
-                    <button class="btn btn-success btn-block" v-if="is_disabled" @click.prevent="is_disabled = !is_disabled">Alterar assinatura</button>
+                    <button class="btn btn-success btn-block btn-lg" v-if="is_disabled" @click.prevent="is_disabled = !is_disabled">Alterar assinatura</button>
 
-                    <button type="submit" class="btn btn-primary btn-block" v-if="!is_disabled" :disabled="!checked">Salvar</button>
-                    <button class="btn btn-default btn-block" v-if="!is_disabled" @click.prevent="cancelUpdate">Cancelar</button>
+                    <button type="submit" class="btn btn-primary btn-block btn-lg" v-if="!is_disabled" :disabled="!checked">Salvar</button>
+                    <button class="btn btn-default btn-block btn-lg" v-if="!is_disabled" @click.prevent="cancelUpdate">Cancelar</button>
 
                 </form>
 
@@ -228,6 +229,14 @@
         Vue.http.headers.common['X-CSRF-TOKEN'] = $('input[name=_token]').val();
 
         Vue.config.debug = true;
+
+        @php
+            if(\App::environment('production')){
+                echo 'Vue.config.devtools = false;
+                  Vue.config.debug = false;
+                  Vue.config.silent = true;';
+            }
+        @endphp
         var vm = new Vue({
             el: '#manage-subscription',
             components: {

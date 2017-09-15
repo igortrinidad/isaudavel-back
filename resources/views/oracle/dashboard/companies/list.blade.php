@@ -66,16 +66,29 @@
                                         @endif
                                     </td>
                                     <td>
-                                        @if($company->subscription->is_active)
+
+                                        @if(!$company->subscription)
+                                            <span class="label label-danger">Sem assinatura</span>
+                                        @endif
+
+                                        @if($company->subscription && $company->subscription->is_active)
                                             <span class="label label-success">Ativa</span>
-                                        @else()
-                                            <span class="label label-danger">Inativa</span>
+                                        @endif
+
+                                        @if($company->subscription && !$company->subscription->is_active)
+                                            <span class="label label-default">Inativa</span>
                                         @endif
                                     </td>
                                     <td>{{$company->created_at->format('d/m/Y H:i:s')}}</td>
                                     <td>
-                                        <a class="btn btn-primary btn-sm" href="{{route('oracle.dashboard.companies.edit', ['id'=> $company->id])}}"><i class="ion-edit"></i></a>
-                                        <a class="btn btn-success btn-sm" href="{{route('oracle.dashboard.companies.subscription', ['id'=> $company->id])}}"><i class="ion-gear-b fa-lg"></i></a>
+                                        <a class="btn btn-primary btn-sm" href="{{route('oracle.dashboard.companies.edit', ['id'=> $company->id])}}" title="Editar empresa"><i class="ion-edit"></i></a>
+                                        @if($company->subscription)
+                                            <a class="btn btn-success btn-sm" href="{{route('oracle.dashboard.companies.subscription', ['id'=> $company->id])}}" title="Gerenciar assinatura"><i class="ion-gear-b fa-lg"></i></a>
+                                        @endif
+                                        @if(!$company->subscription)
+                                            <a class="btn btn-success btn-sm" href="{{route('oracle.dashboard.companies.subscription.create', ['id'=> $company->id])}}" title="Criar assinatura"><i class="ion-document-text fa-lg"></i></a>
+                                        @endif
+                                        <a class="btn btn-info btn-sm" href="{{route('oracle.dashboard.companies.invoices', ['id'=> $company->id])}}" title="Visualizar faturas"><i class="ion-social-usd fa-lg"></i></a>
                                     </td>
                                 </tr>
                             @endforeach
