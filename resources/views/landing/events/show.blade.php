@@ -42,44 +42,66 @@
     .btn.btn-whatsapp{ background-color: #1ebea5; color: #F4F5F5; }
 
     .badge.badge-success { background-color: #00A369; color: #FFF; }
+
+    .event-avatar {
+        background-position: top center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        width: 100%; height: 350px;
+        margin-top: -100px;
+        background-attachment: fixed;
+    }
+    .fix-event {
+        width: 100px;
+    }
     </style>
     <section id="events-show" class="section divider">
+        <div class="event-avatar" style="background-image: url('{{ $event_fetched->avatar }}')">
+        </div>
         <div class="container">
-            <div class="row">
+
+            <div class="row row-event" style="margin-top: -28px;">
+                <div class="col-xs-1 event-col">
+                    <div class="event-date text-center">
+                        <div class="event-date-header">
+                            <span class="f-700 f-12">{{ $event_fetched->date->format('Y') }}</span>
+                        </div>
+                        <div class="event-date-body">
+                            <span class="f-700 f-16">{{ $event_fetched->date->format('d') }}</span>
+                            <span class="f-300">{{ $event_fetched->date->format('M') }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-11 event-col">
+                    <div class="event-name">
+                        <h2 class="f-400 m-0 m-t-25 t-overflow">{{ $event_fetched->name }}</h2>
+                        <span>
+                            <i class="ion-ios-clock-outline f-20 m-r-5"></i>
+                            <span class="f-300">{{ $event_fetched->time }}</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="row m-t-30">
                 <!-- CENTER COL "ABOUT" -->
                 <div class="col-sm-9">
                     <div class="card">
-                        <div class="card-header p-5 ch-alt">
-                            <div class="row row-event m-t-0">
-                                <!-- Event Date -->
-                                <div class="col-xs-2 event-col">
-                                    <div class="event-date text-center">
-                                        <div class="event-date-header">
-                                            <span class="f-700 f-12">{{ $event_fetched->date->format('Y') }}</span>
-                                        </div>
-                                        <div class="event-date-body">
-                                            <span class="f-700 f-16">{{ $event_fetched->date->format('d') }}</span>
-                                            <span class="f-300">{{ $event_fetched->date->format('M') }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- / Event Date -->
-                                <div class="col-xs-10 event-col">
-                                    <div class="event-name">
-                                        <h3 class="f-300 m-0 t-overflow">{{ $event_fetched->name }}</h3>
-                                        <span>
-                                            <i class="ion-ios-clock-outline f-20"></i>
-                                            <span class="f-300">{{ $event_fetched->time }}</span>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="card-header p-5 ch-alt text-center">
+                            <h2 class="f-400 m-t-20 m-b-10">Sobre o evento</h2>
+                            <span class="f-300">Detalhes sobre valor, local e muito mais.</span>
                         </div>
                         <div class="card-body" style="padding: 6px;">
 
+                            <h4 class="f-300 m-t-15 m-b-10">{{ count($event_fetched->categories) > 1 ? 'Categorias' : 'Categoria' }}:</h4>
                             @foreach($event_fetched->categories as $category)
                                 <span class="label label-success">{{ $category->name }}</span>
                             @endforeach
+
+                            <h4 class="f-300 m-t-15 m-b-10">Endereço:</h4>
+                            <span class="f-300">{{ $event_fetched->address['full_address'] }}</span>
 
                             <!-- Event Share -->
                             <h4 class="f-300 m-t-15">Compartilhe:</h4>
@@ -148,23 +170,19 @@
                 <!-- RIGHT COL "PARTICIPANTS" -->
                 <div class="col-sm-3">
                     <div class="card">
+                        <div class="card-header ch-alt p-5 text-center">
+                            <h2 class="f-400 m-t-20 m-b-10">Participantes</h2>
+                            @if(count($event_fetched->participants) > 0)
+                                <span class="f-300">
+                                    {{ count($event_fetched->participants) }}
+                                    {{ count($event_fetched->participants) > 1 ? 'confirmados' : 'confirmado' }}
+                                </span>
+                            @endif
+                            @if(count($event_fetched->participants) == 0)
+                                <span class="f-300">Nenhum participante confirmando ainda.</span>
+                            @endif
+                        </div>
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="text-center">
-                                        <h2 class="m-t-20 m-b-10">Participantes</h2>
-                                        @if(count($event_fetched->participants) > 0)
-                                            <span class="f-300">
-                                                {{ count($event_fetched->participants) }}
-                                                {{ count($event_fetched->participants) > 1 ? 'confirmados' : 'confirmado' }}
-                                            </span>
-                                        @endif
-                                        @if(count($event_fetched->participants) == 0)
-                                            <span class="f-300">Nenhum participante confirmando ainda.</span>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
 
                             <!-- List participants -->
                             <div class="row m-t-30">
