@@ -115,6 +115,7 @@ Route::group(['prefix' => 'professional'], function () {
                 Route::post('/store', 'ClientSubscriptionController@store');
                 Route::post('/update', 'ClientSubscriptionController@update');
                 Route::post('/index', 'ClientSubscriptionController@index');
+                Route::post('/destroy', 'ClientSubscriptionController@destroy');
             });
 
             //Professional

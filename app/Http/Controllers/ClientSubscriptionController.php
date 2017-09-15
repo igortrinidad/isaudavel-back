@@ -143,14 +143,22 @@ class ClientSubscriptionController extends Controller
      * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $destroyed = ClientSubscription::destroy($id);
+        $subscription = ClientSubscription::find($request->get('subscription_id') );
 
-        if($destroyed){
+        $schedules = Schedule::where('subscription_id', $request->get('subscription_id'))->get();
+
+        foreach($schedules as $schedule){
+            $schedule->delete();
+        }
+
+        $subscription->delete();
+
+        if($subscription){
             return response()->json([
                 'message' => 'Subscription destroyed.',
-                'id' => $id
+                'id' => $request->get('subscription_id')
             ]);
         }
 
