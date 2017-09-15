@@ -65,7 +65,7 @@
         <div class="container">
 
             <div class="row row-event" style="margin-top: -28px;">
-                <div class="col-xs-1 event-col">
+                <div class="col-sm-1 col-xs-3 event-col">
                     <div class="event-date text-center">
                         <div class="event-date-header">
                             <span class="f-700 f-12">{{ $event_fetched->date->format('Y') }}</span>
@@ -76,7 +76,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-11 event-col">
+                <div class="col-sm-11 col-xs-9 event-col">
                     <div class="event-name">
                         <h2 class="f-400 m-0 m-t-25 t-overflow">{{ $event_fetched->name }}</h2>
                         <span>
