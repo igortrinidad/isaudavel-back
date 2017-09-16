@@ -86,7 +86,7 @@
 	@endif
 @endif
 
-<!-- LANDING COMPANIES SHOW -->
+<!-- COMPANIES SHOW -->
 @if($routeName == 'landing.companies.show')
 
 	<title>{{$company_fetched->name}} no iSaudavel</title> 
@@ -172,12 +172,9 @@
 
 		?>
 	</script>
-
-
-
 @endif
 
-<!-- LANDING INDEX -->
+<!-- PROFESSIONAL SHOW -->
 @if($routeName == 'landing.professionals.show')
 
 	<title>{{$professional_fetched->full_name}} no iSaudavel</title> 
@@ -191,7 +188,6 @@
 
 
 		<script type="application/ld+json">
-
 		<?php
 
 			$review = [];
@@ -238,7 +234,6 @@
 		</script>
 
 		<script type="application/ld+json">
-
 		<?php
 
 			$context = [
@@ -262,8 +257,54 @@
 			echo json_encode($context, JSON_UNESCAPED_SLASHES);
 
 		?>
-	</script>
+		</script>
 @endif
+
+<!-- EVENT INDEX -->
+@if($routeName == 'landing.events.show')
+
+	<title>{{$event_fetched->name}} no iSaudavel</title> 
+	<meta name="description" content="Participe do evento {{$event_fetched->name}}! iSaudavel - Sua saúde em boas mãos">
+
+	<meta property="og:url" content="{{ $current_url }}">
+	<meta property="og:title" content="iSaudavel: {{$event_fetched->name}}">
+	<meta property="og:description" content="{!! strip_tags($event_fetched->description) !!}">
+	<meta property="og:image" content="{{$event_fetched->avatar}}">
+	<meta property="og:image:type" content="image/png">
+
+
+		<script type="application/ld+json">
+		<?php
+
+			$context = [
+				'@context' => 'http://schema.org',
+				'@type' => 'Event',
+				'name' => $event_fetched->name,
+			    'image' => $event_fetched->avatar,
+			    'startDate' => $event_fetched->date . 'T' . $event_fetched->time,
+			    'url' => $current_url,
+			    'description' => strip_tags($event_fetched->description),
+			    'offers' => [
+			    	'@type' => "Offer",
+				    'url' => $current_url,
+				    'price' => $event_fetched->value,
+				    'priceCurrency' => "REAL",
+				    'availability' => "http://schema.org/InStock",
+			    ],
+			    'performer' => [
+			    	'@type' => 'Person',
+			    	'name' => $event_fetched->from->full_name
+			    ]
+			];
+
+			echo json_encode($context, JSON_UNESCAPED_SLASHES);
+
+		?>
+		</script>
+
+@endif
+
+
 
 <!-- ANALYTICS -->
 <script>

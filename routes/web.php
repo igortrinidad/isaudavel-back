@@ -63,7 +63,7 @@ Route::group(['as' => 'landing.'], function () {
     	Route::get('/cadastro/sucesso', ['uses' => 'LandingController@signupSuccess', 'as' => 'signup-success']);
 		Route::get('/login', ['uses' => 'LandingController@showProfessionalLogin', 'as' => 'login']);
 		Route::post('/login', ['uses' => 'Auth\ProfessionalLoginController@landingLogin', 'as' => 'post-login']);
-        Route::get('/{id}', ['uses' => 'LandingController@showProfessional', 'as' => 'show']);
+        Route::get('/{slug}', ['uses' => 'LandingController@showProfessional', 'as' => 'show']);
 	});
 
     Route::get('/termos-de-uso', ['uses' => 'LandingController@terms', 'as' => 'terms']);
@@ -186,7 +186,23 @@ Route::get('sitemap', function(){
                 ];
             }
 
-            $sitemap->add($root . '/profissionais/'. $professional->id, $professional->updated_at, '1.0', 'daily', $photos);
+            $sitemap->add($root . '/profissionais/'. $professional->slug, $professional->updated_at, '1.0', 'daily', $photos);
+        }
+
+        $events = \App\Models\Event::all();
+
+        foreach($events as $event){
+
+            $photos = [];
+            foreach ($event->photos as $photo) {
+                $photos[] = [
+                    'url' => $photo->photo_url,
+                    'title' => 'Imagem de '. $event->name ,
+                    'caption' => 'Imagem de '. $event->name
+                ];
+            }
+
+            $sitemap->add($root . '/eventos/'. $event->slug, $event->updated_at, '1.0', 'daily', $photos);
         }
 
     }

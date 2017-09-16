@@ -201,9 +201,9 @@ class LandingController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function showProfessional($id)
+    public function showProfessional($slug)
     {
-        $professional_fetched = Professional::where('id', $id)->with(['companies', 'last_ratings', 'certifications', 'categories'])->first();
+        $professional_fetched = Professional::where('slug', $slug)->with(['companies', 'last_ratings', 'certifications', 'categories'])->first();
 
         if($professional_fetched){
             return view('landing.companies.showprofessional', compact('professional_fetched'));
