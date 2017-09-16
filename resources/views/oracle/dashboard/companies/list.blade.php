@@ -35,7 +35,6 @@
                                 <th>Nome</th>
                                 <th>Especialidades</th>
                                 <th>Profissionais</th>
-                                <th>Valor</th>
                                 <th>Avaliação</th>
                                 <th>Status</th>
                                 <th>Assinatura</th>
@@ -47,9 +46,8 @@
                             @foreach($companies as $company)
                                 <tr>
                                     <td>{{$company->name}}</td>
-                                    <td>{{$company->subscription->categories}}</td>
-                                    <td>{{$company->subscription->professionals}}</td>
-                                    <td>R$ {{$company->subscription->total}}</td>
+                                    <td>{{$company->categories->count()}}</td>
+                                    <td>{{$company->professionals->count()}}</td>
                                     <td>
                                         @if($company->current_rating > 0)
                                             <div class="wp-rating-div">
