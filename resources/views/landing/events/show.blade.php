@@ -93,9 +93,8 @@
                 <!-- CENTER COL "ABOUT" -->
                 <div class="col-sm-9">
                     <div class="card">
-                        <div class="card-header p-5 ch-alt text-center">
-                            <h2 class="f-400 m-t-20 m-b-10">Sobre o evento</h2>
-                            <span class="f-300">Detalhes sobre valor, local e muito mais.</span>
+                        <div class="card-header ch-alt text-center">
+                            <h2 class="f-400">Sobre o evento</h2>
                         </div>
                         <div class="card-body" style="padding: 6px;">
 
@@ -116,6 +115,9 @@
                                 <button type="button" class="btn btn-whatsapp btn-xs p-5 p-l-10 p-r-10" @click="openShareWhatsapp()">
                                     <i class="ion-social-whatsapp m-r-5"></i>Whatsapp
                                 </button>
+                                <button type="button" class="btn btn-primary btn-xs p-5 p-l-10 p-r-10" @click="copyUrl()">
+                                    <i class="ion-ios-copy m-r-5"></i>Copiar link
+                                </button>
                             </div>
                             <!-- / Event Share -->
 
@@ -133,9 +135,17 @@
                             <!-- Event Details -->
                             <h4 class="f-300">Detalhes do evento:</h4>
                             <ul class="list-group m-t-10 m-b-30">
+
+                            @if($event_fetched->is_free)
                                 <li class="list-group-item f-300">
-                                    <strong>Valor</strong> <span class="badge badge-success">{{ $event_fetched->value }}</span>
+                                    <strong>Valor</strong> <span class="badge badge-success">Gratuito</span>
                                 </li>
+                            @else
+                                <li class="list-group-item f-300">
+                                    <strong>Valor</strong> <span class="badge badge-success">R$ {{ $event_fetched->value }}</span>
+                                </li>
+                            @endif
+
                                 <li class="list-group-item f-300">
                                     <strong>Data</strong> <span class="badge badge-success">{{ $event_fetched->date->format('d/m/Y') }}</span>
                                 </li>
@@ -192,7 +202,7 @@
                             <div class="row m-t-30">
                                 @foreach($event_fetched->participants as $indexParticipant => $participant)
                                     @if($indexParticipant < 8)
-                                        <div class="col-sm-6 text-center">
+                                        <div class="col-sm-6 text-center m-t-5">
                                             <div class="picture-circle picture-circle-p" style="background-image:url('{{ $participant->participant->avatar }}')"></div>
                                             <h5 class="m-b-0 m-t-10 f-300 t-overflow">{{ $participant->participant->full_name }}</h5>
                                         </div>
@@ -209,9 +219,11 @@
                                         </button>
                                     </div>
                                 @endif
+                                <!--
                                 <div class="col-sm-12 text-center">
                                     <button type="button" class="btn btn-success btn-block btn-xs p-5">Confirmar participação</button>
                                 </div>
+                                -->
                             </div>
                         </div>
                     </div>
@@ -362,6 +374,15 @@
                         var that = this
                         var url = 'https://api.whatsapp.com/send?text=Encontrei o evento {{ $event_fetched->name }} no iSaudavel, veja o abaixo: https://isaudavel.com/eventos/{{ $event_fetched->slug }}';
                         window.open(url, '_system', null);
+                    },
+
+                    copyUrl: function() {
+                        var that = this
+                        var url = 'https://isaudavel.com/eventos/{{ $event_fetched->slug }}';
+                        
+                        copyToClipboard(url);
+
+                        successNotify('', 'Link copiado para a área de transferência');
                     },
                 }
 
@@ -592,6 +613,8 @@
                   infowindow.open(map, marker);
                 });
               }
+
+        
         </script>
 
         <script async defer
