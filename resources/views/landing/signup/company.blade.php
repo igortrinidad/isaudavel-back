@@ -210,7 +210,6 @@
         <script>
 
 
-
             accounting.settings = {
                 currency: {
                     symbol : "R$ ",   // default currency symbol is '$'
