@@ -108,6 +108,7 @@ elixir(function(mix) {
         '../../../node_modules/vue-multiselect/dist/vue-multiselect.min.js',
         '../../../node_modules/accounting/accounting.js',
         '../../../node_modules/slug/slug.js',
+        './node_modules/jquery-mask-plugin/dist/jquery.mask.js',
         '../prelaunch/js/vendor/modernizr-2.6.2.min.js',
         '../prelaunch/js/jquery.lwtCountdown-1.0.js',
         '../prelaunch/js/owl.carousel.min.js',

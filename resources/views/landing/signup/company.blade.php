@@ -115,7 +115,7 @@
 
                         <div class="entry-field">
                            <label>CPF</label>
-                           <input class="form-control" name="cpf"  value="{{ old('cpf') }}" placeholder="CPF" required type="text" >
+                           <input class="form-control" name="cpf"  value="{{ old('cpf') }}" placeholder="CPF" required type="text" data-mask="000.000.000-00">
                         </div>
 
                         <div class="entry-field">
@@ -125,7 +125,7 @@
 
                         <div class="entry-field">
                            <label>Telefone</label>
-                           <input class="form-control" name="phone" value="{{ old('phone') }}" placeholder="Telefone com ddd" required type="text">
+                           <input class="form-control" name="phone" value="{{ old('phone') }}" placeholder="Telefone com ddd" required type="text" data-mask="(00) 0 0000-0000">
                         </div>
 
                         <div class="entry-field">
@@ -134,8 +134,8 @@
                         </div>
 
                         <div class="entry-field">
-                           <label>URL única</label>
-                           <input class="form-control" name="slug" value="{{ old('slug') }}" placeholder="URL única para links de acesso rápido" required type="text" @blur="checkSlug()" :class="{'slug_error' : interactions.slug_error && interactions.slug_checked, 'slug-checked': !interactions.slug_error && interactions.slug_checked}">
+                           <label>Nome de usuário da empresa</label>
+                           <input class="form-control" name="slug" value="{{ old('slug') }}" placeholder="URL única para links de acesso rápido" required type="text" @blur="checkSlugBlur()" :class="{'slug_error' : interactions.slug_error && interactions.slug_checked, 'slug-checked': !interactions.slug_error && interactions.slug_checked}">
                         </div>
 
                         <div class="entry-field">
@@ -174,7 +174,7 @@
 
                         {{--Hidden inputs to send vue data on request--}}
                         <input type="hidden" id="categories" name="categories" v-model="categories_parsed">
-                        <input id="slug_professional" name="slug_professional" value="{{ old('slug_professional') }}">
+                        <input type="hidden" id="slug_professional" name="slug_professional" value="{{ old('slug_professional') }}">
                         <input type="hidden" id="city" name="city" value="{{ old('city') }}">
                         <input type="hidden" id="state" name="state" value="{{ old('state') }}">
                         <input type="hidden" id="lat" name="lat" value="{{ old('lat') }}">

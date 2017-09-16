@@ -22,5 +22,7 @@ $(document).ready(function(){
         smartSpeed: 600
     });
 
+    //Mask watcher
+    $.jMaskGlobals.watchDataMask = true;
 
 });

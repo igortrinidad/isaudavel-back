@@ -29,6 +29,7 @@
         "gulp": "^3.9.1",
         "gulp-htmlmin": "^3.0.0",
         "ionicons": "^2.0.1",
+        "jquery-mask-plugin": "^1.14.11",
         "laravel-elixir": "^6.0.0-15",
         "moment": "^2.18.1",
         "slug": "^0.9.1",
