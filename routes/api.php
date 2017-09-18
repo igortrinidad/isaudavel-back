@@ -152,6 +152,8 @@ Route::group(['prefix' => 'professional'], function () {
             //Schedule
             Route::post('/schedule/calendar_list', 'ScheduleController@forCalendar');
             Route::post('/schedule/reschedule', 'ScheduleController@reschedule');
+            Route::post('/schedule/confirm', 'ScheduleController@confirm');
+            Route::post('/schedule/cancel', 'ScheduleController@cancel');
 
         });
 
@@ -365,6 +367,7 @@ Route::group(['prefix' => 'client'], function () {
 
             //reschedule
             Route::post('/schedule/reschedule', 'ScheduleController@reschedule');
+            Route::post('/schedule/cancel', 'ScheduleController@cancel');
         });
 
         //Professional rating

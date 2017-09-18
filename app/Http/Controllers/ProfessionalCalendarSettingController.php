@@ -126,7 +126,7 @@ class ProfessionalCalendarSettingController extends Controller
                 'company_id' => $request->get('company_id'),
                 'category_id' => $request->get('category_id'),
                 'professional_id' => $request->get('professional_id')
-            ], ['is_active' => false, 'workdays' => json_decode('[]')]);
+            ], ['is_active' => false, 'workdays' => json_decode('[]'), 'unavailable_dates_range' => json_decode('[]')]);
 
         return response()->json(['calendar_setting' => $calendar_setting->fresh()]);
     }

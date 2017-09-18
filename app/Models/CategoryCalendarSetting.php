@@ -33,6 +33,12 @@ class CategoryCalendarSetting extends Model
         'company_id',
         'category_id',
         'is_professional_scheduled',
+        'calendar_is_public',
+        'calendar_is_active',
+        'advance_schedule',
+        'advance_reschedule',
+        'cancel_schedule',
+        'points_to_earn_bonus',
         'workdays'
     ];
 
@@ -43,6 +49,8 @@ class CategoryCalendarSetting extends Model
      */
     protected $casts = [
         'is_professional_scheduled' => 'boolean',
+        'calendar_is_public' => 'boolean',
+        'calendar_is_active' => 'boolean',
         'workdays' => 'json'
     ];
 

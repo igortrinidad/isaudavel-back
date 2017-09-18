@@ -35,7 +35,8 @@ class ProfessionalCalendarSetting extends Model
         'professional_id',
         'is_active',
         'slot_duration',
-        'workdays'
+        'workdays',
+        'unavailable_dates_range'
     ];
 
     /**
@@ -45,7 +46,8 @@ class ProfessionalCalendarSetting extends Model
      */
     protected $casts = [
         'is_active' => 'boolean',
-        'workdays' => 'json'
+        'workdays' => 'json',
+        'unavailable_dates_range' => 'json'
     ];
 
     /**
