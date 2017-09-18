@@ -44,6 +44,14 @@
         padding-bottom: 20px;
         background: rgba(0, 0, 0, 0) linear-gradient(180deg, #88C657 20%, #6EC058 100%) repeat scroll 0 0;
     }
+
+        .picture-bg{
+            box-sizing: border-box;
+            margin: 0 auto;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
 </style>
 
 <header id="search-area" :class="{ 'search-page' : pathSearch }">
@@ -79,6 +87,28 @@
                <p class="f-13">Você está pesquisando por <b>@{{category}}</b><span v-if="city"> em <b>@{{city}}</b></span></p>
            </div>
        </div>
+
+        <div class="row">
+            <div class="swiper-container swiper-categories wow fadeInUp">
+            <div class="swiper-wrapper">
+                @foreach($categories as $category)
+
+                    <div class="swiper-slide text-center">
+                        <div class="card" style="width: 200px;height: 150px;">
+                            <a href="{{route('landing.search.index', ['category' => $category->slug])}}">
+                                <div class="card-body card-padding picture-bg text-center" style="background-image:url({{$category->avatar}})">
+                            </div>
+                            </a>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+            <div class="swiper-button-prev swiper-button-black"></div>
+            <div class="swiper-button-next swiper-button-black"></div>
+            <div style="height: 50px;"></div>
+            <div class="swiper-pagination"></div>
+        </div>
+        </div>
    </div>
 </header>
 
@@ -165,6 +195,23 @@
                   },
                 }
 
+            })
+
+            var swiperFeatureds = new Swiper('.swiper-categories', {
+                centeredSlides: true,
+                spaceBetween: 15,
+                loop: false,
+                slidesPerView: 6,
+                slideToClickedSlide: true,
+                paginationClickable: true,
+                pagination: '.swiper-pagination',
+                prevButton: '.swiper-button-prev',
+                nextButton: '.swiper-button-next',
+                breakpoints: {
+                    768: {
+                        slidesPerView: 1
+                    }
+                }
             })
 
         </script>

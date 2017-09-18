@@ -30,10 +30,11 @@ class LandingController extends Controller
      */
     public function index(Request $request)
     {
-        $companies = Company::with('categories')->get();
-        $events = Event::with('categories')->get();
+        $companies = Company::with('categories')->limit(8)->get();
+        $events = Event::with('categories')->limit(8)->get();
+        $categories = Category::all();
 
-        return view('landing.home.home', compact('companies', 'events'));
+        return view('landing.home.home', compact('companies', 'events', 'categories'));
     }
 
     /**
@@ -44,7 +45,7 @@ class LandingController extends Controller
      */
     public function ListEvents(Request $request)
     {
-        $events = Event::with('categories')->get();
+        $events = Event::with('categories')->limit(8)->get();
         $companies = Company::with('categories')->limit(8)->get();
 
         return view('landing.events.list', compact('events', 'companies'));
