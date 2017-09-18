@@ -32,6 +32,29 @@
         }
     }
 
+    .swiper-categories .swiper-pagination .swiper-pagination-bullet {
+        background-color: transparent !important;
+        opacity: 1 !important;
+        border: 1px solid #88C657;
+    }
+
+    .swiper-categories .swiper-pagination .swiper-pagination-bullet-active{ background-color: #88C657 !important; }
+
+    .swiper-categories .swiper-button-prev,
+    .swiper-categories .swiper-button-next {
+        background-image: none !important;
+        font-size: 20px;
+        background-color: #fff;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 30px !important;
+        margin-top: -30px !important;
+    }
+    .swiper-categories .swiper-button-prev { left: 0; }
+    .swiper-categories .swiper-button-next {}
+
     #search-area {
         padding: 80px 0 80px 0px;
         background: #fff;
@@ -44,21 +67,22 @@
         padding-bottom: 20px;
         background: rgba(0, 0, 0, 0) linear-gradient(180deg, #88C657 20%, #6EC058 100%) repeat scroll 0 0;
     }
+    .card.category .picture-bg { border-radius: 4px; height: 120px; }
 
-        .picture-bg{
-            box-sizing: border-box;
-            margin: 0 auto;
-            background-position: center center;
-            background-repeat: no-repeat;
-            background-size: cover;
-        }
+    .picture-bg {
+        box-sizing: border-box;
+        margin: 0 auto;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
 </style>
 
 <header id="search-area" :class="{ 'search-page' : pathSearch }">
 
-    <div class="container">
+    <div class="container p-t-30">
        <div class="row header-mobile">
-           <h3 class="text-center">Encontre empresas e profissionais de saúde próximos à você</h3>
+           <h3 class="text-center m-b-30">Encontre empresas e profissionais de saúde próximos à você</h3>
            <div class="col-xs-12 col-sm-4 col-md-4">
                <div class="form-group">
                    <input class="form-control" id="autocomplete" placeholder="Informe a cidade" />
@@ -84,30 +108,41 @@
                </form>
            </div>
            <div class="col-xs-12 col-md-12 text-left" v-if="category">
-               <p class="f-13">Você está pesquisando por <b>@{{category}}</b><span v-if="city"> em <b>@{{city}}</b></span></p>
+               <p class="f-13">Você está pesquisando por <b>@{{ category }}</b><span v-if="city"> em <b>@{{ city }}</b></span></p>
            </div>
        </div>
 
-        <div class="row">
-            <div class="swiper-container swiper-categories wow fadeInUp">
-            <div class="swiper-wrapper">
-                @foreach($categories as $category)
-
-                    <div class="swiper-slide text-center">
-                        <div class="card" style="width: 200px;height: 150px;">
-                            <a href="{{route('landing.search.index', ['category' => $category->slug])}}">
-                                <div class="card-body card-padding picture-bg text-center" style="background-image:url({{$category->avatar}})">
+        <div class="row m-t-10">
+            <div class="col-sm-12">
+                <div class="swiper-container swiper-categories wow fadeInUp">
+                    <div class="swiper-wrapper">
+                        @foreach($categories as $category)
+                            <div class="swiper-slide">
+                                <div class="card category">
+                                    <a href="{{route('landing.search.index', ['category' => $category->slug])}}">
+                                        <div
+                                            class="card-header ch-alt picture-bg"
+                                            style="background-image:url({{ $category->avatar }})"
+                                        >
+                                        </div>
+                                        <div class="card-body card-padding text-center">
+                                            <h5 class="f-300">{{ $category->name }}</h5>
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
-                            </a>
-                        </div>
+                        @endforeach
                     </div>
-                @endforeach
+                    <div class="swiper-button-prev">
+                        <i class="ion-ios-arrow-left"></i>
+                    </div>
+                    <div class="swiper-button-next">
+                        <i class="ion-ios-arrow-right"></i>
+                    </div>
+                    <div style="height: 30px;"></div>
+                    <div class="swiper-pagination"></div>
+                </div>
             </div>
-            <div class="swiper-button-prev swiper-button-black"></div>
-            <div class="swiper-button-next swiper-button-black"></div>
-            <div style="height: 50px;"></div>
-            <div class="swiper-pagination"></div>
-        </div>
         </div>
    </div>
 </header>
@@ -200,9 +235,9 @@
             var swiperFeatureds = new Swiper('.swiper-categories', {
                 centeredSlides: true,
                 spaceBetween: 15,
-                loop: false,
-                slidesPerView: 6,
-                slideToClickedSlide: true,
+                loop: true,
+                slidesPerView: 5,
+                slideToClickedSlide: false,
                 paginationClickable: true,
                 pagination: '.swiper-pagination',
                 prevButton: '.swiper-button-prev',

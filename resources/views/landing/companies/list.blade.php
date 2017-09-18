@@ -107,10 +107,10 @@
 
     </style>
 
-    <section class="section p-b-0" id="companies-list">
+    <section class="section" id="companies-list">
 
         <!-- Categories Tabs -->
-        <div class="swiper-container tabs" ref="tabs">
+        <!-- <div class="swiper-container tabs" ref="tabs">
             <div class="swiper-wrapper">
                 @foreach($categories as $category)
                 <div class="swiper-slide tab" data-url="{{$category->slug}}">
@@ -118,7 +118,7 @@
                 </div>
                 @endforeach
             </div>
-        </div>
+        </div> -->
         <!-- Categories Tabs -->
 
         <div class="container">
@@ -129,7 +129,7 @@
                 </div>
             @endif
 
-            <div class="row m-t-20">
+            <div class="row">
                 @foreach($companies as $company)
                 <div class="col-md-4 col-xs-12">
                     <div class="card">
