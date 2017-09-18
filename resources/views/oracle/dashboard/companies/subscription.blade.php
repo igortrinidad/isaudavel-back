@@ -7,9 +7,14 @@
 
                 <div class="page-title m-b-10">
                     <h2>{{$company->name}}</h2>
-                    <h3 class="pull-right">
-                        <a class="btn btn-primary" href="{{ route('oracle.dashboard.companies.list') }}"> <i class="ion-arrow-left-c"></i> Voltar</a>
-                    </h3>
+
+                    <div class="pull-right btn-group">
+                        <a class="btn btn-primary m-r-20" href="{{ route('oracle.dashboard.companies.list') }}"> <i class="ion-arrow-left-c"></i> Voltar</a>
+                        <button class="btn btn-success m-r-5" v-if="is_disabled" @click.prevent="is_disabled = !is_disabled">Alterar assinatura</button>
+                        <button type="submit" class="btn btn-primary m-r-5" v-if="!is_disabled" :disabled="!checked" @click="saveSubscription()">Salvar</button>
+                        <button class="btn btn-default m-r-5" v-if="!is_disabled" @click.prevent="cancelUpdate">Cancelar</button>
+                        
+                    </div>
                 </div>
                 <hr>
                 <div class="m-t-20">
@@ -38,7 +43,18 @@
                     </div>
                 </div>
 
-                <form class="m-b-25" action="{{route('oracle.dashboard.companies.subscription.update')}}" method="post" role="form">
+                <div class="row">
+                    <div class="col-md-12 col-xs-12">
+                        <div class="form-group">
+                            <label>Valor assinatura</label>
+                            <h1 class="">@{{total | formatCurrency}}</h1>
+                        </div>
+                    </div>
+                </div>
+
+                    
+
+                <form class="m-b-25" action="{{route('oracle.dashboard.companies.subscription.update')}}" method="post" role="form" id="form-subscription">
                     <div class="alert alert-info" v-if="!is_disabled">
                         <strong>Atenção</strong>: remoções de especialidades e quantidade de profissionais serão refletidas na próxima fatura, para as adições será criada uma fatura com a diferença parcial.
                     </div>
@@ -129,10 +145,7 @@
                         </label>
                     </div>
 
-                    <div class="form-group text-center">
-                        <label>Valor assinatura</label>
-                        <h1 class="text-center">@{{total | formatCurrency}}</h1>
-                    </div>
+
 
                     {{--Hidden inputs to send vue data on request--}}
                     {{csrf_field()}}
@@ -142,10 +155,6 @@
                     <input type="hidden" id="expire_at" name="expire_at" v-model="expire_at">
                     <input type="hidden" id="update_expiration" name="update_expiration" v-model="update_expiration">
 
-                    <button class="btn btn-success btn-block btn-lg" v-if="is_disabled" @click.prevent="is_disabled = !is_disabled">Alterar assinatura</button>
-
-                    <button type="submit" class="btn btn-primary btn-block btn-lg" v-if="!is_disabled" :disabled="!checked">Salvar</button>
-                    <button class="btn btn-default btn-block btn-lg" v-if="!is_disabled" @click.prevent="cancelUpdate">Cancelar</button>
 
                 </form>
 
@@ -290,6 +299,12 @@
                 }, response => {
                         // error callback
                     });
+                },
+
+                saveSubscription: function(){
+                    let that = this
+                
+                    $('#form-subscription').submit();
                 },
 
                 calcValue: function(){
