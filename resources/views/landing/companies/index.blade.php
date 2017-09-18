@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="no-js" lang="pt-br">
     <head>
-    
+
         @include('components.seo-opengraph')
 
         <meta charset="utf-8">

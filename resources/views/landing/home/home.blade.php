@@ -1,5 +1,6 @@
 @extends('landing.home.index')
 
+
 @section('content')
 
     <style media="screen">
@@ -31,6 +32,8 @@
             background-repeat: repeat;
         }*/
     </style>
+
+    @include('landing.companies.categories')
 
     <section id="contact" class="section divider">
         <div class="container">

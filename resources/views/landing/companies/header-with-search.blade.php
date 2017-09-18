@@ -115,9 +115,6 @@
    </div>
 </header>
 
-@include('landing.companies.categories')
-
-
     @section('scripts')
         @parent
 
