@@ -32,29 +32,6 @@
         }
     }
 
-    .swiper-categories .swiper-pagination .swiper-pagination-bullet {
-        background-color: transparent !important;
-        opacity: 1 !important;
-        border: 1px solid #88C657;
-    }
-
-    .swiper-categories .swiper-pagination .swiper-pagination-bullet-active{ background-color: #88C657 !important; }
-
-    .swiper-categories .swiper-button-prev,
-    .swiper-categories .swiper-button-next {
-        background-image: none !important;
-        font-size: 20px;
-        background-color: #fff;
-        border-radius: 4px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 30px !important;
-        margin-top: -30px !important;
-    }
-    .swiper-categories .swiper-button-prev { left: 0; }
-    .swiper-categories .swiper-button-next {}
-
     #search-area {
         padding: 80px 0 80px 0px;
         background: #fff;
@@ -75,6 +52,29 @@
         background-position: center center;
         background-repeat: no-repeat;
         background-size: cover;
+    }
+
+    /* categories */
+    .swiper-categories .swiper-pagination .swiper-pagination-bullet {
+        background-color: transparent !important;
+        opacity: 1 !important;
+        border: 1px solid #88C657;
+    }
+
+    .swiper-categories .swiper-pagination .swiper-pagination-bullet-active{ background-color: #88C657 !important; }
+
+    .swiper-categories .swiper-button-prev,
+    .swiper-categories .swiper-button-next {
+        background-image: none !important;
+        font-size: 25px;
+        background-color: #fff;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 40px !important;
+        margin-top: -40px !important;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
     }
 </style>
 
@@ -112,40 +112,11 @@
            </div>
        </div>
 
-        <div class="row m-t-10">
-            <div class="col-sm-12">
-                <div class="swiper-container swiper-categories wow fadeInUp">
-                    <div class="swiper-wrapper">
-                        @foreach($categories as $category)
-                            <div class="swiper-slide">
-                                <div class="card category">
-                                    <a href="{{route('landing.search.index', ['category' => $category->slug])}}">
-                                        <div
-                                            class="card-header ch-alt picture-bg"
-                                            style="background-image:url({{ $category->avatar }})"
-                                        >
-                                        </div>
-                                        <div class="card-body card-padding text-center">
-                                            <h5 class="f-300">{{ $category->name }}</h5>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                    <div class="swiper-button-prev">
-                        <i class="ion-ios-arrow-left"></i>
-                    </div>
-                    <div class="swiper-button-next">
-                        <i class="ion-ios-arrow-right"></i>
-                    </div>
-                    <div style="height: 30px;"></div>
-                    <div class="swiper-pagination"></div>
-                </div>
-            </div>
-        </div>
    </div>
 </header>
+
+@include('landing.companies.categories')
+
 
     @section('scripts')
         @parent
@@ -230,23 +201,6 @@
                   },
                 }
 
-            })
-
-            var swiperFeatureds = new Swiper('.swiper-categories', {
-                centeredSlides: true,
-                spaceBetween: 15,
-                loop: true,
-                slidesPerView: 5,
-                slideToClickedSlide: false,
-                paginationClickable: true,
-                pagination: '.swiper-pagination',
-                prevButton: '.swiper-button-prev',
-                nextButton: '.swiper-button-next',
-                breakpoints: {
-                    768: {
-                        slidesPerView: 1
-                    }
-                }
             })
 
         </script>
