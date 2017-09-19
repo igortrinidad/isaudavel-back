@@ -1,7 +1,7 @@
 <section class="section bg-pattern p-b-30 p-t-30">
     <div class="container">
 
-        <h3 class="text-center m-b-30">São mais de {{ count($categories) -1 }} atividades para deixar sua vida mais saudável</h3>
+        <h3 class="text-center m-b-30">Selecione uma categoria para pesquisar</h3>
 
         <div class="row m-t-10">
             <div class="col-sm-12">
