@@ -377,7 +377,7 @@
                                                             <a href="{!! route('landing.search.index', ['category' => $category->slug]) !!}"><button class="btn btn-success btn-sm m-b-5">{{ $category->name }}</button></a>
                                                         @endforeach
                                                     </div>
-                                                    <a href="{!! route('landing.professionals.show', $professional->id) !!}" title="{{ $professional->full_name }}">
+                                                    <a href="{!! route('landing.professionals.show', $professional->slug) !!}" title="{{ $professional->full_name }}">
                                                         <button class="btn btn-block btn-primary f-300 f-16">
                                                             Ver perfil
                                                         </button>
