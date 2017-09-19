@@ -154,7 +154,9 @@ Route::group(['prefix' => 'professional'], function () {
             Route::post('/schedule/reschedule', 'ScheduleController@reschedule');
             Route::post('/schedule/confirm', 'ScheduleController@confirm');
             Route::post('/schedule/cancel', 'ScheduleController@cancel');
-
+            Route::post('/schedule/update', 'ScheduleController@update');
+            Route::post('/schedule/destroy_all', 'ScheduleController@destroyAll');
+            Route::get('/schedule/destroy/{id}', 'ScheduleController@destroy');
         });
 
         //Certifications
