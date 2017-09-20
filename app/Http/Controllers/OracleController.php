@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Services\InvoiceServices;
 use App\Http\Services\SubscriptionServices;
+use App\Models\ClientSubscription;
 use App\Models\CompanyInvoice;
 use App\Models\CompanySubscription;
+use App\Models\OracleUser;
 use App\Models\SubscriptionHistory;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -186,6 +188,182 @@ class OracleController extends Controller
         flash('Fatura atualizada com sucesso')->success()->important();
 
         return redirect()->back();
+    }
+
+    public function clientsList(Request $request)
+    {
+        $search = explode(' ', $request->get('search'))
+        ;
+        if($request->has('search') && !empty($request->get('search'))){
+
+            $clients  =  Client::where(function($query) use($request, $search){
+                $query->where('name', 'LIKE', '%' . $request->get('search') . '%');
+                $query->orWhere('last_name', 'LIKE', '%' . $request->get('search') . '%');
+                $query->orWhere('email', 'LIKE', '%' . $request->get('search') . '%');
+
+                //for full name
+                $query->orWhereIn('name', $search);
+                $query->orWhere(function ($query) use ($search) {
+                    $query->whereIn('last_name', $search);
+                });
+            })->paginate(10);
+
+            $clients->appends(['search' => $request->get('search')]);
+        }
+
+        if(!$request->has('search') && empty($request->get('search')))
+        {
+            $clients = Client::orderBy('name')->paginate(10);
+        }
+        return view('oracle.dashboard.clients.list', compact('clients'));
+    }
+
+    public function clientShow($id)
+    {
+        $client = Client::with( 'companies.categories')->find($id);
+
+        \JavaScript::put(['client' => $client]);
+
+        return view('oracle.dashboard.clients.show', compact('client'));
+    }
+
+    public function clientUpdate(Request $request)
+    {
+        $client = tap(Client::find($request->get('id')))->update($request->all())->fresh();
+
+        flash('Cliente atualizado com sucesso')->success()->important();
+
+        return redirect()->back();
+    }
+
+    public function professionalsList(Request $request)
+    {
+        $search = explode(' ', $request->get('search'));
+
+        if($request->has('search') && !empty($request->get('search'))){
+
+            $professionals  =  Professional::where(function($query) use($request, $search){
+                $query->where('name', 'LIKE', '%' . $request->get('search') . '%');
+                $query->orWhere('last_name', 'LIKE', '%' . $request->get('search') . '%');
+                $query->orWhere('email', 'LIKE', '%' . $request->get('search') . '%');
+
+                //for full name
+                $query->orWhereIn('name', $search);
+                $query->orWhere(function ($query) use ($search) {
+                    $query->whereIn('last_name', $search);
+                });
+            })->paginate(10);
+
+            $professionals->appends(['search' => $request->get('search')]);
+        }
+
+        if(!$request->has('search') && empty($request->get('search')))
+        {
+            $professionals = Professional::orderBy('name')->paginate(10);
+        }
+        return view('oracle.dashboard.professionals.list', compact('professionals'));
+    }
+
+    public function professionalShow($id)
+    {
+        $professional = Professional::with('categories', 'companies.categories')->find($id);
+
+        \JavaScript::put(['professional' => $professional]);
+
+        return view('oracle.dashboard.professionals.show', compact('professional'));
+    }
+
+    public function professionalUpdate(Request $request)
+    {
+        $categories = json_decode($request->get('categories'));
+
+        $professional = tap(Professional::find($request->get('id')))->update($request->all())->fresh();
+
+        $professional->categories()->sync($categories);
+
+        flash('Profissional atualizado com sucesso')->success()->important();
+
+        return redirect()->back();
+    }
+
+    public function oraclesList(Request $request)
+    {
+        $search = explode(' ', $request->get('search'));
+
+        if($request->has('search') && !empty($request->get('search'))){
+
+            $oracles  =  OracleUser::where(function($query) use($request, $search){
+                $query->where('name', 'LIKE', '%' . $request->get('search') . '%');
+                $query->orWhere('last_name', 'LIKE', '%' . $request->get('search') . '%');
+                $query->orWhere('email', 'LIKE', '%' . $request->get('search') . '%');
+
+                //for full name
+                $query->orWhereIn('name', $search);
+                $query->orWhere(function ($query) use ($search) {
+                    $query->whereIn('last_name', $search);
+                });
+            })->paginate(10);
+
+            $oracles->appends(['search' => $request->get('search')]);
+        }
+
+        if(!$request->has('search') && empty($request->get('search')))
+        {
+            $oracles = OracleUser::orderBy('name')->paginate(10);
+        }
+        return view('oracle.dashboard.oracles.list', compact('oracles'));
+    }
+
+    public function oracleShow($id)
+    {
+        $oracle = OracleUser::find($id);
+
+        \JavaScript::put(['oracle' => $oracle]);
+
+        return view('oracle.dashboard.oracles.show', compact('oracle'));
+    }
+
+    public function oracleUpdate(Request $request)
+    {
+
+
+        if($request->has('current_password') && !empty($request->get('current_password'))){
+
+            $user = \Auth::user();
+
+            if(!\Hash::check($request->get('current_password'), $user->password)){
+
+                flash('Senha atual incorreta')->error()->important();
+
+                return redirect()->back();
+            }
+        }
+
+        if($request->get('new_password') != $request->get('confirm_new_password'))
+        {
+            flash('As senhas devem ser iguais')->error()->important();
+
+
+        }
+
+        if( $request->get('confirm_new_password') == $request->get('new_password')){
+            $request->merge([
+                'password' => bcrypt($request->get('new_password')),
+            ]);
+        }
+
+        $oracle = tap(OracleUser::find($request->get('id')))->update($request->all())->fresh();
+
+        flash('Usuário atualizado com sucesso')->success()->important();
+
+        return redirect()->back();
+    }
+
+    public function profileShow()
+    {
+        $oracle = \Auth::user();
+
+        return view('oracle.dashboard.profile.index', compact('oracle'));
     }
 
 }

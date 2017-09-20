@@ -4,7 +4,7 @@
     <div class="container first-container">
         <div class="row">
             <div class="col-md-12">
-                <h3>Empresas</h3>
+                <h3><strong>Empresas</strong></h3>
 
 
                 <div class="m-t-20">
@@ -81,6 +81,7 @@
                                     </td>
                                     <td>{{$company->created_at->format('d/m/Y H:i:s')}}</td>
                                     <td>
+                                        <a class="btn btn-default btn-sm" href="{!! route('landing.companies.show', $company->slug) !!}"><i class="ion-search"></i></a>
                                         <a class="btn btn-primary btn-sm" href="{{route('oracle.dashboard.companies.edit', ['id'=> $company->id])}}" title="Editar empresa"><i class="ion-edit"></i></a>
                                         @if($company->subscription)
                                             <a class="btn btn-success btn-sm" href="{{route('oracle.dashboard.companies.subscription', ['id'=> $company->id])}}" title="Gerenciar assinatura"><i class="ion-gear-b fa-lg"></i></a>

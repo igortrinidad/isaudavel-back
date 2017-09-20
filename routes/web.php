@@ -114,6 +114,29 @@ Route::group(['prefix' => 'oracle', 'as' => 'oracle.'], function () {
 
         });
 
+        //clients
+        Route::group(['prefix' => 'clientes', 'as' => 'clients.'], function () {
+            Route::get('/', ['uses' => 'OracleController@clientsList', 'as' => 'list']);
+            Route::get('exibir/{id}', ['uses' => 'OracleController@clientShow', 'as' => 'show']);
+            Route::post('update', ['uses' => 'OracleController@clientUpdate', 'as' => 'update']);
+        });
+
+        //Professionals
+        Route::group(['prefix' => 'profissionais', 'as' => 'professionals.'], function () {
+            Route::get('/', ['uses' => 'OracleController@professionalsList', 'as' => 'list']);
+            Route::get('exibir/{id}', ['uses' => 'OracleController@professionalShow', 'as' => 'show']);
+            Route::post('update', ['uses' => 'OracleController@professionalUpdate', 'as' => 'update']);
+        });
+
+        //Oracle
+        Route::group(['prefix' => 'administradores', 'as' => 'oracles.'], function () {
+            Route::get('/', ['uses' => 'OracleController@oraclesList', 'as' => 'list']);
+            Route::get('exibir/{id}', ['uses' => 'OracleController@oracleShow', 'as' => 'show']);
+            Route::post('update', ['uses' => 'OracleController@oracleUpdate', 'as' => 'update']);
+        });
+
+        Route::get('/meu-perfil', ['uses' => 'OracleController@profileShow', 'as' => 'profile.show']);
+
         Route::post('/logout', ['uses' => 'Auth\OracleLoginController@logout', 'as' => 'logout']);
     });
 });

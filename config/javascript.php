@@ -19,7 +19,10 @@ return [
         'oracle.dashboard.companies.edit',
         'oracle.dashboard.companies.subscription',
         'oracle.dashboard.companies.subscription-create',
-        'oracle.dashboard.companies.invoice-show'
+        'oracle.dashboard.companies.invoice-show',
+        'oracle.dashboard.clients.show',
+        'oracle.dashboard.professionals.show',
+        'oracle.dashboard.oracles.show'
     ],
 
     /*
