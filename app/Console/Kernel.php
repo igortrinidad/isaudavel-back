@@ -13,7 +13,11 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        \App\Console\Commands\ProccessSubscriptions::class
+        \App\Console\Commands\ProccessSubscriptions::class,
+        \App\Console\Commands\SendClientInvoiceReminder3Days::class,
+        \App\Console\Commands\SendClientInvoiceReminder1Day::class,
+        \App\Console\Commands\SendCompanyInvoiceReminder3Days::class,
+        \App\Console\Commands\SendCompanyInvoiceReminder1Day::class,
     ];
 
     /**

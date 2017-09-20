@@ -16,6 +16,18 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <nav class="collapse navbar-collapse" id="navbar">
             <ul class="nav navbar-nav navbar-right">
+                <li class="{{ getActiveRoute('landing.index') }}"><a href="{!! route('landing.index') !!}">Home</a></li>
+                <li class="{{ getActiveRoute('oracle.dashboard.companies.list') }}"><a href="{!! route('oracle.dashboard.companies.list') !!}">Empresas</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                        Usuários <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li class="{{ getActiveRoute('oracle.dashboard.clients.list') }}" ><a href="{!! route('oracle.dashboard.clients.list') !!}">Clientes</a></li>
+                        <li class="{{ getActiveRoute('oracle.dashboard.professionals.list') }}" ><a href="{!! route('oracle.dashboard.professionals.list') !!}">Profissionais</a></li>
+                        <li class="{{ getActiveRoute('oracle.dashboard.oracles.list') }}" ><a href="{!! route('oracle.dashboard.oracles.list') !!}">Administradores</a></li>
+                    </ul>
+                </li>
                 @if (Auth::guard('oracle_web')->check())
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -23,6 +35,7 @@
                     </a>
 
                     <ul class="dropdown-menu" role="menu">
+                        <li class="{{ getActiveRoute('oracle.dashboard.profile.show') }}" ><a href="{!! route('oracle.dashboard.profile.show') !!}">Meu perfil</a></li>
                         <li>
                             <a href="{{ route('oracle.dashboard.logout') }}"
                                onclick="event.preventDefault();
@@ -37,10 +50,6 @@
                     </ul>
                 </li>
                 @endif
-            </ul>
-            <ul class="nav navbar-nav navbar-right" id="top-nav">
-                <li class="{{ getActiveRoute('landing.index') }}"><a href="{!! route('landing.index') !!}">Home</a></li>
-                <li class="{{ getActiveRoute('oracle.dashboard.companies.list') }}"><a href="{!! route('oracle.dashboard.companies.list') !!}">Empresas</a></li>
             </ul>
         </nav><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
