@@ -50,6 +50,32 @@ Route::group(['middleware' => 'both.auth'], function () {
             Route::post('/comment/destroy', 'EventCommentController@destroy');
         });
 
+        //Protected  meal recipe resources
+        Route::group(['prefix' => 'meal_recipe'], function () {
+
+            //Meal types
+            Route::get('/type/list', 'MealTypeController@forSelect');
+
+            //Meal recipes resources
+            Route::post('/store', 'MealRecipeController@store');
+            Route::post('/update', 'MealRecipeController@update');
+
+            //Meal recipes photos resources
+            Route::post('/photo/upload', 'MealRecipePhotoController@store');
+            Route::get('/photo/destroy/{id}', 'MealRecipePhotoController@destroy');
+
+            //Meal recipes resources
+            Route::post('/tag/list', 'MealRecipeTagController@forSelect');
+            Route::post('/tag/store', 'MealRecipeTagController@store');
+
+            //comment
+            Route::post('/comment/store', 'MealRecipeCommentController@store');
+            Route::get('/comment/destroy/{id}', 'MealRecipeCommentController@destroy');
+
+            //rating
+            Route::post('/rating/store', 'MealRecipeRatingController@store');
+        });
+
 });
 
 
@@ -435,6 +461,15 @@ Route::group(['prefix' => 'tools'], function(){
     Route::get('users/generateNewPass/professional/{email}', 'ProfessionalController@generateNewPass');
     Route::get('users/generateNewPass/client/{email}', 'ClientController@generateNewPass');
     Route::get('users/generateNewPass/oracle/{email}', 'OracleUserController@generateNewPass');
+});
+
+/*
+ * Unprotected meals routes
+ */
+Route::group(['prefix' => 'meal'], function(){
+
+    Route::get('/type/list', 'MealTypeController@forSelect');
+    Route::post('/recipe/type/search', 'MealRecipeController@searchByType');
 });
 
 /*

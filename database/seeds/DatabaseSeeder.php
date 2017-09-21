@@ -119,6 +119,12 @@ class DatabaseSeeder extends Seeder
             $this->call(ClientRestrictionsTableSeeder::class);
             $this->call(ClientExamsTableSeeder::class);
 
+            /*
+             * Meal recipes
+             */
+            $this->call(MealRecipesTableSeeder::class);
+
+
 
 
 
