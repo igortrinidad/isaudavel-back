@@ -165,7 +165,7 @@ Route::group(['prefix' => 'professional'], function () {
         //Route::post('/certification/update', 'CertificationController@update');
         Route::get('/certification/destroy/{id}', 'CertificationController@destroy');
 
-        //Photo resources
+        //Professional Photo resources
         Route::get('/photo/list/{id}', 'ProfessionalPhotoController@index');
         Route::post('/photo/upload', 'ProfessionalPhotoController@store');
         Route::post('/photo/update', 'ProfessionalPhotoController@update');
@@ -258,11 +258,11 @@ Route::group(['prefix' => 'client'], function () {
         //Client
         Route::post('/show', 'ClientController@show');
 
-        //Photo resources
+        //Client Photo resources
         Route::post('/photo/list', 'ClientPhotoController@index');
         Route::post('/photo/upload', 'ClientPhotoController@store');
         Route::post('/photo/update', 'ClientPhotoController@update');
-        Route::get('/photo/destroy/{id}', 'ClientPhotoController@destroy');
+        Route::post('/photo/destroy', 'ClientPhotoController@destroy');
         Route::post('/photo/set_profile', 'ClientPhotoController@set_profile');
 
          //activity resources

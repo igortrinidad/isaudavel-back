@@ -90,9 +90,9 @@ class ClientPhotoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $photo = ClientPhoto::find($id);
+        $photo = ClientPhoto::find($request->get('photo_id'));
 
         \Storage::disk('media')->delete($photo->path);
 
@@ -101,7 +101,7 @@ class ClientPhotoController extends Controller
         if($destroyed){
             return response()->json([
                 'message' => 'Client photo destroyed.',
-                'id' => $id
+                'id' => $request->get('photo_id')
             ]);
         }
 
