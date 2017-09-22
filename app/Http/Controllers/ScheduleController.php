@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CategoryCalendarSetting;
 use App\Models\Company;
+use App\Models\CompanyInvoice;
 use App\Models\ProfessionalCalendarSetting;
 use App\Models\Schedule;
 use Carbon\Carbon;
@@ -188,10 +189,9 @@ class ScheduleController extends Controller
     {
         $schedule = tap(Schedule::find($request->get('id')))->update($request->all())->fresh();
 
-
         return response()->json([
             'message' => 'Schedule updated.',
-            'schedule' => $schedule
+            'schedule' => $schedule->load('category', 'professional')
         ]);
     }
 
@@ -338,6 +338,24 @@ class ScheduleController extends Controller
             'message' => 'Canceled.',
             'schedule' => $schedule->load('category')
         ]);
+    }
+
+    /**
+     * Remove all schedules from invoice.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function destroyAll(Request $request)
+    {
+        $destroyeds = Schedule::where('invoice_id',$request->get('invoice_id'))->delete();
+
+        if($destroyeds){
+            return response()->json([
+                'message' => 'Schedules destroyed.',
+            ]);
+        }
+
     }
 
 }

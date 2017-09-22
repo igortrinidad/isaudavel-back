@@ -16,7 +16,7 @@ class DietController extends Controller
      */
     public function index(Request $request)
     {
-        $diets = Diet::where('client_id', $request->get('client_id'))->with('from')->get();
+        $diets = Diet::where('client_id', $request->get('client_id'))->with('from.categories')->get();
 
         return response()->json(['diets' => $diets]);
     }
@@ -29,7 +29,7 @@ class DietController extends Controller
      */
     public function listdestroyeds(Request $request)
     {
-        $diets = Diet::where('client_id', $request->get('client_id'))->with('from')->onlyTrashed()->get();
+        $diets = Diet::where('client_id', $request->get('client_id'))->with('from.categories')->onlyTrashed()->get();
 
         return response()->json(['diets_destroyeds' => $diets]);
     }

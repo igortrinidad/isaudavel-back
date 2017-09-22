@@ -126,7 +126,7 @@ class ExamController extends Controller
      */
     public function listdestroyeds(Request $request)
     {
-        $exams = Exam::where('client_id', $request->get('client_id'))->with('from')->onlyTrashed()->get();
+        $exams = Exam::where('client_id', $request->get('client_id'))->with('from.categories')->onlyTrashed()->get();
 
         return response()->json(['exams_destroyeds' => $exams]);
     }

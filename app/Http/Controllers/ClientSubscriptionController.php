@@ -64,13 +64,12 @@ class ClientSubscriptionController extends Controller
         $subscription = tap(ClientSubscription::find($request->get('id')))->update($request->all())->fresh();
 
         //Update existing schedules
-        if($request->has('update_schedules') && $request->get('update_schedules')){
+        if($request->has('update_schedules') && $request->get('update_schedules') && count($subscription->workdays)){
             //get last invoice
             $last_invoice = Invoice::where('subscription_id', $subscription->id)->latest()->first();
 
             //invoice schedules
             $schedules = Schedule::where('invoice_id', $last_invoice->id)->orderBy('date')->get();
-
 
             foreach($schedules as $schedule){
 
@@ -104,7 +103,18 @@ class ClientSubscriptionController extends Controller
                         'invoice_id' => $last_invoice->id
                     ];
 
-                    $new_schedule = Schedule::create($schedule_data);
+                    $new_schedule = Schedule::where([
+                        'subscription_id' => $subscription->id,
+                        'company_id' => $subscription->company_id,
+                        'category_id' => $subscription->plan->category_id,
+                        'date' => $start->format('Y-m-d'),
+                        'time' => $subscription->workdays[$i]['init'].':00',
+                        'professional_id' => $subscription->workdays[$i]['professional_id'],
+                        'invoice_id' => $last_invoice->id])->first();
+
+                    if(!$new_schedule){
+                        $new_schedule = Schedule::create($schedule_data);
+                    }
 
                     $new_schedules[] = $new_schedule;
 
@@ -113,19 +123,6 @@ class ClientSubscriptionController extends Controller
                     if ($i == count($subscription->workdays)) {
                         $i = 0;
                     }
-
-                    while ($subscription->workdays[$i]['dow'] == $start->dayOfWeek && count($new_schedules) < $subscription->quantity) {
-
-                        $schedule_data['date'] = $start->format('d/m/Y');
-                        $schedule_data['time'] = $subscription->workdays[$i]['init'];
-
-                        $new_schedule = Schedule::create($schedule_data);
-
-                        $new_schedules[] = $new_schedule;
-
-                        $i++;
-                    }
-
                 }
             }
         }

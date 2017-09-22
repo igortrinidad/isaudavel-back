@@ -29,7 +29,7 @@ class RestrictionController extends Controller
      */
     public function listdestroyeds(Request $request)
     {
-        $restrictions = Restriction::where('client_id', $request->get('client_id'))->with('from')->onlyTrashed()->get();
+        $restrictions = Restriction::where('client_id', $request->get('client_id'))->with('from.categories')->onlyTrashed()->get();
 
         return response()->json(['restrictions_destroyeds' => $restrictions]);
     }
