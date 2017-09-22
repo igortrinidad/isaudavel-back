@@ -13,7 +13,9 @@ class AddSlugToMealRecipesTable extends Migration
      */
     public function up()
     {
-        //
+        Schema::table('meal_recipes', function (Blueprint $table) {
+            $table->string('slug')->after('title');
+        });
     }
 
     /**
