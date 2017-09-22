@@ -65,7 +65,7 @@ Route::group(['middleware' => 'both.auth'], function () {
             Route::get('/photo/destroy/{id}', 'MealRecipePhotoController@destroy');
 
             //Meal recipes resources
-            Route::post('/tag/list', 'MealRecipeTagController@forSelect');
+            Route::get('/tag/list', 'MealRecipeTagController@forSelect');
             Route::post('/tag/store', 'MealRecipeTagController@store');
 
             //comment
@@ -180,9 +180,7 @@ Route::group(['prefix' => 'professional'], function () {
             Route::post('/schedule/reschedule', 'ScheduleController@reschedule');
             Route::post('/schedule/confirm', 'ScheduleController@confirm');
             Route::post('/schedule/cancel', 'ScheduleController@cancel');
-            Route::post('/schedule/update', 'ScheduleController@update');
-            Route::post('/schedule/destroy_all', 'ScheduleController@destroyAll');
-            Route::get('/schedule/destroy/{id}', 'ScheduleController@destroy');
+
         });
 
         //Certifications
@@ -191,7 +189,7 @@ Route::group(['prefix' => 'professional'], function () {
         //Route::post('/certification/update', 'CertificationController@update');
         Route::get('/certification/destroy/{id}', 'CertificationController@destroy');
 
-        //Professional Photo resources
+        //Photo resources
         Route::get('/photo/list/{id}', 'ProfessionalPhotoController@index');
         Route::post('/photo/upload', 'ProfessionalPhotoController@store');
         Route::post('/photo/update', 'ProfessionalPhotoController@update');
@@ -284,11 +282,11 @@ Route::group(['prefix' => 'client'], function () {
         //Client
         Route::post('/show', 'ClientController@show');
 
-        //Client Photo resources
+        //Photo resources
         Route::post('/photo/list', 'ClientPhotoController@index');
         Route::post('/photo/upload', 'ClientPhotoController@store');
         Route::post('/photo/update', 'ClientPhotoController@update');
-        Route::post('/photo/destroy', 'ClientPhotoController@destroy');
+        Route::get('/photo/destroy/{id}', 'ClientPhotoController@destroy');
         Route::post('/photo/set_profile', 'ClientPhotoController@set_profile');
 
          //activity resources
@@ -471,7 +469,11 @@ Route::group(['prefix' => 'tools'], function(){
 Route::group(['prefix' => 'meal'], function(){
 
     Route::get('/type/list', 'MealTypeController@forSelect');
+    Route::get('/tag/list', 'MealRecipeTagController@forSelect');
+    Route::post('/recipe/search', 'MealRecipeController@searchByTitle');
     Route::post('/recipe/type/search', 'MealRecipeController@searchByType');
+    Route::post('/recipe/tag/search', 'MealRecipeController@searchByTag');
+    Route::get('/recipe/show/{slug}', 'MealRecipeController@show');
 });
 
 /*

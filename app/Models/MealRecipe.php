@@ -4,10 +4,25 @@ namespace App\Models;
 
 use App\Models\Traits\Uuids;
 use Illuminate\Database\Eloquent\Model;
+use Cviebrock\EloquentSluggable\Sluggable;
 
 class MealRecipe extends Model
 {
-    use Uuids;
+    use Uuids, Sluggable;
+
+    /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => 'title'
+            ]
+        ];
+    }
 
     /**
      * The table associated with the model.
@@ -52,6 +67,46 @@ class MealRecipe extends Model
      * @var array
      */
     protected $casts = ['ingredients' => 'json'];
+
+    /**
+     * The accessors to append to the model's array.
+     *
+     * @var array
+     */
+    protected $appends = ['cover', 'total_comments', 'current_rating'];
+
+    /*
+   * Avatar
+   */
+    public function getCoverAttribute()
+    {
+        $photo = MealRecipePhoto::where('meal_recipe_id', $this->id)->where('is_cover', true)->first();
+
+        if (!$photo) {
+            $photo = MealRecipePhoto::where('meal_recipe_id', $this->id)->first();
+        }
+
+        return $photo ? $photo->fresh()->photo_url : 'https://s3.amazonaws.com/isaudavel-assets/img/isaudavel_holder550.png';
+    }
+
+    /*
+    * Comments count
+    */
+    public function getTotalCommentsAttribute()
+    {
+        return MealRecipeComment::where('meal_recipe_id', $this->id)->get()->count();
+    }
+
+    /*
+    * Rating
+    */
+    public function getCurrentRatingAttribute()
+    {
+        $rating = MealRecipeRating::where('meal_recipe_id', $this->id)->get()->avg('rating');
+
+        return round($rating, 1);
+    }
+
 
 
     /**

@@ -28,10 +28,47 @@ class MealRecipeController extends Controller
     {
         $meal_recipes = MealRecipe::whereHas('type', function($query) use ($request){
             $query->where('slug', $request->get('slug'));
-        })->with(['photos', 'tags', 'comments', 'ratings'])->get();
+        })->with(['tags' => function($query){
+            $query->select('id', 'name', 'slug');
+        }, 'comments', 'type'])->get();
 
         return response()->json(['count' => $meal_recipes->count(), 'data' => $meal_recipes]);
     }
+
+    /**
+     * Display a listing of the resource.
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function searchByTag(Request $request)
+    {
+        $meal_recipes = MealRecipe::where('type_id', $request->get('type_id'))
+            ->whereHas('tags', function ($query) use ($request) {
+                $query->whereIn('slug', $request->get('tags'));
+
+            })->with(['tags', 'comments', 'type'])->get();
+
+        return response()->json(['count' => $meal_recipes->count(), 'data' => $meal_recipes]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function searchByName(Request $request)
+    {
+        $search = explode(' ', $request->get('search'));
+
+        $meal_recipes = MealRecipe::where(function($query) use($request, $search){
+            $query->where('title', 'LIKE', '%' . $request->get('search') . '%');
+            $query->orWhereIn('title', $search);
+
+        })->with(['tags', 'comments', 'type'])->get();
+
+        return response()->json(['count' => $meal_recipes->count(), 'data' => $meal_recipes]);
+    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -54,12 +91,12 @@ class MealRecipeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param $id
+     * @param $slug
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        $meal_recipe = MealRecipe::find($id);
+        $meal_recipe = MealRecipe::where('slug', $slug)->with('photos', 'comments', 'ratings', 'tags')->first();
 
         return response()->json(['data' => $meal_recipe]);
     }

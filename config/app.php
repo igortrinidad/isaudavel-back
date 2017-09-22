@@ -186,7 +186,8 @@ return [
         Laravel\Socialite\SocialiteServiceProvider::class,
         Roumen\Sitemap\SitemapServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
-        Laracasts\Utilities\JavaScript\JavaScriptServiceProvider::class
+        Laracasts\Utilities\JavaScript\JavaScriptServiceProvider::class,
+        Cviebrock\EloquentSluggable\ServiceProvider::class
 
     ],
 
