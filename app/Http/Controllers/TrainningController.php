@@ -35,7 +35,7 @@ class TrainningController extends Controller
      */
     public function listdestroyeds(Request $request)
     {
-        $trainnings = Trainning::where('client_id', $request->get('client_id'))->with('from.categories')->onlyTrashed()->get();
+        $trainnings = Trainning::where('client_id', $request->get('client_id'))->with('from')->onlyTrashed()->get();
 
         return response()->json(['trainnings_destroyeds' => $trainnings]);
     }

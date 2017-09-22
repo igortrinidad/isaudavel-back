@@ -129,7 +129,7 @@ class EvaluationController extends Controller
      */
     public function listdestroyeds(Request $request)
     {
-        $evaluations = Evaluation::where('client_id', $request->get('client_id') )->with(['from.categories', 'photos'])->onlyTrashed()->get();
+        $evaluations = Evaluation::where('client_id', $request->get('client_id') )->with(['from', 'photos'])->onlyTrashed()->get();
 
         return response()->json(['evaluations_destroyeds' => $evaluations]);
     }
