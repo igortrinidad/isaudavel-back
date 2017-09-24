@@ -461,6 +461,10 @@ Route::group(['prefix' => 'tools'], function(){
     Route::get('users/generateNewPass/professional/{email}', 'ProfessionalController@generateNewPass');
     Route::get('users/generateNewPass/client/{email}', 'ClientController@generateNewPass');
     Route::get('users/generateNewPass/oracle/{email}', 'OracleUserController@generateNewPass');
+
+    //Last production version of the app
+    Route::get('system/get_last_production_version', 'SystemController@get_last_production_version');
+
 });
 
 /*

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use App\Models\AppVersion;
 
 
 class SystemController extends Controller
@@ -36,6 +37,22 @@ class SystemController extends Controller
 
         return response()->json(['mail' => $mail]);
 
+
+    }
+
+
+    /**
+     * GEt version of the application
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function get_last_production_version(Request $request)
+    {
+
+        $version = AppVersion::where('production', true)->orderBy('created_at', 'DESC')->first();
+
+        return response()->json(['version' => $version->version]);
 
     }
 
