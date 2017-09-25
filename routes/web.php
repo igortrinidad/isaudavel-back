@@ -144,6 +144,13 @@ Route::group(['prefix' => 'oracle', 'as' => 'oracle.'], function () {
             Route::get('/', ['uses' => 'OracleController@recipesList', 'as' => 'list']);
         });
 
+        //Eval index
+        Route::group(['prefix' => 'indices', 'as' => 'eval-index.'], function () {
+            Route::get('/listar', ['uses' => 'OracleController@eval_index_list', 'as' => 'list']);
+            Route::get('/editar/{id}', ['uses' => 'OracleController@eval_index_edit', 'as' => 'edit']);
+            Route::post('/update', ['uses' => 'OracleController@update_eval_index', 'as' => 'update']);
+        });
+
         //Versão do app
         Route::group(['prefix' => 'sistema', 'as' => 'system.'], function () {
             Route::get('/editar-versao', ['uses' => 'SystemController@show_edit_version', 'as' => 'edit-version']);

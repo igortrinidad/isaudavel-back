@@ -37,4 +37,13 @@ class EvaluationIndex extends Model
         'label',
         ];
 
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     */
+    public function from()
+    {
+        return $this->morphTo(null, 'created_by_type', 'created_by_id');
+    }
+
 }

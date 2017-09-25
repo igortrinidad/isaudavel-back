@@ -10,7 +10,9 @@ use App\Models\CompanySubscription;
 use App\Models\OracleUser;
 use App\Models\Event;
 use App\Models\MealRecipe;
+use App\Models\Evaluation;
 use App\Models\SubscriptionHistory;
+use App\Models\EvaluationIndex;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -42,16 +44,23 @@ class OracleController extends Controller
         $this->subscriptionServices = $subscriptionServices;
     }
 
+    /**
+     * Login usuário Oracle
+     */
     public function showLogin()
     {
         return view('oracle.auth.login');
     }
+
 
     public function index()
     {
         return view('oracle.dashboard.index');
     }
 
+    /**
+     * LISTA COMPANIES
+     */
     public function companiesList(Request $request)
     {
         if($request->has('search') && !empty($request->get('search'))){
@@ -69,6 +78,9 @@ class OracleController extends Controller
         return view('oracle.dashboard.companies.list', compact('companies'));
     }
 
+    /**
+     * EDIT COMPANY
+     */
     public function companyEdit($id)
     {
         $company = Company::with('subscription.histories', 'categories', 'professionals.categories')->find($id);
@@ -78,6 +90,9 @@ class OracleController extends Controller
         return view('oracle.dashboard.companies.edit', compact('company'));
     }
 
+    /**
+     * Atualiza a COMPANY
+     */
     public function companyUpdate(Request $request)
     {
 
@@ -103,6 +118,7 @@ class OracleController extends Controller
         return redirect()->back();
     }
 
+
     public function companySubscription($id)
     {
         $company = Company::with('subscription.histories.user', 'categories', 'professionals')->find($id);
@@ -112,6 +128,9 @@ class OracleController extends Controller
         return view('oracle.dashboard.companies.subscription', compact('company'));
     }
 
+    /**
+     * Atualiza uma subscription da COMPANY na plataforma iSaudavel
+     */
     public function subscriptionUpdate(Request $request)
     {
         $this->subscriptionServices->updateSubscription($request);
@@ -119,6 +138,9 @@ class OracleController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * Create de subscription da COMPANY na plataforma
+     */
     public function subscriptionCreate($id)
     {
         $company = Company::with('categories', 'professionals')->find($id);
@@ -128,6 +150,9 @@ class OracleController extends Controller
         return view('oracle.dashboard.companies.subscription-create', compact('company'));
     }
 
+    /**
+     * Salva a subscription da company
+     */
     public function subscriptionStore(Request $request)
     {
         $this->subscriptionServices->createSubscription($request);
@@ -136,6 +161,9 @@ class OracleController extends Controller
 
     }
 
+    /**
+     * Lista as invoices da company na plataforma iSaudavel
+     */
     public function companyInvoices($id)
     {
         $invoices = CompanyInvoice::where('company_id', $id)->orderByDesc('expire_at')->orderByDesc('created_at')->paginate(10);
@@ -143,6 +171,9 @@ class OracleController extends Controller
         return view('oracle.dashboard.companies.invoices', compact('invoices'));
     }
 
+    /**
+     * Mostra a invoice da company na plataforma iSaudavel
+     */
     public function invoiceShow($company_id, $invoice_id)
     {
         $invoice = CompanyInvoice::with('company.owner')->find($invoice_id);
@@ -152,6 +183,9 @@ class OracleController extends Controller
         return view('oracle.dashboard.companies.invoice-show', compact('invoice'));
     }
 
+    /**
+     * Atualiza uma invoice da empresa com a plataforma iSaudavel
+     */
     public function invoiceUpdate(Request $request)
     {
         $invoice = CompanyInvoice::find($request->get('id'));
@@ -192,6 +226,9 @@ class OracleController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * Lista os usuários CLIENT
+     */
     public function clientsList(Request $request)
     {
         $search = explode(' ', $request->get('search'))
@@ -220,6 +257,9 @@ class OracleController extends Controller
         return view('oracle.dashboard.clients.list', compact('clients'));
     }
 
+    /**
+     * Mostra o perfil de usuário CLIENT
+     */
     public function clientShow($id)
     {
         $client = Client::with( 'companies.categories')->find($id);
@@ -229,6 +269,9 @@ class OracleController extends Controller
         return view('oracle.dashboard.clients.show', compact('client'));
     }
 
+    /**
+     * Atualiza o perfil de usuário CLIENT
+     */
     public function clientUpdate(Request $request)
     {
         $client = tap(Client::find($request->get('id')))->update($request->all())->fresh();
@@ -238,6 +281,9 @@ class OracleController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * Lista os usuários PROFISSIONAL
+     */
     public function professionalsList(Request $request)
     {
         $search = explode(' ', $request->get('search'));
@@ -266,6 +312,9 @@ class OracleController extends Controller
         return view('oracle.dashboard.professionals.list', compact('professionals'));
     }
 
+    /**
+     * Mostra o perfil de usuário PROFISSIONAL
+     */
     public function professionalShow($id)
     {
         $professional = Professional::with('categories', 'companies.categories')->find($id);
@@ -275,6 +324,9 @@ class OracleController extends Controller
         return view('oracle.dashboard.professionals.show', compact('professional'));
     }
 
+    /**
+     * Atualiza o perfil de usuario PROFISSIONAL
+     */
     public function professionalUpdate(Request $request)
     {
         $categories = json_decode($request->get('categories'));
@@ -288,6 +340,9 @@ class OracleController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * Lista de usuários ORACLE
+     */
     public function oraclesList(Request $request)
     {
         $search = explode(' ', $request->get('search'));
@@ -316,6 +371,9 @@ class OracleController extends Controller
         return view('oracle.dashboard.oracles.list', compact('oracles'));
     }
 
+    /**
+     * Mostra o perfil do usuário ORACLE
+     */
     public function oracleShow($id)
     {
         $oracle = OracleUser::find($id);
@@ -325,6 +383,9 @@ class OracleController extends Controller
         return view('oracle.dashboard.oracles.show', compact('oracle'));
     }
 
+    /**
+     * Atualiza o perfil do usuário ORACLE
+     */
     public function oracleUpdate(Request $request)
     {
 
@@ -361,6 +422,10 @@ class OracleController extends Controller
         return redirect()->back();
     }
 
+
+    /**
+     * Mostra o perfil do usuário ORACLE
+     */
     public function profileShow()
     {
         $oracle = \Auth::user();
@@ -369,6 +434,9 @@ class OracleController extends Controller
     }
 
 
+    /**
+     * Lista os eventos
+     */
     public function eventsList(Request $request)
     {
         $events = Event::where('name', 'LIKE', '%' .$request->query('search').'%')->with('from')->paginate(20);
@@ -376,11 +444,63 @@ class OracleController extends Controller
         return view('oracle.dashboard.events.list', compact('events'));
     }
 
+    /**
+     * Lista as receitas cadastradas por todos os usuários
+     */
     public function recipesList(Request $request)
     {
         $recipes = MealRecipe::where('title', 'LIKE', '%' .$request->query('search').'%')->with('from', 'type')->paginate(20);
 
         return view('oracle.dashboard.recipes.list', compact('recipes'));
+    }
+
+
+    /**
+     * lista os indices de avaliação
+     */
+    public function eval_index_list(Request $request)
+    {
+        $eval_index = EvaluationIndex::where('label', 'LIKE', '%' .$request->query('search').'%')->with('from')->orderBy('created_at', 'DESC')->paginate(40);
+
+        return view('oracle.dashboard.eval-index.list', compact('eval_index'));
+    }
+
+    /**
+     * Mostra o indice de avaliação para editar
+     */
+    public function eval_index_edit($id)
+    {
+        $old_eval_index = EvaluationIndex::find($id);
+        $old_eval_index = $old_eval_index->label;
+
+        return view('oracle.dashboard.eval-index.edit', compact('old_eval_index'));
+    }
+
+    /**
+     * Atualiza o indice de avaliações e atualiza todas as avaliações que o utilizam
+     */
+    public function update_eval_index(Request $request)
+    {
+        $eval_index = EvaluationIndex::where('label', $request->get('old_eval_index') )->update(['label' => $request->get('new_eval_index')]);
+
+        $evals = Evaluation::where('items', 'like', '%' . $request->get('old_eval_index') . '%')
+        ->get();
+
+
+        foreach($evals as $eval){
+
+
+            foreach($eval['items'] as $item){
+
+                if( $item['label'] == $request->get('old_eval_index') ){
+                    dd($item['label']);
+                }
+
+            }
+
+        }
+
+        return view('oracle.dashboard.eval-index.list', compact('eval_index'));
     }
 
 }

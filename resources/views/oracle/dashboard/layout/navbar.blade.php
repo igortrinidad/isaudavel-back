@@ -40,6 +40,7 @@
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li class="{{ getActiveRoute('oracle.dashboard.system.edit-version') }}" ><a href="{!! route('oracle.dashboard.system.edit-version') !!}">Editar versão</a></li>
+                        <li class="{{ getActiveRoute('oracle.dashboard.eval-index.list') }}" ><a href="{!! route('oracle.dashboard.eval-index.list') !!}">Índices de avaliações</a></li>
                     </ul>
                 </li>
 
