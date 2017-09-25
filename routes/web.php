@@ -50,9 +50,15 @@ Route::group(['as' => 'landing.'], function () {
 	});
 
     //Events
-	Route::group(['prefix' => 'eventos', 'as' => 'events.'], function () {
-		Route::get('/', ['uses' => 'LandingController@ListEvents', 'as' => 'list']);
+    Route::group(['prefix' => 'eventos', 'as' => 'events.'], function () {
+        Route::get('/', ['uses' => 'LandingController@ListEvents', 'as' => 'list']);
         Route::get('/{slug}', ['uses' => 'LandingController@ShowEvent', 'as' => 'show']);
+    });
+
+    //Events
+	Route::group(['prefix' => 'recipeos', 'as' => 'recipes.'], function () {
+		Route::get('/', ['uses' => 'LandingController@ListRecipes', 'as' => 'list']);
+        Route::get('/{slug}', ['uses' => 'LandingController@ShowRecipe', 'as' => 'show']);
 	});
 
 	//Professionals
@@ -128,12 +134,23 @@ Route::group(['prefix' => 'oracle', 'as' => 'oracle.'], function () {
             Route::post('update', ['uses' => 'OracleController@professionalUpdate', 'as' => 'update']);
         });
 
+        //Eventos
+        Route::group(['prefix' => 'eventos', 'as' => 'events.'], function () {
+            Route::get('/', ['uses' => 'OracleController@eventsList', 'as' => 'list']);
+        });
+
+        //Receitas
+        Route::group(['prefix' => 'receitas', 'as' => 'recipes.'], function () {
+            Route::get('/', ['uses' => 'OracleController@recipesList', 'as' => 'list']);
+        });
+
         //Oracle
         Route::group(['prefix' => 'administradores', 'as' => 'oracles.'], function () {
             Route::get('/', ['uses' => 'OracleController@oraclesList', 'as' => 'list']);
             Route::get('exibir/{id}', ['uses' => 'OracleController@oracleShow', 'as' => 'show']);
             Route::post('update', ['uses' => 'OracleController@oracleUpdate', 'as' => 'update']);
         });
+
 
         Route::get('/meu-perfil', ['uses' => 'OracleController@profileShow', 'as' => 'profile.show']);
 

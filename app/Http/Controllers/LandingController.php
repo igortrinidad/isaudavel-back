@@ -15,6 +15,7 @@ use App\Models\Company;
 use App\Models\Event;
 use App\Models\Client;
 use App\Models\Professional;
+use App\Models\MealRecipe;
 use Illuminate\Support\Str;
 use Webpatser\Uuid\Uuid;
 
@@ -196,6 +197,38 @@ class LandingController extends Controller
 
         abort(404);
     }
+
+    /**
+     * Index
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function ListRecipes(Request $request)
+    {
+        $recipes = MealRecipe::limit(8)->get();
+        $companies = Company::with('categories')->limit(8)->get();
+
+        return view('landing.recipes.list', compact('recipes', 'companies'));
+    }
+
+    public function ShowRecipe($slug)
+    {
+        $recipe_fetched = MealRecipe::where('slug', $slug)->with(['comments' => function($comment){
+            $comment->with(['from' => function($from){
+                $from->select('id', 'name', 'last_name', 'full_name', 'avatar');
+            }]);
+        }])->first();
+
+        $companies = Company::with('categories')->limit(8)->get();
+
+        if($recipe_fetched){
+            return view('landing.recipes.show', compact('recipe_fetched', 'companies'));
+        }
+
+        abort(404);
+    }
+
     /**
      * Index teste
      *

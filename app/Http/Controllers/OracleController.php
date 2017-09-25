@@ -8,6 +8,8 @@ use App\Models\ClientSubscription;
 use App\Models\CompanyInvoice;
 use App\Models\CompanySubscription;
 use App\Models\OracleUser;
+use App\Models\Event;
+use App\Models\MealRecipe;
 use App\Models\SubscriptionHistory;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -364,6 +366,21 @@ class OracleController extends Controller
         $oracle = \Auth::user();
 
         return view('oracle.dashboard.profile.index', compact('oracle'));
+    }
+
+
+    public function eventsList(Request $request)
+    {
+        $events = Event::where('name', 'LIKE', '%' .$request->query('search').'%')->with('from')->paginate(20);
+
+        return view('oracle.dashboard.events.list', compact('events'));
+    }
+
+    public function recipesList(Request $request)
+    {
+        $recipes = MealRecipe::where('title', 'LIKE', '%' .$request->query('search').'%')->with('from', 'type')->paginate(20);
+
+        return view('oracle.dashboard.recipes.list', compact('recipes'));
     }
 
 }

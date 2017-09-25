@@ -69,7 +69,6 @@
     <div class="container">
         <div class="text-center">
             <h2 class="f-300">Empresas em destaque</h2>
-            <span class="f-300">Já são mais de 100 empresas cadastradas.</span>
         </div>
 
         <div class="swiper-container swiper-featureds wow fadeInUp">

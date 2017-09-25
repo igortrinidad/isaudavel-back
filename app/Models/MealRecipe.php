@@ -126,9 +126,9 @@ class MealRecipe extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
-    public function created_by()
+    public function from()
     {
-        $this->morphTo(null, 'created_by_type', 'created_by_id');
+        return $this->morphTo(null, 'created_by_type', 'created_by_id');
     }
 
     /**

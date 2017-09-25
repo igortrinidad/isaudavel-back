@@ -18,6 +18,11 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="{{ getActiveRoute('landing.index') }}"><a href="{!! route('landing.index') !!}">Home</a></li>
                 <li class="{{ getActiveRoute('oracle.dashboard.companies.list') }}"><a href="{!! route('oracle.dashboard.companies.list') !!}">Empresas</a></li>
+
+                <li class="{{ getActiveRoute('oracle.dashboard.events.list') }}"><a href="{!! route('oracle.dashboard.events.list') !!}">Eventos</a></li>
+
+                <li class="{{ getActiveRoute('oracle.dashboard.recipes.list') }}"><a href="{!! route('oracle.dashboard.recipes.list') !!}">Receitas</a></li>
+
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                         Usuários <span class="caret"></span>
