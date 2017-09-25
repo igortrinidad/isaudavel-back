@@ -491,13 +491,18 @@ class OracleController extends Controller
         foreach($evals as $eval){
 
             $items = $eval['items'];
+            $updated_items = [];
             foreach($items as $item){
 
                 if( $item['label'] == $request->get('old_eval_index') ){
                     $item['label'] = $request->get('new_eval_index');
                 }
 
+                $updated_items[] = $item;
             }
+
+            //pass updated items to evaluation items
+            $eval->items = $updated_items;
 
             $eval->update($eval->toArray());
         }
