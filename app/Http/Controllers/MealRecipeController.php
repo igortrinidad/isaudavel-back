@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\MealRecipe;
+use App\Models\MealRecipePhoto;
 use Illuminate\Http\Request;
 
 class MealRecipeController extends Controller
@@ -80,7 +81,19 @@ class MealRecipeController extends Controller
     {
         $request->merge(['created_by_id' => \Auth::user()->id, 'created_by_type' => get_class(\Auth::user())]);
 
+        //update photos
+        if (array_key_exists('photos', $request->all())) {
+            foreach ($request->get('photos') as $photo) {
+                MealRecipePhoto::find($photo['id'])->update($photo);
+            }
+        }
+
         $meal_recipe = MealRecipe::create($request->all());
+
+        //Attach tags
+        if($request->has('tags') && !empty($request->get('tags'))){
+            $meal_recipe->tags()->attach($request->get('tags'));
+        }
 
         return response()->json([
             'message' => 'Meal type created.',
@@ -94,7 +107,20 @@ class MealRecipeController extends Controller
      * @param $slug
      * @return \Illuminate\Http\Response
      */
-    public function show($slug)
+    public function show($id)
+    {
+        $meal_recipe = MealRecipe::with('photos', 'tags', 'type')->find($id);
+
+        return response()->json(['meal_recipe' => $meal_recipe]);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param $slug
+     * @return \Illuminate\Http\Response
+     */
+    public function showPublic($slug)
     {
         $meal_recipe = MealRecipe::where('slug', $slug)->with('photos', 'comments', 'ratings', 'tags')->first();
 
@@ -109,7 +135,19 @@ class MealRecipeController extends Controller
      */
     public function update(Request $request)
     {
+        //update photos
+        if (array_key_exists('photos', $request->all())) {
+            foreach ($request->get('photos') as $photo) {
+                MealRecipePhoto::find($photo['id'])->update($photo);
+            }
+        }
+
         $meal_recipe = tap(MealRecipe::find($request->get('id')))->update($request->all())->fresh();
+
+        //Sync tags
+        if($request->has('tags') && !empty($request->get('tags'))){
+            $meal_recipe->tags()->sync($request->get('tags'));
+        }
 
         return response()->json([
             'message' => 'Meal recipe updated.',

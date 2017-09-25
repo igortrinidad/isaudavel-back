@@ -52,13 +52,6 @@ class ClientSubscription extends Model
      */
     protected $casts = ['workdays' => 'json', 'is_active' => 'boolean', 'auto_renew' => 'boolean'  ];
 
-    /**
-     * The relations to eager load on every query.
-     *
-     * @var array
-     */
-    protected $with = ['invoices'];
-
 
     /**
      * -------------------------------

@@ -230,18 +230,18 @@ class ScheduleController extends Controller
         <p><b>Novo horário</b></p>
         <b>' .$schedule->date . ' ' . $schedule->time . '</b>';
 
+        $data['messageTwo'] = 'Acesse online em https://isaudavel.com ou baixe o aplicativo para Android e iOS (Apple)';
+
         $data['messageSubject'] = 'Alteração de horário';
 
         \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $schedule){
             $message->from('no-reply@isaudavel.com', 'iSaudavel App');
             $message->to($schedule->client->email, $schedule->client->full_name)->subject($data['messageSubject']);
-            if(\Auth::user()->id != $schedule->client->id){
-                $message->cc(\Auth::user()->email, \Auth::user()->full_name, $schedule->professional->email, $schedule->professional->full_name)->subject($data['messageSubject']);
-            }
+            $message->cc($schedule->professional->email, $schedule->professional->full_name)->subject($data['messageSubject']);
         });
 
         return response()->json([
-            'message' => 'Scheduled.',
+            'message' => 'Rescheduled.',
             'schedule' => $schedule->load('category')
         ]);
     }
@@ -356,6 +356,19 @@ class ScheduleController extends Controller
             ]);
         }
 
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param $id
+     * @return \Illuminate\Http\Response
+     */
+    public function byInvoice($id)
+    {
+        $schedules = Schedule::where('invoice_id', $id)->get();
+
+        return response()->json(['schedules' => $schedules]);
     }
 
 }

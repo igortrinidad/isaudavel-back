@@ -127,6 +127,20 @@ class ClientSubscriptionController extends Controller
             }
         }
 
+        //Send Mail
+        $data = [];
+        $data['align'] = 'center';
+
+        $data['messageTitle'] = '<h4>Atualização de assinatura</h4>';
+        $data['messageOne'] = 'Sua assinatura da empresa '. $subscription->company->name .' referente ao plano '. $subscription->plan->name .' foi atualizada em '. $subscription->updated_at->format('d/m/Y h:i:s') .'.';
+        $data['messageTwo'] = 'Acesse online em https://isaudavel.com ou baixe o aplicativo para Android e iOS (Apple)';
+        $data['messageSubject'] = 'Alteração de assinatura';
+
+        \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $subscription){
+            $message->from('no-reply@isaudavel.com', 'iSaudavel App');
+            $message->to($subscription->client->email, $subscription->client->full_name)->subject($data['messageSubject']);
+        });
+
 
         return response()->json([
             'message' => 'Subscription updated.',

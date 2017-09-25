@@ -57,6 +57,7 @@ Route::group(['middleware' => 'both.auth'], function () {
             Route::get('/type/list', 'MealTypeController@forSelect');
 
             //Meal recipes resources
+            Route::get('/show/{id}', 'MealRecipeController@show');
             Route::post('/store', 'MealRecipeController@store');
             Route::post('/update', 'MealRecipeController@update');
 
@@ -173,6 +174,7 @@ Route::group(['prefix' => 'professional'], function () {
                 Route::post('/list', 'InvoiceController@index');
                 Route::post('/store', 'InvoiceController@store');
                 Route::post('/update', 'InvoiceController@update');
+                Route::get('/schedules/{id}', 'ScheduleController@byInvoice');
             });
 
             //Schedule
@@ -180,6 +182,7 @@ Route::group(['prefix' => 'professional'], function () {
             Route::post('/schedule/reschedule', 'ScheduleController@reschedule');
             Route::post('/schedule/confirm', 'ScheduleController@confirm');
             Route::post('/schedule/cancel', 'ScheduleController@cancel');
+            Route::post('/schedule/update', 'ScheduleController@update');
 
         });
 
@@ -477,7 +480,7 @@ Route::group(['prefix' => 'meal'], function(){
     Route::post('/recipe/search', 'MealRecipeController@searchByTitle');
     Route::post('/recipe/type/search', 'MealRecipeController@searchByType');
     Route::post('/recipe/tag/search', 'MealRecipeController@searchByTag');
-    Route::get('/recipe/show/{slug}', 'MealRecipeController@show');
+    Route::get('/recipe/show/{slug}', 'MealRecipeController@showPublic');
 });
 
 /*
