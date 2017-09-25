@@ -20,9 +20,10 @@
 	<meta property="og:locale" content="pt_BR">
 	<meta property="og:site_name" content="iSaudavel">
 	<meta name="robots" content="index, follow">
+	<link rel="canonical" href="{{$current_url}}" />
 
-<!-- LANDING INDEX -->
 @if($routeName == 'landing.index' || $routeName == 'landing.clients.about' || $routeName == 'landing.professionals.about')
+<!-- LANDING INDEX -->
 	
 	<title>iSaudavel - A sua saúde em boas mãos</title> 
     <meta name="description" content="No iSaudavel você encontrará profissionais especializados em sua saúde como personal trainer, nutricionista, estúdios de pilates, academia, fisioterapia, crossfit e diversas clínicas de saúde e bem estar - todos unidos em só lugar e você poderá compartilhar as principais informações sobre sua saúde e objetivos com esses profissionais, que juntos irão te ajudar a atingir seus objetivos de saúde, estética e bem estar."> 
@@ -86,8 +87,8 @@
 	@endif
 @endif
 
-<!-- COMPANIES SHOW -->
 @if($routeName == 'landing.companies.show')
+<!-- COMPANIES SHOW -->
 
 	<title>{{$company_fetched->name}} no iSaudavel</title> 
 	<meta name="description" content="Veja o perfil de {{$company_fetched->name}} no iSaudavel, cuide de sua saúde na primeira plataforma fitness do mundo.">
@@ -174,8 +175,8 @@
 	</script>
 @endif
 
-<!-- PROFESSIONAL SHOW -->
 @if($routeName == 'landing.professionals.show')
+<!-- PROFESSIONAL SHOW -->
 
 	<title>{{$professional_fetched->full_name}} no iSaudavel</title> 
 	<meta name="description" content="Veja o perfil de {{$professional_fetched->full_name}} no iSaudavel, cuide de sua saúde na primeira plataforma fitness do mundo.">
@@ -260,8 +261,8 @@
 		</script>
 @endif
 
-<!-- EVENT INDEX -->
 @if($routeName == 'landing.events.show')
+<!-- EVENT INDEX -->
 
 	<title>{{$event_fetched->name}} no iSaudavel</title> 
 	<meta name="description" content="Participe do evento {{$event_fetched->name}}! iSaudavel - Sua saúde em boas mãos">
@@ -301,6 +302,62 @@
 
 		?>
 		</script>
+
+@endif
+
+@if($routeName == 'landing.recipes.show')
+<!-- RECIPE INDEX -->
+
+	<title>{{$recipe_fetched->title}} - iSaudavel</title> 
+	<meta name="description" content="{!! $recipe_fetched->title !!}">
+
+	<meta property="og:url" content="{{ $current_url }}">
+	<meta property="og:title" content="iSaudavel: {{ $recipe_fetched->title }}">
+	<meta property="og:description" content="{!! strip_tags( $recipe_fetched->description ) !!}">
+	<meta property="og:image" content="{{$recipe_fetched->avatar}}">
+	<meta property="og:image:type" content="image/png">
+
+
+	<script type="application/ld+json">
+    {
+      	"@context": "http://schema.org/",
+      	"@type": "Recipe",
+      	"name": "{{$recipe_fetched->title}}",
+      	"image": [
+        	"{{$recipe_fetched->avatar}}"
+        ],
+      	"author": {
+	      	"@type": "Person",
+	      	"name": "{{$recipe_fetched->from->full_name}}"
+      	},
+      "datePublished": "{{$recipe_fetched->created_at}}",
+      "description": "{{$recipe_fetched->prep_description}}",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "{{$recipe_fetched->current_rating}}",
+        "reviewCount": "{{$recipe_fetched->total_rating}}"
+      },
+     "prepTime": "PT{{$recipe_fetched->prep_time}}M",
+     "totalTime": "PT{{$recipe_fetched->prep_time}}M",
+     "recipeYield": "{{$recipe_fetched->portions}}",
+     "nutrition": {
+       "@type": "NutritionInformation",
+       "servingSize": "100 g",
+       "calories": "{{$recipe_fetched->kcal}}",
+       "fatContent": "{{$recipe_fetched->lipids}} g",
+       "proteinContent": "{{$recipe_fetched->protein}} g",
+       "fiberContent": "{{$recipe_fetched->fiber}} g",
+       "carbohydrateContent": "{{$recipe_fetched->carbohydrate}} g"
+     },
+      "recipeIngredient": [
+      	@foreach($recipe_fetched->ingredients as $ingredient)
+      		"{{$ingredient['description']}}",
+        @endforeach
+       ],
+     "recipeInstructions": "{!! $recipe_fetched->prep_description !!}"
+     }
+   </script>
+
 
 @endif
 

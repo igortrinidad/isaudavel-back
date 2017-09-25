@@ -89,10 +89,7 @@
                             </a>
                             </div>
                             <div class="card-body card-padding text-center">
-                                <p class="f-300 m-b-5">Por:</p>
-                                <div class="picture-circle  picture-circle-p m-b-10" style="background-image:url({{$recipe->from->avatar}})">
-                                </div>
-                                <h3>{{$recipe->from->full_name}}</h3>
+                                <h3>{{$recipe->title}}</h3>
 
                                 <h4 class="f-300 m-t-20">Avaliação dos usuários</h4>
                                 <div class="wp-rating-div">

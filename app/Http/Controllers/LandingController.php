@@ -200,26 +200,28 @@ class LandingController extends Controller
     }
 
     /**
-     * Index
+     * List recipes
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function ListRecipes(Request $request)
     {
-        $recipes = MealRecipe::limit(8)->get();
+        $recipes = MealRecipe::orderBy('created_at', 'DESC')->paginate(24);
         $companies = Company::with('categories')->limit(8)->get();
 
         return view('landing.recipes.list', compact('recipes', 'companies'));
     }
 
+    /**
+     * Show recipe
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function ShowRecipe($slug)
     {
-        $recipe_fetched = MealRecipe::where('slug', $slug)->with(['comments' => function($comment){
-            $comment->with(['from' => function($from){
-                $from->select('id', 'name', 'last_name', 'full_name', 'avatar');
-            }]);
-        }])->first();
+        $recipe_fetched = MealRecipe::where('slug', $slug)->with(['from', 'comments'])->first();
 
         $companies = Company::with('categories')->limit(8)->get();
 

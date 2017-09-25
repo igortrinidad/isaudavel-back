@@ -73,7 +73,7 @@ class MealRecipe extends Model
      *
      * @var array
      */
-    protected $appends = ['avatar', 'total_comments', 'current_rating'];
+    protected $appends = ['avatar', 'total_comments', 'current_rating', 'total_rating'];
 
     /*
    * Avatar
@@ -105,6 +105,18 @@ class MealRecipe extends Model
         $rating = MealRecipeRating::where('meal_recipe_id', $this->id)->get()->avg('rating');
 
         return round($rating, 1);
+    }
+
+    /*
+    * TOTAL Rating
+    */
+    public function getTotalRatingAttribute()
+    {
+        $ratings = MealRecipeRating::where('meal_recipe_id', $this->id)->get()->count();
+
+        // Round up or down Eg: ratings >= x.5 are rounded up and < x.5 are rounded down
+
+        return $ratings;
     }
 
 
