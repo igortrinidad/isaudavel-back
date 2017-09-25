@@ -487,20 +487,22 @@ class OracleController extends Controller
         ->get();
 
 
+
         foreach($evals as $eval){
 
-
-            foreach($eval['items'] as $item){
+            $items = $eval['items'];
+            foreach($items as $item){
 
                 if( $item['label'] == $request->get('old_eval_index') ){
-                    dd($item['label']);
+                    $item['label'] = $request->get('new_eval_index');
                 }
 
             }
 
+            $eval->update($eval->toArray());
         }
 
-        return view('oracle.dashboard.eval-index.list', compact('eval_index'));
+        return redirect( route('oracle.dashboard.eval-index.list') );
     }
 
 }
