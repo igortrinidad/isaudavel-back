@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 #Retorna o ultimo commit
 commits=(`git log -1 --pretty=%s`)
 
