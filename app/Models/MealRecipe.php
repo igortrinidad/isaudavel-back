@@ -73,12 +73,12 @@ class MealRecipe extends Model
      *
      * @var array
      */
-    protected $appends = ['cover', 'total_comments', 'current_rating'];
+    protected $appends = ['avatar', 'total_comments', 'current_rating'];
 
     /*
    * Avatar
    */
-    public function getCoverAttribute()
+    public function getAvatarAttribute()
     {
         $photo = MealRecipePhoto::where('meal_recipe_id', $this->id)->where('is_cover', true)->first();
 

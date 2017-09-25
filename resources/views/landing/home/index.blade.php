@@ -31,6 +31,7 @@
 
         @include('landing.home.featured')
         @include('landing.events.events', ['has_title' => true])
+        @include('landing.home.recipes')
         @include('landing.home.download')
         @include('landing.home.contact')
         @include('landing.home.footer')

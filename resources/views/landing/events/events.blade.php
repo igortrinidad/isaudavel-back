@@ -87,7 +87,7 @@
         @endif
         <div class="row m-t-30">
             @foreach($events as $event)
-                <div class="col-sm-3 col-xs-12 wow fadeInUp m-t-30">
+                <div class="col-sm-3 col-xs-12 m-t-30">
                     <a href="/eventos/{{ $event->slug }}" title="Confira mais sobre {{ $event->name }}">
                         <!-- Card Event -->
                         <div class="card m-b-10 cursor-pointer">

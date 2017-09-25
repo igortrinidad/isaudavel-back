@@ -33,9 +33,10 @@ class LandingController extends Controller
     {
         $companies = Company::with('categories')->limit(8)->get();
         $events = Event::with('categories')->limit(8)->get();
+        $recipes = MealRecipe::with('from')->orderBy('created_at', 'DESC')->limit(8)->get();
         $categories = Category::all();
 
-        return view('landing.home.home', compact('companies', 'events', 'categories'));
+        return view('landing.home.home', compact('companies', 'events', 'categories', 'recipes'));
     }
 
     /**

@@ -56,4 +56,44 @@ class SystemController extends Controller
 
     }
 
+    /**
+     * Show edit version of the application
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function show_edit_version(Request $request)
+    {
+
+        $actual_version = AppVersion::where('production', true)->orderBy('created_at', 'DESC')->first();
+
+        $actual_version = $actual_version->version;
+
+        return view('oracle.dashboard.system.version-edit', compact('actual_version'));
+
+    }
+
+    /**
+     * Update version of the application
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update_version(Request $request)
+    {
+
+        $actual_version = AppVersion::where('version', $request->get('actual_version'))->update(['production' => 0]);
+
+        $new_version = AppVersion::create([
+            'version' => $request->get('new_version'),
+            'production' => 1,
+            'test' => 0
+        ]);
+
+        $actual_version = $new_version->version;
+
+        return view('oracle.dashboard.system.version-edit', compact('actual_version'));
+
+    }
+
 }

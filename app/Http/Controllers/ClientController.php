@@ -121,18 +121,11 @@ class ClientController extends Controller
             $query->where('company_id', $request->get('company_id'));
         }])->orderBy('name')->paginate(10);
 
+        //Quando não clientes deixar a company procurar somente de posse do email para não virar spam ou uma company que não tem acesso mesmo ao cliente ficar solicitando para ver as infos...
         $non_clients = Client::whereDoesntHave('companies', function ($query) use($request, $search){
             $query->where('company_id', $request->get('company_id'));
         })->where(function($query) use($request, $search){
-            $query->where('name', 'LIKE', '%' . $request->get('search') . '%');
-            $query->orWhere('last_name', 'LIKE', '%' . $request->get('search') . '%');
-            $query->orWhere('email', 'LIKE', '%' . $request->get('search') . '%');
-
-            //for full name
-            $query->orWhereIn('name', $search);
-            $query->orWhere(function ($query) use ($search) {
-                $query->whereIn('last_name', $search);
-            });
+            $query->orWhere('email', $request->get('search'));
         })->orderBy('name')->paginate(10);
 
 

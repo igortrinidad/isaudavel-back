@@ -56,7 +56,7 @@ Route::group(['as' => 'landing.'], function () {
     });
 
     //Events
-	Route::group(['prefix' => 'recipeos', 'as' => 'recipes.'], function () {
+	Route::group(['prefix' => 'receitas', 'as' => 'recipes.'], function () {
 		Route::get('/', ['uses' => 'LandingController@ListRecipes', 'as' => 'list']);
         Route::get('/{slug}', ['uses' => 'LandingController@ShowRecipe', 'as' => 'show']);
 	});
@@ -142,6 +142,12 @@ Route::group(['prefix' => 'oracle', 'as' => 'oracle.'], function () {
         //Receitas
         Route::group(['prefix' => 'receitas', 'as' => 'recipes.'], function () {
             Route::get('/', ['uses' => 'OracleController@recipesList', 'as' => 'list']);
+        });
+
+        //Versão do app
+        Route::group(['prefix' => 'sistema', 'as' => 'system.'], function () {
+            Route::get('/editar-versao', ['uses' => 'SystemController@show_edit_version', 'as' => 'edit-version']);
+            Route::post('/update-version', ['uses' => 'SystemController@update_version', 'as' => 'update']);
         });
 
         //Oracle

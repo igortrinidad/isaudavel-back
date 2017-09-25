@@ -33,7 +33,16 @@
                         <li class="{{ getActiveRoute('oracle.dashboard.oracles.list') }}" ><a href="{!! route('oracle.dashboard.oracles.list') !!}">Administradores</a></li>
                     </ul>
                 </li>
-                @if (Auth::guard('oracle_web')->check())
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                        Sistema <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li class="{{ getActiveRoute('oracle.dashboard.system.edit-version') }}" ><a href="{!! route('oracle.dashboard.system.edit-version') !!}">Editar versão</a></li>
+                    </ul>
+                </li>
+
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                         {{ Auth::guard('oracle_web')->user()->full_name }} <span class="caret"></span>
@@ -54,7 +63,7 @@
                         </li>
                     </ul>
                 </li>
-                @endif
+
             </ul>
         </nav><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->

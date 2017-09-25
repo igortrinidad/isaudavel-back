@@ -42,7 +42,7 @@
             </div>
 
             <div class="col-sm-9 col-xs-12">
-                <div class="col-sm-4 col-xs-12 m-b-20">
+                <div class="col-sm-3 col-xs-12 m-b-20">
                     <h4 class="f-400">Sobre</h4>
                     <a href="{{ route('landing.terms') }}">
                         Termos de uso
@@ -56,7 +56,7 @@
                     <hr>
                 </div>
 
-                <div class="col-sm-4 col-xs-12 m-b-20">
+                <div class="col-sm-3 col-xs-12 m-b-20">
                     <h4 class="f-400">Acesso</h4>
                     <a href="https://play.google.com/store/apps/details?id=com.isaudavel">Download para android</a>
                     <a href="https://itunes.apple.com/us/app/isaudavel/id1277115133?mt=8">Download para iphone - Em breve!</a>
@@ -66,13 +66,20 @@
                     <hr>
                 </div>
 
-                <div class="col-sm-4 col-xs-12">
+                <div class="col-sm-3 col-xs-12">
                     <h4 class="f-400">Social</h4>
                     <a href="https://facebook.com/isaudavel" target="_blank">
                         Facebook
                     </a>
                     <a href="https://instagram.com/isaudavel.app" target="_blank">
                         Instagram
+                    </a>
+                </div>
+
+                <div class="col-sm-3 col-xs-12">
+                    <h4 class="f-400">Administração</h4>
+                    <a href="{{route('oracle.login')}}">
+                        Login
                     </a>
                 </div>
 
