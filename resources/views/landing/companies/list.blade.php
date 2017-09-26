@@ -53,6 +53,8 @@
             padding-top: 1px;
         }
 
+        .tabs .tab.swiper-slide-active { font-weight: 700; }
+
         .tabs .tab {
             border-top: 1px solid rgba(255, 255, 255, .3);
             border-left: 1px solid rgba(255, 255, 255, .3);
@@ -67,6 +69,7 @@
             font-size: 14px;
             position: relative;
             cursor: pointer;
+            font-weight: 300;
         }
         .tabs .tab:first-child { border-left: 0;}
 
