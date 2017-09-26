@@ -16,6 +16,7 @@ use App\Models\Place;
 use App\Models\PlaceCategory;
 use App\Models\User;
 use Carbon\Carbon;
+use Webpatser\Uuid\Uuid;
 
 $faker = \Faker\Factory::create('pt_BR');
 
@@ -124,6 +125,7 @@ $factory->define(App\Models\MealRecipe::class, function () use($faker){
     ];
 
     return [
+        'id' => Uuid::generate()->string,
         'type_id' => $faker->randomElement($types),
         'title' => $faker->words(6, true),
         'prep_time' => rand(10,60),
