@@ -90,6 +90,25 @@
             border-top: 6px solid #70c058;
         }
 
+        /* Tabs Arrows */
+        .tabs .swiper-button-prev,
+        .tabs .swiper-button-next {
+            background-image: none !important;
+            font-size: 20px;
+            background: transparent;
+            padding: 0;
+            display: inline;
+            align-items: center;
+            justify-content: center;
+            width: auto; height: auto;
+            top: 37px;
+            color: #fff;
+            /*margin-top: -10px;*/
+        }
+
+        .tabs .swiper-button-prev{ left: 15px; }
+        .tabs .swiper-button-next{ right: 15px; }
+
         /* wrapper*/
         .wrapper {
             background-position: top center;
@@ -120,6 +139,12 @@
                     {{$category->name}}
                 </div>
                 @endforeach
+            </div>
+            <div class="swiper-button-prev">
+                <i class="ion-ios-arrow-left"></i>
+            </div>
+            <div class="swiper-button-next">
+                <i class="ion-ios-arrow-right"></i>
             </div>
         </div>
         <!-- Categories Tabs -->
@@ -228,6 +253,8 @@
                                 centeredSlides: true,
                                 initialSlide: atualindex,
                                 slideToClickedSlide: true,
+                                nextButton: '.swiper-button-next',
+                                prevButton: '.swiper-button-prev',
                                 onSlideChangeEnd: swiper => {
 
                                     var categorySelected = $('.swiper-slide-active').data('url')
