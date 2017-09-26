@@ -274,10 +274,11 @@ class LandingController extends Controller
     // PS: Não sei se é o correto mas assim functionou haha
     public function forClientLanding(Request $reques)
     {
+        $recipes = MealRecipe::with('from')->orderBy('created_at', 'DESC')->limit(8)->get();
         $companies = Company::with('categories')->limit(8)->get();
         $events = Event::with('categories')->limit(8)->get();
 
-        return view('landing.home.for-client', compact('companies', 'events'));
+        return view('landing.home.for-client', compact('companies', 'events', 'recipes'));
     }
 
     public function showClient($id)
@@ -293,10 +294,11 @@ class LandingController extends Controller
 
     public function forProfessionalsLanding(Request $reques)
     {
+        $recipes = MealRecipe::with('from')->orderBy('created_at', 'DESC')->limit(8)->get();
         $companies = Company::with('categories')->limit(8)->get();
         $events = Event::with('categories')->limit(8)->get();
 
-        return view('landing.home.for-professional', compact('companies', 'events'));
+        return view('landing.home.for-professional', compact('companies', 'events', 'recipes'));
     }
 
     public function registerProfessional()
