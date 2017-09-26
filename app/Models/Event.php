@@ -47,6 +47,7 @@ class Event extends Model
         'city',
         'state',
         'address',
+        'is_published'
     ];
 
     protected $casts = [
@@ -55,6 +56,7 @@ class Event extends Model
         'address' => 'json',
         'lat' => 'float',
         'lng' => 'float',
+        'is_published' => 'boolean'
     ];
 
     /**

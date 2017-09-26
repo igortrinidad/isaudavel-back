@@ -32,7 +32,9 @@
                                 <th>Organizador</th>
                                 <th>Confirmados</th>
                                 <th>Comentários</th>
+                                <th>Status</th>
                                 <th>Visualizar</th>
+                                <th>Editar</th>
                                 <th>Excluir</th>
                             </tr>
                             </thead>
@@ -44,7 +46,16 @@
                                     <td>{{$event->from->full_name}}</td>
                                     <td>{{$event->total_participants}}</td>
                                     <td>{{$event->total_comments}}</td>
+                                    <td>
+                                       @if($event->is_published)
+                                           <span class="label label-success">Publicado</span>
+                                           @else
+                                            <span class="label label-default">Aguardando</span>
+                                        @endif
+                                    </td>
                                     <td><a href="{{route('landing.events.show', $event->slug)}}" target="_blank" class="btn btn-sm btn-primary">Visualizar</a></td>
+                                    <td><a href="{{route('oracle.dashboard.events.edit', $event->id)}}" class="btn btn-sm btn-info">Editar</a></td>
+                                    <td><a class="btn btn-sm btn-danger">Excluir</a></td>
                                 </tr>
                             @endforeach
                             </tbody>

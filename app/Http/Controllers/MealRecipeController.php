@@ -84,6 +84,34 @@ class MealRecipeController extends Controller
 
 
     /**
+     * Display a listing of the resource.
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function filterNutrients(Request $request)
+    {
+        $nutrients = $request->get('nutrients');
+
+        $meal_recipes = MealRecipe::where('type_id', $request->get('type_id'))
+            ->where(function($query) use($nutrients){
+            foreach($nutrients as $key => $value){
+                if(!$value){
+                    continue;
+                }
+                // - or + 20%
+                $min = $value - ( $value * 20 / 100);
+                $max = $value + ( $value * 20 / 100);
+
+                $query->orWhereBetween($key,[$min, $max]);
+            }
+
+        })->with('type','from')->get();
+
+        return response()->json(['count' => $meal_recipes->count(), 'data' => $meal_recipes]);
+    }
+
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

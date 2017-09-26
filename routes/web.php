@@ -137,11 +137,15 @@ Route::group(['prefix' => 'oracle', 'as' => 'oracle.'], function () {
         //Eventos
         Route::group(['prefix' => 'eventos', 'as' => 'events.'], function () {
             Route::get('/', ['uses' => 'OracleController@eventsList', 'as' => 'list']);
+            Route::get('editar/{id}', ['uses' => 'OracleController@editEvent', 'as' => 'edit']);
+            Route::post('update', ['uses' => 'OracleController@eventUpdate', 'as' => 'update']);
         });
 
         //Receitas
         Route::group(['prefix' => 'receitas', 'as' => 'recipes.'], function () {
             Route::get('/', ['uses' => 'OracleController@recipesList', 'as' => 'list']);
+            Route::get('editar/{id}', ['uses' => 'OracleController@editRecipe', 'as' => 'edit']);
+            Route::post('update', ['uses' => 'OracleController@recipeUpdate', 'as' => 'update']);
         });
 
         //Eval index

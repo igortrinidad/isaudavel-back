@@ -445,6 +445,34 @@ class OracleController extends Controller
     }
 
     /**
+     * Edit do evento
+     */
+    public function editEvent($id)
+    {
+        $event = Event::find($id);
+
+        \JavaScript::put(['event' => $event]);
+
+        return view('oracle.dashboard.events.edit', compact('event'));
+    }
+
+    /**
+     * Update do evento
+     */
+    public function eventUpdate(Request $request)
+    {
+        $is_published = $request->get('is_published') ? true : false;
+
+        $request->merge(['is_published' => $is_published]);
+
+        $event = tap(Event::find($request->get('id')))->update($request->all())->fresh();
+
+        flash('Evento atualizado com sucesso')->success()->important();
+
+        return redirect()->route('oracle.dashboard.events.list');
+    }
+
+    /**
      * Lista as receitas cadastradas por todos os usuários
      */
     public function recipesList(Request $request)
@@ -452,6 +480,34 @@ class OracleController extends Controller
         $recipes = MealRecipe::where('title', 'LIKE', '%' .$request->query('search').'%')->with('from', 'type')->paginate(20);
 
         return view('oracle.dashboard.recipes.list', compact('recipes'));
+    }
+
+    /**
+     * Edit da receita
+     */
+    public function editRecipe($id)
+    {
+        $recipe = MealRecipe::find($id);
+
+        \JavaScript::put(['recipe' => $recipe]);
+
+        return view('oracle.dashboard.recipes.edit', compact('recipe'));
+    }
+
+    /**
+     * Update da receita
+     */
+    public function recipeUpdate(Request $request)
+    {
+        $is_published = $request->get('is_published') ? true : false;
+
+        $request->merge(['is_published' => $is_published]);
+
+        $recipe = tap(MealRecipe::find($request->get('id')))->update($request->all())->fresh();
+
+        flash('Receita atualizada com sucesso')->success()->important();
+
+        return redirect()->route('oracle.dashboard.recipes.list');
     }
 
 

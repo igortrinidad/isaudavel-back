@@ -57,6 +57,7 @@ class MealRecipe extends Model
         'lipids',
         'fiber',
         'video_url',
+        'is_published',
         'created_by_id',
         'created_by_type',
     ];
@@ -66,7 +67,7 @@ class MealRecipe extends Model
      *
      * @var array
      */
-    protected $casts = ['ingredients' => 'json'];
+    protected $casts = ['ingredients' => 'json', 'is_published' => 'boolean'];
 
     /**
      * The accessors to append to the model's array.

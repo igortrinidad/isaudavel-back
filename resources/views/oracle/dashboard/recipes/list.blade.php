@@ -32,7 +32,9 @@
                                 <th>Cadastrado por</th>
                                 <th class="text-center">Rating</th>
                                 <th class="text-center">Comentários</th>
+                                <th>Status</th>
                                 <th>Visualizar</th>
+                                <th>Editar</th>
                                 <th>Excluir</th>
                             </tr>
                             </thead>
@@ -44,7 +46,16 @@
                                     <td>{{$recipe->from->full_name}}</td>
                                     <td class="text-center">{{$recipe->current_rating}}</td>
                                     <td class="text-center">{{$recipe->total_comments}}</td>
+                                    <td>
+                                        @if($recipe->is_published)
+                                            <span class="label label-success">Publicado</span>
+                                        @else
+                                            <span class="label label-default">Aguardando</span>
+                                        @endif
+                                    </td>
                                     <td><a href="{{route('landing.recipes.show', $recipe->slug)}}" target="_blank" class="btn btn-sm btn-primary">Visualizar</a></td>
+                                    <td><a href="{{route('oracle.dashboard.recipes.edit', $recipe->id)}}" class="btn btn-sm btn-info">Editar</a></td>
+                                    <td><a class="btn btn-sm btn-danger">Excluir</a></td>
                                 </tr>
                             @endforeach
                             </tbody>

@@ -478,6 +478,7 @@ Route::group(['prefix' => 'meal'], function(){
     Route::get('/type/list', 'MealTypeController@forSelect');
     Route::get('/tag/list', 'MealRecipeTagController@forSelect');
     Route::post('/recipe/search', 'MealRecipeController@searchByTitle');
+    Route::post('/recipe/filter/nutrients', 'MealRecipeController@filterNutrients');
     Route::post('/recipe/type/search', 'MealRecipeController@searchByType');
     Route::post('/recipe/tag/search', 'MealRecipeController@searchByTag');
     Route::get('/recipe/comment/list/{id}', 'MealRecipeCommentController@index');
