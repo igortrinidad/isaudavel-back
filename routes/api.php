@@ -480,7 +480,10 @@ Route::group(['prefix' => 'meal'], function(){
     Route::post('/recipe/search', 'MealRecipeController@searchByTitle');
     Route::post('/recipe/type/search', 'MealRecipeController@searchByType');
     Route::post('/recipe/tag/search', 'MealRecipeController@searchByTag');
+    Route::get('/recipe/comment/list/{id}', 'MealRecipeCommentController@index');
+    Route::get('/recipe/rating/list/{id}', 'MealRecipeRatingController@index');
     Route::get('/recipe/show/{slug}', 'MealRecipeController@showPublic');
+    Route::get('/recipe/from/{id}', 'MealRecipeController@recipesByUser');
 });
 
 /*

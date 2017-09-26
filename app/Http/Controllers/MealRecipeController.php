@@ -22,6 +22,18 @@ class MealRecipeController extends Controller
 
     /**
      * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function recipesByUser($id)
+    {
+        $meal_recipes = MealRecipe::where('created_by_id', $id)->with('from')->paginate(10);
+
+        return response()->json(custom_paginator($meal_recipes, 'meal_recipes'));
+    }
+
+    /**
+     * Display a listing of the resource.
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
@@ -57,7 +69,7 @@ class MealRecipeController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function searchByName(Request $request)
+    public function searchByTitle(Request $request)
     {
         $search = explode(' ', $request->get('search'));
 
@@ -122,7 +134,7 @@ class MealRecipeController extends Controller
      */
     public function showPublic($slug)
     {
-        $meal_recipe = MealRecipe::where('slug', $slug)->with('photos', 'comments', 'ratings', 'tags')->first();
+        $meal_recipe = MealRecipe::where('slug', $slug)->with('photos', 'from', 'tags')->first();
 
         return response()->json(['data' => $meal_recipe]);
     }

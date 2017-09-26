@@ -36,6 +36,22 @@ class EventParticipantController extends Controller
 
         $participation = EventParticipant::create($request->all());
 
+        //Send Mail
+        $data = [];
+        $data['align'] = 'center';
+
+        $data['messageTitle'] = '<h4>Novo participante</h4>';
+        $data['messageOne'] = 'Seu evento '. $participation->event->name .' tem um novo participante:';
+        $data['messageTwo'] = '<strong>Nome:</strong> '.$participation->participant->full_name;
+        $data['messageThree'] = 'Acesse online em https://isaudavel.com ou baixe o aplicativo para Android e iOS (Apple)';
+
+        $data['messageSubject'] = 'Novo participante';
+
+        \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $participation){
+            $message->from('no-reply@isaudavel.com', 'iSaudavel App');
+            $message->to($participation->event->from->email, $participation->event->from->full_name)->subject($data['messageSubject']);
+        });
+
         return response()->json([
             'message' => 'Participation confirmed.',
         ], 200);
@@ -50,7 +66,25 @@ class EventParticipantController extends Controller
     public function cancel(Request $request)
     {
 
+        $old_participation = EventParticipant::where('event_id', $request->get('event_id'))->where('participant_id', \Auth::user()->id)->first();
         $participation = EventParticipant::where('event_id', $request->get('event_id'))->where('participant_id', \Auth::user()->id)->delete();
+
+
+        //Send Mail
+        $data = [];
+        $data['align'] = 'center';
+
+        $data['messageTitle'] = '<h4>Cancelamento de participante</h4>';
+        $data['messageOne'] = 'O participante '. $old_participation->participant->full_name . ' cancelou a participação no seu evento '. $old_participation->event->name .'.';
+        $data['messageTwo'] = 'Acesse online em https://isaudavel.com ou baixe o aplicativo para Android e iOS (Apple)';
+
+        $data['messageSubject'] = 'Cancelamento de participante';
+
+        \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $old_participation){
+            $message->from('no-reply@isaudavel.com', 'iSaudavel App');
+            $message->to($old_participation->event->from->email, $old_participation->event->from->full_name)->subject($data['messageSubject']);
+        });
+
 
         return response()->json([
             'message' => 'Participation canceled.',

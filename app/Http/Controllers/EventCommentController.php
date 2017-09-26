@@ -35,6 +35,22 @@ class EventCommentController extends Controller
 
         $comment = EventComment::create($request->all());
 
+        //Send Mail
+        $data = [];
+        $data['align'] = 'center';
+
+        $data['messageTitle'] = '<h4>Novo comentário</h4>';
+        $data['messageOne'] = 'Seu evento '. $comment->event->name .' tem um novo comentário:';
+        $data['messageTwo'] = '<strong>Usuário:</strong> '.$comment->event->from->full_name. '<br><strong>Comentário:</strong> '.$comment->content;
+        $data['messageThree'] = 'Acesse online em https://isaudavel.com ou baixe o aplicativo para Android e iOS (Apple)';
+
+        $data['messageSubject'] = 'Novo comentário';
+
+        \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $comment){
+            $message->from('no-reply@isaudavel.com', 'iSaudavel App');
+            $message->to($comment->event->from->email, $comment->event->from->full_name)->subject($data['messageSubject']);
+        });
+
         return response()->json([
             'message' => 'Comment created.',
             'comment' => $comment->fresh(['from'])

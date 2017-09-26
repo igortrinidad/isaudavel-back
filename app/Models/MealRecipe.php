@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use App\Models\Traits\Uuids;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 
 class MealRecipe extends Model
 {
-    use Uuids, Sluggable;
+    use Sluggable;
 
     /**
      * Return the sluggable configuration array for this model.
@@ -44,6 +43,7 @@ class MealRecipe extends Model
      * @var array
      */
     protected $fillable = [
+        'id',
         'type_id',
         'title',
         'prep_time',

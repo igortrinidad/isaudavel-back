@@ -11,14 +11,14 @@ class MealRecipeRatingController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param Request $request
+     * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index($id)
     {
-        $ratings = MealRecipeRating::where('meal_recipe_id', $request->get('meal_recipe_id'))->paginate(10);
+        $ratings = MealRecipeRating::where('meal_recipe_id', $id)->with(['from'])->orderBy('created_at', 'desc')->paginate(10);
 
-        return response()->json(custom_paginator($ratings));
+        return response()->json(custom_paginator($ratings, 'ratings'));
     }
 
     /**
@@ -33,9 +33,25 @@ class MealRecipeRatingController extends Controller
 
         $rating = MealRecipeRating::create($request->all());
 
+        //Send Mail
+        $data = [];
+        $data['align'] = 'center';
+
+        $data['messageTitle'] = '<h4>Nova avaliação</h4>';
+        $data['messageOne'] = 'Sua receita '. $rating->meal_recipe->title .' tem uma nova avaliação:';
+        $data['messageTwo'] = '<strong>Usuário:</strong> '.$rating->meal_recipe->from->full_name. '<br><strong>Avaliação:</strong> '.$rating->rating;
+        $data['messageThree'] = 'Acesse online em https://isaudavel.com ou baixe o aplicativo para Android e iOS (Apple)';
+
+        $data['messageSubject'] = 'Nova avaliação';
+
+        \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $rating){
+            $message->from('no-reply@isaudavel.com', 'iSaudavel App');
+            $message->to($rating->meal_recipe->from->email, $rating->meal_recipe->from->full_name)->subject($data['messageSubject']);
+        });
+
         return response()->json([
             'message' => 'Rating created.',
-            'comment' => $rating->fresh()
+            'comment' => $rating->fresh('from')
         ]);
     }
 
