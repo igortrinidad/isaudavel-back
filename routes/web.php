@@ -55,10 +55,11 @@ Route::group(['as' => 'landing.'], function () {
         Route::get('/{slug}', ['uses' => 'LandingController@ShowEvent', 'as' => 'show']);
     });
 
-    //Events
+    //Receitas
 	Route::group(['prefix' => 'receitas', 'as' => 'recipes.'], function () {
 		Route::get('/', ['uses' => 'LandingController@ListRecipes', 'as' => 'list']);
         Route::get('/{slug}', ['uses' => 'LandingController@ShowRecipe', 'as' => 'show']);
+        Route::get('/imprimir/{slug}', ['uses' => 'MealRecipeController@generate_pdf', 'as' => 'pdf']);
 	});
 
 	//Professionals

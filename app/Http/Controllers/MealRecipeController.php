@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\MealRecipe;
 use App\Models\MealRecipePhoto;
 use Illuminate\Http\Request;
+use PDF;
 
 class MealRecipeController extends Controller
 {
@@ -215,6 +216,19 @@ class MealRecipeController extends Controller
         return response()->json([
             'message' => 'Meal recipe not found.',
         ], 404);
+
+    }
+
+    public function generate_pdf($id){
+
+        $meal = MealRecipe::where('id', $id)->first();
+
+        $data = [
+            'meal' => $meal
+        ];
+
+        $pdf = PDF::loadView('pdf.recipe', $data);
+        return $pdf->download('iSaudavel_' . $meal->slug . '.pdf');
 
     }
 }

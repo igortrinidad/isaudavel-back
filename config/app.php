@@ -187,7 +187,8 @@ return [
         Roumen\Sitemap\SitemapServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
         Laracasts\Utilities\JavaScript\JavaScriptServiceProvider::class,
-        Cviebrock\EloquentSluggable\ServiceProvider::class
+        Cviebrock\EloquentSluggable\ServiceProvider::class,
+        niklasravnsborg\LaravelPdf\PdfServiceProvider::class
 
     ],
 
@@ -247,6 +248,7 @@ return [
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
         'Fractal' => Spatie\Fractal\FractalFacade::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'PDF' => niklasravnsborg\LaravelPdf\Facades\Pdf::class
     ],
 
 ];

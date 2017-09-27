@@ -14,6 +14,7 @@
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",
         "league/flysystem-aws-s3-v3": "^1.0",
+        "niklasravnsborg/laravel-pdf": "^1.5",
         "roumen/sitemap": "^2.6",
         "spatie/laravel-fractal": "^3.5",
         "tinify/tinify": "^1.5",
