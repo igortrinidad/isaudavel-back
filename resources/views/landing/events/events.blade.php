@@ -86,64 +86,70 @@
             </div>
         @endif
         <div class="row m-t-30">
-            @foreach($events as $event)
-                <div class="col-sm-3 col-xs-12 m-t-30">
-                    <a href="/eventos/{{ $event->slug }}" title="Confira mais sobre {{ $event->name }}">
-                        <!-- Card Event -->
-                        <div class="card m-b-10 cursor-pointer">
-                            <!--  Card Event Header-->
-                            <div class="card-header ch-alt card-picture-header" style="background-image:url('{{ $event->avatar }}')">
-                                <div class="hover">
-                                    <i class="ion-ios-plus-empty"></i>
-                                </div>
-                            </div>
-                            <!-- / Card Event Header -->
 
-                            <!--  Card Event body-->
-                            <div class="card-body card-padding">
-                                <div class="row row-event">
-                                    <!-- Event Date -->
-                                    <div class="col-xs-3 event-col">
-                                        <div class="event-date text-center">
-                                            <div class="event-date-header">
-                                                <span class="f-700 f-12">{{ $event->date->format('Y') }}</span>
-                                            </div>
-                                            <div class="event-date-body">
-                                                <span class="f-700 f-16">{{ $event->date->format('d') }}</span>
-                                                <span class="f-300">{{ $event->date->format('M') }}</span>
+            @unless($events->count())
+                <p class="text-center m-t-20">Nenhum evento localizado.</p>
+            @else
+
+                @foreach($events as $event)
+                    <div class="col-sm-3 col-xs-12 m-t-30">
+                        <a href="/eventos/{{ $event->slug }}" title="Confira mais sobre {{ $event->name }}">
+                            <!-- Card Event -->
+                            <div class="card m-b-10 cursor-pointer">
+                                <!--  Card Event Header-->
+                                <div class="card-header ch-alt card-picture-header" style="background-image:url('{{ $event->avatar }}')">
+                                    <div class="hover">
+                                        <i class="ion-ios-plus-empty"></i>
+                                    </div>
+                                </div>
+                                <!-- / Card Event Header -->
+
+                                <!--  Card Event body-->
+                                <div class="card-body card-padding">
+                                    <div class="row row-event">
+                                        <!-- Event Date -->
+                                        <div class="col-xs-3 event-col">
+                                            <div class="event-date text-center">
+                                                <div class="event-date-header">
+                                                    <span class="f-700 f-12">{{ $event->date->format('Y') }}</span>
+                                                </div>
+                                                <div class="event-date-body">
+                                                    <span class="f-700 f-16">{{ $event->date->format('d') }}</span>
+                                                    <span class="f-300">{{ $event->date->format('M') }}</span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <!-- / Event Date -->
-                                    <div class="col-xs-9 event-col">
-                                        <div class="list-cats">
-                                            @foreach($event->categories as $indexCat => $category)
-                                                @if($indexCat < 1)
-                                                    <span class="label label-primary t-overflow f-300 f-14 m-t-5 m-r-5">
+                                        <!-- / Event Date -->
+                                        <div class="col-xs-9 event-col">
+                                            <div class="list-cats">
+                                                @foreach($event->categories as $indexCat => $category)
+                                                    @if($indexCat < 1)
+                                                        <span class="label label-primary t-overflow f-300 f-14 m-t-5 m-r-5">
                                                         {{ $category->name }}
                                                     </span>
-                                                @endif
-                                            @endforeach
+                                                    @endif
+                                                @endforeach
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <h3 class="f-300 m-t-10">{{ $event->name }}</h3>
-                                <!-- location -->
-                                <div class="m-t-10">
+                                    <h3 class="f-300 m-t-10">{{ $event->name }}</h3>
+                                    <!-- location -->
+                                    <div class="m-t-10">
                                     <span class="d-block f-300 f-14">
                                         <i class="icon ion-ios-location-outline m-r-10 f-20"></i>{{ $event->city }} - {{ $event->state }}
                                     </span>
-                                </div>
-                                <!-- / location -->
+                                    </div>
+                                    <!-- / location -->
 
+                                </div>
+                                <!-- / Card Event body -->
                             </div>
-                            <!-- / Card Event body -->
-                        </div>
-                        <!-- / Card Event -->
-                    </a>
-                </div>
-            @endforeach
+                            <!-- / Card Event -->
+                        </a>
+                    </div>
+                @endforeach
+            @endunless
         </div>
     </div>
     <!-- / List Events -->
