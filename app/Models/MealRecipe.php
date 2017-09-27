@@ -48,6 +48,7 @@ class MealRecipe extends Model
         'title',
         'prep_time',
         'portions',
+        'portion_size',
         'difficulty',
         'prep_description',
         'ingredients',
