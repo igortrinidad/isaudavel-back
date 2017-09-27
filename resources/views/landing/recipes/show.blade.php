@@ -247,6 +247,7 @@
 
                 <!-- RIGHT COL "RATINGS" -->
                 <div class="col-sm-3">
+                    <!-- Card Rarings -->
                     <div class="card">
                         <div class="card-header ch-alt text-center">
                             <h4 class="m-0 f-300">Últimas avaliações</h4>
@@ -273,9 +274,13 @@
                                     </div>
                                 @endif
                             @endforeach
-
+                        </div>
+                    </div>
+                    <!-- /Card Ratings -->
+                    <div class="card">
+                        <div class="card-body card-padding">
                             <!-- Call To Download -->
-                            <div class="text-center m-t-30">
+                            <div class="text-center">
                                 <h3 class="f-300">Baixe o <strong style="color: #72c157">isaudavel</strong> e deixe sua avaliação.</h3>
                                 <div class="row">
                                     <div class="col-sm-12 m-t-20">
@@ -291,7 +296,6 @@
                                 </div>
                             </div>
                             <!-- / Call To Download -->
-
                         </div>
                     </div>
                 </div>
