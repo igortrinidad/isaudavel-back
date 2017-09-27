@@ -130,6 +130,7 @@ $factory->define(App\Models\MealRecipe::class, function () use($faker){
         'title' => $faker->words(6, true),
         'prep_time' => rand(10,60),
         'portions' => rand(1,10),
+        'portion_size' => '200g',
         'difficulty' => rand(1,3),
         'prep_description' => $faker->paragraph(5),
         'ingredients' => $ingredients,
