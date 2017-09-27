@@ -3,6 +3,17 @@
 @section('landing-content')
 
     <style media="screen">
+    /* Recipe Title */
+    .section-main-title {
+        border-left: 4px solid #6ec058;
+        padding: 10px 20px 10px 20px;
+        background: #fff;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+        border-radius: 4px;
+        width: auto;
+        display: inline-block;
+    }
+
     .store-badge { margin: 0 auto; }
     .event-name {
         height: 78px; width: 100%;
@@ -93,7 +104,10 @@
             </div>
             <div class="container">
 
-                <h2 class="f-400 m-0 m-t-25">{{ $recipe_fetched->title }}</h2>
+                <h2 class="section-main-title f-400 m-0 m-t-25">
+                    {{ $recipe_fetched->title }}
+                    <small class="f-300 f-14">publicado em: {{ $recipe_fetched->created_at->format('d/m/Y') }}</small>
+                </h2>
 
                 <div class="row m-t-30">
                     <!-- CENTER COL "ABOUT" -->
