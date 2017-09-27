@@ -179,21 +179,9 @@
                         </div>
                         <!-- / Recipe Informations -->
 
+                        <!-- Card Recipe Content -->
                         <div class="card">
                             <div class="card-body" style="padding: 6px;">
-                                <!-- Recipe Photos -->
-                                @if(count($recipe_fetched->photos) > 0)
-                                    <div class="row row-event m-t-0 m-b-30">
-                                        @foreach($recipe_fetched->photos as $photo)
-                                        <div class="col-sm-3 event-col">
-                                            <img class="img-responsive img-recipe" src="{{ $photo->photo_url }}" alt="">
-                                        </div>
-                                        @endforeach
-                                    </div>
-                                @else
-                                    <h4 class="f-300">Este receita ainda não possui imagens</h4>
-                                @endif
-                                <!-- Recipe Photos -->
 
                                 <hr>
                                 <!-- Recipe Ingredients -->
@@ -229,17 +217,38 @@
 
                                 <hr>
 
-                                <!-- Recipe From -->
+                                <!-- Recipe Photos -->
+                                @if(count($recipe_fetched->photos) > 0)
+                                    <h4 class="f-300 m-t-15 m-b-10">Fotos da receita:</h4>
+                                    <div id="gallery" style="display:none;">
+                                        @foreach($recipe_fetched->photos as $photo)
+                                        <img class="img-recipe" alt="{{$recipe_fetched->name}}" src="{{$photo->photo_url}}"
+                                            data-image="{{$photo->photo_url}}"
+                                            data-description="{{$recipe_fetched->name}}">
+                                        @endforeach
+                                    </div>
+                                @else
+                                    <h4 class="f-300">Este receita ainda não possui imagens</h4>
+                                @endif
+                                <!-- Recipe Photos -->
+
+                            </div>
+                        </div>
+                        <!-- / Card Recipe Content -->
+
+                        <!-- Card Recipe From -->
+                        <div class="card">
+                            <div class="card-body text-center">
                                 <h4 class="f-300 m-t-15">Esta receita foi enviada por:</h4>
-                                <div class="text-center" style="width: 120px;">
+                                <div class="text-center">
                                     <div class="picture-circle picture-circle-l m-t-10 m-b-10" style="background-image:url('{{ $recipe_fetched->from->avatar }}')">
                                     </div>
                                     <span class="f-300">{{ $recipe_fetched->from->full_name }}</span>
                                 </div>
-                                <!-- / Recipe From -->
-
                             </div>
                         </div>
+                        <!-- / Card Recipe From -->
+
                     </div>
                     <!-- / CENTER COL "ABOUT" -->
 
@@ -359,6 +368,11 @@
     @parent
         <script>
             $(document).ready(function() {
+
+                jQuery("#gallery").unitegallery({
+                    tiles_type:"justified"
+                });
+
                 $('.open-share-facebook').on('click', function() {
                     var url = `https://www.facebook.com/dialog/share?app_id=151705885358217&href=https://isaudavel.com/receitas/{{ $recipe_fetched->slug }}&display=popup&mobile_iframe=true`;
                     window.open(url, '_blank', 'location=yes');
