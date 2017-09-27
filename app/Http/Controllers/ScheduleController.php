@@ -78,7 +78,7 @@ class ScheduleController extends Controller
     public function professionalCalendar(Request $request)
     {
         $calendar_settings = ProfessionalCalendarSetting::where('professional_id', \Auth::user()->id)
-            ->with('company')->get();
+            ->with('company', 'category')->get();
 
         foreach($calendar_settings as $calendar_setting){
 
@@ -103,6 +103,7 @@ class ScheduleController extends Controller
             }
 
             $calendar_setting->setAttribute('schedules', $schedules);
+            $calendar_setting->setAttribute('category', $calendar_setting->category);
 
         }
 
