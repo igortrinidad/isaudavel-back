@@ -441,6 +441,8 @@ class OracleController extends Controller
     {
         $events = Event::where('name', 'LIKE', '%' .$request->query('search').'%')->with('from')->paginate(20);
 
+        \JavaScript::put(['events' => $events]);
+
         return view('oracle.dashboard.events.list', compact('events'));
     }
 
@@ -470,6 +472,51 @@ class OracleController extends Controller
         flash('Evento atualizado com sucesso')->success()->important();
 
         return redirect()->route('oracle.dashboard.events.list');
+    }
+
+    /**
+     * Destroy do evento
+     */
+    public function destroyEvent(Request $request)
+    {
+       $event = Event::with('from', 'participants.participant')->find($request->get('event_id'));
+
+        //Send Mail to event creator
+        $data = [];
+        $data['align'] = 'center';
+
+        $data['messageTitle'] = '<h4>Evento removido</h4>';
+        $data['messageOne'] = 'Informamos que o seu evento '.$event->name.' foi removido da plataforma iSaudavel pelo motivo abaixo.';
+        $data['messageTwo'] = '<strong>Motivo:</strong> <br>'.$request->get('remove_reason');
+
+        $data['messageSubject'] = 'Evento removido';
+
+        \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $event){
+            $message->from('no-reply@isaudavel.com', 'iSaudavel App');
+            $message->to($event->from->email,$event->from->full_name)->subject($data['messageSubject']);
+        });
+
+        //Send Mail to event participants
+        foreach($event->participants as $event_participant){
+            $data = [];
+            $data['align'] = 'center';
+
+            $data['messageTitle'] = '<h4>Cancelamento de evento</h4>';
+            $data['messageOne'] = 'Informamos que o evento '. $event->name . ' marcado para '.$event->date->format('d/m/Y'). ' às '.$event->time.', foi cancelado pelo motivo abaixo:';
+            $data['messageTwo'] = '<strong>Motivo:</strong> <br>'.$request->get('remove_reason');
+
+            $data['messageSubject'] = 'Cancelamento de evento';
+
+            \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $event_participant){
+                $message->from('no-reply@isaudavel.com', 'iSaudavel App');
+                $message->to($event_participant->participant->email, $event_participant->participant->full_name)->subject($data['messageSubject']);
+            });
+        }
+
+        $event->delete();
+
+        return response()->json(['message' => 'Event removed']);
+
     }
 
     /**
@@ -508,6 +555,34 @@ class OracleController extends Controller
         flash('Receita atualizada com sucesso')->success()->important();
 
         return redirect()->route('oracle.dashboard.recipes.list');
+    }
+
+    /**
+     * Destroy da receita
+     */
+    public function destroyRecipe(Request $request)
+    {
+        $recipe = MealRecipe::with('from')->find($request->get('meal_recipe_id'));
+
+        //Send Mail to recipe creator
+        $data = [];
+        $data['align'] = 'center';
+
+        $data['messageTitle'] = '<h4>Receita removida</h4>';
+        $data['messageOne'] = 'Informamos que o sua receita de '.$recipe->title.' foi removida da plataforma iSaudavel pelo motivo abaixo.';
+        $data['messageTwo'] = '<strong>Motivo:</strong> <br>'.$request->get('remove_reason');
+
+        $data['messageSubject'] = 'Receita removida';
+
+        \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $recipe){
+            $message->from('no-reply@isaudavel.com', 'iSaudavel App');
+            $message->to($recipe->from->email, $recipe->from->full_name)->subject($data['messageSubject']);
+        });
+
+        $recipe->delete();
+
+        return response()->json(['message' => 'Recipe removed']);
+
     }
 
 

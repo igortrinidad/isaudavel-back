@@ -23,6 +23,7 @@ return [
         'oracle.dashboard.clients.show',
         'oracle.dashboard.professionals.show',
         'oracle.dashboard.oracles.show',
+        'oracle.dashboard.events.list',
         'oracle.dashboard.events.edit',
         'oracle.dashboard.recipes.edit'
     ],

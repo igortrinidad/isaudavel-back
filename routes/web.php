@@ -140,6 +140,7 @@ Route::group(['prefix' => 'oracle', 'as' => 'oracle.'], function () {
             Route::get('/', ['uses' => 'OracleController@eventsList', 'as' => 'list']);
             Route::get('editar/{id}', ['uses' => 'OracleController@editEvent', 'as' => 'edit']);
             Route::post('update', ['uses' => 'OracleController@eventUpdate', 'as' => 'update']);
+            Route::post('remover', ['uses' => 'OracleController@destroyEvent', 'as' => 'destroy']);
         });
 
         //Receitas
@@ -147,6 +148,7 @@ Route::group(['prefix' => 'oracle', 'as' => 'oracle.'], function () {
             Route::get('/', ['uses' => 'OracleController@recipesList', 'as' => 'list']);
             Route::get('editar/{id}', ['uses' => 'OracleController@editRecipe', 'as' => 'edit']);
             Route::post('update', ['uses' => 'OracleController@recipeUpdate', 'as' => 'update']);
+            Route::post('remover', ['uses' => 'OracleController@destroyRecipe', 'as' => 'destroy']);
         });
 
         //Eval index

@@ -12,11 +12,43 @@ class MealRecipeController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $meal_recipes = MealRecipe::paginate(10);
+        $meal_recipes = MealRecipe::whereHas('type', function($query) use ($request){
+            if(!empty($request->get('types'))){
+                $query->whereIn('slug', $request->get('types'));
+            }
+        })
+        ->whereHas('tags', function ($query) use ($request) {
+            if(!empty($request->get('tags'))) {
+                $query->whereIn('slug', $request->get('tags'));
+            }
+
+        })->where(function($query) use($request){
+            foreach($request->get('nutrients') as $key => $value){
+                if(!$value){
+                    continue;
+                }
+                // - or + 20%
+                $min = $value - ( $value * 20 / 100);
+                $max = $value + ( $value * 20 / 100);
+
+                $query->orWhereBetween($key,[$min, $max]);
+            }
+        })->where(function($query) use($request){
+
+            if($request->has('search') && !empty($request->get('search'))){
+                $search = explode(' ', $request->get('search'));
+                $query->where('title', 'LIKE', '%' . $request->get('search') . '%');
+                $query->orWhereIn('title', $search);
+            }
+        })
+            ->with(['tags' => function($query){
+            $query->select('id', 'name', 'slug');
+        }, 'type'])->paginate(10);
 
         return response()->json(custom_paginator($meal_recipes));
     }
@@ -78,9 +110,9 @@ class MealRecipeController extends Controller
             $query->where('title', 'LIKE', '%' . $request->get('search') . '%');
             $query->orWhereIn('title', $search);
 
-        })->with(['tags', 'comments', 'type'])->get();
+        })->with(['tags', 'type'])->paginate(1);
 
-        return response()->json(['count' => $meal_recipes->count(), 'data' => $meal_recipes]);
+        return response()->json(custom_paginator($meal_recipes));
     }
 
 
