@@ -169,7 +169,7 @@
                                             <i class="ion-ios-star recipe-icon"></i>
 
                                             <h5 class="f-300 m-0 m-b-10">Avaliação</h5>
-                                            <small class="f-300">{{ $recipe_fetched->current_rating }}</small>
+                                            <small class="f-300">{{ $recipe_fetched->current_rating }} {{ $recipe_fetched->current_rating > 1 ? 'Estrelas' : 'Estrela' }}</small>
                                         </div>
                                     </div>
                                 </div>
