@@ -355,4 +355,21 @@
         <!-- / Recipe Comments -->
     </div>
 
+    @section('scripts')
+    @parent
+        <script>
+            $(document).ready(function() {
+                $('.open-share-facebook').on('click', function() {
+                    var url = `https://www.facebook.com/dialog/share?app_id=151705885358217&href=https://isaudavel.com/receitas/{{ $recipe_fetched->slug }}&display=popup&mobile_iframe=true`;
+                    window.open(url, '_blank', 'location=yes');
+                })
+
+                $('.open-share-whatsapp').on('click', function() {
+                    // Whatsapp share
+                    var url = `https://api.whatsapp.com/send?text=Encontrei a receita {{ $recipe_fetched->title }} no iSaudavel, veja o abaixo: https://isaudavel.com/receitas/{{ $recipe_fetched->slug }}`;
+                    window.open(url, '_system', null);
+                })
+            })
+        </script>
+
 @stop
