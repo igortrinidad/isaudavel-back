@@ -219,6 +219,9 @@
                                     <button type="button" class="btn btn-whatsapp btn-xs p-5 p-l-10 p-r-10 open-share-whatsapp">
                                         <i class="ion-social-whatsapp m-r-5"></i>Whatsapp
                                     </button>
+                                    <button type="button" class="btn btn-default btn-xs p-5 p-l-10 p-r-10 open-print">
+                                        <i class="ion-ios-printer m-r-5"></i>Imprimir
+                                    </button>
                                 </div>
                                 <!-- / Recipe Share -->
 
