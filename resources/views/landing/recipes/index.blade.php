@@ -160,6 +160,12 @@
                     var url = `https://api.whatsapp.com/send?text=Encontrei a receita {{ $recipe_fetched->title }} no iSaudavel, veja o abaixo: https://isaudavel.com/receitas/{{ $recipe_fetched->slug }}`;
                     window.open(url, '_system', null);
                 })
+
+                $('.open-print').on('click', function() {
+                    // Printer
+                    var url = `https://isaudavel.com/receitas/imprimir/{{ $recipe_fetched->id }}`;
+                    window.open(url, '_system', null);
+                })
             });
         </script>
 

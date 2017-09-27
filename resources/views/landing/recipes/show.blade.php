@@ -3,6 +3,17 @@
 @section('landing-content')
 
     <style media="screen">
+    /* Recipe Title */
+    .section-main-title {
+        border-left: 4px solid #6ec058;
+        padding: 10px 20px 10px 20px;
+        background: #fff;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+        border-radius: 4px;
+        width: auto;
+        display: inline-block;
+    }
+
     .store-badge { margin: 0 auto; }
     .event-name {
         height: 78px; width: 100%;
@@ -93,13 +104,10 @@
             </div>
             <div class="container">
 
-                <div class="row row-event" style="margin-top: -28px;">
-                    <div class="col-sm-11 col-xs-9 event-col">
-                        <div class="event-name">
-                            <h2 class="f-400 m-0 m-t-25 t-overflow">{{ $recipe_fetched->title }}</h2>
-                        </div>
-                    </div>
-                </div>
+                <h2 class="section-main-title f-400 m-0 m-t-25">
+                    {{ $recipe_fetched->title }}
+                    <small class="f-300 f-14">publicado em: {{ $recipe_fetched->created_at->format('d/m/Y') }}</small>
+                </h2>
 
                 <div class="row m-t-30">
                     <!-- CENTER COL "ABOUT" -->
@@ -211,6 +219,9 @@
                                     <button type="button" class="btn btn-whatsapp btn-xs p-5 p-l-10 p-r-10 open-share-whatsapp">
                                         <i class="ion-social-whatsapp m-r-5"></i>Whatsapp
                                     </button>
+                                    <button type="button" class="btn btn-default btn-xs p-5 p-l-10 p-r-10 open-print">
+                                        <i class="ion-ios-printer m-r-5"></i>Imprimir
+                                    </button>
                                 </div>
                                 <!-- / Recipe Share -->
 
@@ -287,7 +298,7 @@
                             <div class="card-body card-padding">
                                 <!-- Call To Download -->
                                 <div class="text-center">
-                                    <h3 class="f-300">Baixe o <strong style="color: #72c157">isaudavel</strong> e deixe sua avaliação.</h3>
+                                    <h3 class="f-300">Baixe o <strong style="color: #72c157">iSaudavel</strong> e deixe sua avaliação.</h3>
                                     <div class="row">
                                         <div class="col-sm-12 m-t-20">
                                             <a href="https://play.google.com/store/apps/details?id=com.isaudavel" target="_blank" title="Faça o download na PlayStore para Android">

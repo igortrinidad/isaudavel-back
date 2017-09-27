@@ -3,6 +3,7 @@
 @section('landing-content')
 
     <style media="screen">
+    .store-badge { margin: 0 auto; }
     #mapShow {
         height: 100%;
     }
@@ -196,37 +197,62 @@
                                 <span class="f-300">Nenhum participante confirmando ainda.</span>
                             @endif
                         </div>
-                        <div class="card-body">
+                        @if(count($event_fetched->participants) > 0)
+                            <div class="card-body">
 
-                            <!-- List participants -->
-                            <div class="row m-t-30">
-                                @foreach($event_fetched->participants as $indexParticipant => $participant)
-                                    @if($indexParticipant < 8)
-                                        <div class="col-sm-6 text-center m-t-5">
-                                            <div class="picture-circle picture-circle-p" style="background-image:url('{{ $participant->participant->avatar }}')"></div>
-                                            <h5 class="m-b-0 m-t-10 f-300 t-overflow">{{ $participant->participant->full_name }}</h5>
+                                <!-- List participants -->
+                                <div class="row m-t-30">
+                                    @foreach($event_fetched->participants as $indexParticipant => $participant)
+                                        @if($indexParticipant < 8)
+                                            <div class="col-sm-6 text-center m-t-5">
+                                                <div class="picture-circle picture-circle-p" style="background-image:url('{{ $participant->participant->avatar }}')"></div>
+                                                <h5 class="m-b-0 m-t-10 f-300 t-overflow">{{ $participant->participant->full_name }}</h5>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                </div>
+                                <!-- / List participants -->
+
+                                <div class="row m-t-30 m-b-20">
+                                    @if(count($event_fetched->participants) > 8)
+                                        <div class="col-sm-12 text-center">
+                                            <button type="button" data-toggle="modal" data-target="#modal-all-participants" class="btn btn-primary btn-block btn-xs p-5 m-b-10">
+                                                Ver todos participantes ({{ count($event_fetched->participants) }})
+                                            </button>
                                         </div>
                                     @endif
-                                @endforeach
-                            </div>
-                            <!-- / List participants -->
-
-                            <div class="row m-t-30 m-b-20">
-                                @if(count($event_fetched->participants) > 8)
+                                    <!--
                                     <div class="col-sm-12 text-center">
-                                        <button type="button" data-toggle="modal" data-target="#modal-all-participants" class="btn btn-primary btn-block btn-xs p-5 m-b-10">
-                                            Ver todos participantes ({{ count($event_fetched->participants) }})
-                                        </button>
+                                        <button type="button" class="btn btn-success btn-block btn-xs p-5">Confirmar participação</button>
                                     </div>
-                                @endif
-                                <!--
-                                <div class="col-sm-12 text-center">
-                                    <button type="button" class="btn btn-success btn-block btn-xs p-5">Confirmar participação</button>
+                                    -->
                                 </div>
-                                -->
                             </div>
+                        @endif
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body card-padding">
+                            <!-- Call To Download -->
+                            <div class="text-center">
+                                <h3 class="f-300">Baixe o <strong style="color: #72c157">iSaudavel</strong> e confirme sua presença no evento.</h3>
+                                <div class="row">
+                                    <div class="col-sm-12 m-t-20">
+                                        <a href="https://play.google.com/store/apps/details?id=com.isaudavel" target="_blank" title="Faça o download na PlayStore para Android">
+                                            <img class="store-badge img-responsive" src="/images/play_store_btn.png" alt="Faça o download na PlayStore para Android">
+                                        </a>
+                                    </div>
+                                    <div class="col-sm-12 m-t-5">
+                                        <a href="https://itunes.apple.com/us/app/isaudavel/id1277115133?mt=8" target="_blank" title="Faça o download na APP Store para IOS">
+                                            <img class="istore-badge mg-responsive" src="/images/app_store_btn.png" alt="Faça o download na APP Store para IOS">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- / Call To Download -->
                         </div>
                     </div>
+
                 </div>
                 <!-- RIGHT COL "PARTICIPANTS" -->
 
@@ -379,7 +405,7 @@
                     copyUrl: function() {
                         var that = this
                         var url = 'https://isaudavel.com/eventos/{{ $event_fetched->slug }}';
-                        
+
                         copyToClipboard(url);
 
                         successNotify('', 'Link copiado para a área de transferência');
@@ -614,7 +640,7 @@
                 });
               }
 
-        
+
         </script>
 
         <script async defer
