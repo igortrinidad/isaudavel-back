@@ -287,7 +287,7 @@
                             <div class="card-body card-padding">
                                 <!-- Call To Download -->
                                 <div class="text-center">
-                                    <h3 class="f-300">Baixe o <strong style="color: #72c157">isaudavel</strong> e deixe sua avaliação.</h3>
+                                    <h3 class="f-300">Baixe o <strong style="color: #72c157">iSaudavel</strong> e deixe sua avaliação.</h3>
                                     <div class="row">
                                         <div class="col-sm-12 m-t-20">
                                             <a href="https://play.google.com/store/apps/details?id=com.isaudavel" target="_blank" title="Faça o download na PlayStore para Android">
