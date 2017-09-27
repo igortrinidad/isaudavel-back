@@ -93,13 +93,7 @@
             </div>
             <div class="container">
 
-                <div class="row row-event" style="margin-top: -28px;">
-                    <div class="col-sm-11 col-xs-9 event-col">
-                        <div class="event-name">
-                            <h2 class="f-400 m-0 m-t-25 t-overflow">{{ $recipe_fetched->title }}</h2>
-                        </div>
-                    </div>
-                </div>
+                <h2 class="f-400 m-0 m-t-25">{{ $recipe_fetched->title }}</h2>
 
                 <div class="row m-t-30">
                     <!-- CENTER COL "ABOUT" -->
