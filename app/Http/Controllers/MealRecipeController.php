@@ -221,14 +221,14 @@ class MealRecipeController extends Controller
 
     public function generate_pdf($id){
 
-        $meal = MealRecipe::where('id', $id)->first();
+        $meal = MealRecipe::where('id', $id)->with('from')->first();
 
         $data = [
             'meal' => $meal
         ];
 
         $pdf = PDF::loadView('pdf.recipe', $data);
-        return $pdf->download('iSaudavel_' . $meal->slug . '.pdf');
+        return $pdf->stream('iSaudavel_' . $meal->slug . '.pdf');
 
     }
 }
