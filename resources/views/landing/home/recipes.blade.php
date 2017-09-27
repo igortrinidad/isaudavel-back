@@ -77,40 +77,45 @@
         </div>
 
         <div class="swiper-container swiper-featureds">
-            <div class="swiper-wrapper">
-                @foreach($recipes as $recipe)
-                    <div class="swiper-slide text-center">
-                        <div class="card">
-                            <div class="card-header ch-alt card-picture-header" style="background-image:url('{{ $recipe->avatar }}')">
-                                <a href="{!! route('landing.recipes.show', $recipe->slug) !!}" title="{{ $recipe->title }}">
-                                <div class="hover">
-                                    <i class="ion-ios-plus-empty"></i>
+            @unless($recipes->count())
+                <p class="text-center m-t-20">Nenhuma receita localizada.</p>
+            @else
+                <div class="swiper-wrapper">
+                    @foreach($recipes as $recipe)
+                        <div class="swiper-slide text-center">
+                            <div class="card">
+                                <div class="card-header ch-alt card-picture-header" style="background-image:url('{{ $recipe->avatar }}')">
+                                    <a href="{!! route('landing.recipes.show', $recipe->slug) !!}" title="{{ $recipe->title }}">
+                                        <div class="hover">
+                                            <i class="ion-ios-plus-empty"></i>
+                                        </div>
+                                    </a>
                                 </div>
-                            </a>
-                            </div>
-                            <div class="card-body card-padding text-center">
-                                <h3>{{$recipe->title}}</h3>
+                                <div class="card-body card-padding text-center">
+                                    <h3>{{$recipe->title}}</h3>
 
-                                <h4 class="f-300 m-t-20">Avaliação dos usuários</h4>
-                                <div class="wp-rating-div">
-                                    <?php $rating_to_loop = $recipe->current_rating; ?>
-                                    @include('components.rating', ['size' => '22'])
+                                    <h4 class="f-300 m-t-20">Avaliação dos usuários</h4>
+                                    <div class="wp-rating-div">
+                                        <?php $rating_to_loop = $recipe->current_rating; ?>
+                                        @include('components.rating', ['size' => '22'])
+                                    </div>
+                                    <hr class="m-t-20">
+                                    <a href="{!! route('landing.recipes.show', $recipe->slug) !!}" title="{{ $recipe->title }}">
+                                        <button class="btn btn-primary f-300 f-16">
+                                            Ver receita completa
+                                        </button>
+                                    </a>
                                 </div>
-                                <hr class="m-t-20">
-                                <a href="{!! route('landing.recipes.show', $recipe->slug) !!}" title="{{ $recipe->title }}">
-                                    <button class="btn btn-primary f-300 f-16">
-                                        Ver receita completa
-                                    </button>
-                                </a>
                             </div>
                         </div>
-                    </div>
-                @endforeach
-            </div>
-            <div class="swiper-button-prev swiper-button-black"></div>
-            <div class="swiper-button-next swiper-button-black"></div>
-            <div style="height: 50px;"></div>
-            <div class="swiper-pagination"></div>
+                    @endforeach
+                </div>
+                <div class="swiper-button-prev swiper-button-black"></div>
+                <div class="swiper-button-next swiper-button-black"></div>
+                <div style="height: 50px;"></div>
+                <div class="swiper-pagination"></div>
+            @endunless
+
         </div>
     </div>
 
