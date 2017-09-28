@@ -3,6 +3,26 @@
 @section('landing-content')
 
     <style media="screen">
+    .picture-circle{
+        box-sizing: border-box;
+        margin: 0 auto;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        border-radius: 50%;
+        width: 100px;
+        height: 100px;
+    }
+
+    .picture-circle-p{
+        width: 68px;
+        height: 68px;
+    }
+
+    .picture-circle-m{
+        width: 86px;
+        height: 86px;
+    }
     /* Recipe Title */
     .section-main-title {
         border-left: 4px solid #6ec058;
