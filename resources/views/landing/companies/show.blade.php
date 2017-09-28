@@ -250,12 +250,8 @@
                         <div class="card-header ch-alt">
                             <h1>{{$company_fetched->name}}</h1>
                             <h2 class="f-300">Avaliações</h2>
-                            <span class="f-14 f-300">Total de {{$company_fetched->total_rating}}
-                                @if($company_fetched->total_rating > 1)
-                                    avaliações
-                                @else
-                                    avaliação
-                                @endif
+                            <span class="f-14 f-300">Total de {{ $company_fetched->total_rating }}
+                                {{ $company_fetched->total_rating > 1 ? 'avaliações' : 'avaliação' }}
                             </span>
                         </div>
                         @if(count($company_fetched->last_ratings) == 0)
@@ -263,7 +259,7 @@
                         @endif
                         @if(count($company_fetched->last_ratings) > 0)
                             <div class="card-body p-t-5 p-b-5">
-                                <div class="swiper-container swiper-default-show">
+                                <div class="swiper-container swiper-default-ratings">
                                     <div class="swiper-wrapper">
                                         @foreach($company_fetched->last_ratings as $rating)
 
@@ -311,7 +307,7 @@
                                 <span class="f-300 m-t-30 m-b-30 d-block">Esta empresa ainda não possui indicações</span>
                             @endif
                             @if(count($company_fetched->recomendations) > 0)
-                                <div class="swiper-container swiper-default-show">
+                                <div class="swiper-container swiper-default-recomendations">
                                     <div class="swiper-wrapper">
                                         @foreach($company_fetched->recomendations as $recomendation)
                                             <div class="swiper-slide text-center">
@@ -324,7 +320,7 @@
                                             </div>
                                         @endforeach
                                     </div>
-                                    @if($company_fetched->total_rating > 1)
+                                    @if(count($company_fetched->recomendations) > 1)
                                         <div class="swiper-button-prev"><i class="ion-ios-arrow-back"></i></div>
                                         <div class="swiper-button-next"><i class="ion-ios-arrow-forward"></i></div>
                                         <div style="height: 50px;"></div>
@@ -352,7 +348,7 @@
                             <span class="f-300 m-t-30 m-b-30 d-block">Esta empresa ainda não possui profissionais cadastrados</span>
                             @endif
                             @if(count($company_fetched->public_confirmed_professionals) > 0)
-                                <div class="swiper-container swiper-default-show">
+                                <div class="swiper-container swiper-default-professionals">
                                     <div class="swiper-wrapper">
                                         @foreach($company_fetched->public_confirmed_professionals as $professional)
                                             <div class="swiper-slide text-center">
@@ -382,7 +378,7 @@
                                             </div>
                                         @endforeach
                                     </div>
-                                    @if(count($company_fetched->public_confirmed_professionals) > 0)
+                                    @if(count($company_fetched->public_confirmed_professionals) > 1)
                                         <div class="swiper-button-prev"><i class="ion-ios-arrow-back"></i></div>
                                         <div class="swiper-button-next"><i class="ion-ios-arrow-forward"></i></div>
                                         <div style="height: 50px;"></div>
@@ -479,9 +475,28 @@
                 data: {
                 },
                 mounted: function() {
-
+                    this.initDefaultSwiper('.swiper-default-ratings')
+                    this.initDefaultSwiper('.swiper-default-recomendations')
+                    this.initDefaultSwiper('.swiper-default-professionals')
                 },
                 methods: {
+
+                    initDefaultSwiper: function(el) {
+                        setTimeout(function() {
+                            var swiperDefaultShow = new Swiper(el, {
+                                centeredSlides: true,
+                                spaceBetween: 4,
+                                loop: false,
+                                slidesPerView: 1,
+                                slideToClickedSlide: true,
+                                paginationClickable: true,
+                                prevButton: '.swiper-button-prev',
+                                nextButton: '.swiper-button-next',
+                                pagination: '.swiper-pagination',
+                            })
+                        }, 100)
+                    },
+
                     openShareFacebook: function () {
                         let that = this
                         var url = `https://www.facebook.com/dialog/share?app_id=1854829291449231&href={{\Request::fullUrl()}}&display=popup&mobile_iframe=true`;
@@ -519,33 +534,27 @@
                 $(e.target).addClass('out')
                 $(target).addClass('in')
             })
-            var swiperCertifications = new Swiper('.swiper-certifications', {
-                centeredSlides: true,
-                spaceBetween: 15,
-                loop: false,
-                slidesPerView: 3,
-                slideToClickedSlide: true,
-                paginationClickable: true,
-                pagination: '.swiper-pagination',
-                prevButton: '.swiper-button-prev',
-                nextButton: '.swiper-button-next',
-                breakpoints: {
-                    768: {
-                        slidesPerView: 1
-                    }
-                }
-            })
-            var swiperCertifications = new Swiper('.swiper-default-show', {
-                centeredSlides: true,
-                spaceBetween: 4,
-                loop: false,
-                slidesPerView: 1,
-                slideToClickedSlide: true,
-                paginationClickable: true,
-                prevButton: '.swiper-button-prev',
-                nextButton: '.swiper-button-next',
-                pagination: '.swiper-pagination',
-            })
+
+
+
+
+            // var swiperCertifications = new Swiper('.swiper-certifications', {
+            //     centeredSlides: true,
+            //     spaceBetween: 15,
+            //     loop: false,
+            //     slidesPerView: 3,
+            //     slideToClickedSlide: true,
+            //     paginationClickable: true,
+            //     pagination: '.swiper-pagination',
+            //     prevButton: '.swiper-button-prev',
+            //     nextButton: '.swiper-button-next',
+            //     breakpoints: {
+            //         768: {
+            //             slidesPerView: 1
+            //         }
+            //     }
+            // })
+
 
             var mapStyle = [
               {
