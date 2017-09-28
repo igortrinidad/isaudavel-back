@@ -245,7 +245,7 @@ class LandingController extends Controller
             })
             ->with(['tags' => function($query){
                 $query->select('id', 'name', 'slug');
-            }, 'type'])->paginate(2);
+            }, 'type'])->paginate(10);
 
         $recipes->appends(['filters' => $filters]);
 
