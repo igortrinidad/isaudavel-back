@@ -53,6 +53,25 @@ class MealRecipeController extends Controller
         return response()->json(custom_paginator($meal_recipes));
     }
 
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function homeList(Request $request)
+    {
+        $limit = $request->get('limit') ? $request->get('limit') : 8;
+
+        $meal_recipes = MealRecipe::with('type', 'tags')
+           ->orderByRaw("RAND()")
+            ->limit($limit)
+            ->get();
+
+        return response()->json(['meal_recipes' => $meal_recipes]);
+    }
+
+
     /**
      * Display a listing of the resource.
      *

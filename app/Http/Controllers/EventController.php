@@ -23,6 +23,24 @@ class EventController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @param $id
+     * @return \Illuminate\Http\Response
+     */
+    public function homeList(Request $request)
+    {
+        $limit = $request->get('limit') ? $request->get('limit') : 8;
+
+        $events = Event::with('from', 'categories', 'photos')
+            ->orderByRaw("RAND()")
+            ->limit($limit)
+            ->get();
+
+        return response()->json(['events' => $events]);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
