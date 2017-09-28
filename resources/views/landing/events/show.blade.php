@@ -137,15 +137,15 @@
                             <h4 class="f-300">Detalhes do evento:</h4>
                             <ul class="list-group m-t-10 m-b-30">
 
-                            @if($event_fetched->is_free)
-                                <li class="list-group-item f-300">
-                                    <strong>Valor</strong> <span class="badge badge-success">Gratuito</span>
-                                </li>
-                            @else
-                                <li class="list-group-item f-300">
-                                    <strong>Valor</strong> <span class="badge badge-success">R$ {{ $event_fetched->value }}</span>
-                                </li>
-                            @endif
+                                @if($event_fetched->is_free)
+                                    <li class="list-group-item f-300">
+                                        <strong>Valor</strong> <span class="badge badge-success">Gratuito</span>
+                                    </li>
+                                @else
+                                    <li class="list-group-item f-300">
+                                        <strong>Valor</strong> <span class="badge badge-success">R$ {{ $event_fetched->value }}</span>
+                                    </li>
+                                @endif
 
                                 <li class="list-group-item f-300">
                                     <strong>Data</strong> <span class="badge badge-success">{{ $event_fetched->date->format('d/m/Y') }}</span>

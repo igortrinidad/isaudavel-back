@@ -96,6 +96,7 @@
         padding: 10px;
         margin-top: 30px;
     }
+    .badge.badge-info { background-color: #337ab7; color: #FFFFFF; }
     </style>
 
     <div id="show-recipe">
@@ -186,6 +187,32 @@
 
                         </div>
                         <!-- / Recipe Informations -->
+
+                        <div class="card">
+                            <div class="card-header ch-alt text-center">
+                                <h4 class="f-300 m-0">Macro nutrientes</h4>
+                                <small class="f-300">Por {{ $recipe_fetched->portion_size }}</small>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-group m-t-10 m-b-0">
+                                    <li class="list-group-item f-300">
+                                        Calorias <span class="badge badge-info">{{ $recipe_fetched->kcal }}</span>
+                                    </li>
+                                    <li class="list-group-item f-300">
+                                        Proteínas <span class="badge badge-info">{{ $recipe_fetched->protein }}</span>
+                                    </li>
+                                    <li class="list-group-item f-300">
+                                        Carboidrato <span class="badge badge-info">{{ $recipe_fetched->carbohydrate }}</span>
+                                    </li>
+                                    <li class="list-group-item f-300">
+                                        Lipídios <span class="badge badge-info">{{ $recipe_fetched->lipids }}</span>
+                                    </li>
+                                    <li class="list-group-item f-300">
+                                        Fibra <span class="badge badge-info">{{ $recipe_fetched->fiber }}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
 
                         <!-- Card Recipe Content -->
                         <div class="card">
