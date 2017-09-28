@@ -138,7 +138,7 @@
                                             <i class="ion-android-restaurant recipe-icon"></i>
 
                                             <h5 class="f-300 m-0 m-b-10">Rendimento</h5>
-                                            <small class="f-300">{{ $recipe_fetched->portions }} porções</small>
+                                            <small class="f-300">{{ $recipe_fetched->portions }} porções ({{ $recipe_fetched->portion_size }} cada)</small>
                                         </div>
                                     </div>
                                 </div>
@@ -151,16 +151,16 @@
                                     <div class="card-body">
                                         <div class="recipe-box">
                                              @for($i = 0; $i < $recipe_fetched->difficulty; $i++)
-                                                 <i class="ion-fork recipe-icon m-r-5" v-for="n in $recipe_fetched->difficulty"></i>
+                                                 <i class="ion-spoon recipe-icon m-r-5" v-for="n in $recipe_fetched->difficulty"></i>
                                              @endfor
                                              <h5 class="f-300 m-0 m-b-10">Dificuldade</h5>
-                                             @if($recipe_fetched->difficulty == 1)
+                                             @if($recipe_fetched->difficulty < 3)
                                                  <small class="f-300">Fácil</small>
                                              @endif
-                                             @if($recipe_fetched->difficulty == 2)
+                                             @if($recipe_fetched->difficulty == 3)
                                                  <small class="f-300">Normal</small>
                                              @endif
-                                             @if($recipe_fetched->difficulty == 3)
+                                             @if($recipe_fetched->difficulty > 3)
                                                  <small class="f-300">Difícil</small>
                                              @endif
                                         </div>
@@ -219,9 +219,7 @@
                                     <button type="button" class="btn btn-whatsapp btn-xs p-5 p-l-10 p-r-10 open-share-whatsapp">
                                         <i class="ion-social-whatsapp m-r-5"></i>Whatsapp
                                     </button>
-                                    <button type="button" class="btn btn-default btn-xs p-5 p-l-10 p-r-10 open-print">
-                                        <i class="ion-ios-printer m-r-5"></i>Imprimir
-                                    </button>
+                                    <a href="{{ route('landing.recipes.pdf', $recipe_fetched->id) }}" class="btn btn-default btn-xs p-5 p-l-10 p-r-10" target="_blank"> <i class="ion-ios-printer m-r-5"></i>Imprimir</a>
                                 </div>
                                 <!-- / Recipe Share -->
 
