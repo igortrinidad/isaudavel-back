@@ -25,7 +25,8 @@ return [
         'oracle.dashboard.oracles.show',
         'oracle.dashboard.events.list',
         'oracle.dashboard.events.edit',
-        'oracle.dashboard.recipes.edit'
+        'oracle.dashboard.recipes.edit',
+        'landing.recipes.list'
     ],
 
     /*

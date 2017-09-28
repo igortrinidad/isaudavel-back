@@ -113,11 +113,11 @@
 @section('scripts')
 
     <script>
-        //prrecipe form submit on enter
+        //prevent form submit on enter
         document.getElementById('event-list').onkeypress = function (e) {
             var key = e.charCode || e.keyCode || 0;
             if (key == 13) {
-                e.prrecipeDefault();
+                e.preventDefault();
             }
         }
 

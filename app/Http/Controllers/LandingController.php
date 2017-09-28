@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\CompanyInvoice;
 use App\Models\CompanySubscription;
+use App\Models\MealRecipeTag;
+use App\Models\MealType;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -207,10 +209,55 @@ class LandingController extends Controller
      */
     public function ListRecipes(Request $request)
     {
-        $recipes = MealRecipe::orderBy('created_at', 'DESC')->paginate(24);
+        $filters = is_array($request->get('filters')) ? $request->get('filters') : json_decode($request->get('filters'), true);
+
+        $recipes = MealRecipe::whereHas('type', function($query) use ($filters){
+            if(!empty($filters['types'])){
+                $query->whereIn('slug', $filters['types']);
+            }
+        })
+            ->whereHas('tags', function ($query) use ($filters) {
+                if(!empty($filters['tags'])) {
+                    $query->whereIn('slug', $filters['tags']);
+                }
+
+            })->where(function($query) use($filters){
+
+                if(!empty($filters['nutrients'])) {
+                    foreach($filters['nutrients'] as $key => $value){
+                        if(!$value){
+                            continue;
+                        }
+                        // - or + 20%
+                        $min = $value - ( $value * 20 / 100);
+                        $max = $value + ( $value * 20 / 100);
+
+                        $query->orWhereBetween($key,[$min, $max]);
+                    }
+                }
+            })->where(function($query) use($filters){
+
+                if(!empty($filters['search'])){
+                    $search = explode(' ', $filters['search']);
+                    $query->where('title', 'LIKE', '%' . $filters['search']. '%');
+                    $query->orWhereIn('title', $search);
+                }
+            })
+            ->with(['tags' => function($query){
+                $query->select('id', 'name', 'slug');
+            }, 'type'])->paginate(2);
+
+        $recipes->appends(['filters' => $filters]);
+
         $companies = Company::with('categories')->limit(8)->get();
 
-        return view('landing.recipes.list', compact('recipes', 'companies'));
+        $meal_types = MealType::orderBy('name')->get();
+
+        $tags = MealRecipeTag::orderBy('name')->get();
+
+        \JavaScript::put(['meal_types' => $meal_types, 'tags' => $tags]);
+
+        return view('landing.recipes.list', compact('recipes', 'companies', 'meal_types', 'tags'));
     }
 
     /**

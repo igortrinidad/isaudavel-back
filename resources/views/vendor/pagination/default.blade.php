@@ -1,36 +1,39 @@
 @if ($paginator->hasPages())
-    <ul class="pagination">
+    <ul class="pagination pagination">
         {{-- Previous Page Link --}}
         @if ($paginator->onFirstPage())
-            <li class="disabled"><span>&laquo;</span></li>
+            <li class="disabled"><span><i class="ion-chevron-left"></i></span></li>
         @else
-            <li><a href="{{ $paginator->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+            <li><a href="{{ $paginator->previousPageUrl() }}" rel="prev"><i class="ion-chevron-left"></i></a></li>
         @endif
 
-        {{-- Pagination Elements --}}
-        @foreach ($elements as $element)
-            {{-- "Three Dots" Separator --}}
-            @if (is_string($element))
-                <li class="disabled"><span>{{ $element }}</span></li>
-            @endif
-
-            {{-- Array Of Links --}}
-            @if (is_array($element))
-                @foreach ($element as $page => $url)
-                    @if ($page == $paginator->currentPage())
-                        <li class="active"><span>{{ $page }}</span></li>
-                    @else
-                        <li><a href="{{ $url }}">{{ $page }}</a></li>
-                    @endif
-                @endforeach
+        @if($paginator->currentPage() > 3)
+            <li class="hidden-xs"><a href="{{ $paginator->url(1) }}">1</a></li>
+        @endif
+        @if($paginator->currentPage() > 4)
+            <li class="disabled hidden-xs"><span>...</span></li>
+        @endif
+        @foreach(range(1, $paginator->lastPage()) as $i)
+            @if($i >= $paginator->currentPage() - 2 && $i <= $paginator->currentPage() + 2)
+                @if ($i == $paginator->currentPage())
+                    <li class="active"><span>{{ $i }}</span></li>
+                @else
+                    <li><a href="{{ $paginator->url($i) }}">{{ $i }}</a></li>
+                @endif
             @endif
         @endforeach
+        @if($paginator->currentPage() < $paginator->lastPage() - 3)
+            <li class="disabled hidden-xs"><span>...</span></li>
+        @endif
+        @if($paginator->currentPage() < $paginator->lastPage() - 2)
+            <li class="hidden-xs"><a href="{{ $paginator->url($paginator->lastPage()) }}">{{ $paginator->lastPage() }}</a></li>
+        @endif
 
         {{-- Next Page Link --}}
         @if ($paginator->hasMorePages())
-            <li><a href="{{ $paginator->nextPageUrl() }}" rel="next">&raquo;</a></li>
+            <li><a href="{{ $paginator->nextPageUrl() }}" rel="next"><i class="ion-chevron-right"></i></a></li>
         @else
-            <li class="disabled"><span>&raquo;</span></li>
+            <li class="disabled"><span><i class="ion-chevron-right"></i></span></li>
         @endif
     </ul>
 @endif
