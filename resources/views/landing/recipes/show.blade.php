@@ -295,28 +295,31 @@
                                 <h4 class="m-0 f-300">Últimas avaliações</h4>
                                 <small class="f-300">{{ count($recipe_fetched->ratings) }} {{ count($recipe_fetched->ratings) > 1 ? 'Avaliações' : 'Avaliação' }}</small>
                             </div>
-                            <div class="card-body card-padding">
-                                @foreach($recipe_fetched->ratings as $ratingIndex => $rating)
-                                    @if($ratingIndex < 5)
-                                        <div class="text-center m-t-10">
-                                            <div class="picture-circle picture-circle-p" style="background-image:url('{{ $rating->from->avatar }}')">
-                                            </div>
-                                            <h5 class="f-300 m-t-10 m-b-10">{{ $rating->from->full_name }}</h5>
-                                            @for($i = 1; $i <= 5; $i++)
-                                                @if($i <= $rating->rating)
-                                                    <i class="ion-ios-star fa-lg" style="color: #FFCC5F;"></i>
-                                                @else
-                                                    <i class="ion-ios-star-outline fa-lg" style="color: #FFCC5F;"></i>
-                                                @endif
-                                            @endfor
+                            @if(count($recipe_fetched->ratings) > 0)
+                                <div class="card-body card-padding">
+                                    @foreach($recipe_fetched->ratings as $ratingIndex => $rating)
+                                        @if($ratingIndex < 5)
+                                            <div class="text-center m-t-10">
+                                                <div class="picture-circle picture-circle-p" style="background-image:url('{{ $rating->from->avatar }}')">
+                                                </div>
+                                                <h5 class="f-300 m-t-10 m-b-10">{{ $rating->from->full_name }}</h5>
+                                                @for($i = 1; $i <= 5; $i++)
+                                                    @if($i <= $rating->rating)
+                                                        <i class="ion-ios-star fa-lg" style="color: #FFCC5F;"></i>
+                                                    @else
+                                                        <i class="ion-ios-star-outline fa-lg" style="color: #FFCC5F;"></i>
+                                                    @endif
+                                                @endfor
 
-                                            @if($ratingIndex + 1 < count($recipe_fetched->ratings))
-                                                <hr class="m-t-30">
-                                            @endif
-                                        </div>
-                                    @endif
-                                @endforeach
-                            </div>
+                                                @if($ratingIndex + 1 < count($recipe_fetched->ratings))
+                                                    <hr class="m-t-30">
+                                                @endif
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                </div>
+                            @endif
+
                         </div>
                         <!-- /Card Ratings -->
                         <div class="card">
