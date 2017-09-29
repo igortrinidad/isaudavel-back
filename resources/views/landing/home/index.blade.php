@@ -27,6 +27,14 @@
                 text-transform: uppercase;
                 font-size: 2rem !important;
             }
+
+            .is-title-side {
+                text-transform: uppercase;
+                font-size: 1.5rem;
+                font-weight: 700;
+                text-align: center;
+            }
+
             .is-title.default { border-color: #fff; color: #fff; }
             .is-title.primary { border-color: #6ec058; color: #6ec058; }
             .is-title.secondary { border-color: #f1562b; color: #f1562b; }

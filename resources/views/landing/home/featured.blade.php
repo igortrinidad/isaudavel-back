@@ -67,58 +67,71 @@
 
  <section id="contact" class="section featured">
     <div class="container">
-        <h2 class="is-title secondary">Empresas em destaque</h2>
+        <div class="row">
 
-        <div class="row m-t-30">
-            <div class="col-sm-9">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="swiper-container swiper-featureds wow fadeInUp">
-                            <div class="swiper-wrapper p-t-0">
-                                @foreach($companies as $index_company => $company)
-                                    <div class="swiper-slide text-center">
-                                        <div class="card m-0">
-                                            <div class="card-header ch-alt text-center">
-                                                <div class="picture-circle  picture-circle-p m-b-10" style="background-image:url({{$company->avatar}})">
-                                                </div>
-                                                <h3 class="m-b-0 t-overflow">
-                                                    <a  href="{!! route('landing.companies.show', $company->slug) !!}" title="{{ $company->name }}">{{ $company->name }}</a>
-                                                </h3>
-                                                <h4 class="f-300">Avaliação</h4>
-                                                <div class="wp-rating-div">
-                                                    <?php $rating_to_loop = $company->current_rating; ?>
-                                                    @include('components.rating', ['size' => '22'])
-                                                </div>
+            <!-- Featured Companies -->
+            <div class="col-sm-9 wow fadeInUp">
+                <h2 class="is-title secondary">Empresas em destaque</h2>
 
-                                                <div class="m-t-20">
-                                                    @foreach($company->categories as $index_category => $category)
-                                                        <a href="{!! route('landing.search.index', ['category' => $category->slug]) !!}"><button class="btn btn-success btn-xs m-b-5">{{ $category->name }}</button></a>
-                                                    @endforeach
-                                                </div>
-
-                                                <div class="m-t-20">
-                                                    <span class="f-300 f-18 t-overflow">
-                                                        <i class="ion-ios-location-outline m-r-5"></i>
-                                                        {{ $company->address['full_address'] }}
-                                                    </span>
-                                                </div>
-                                                <hr class="m-t-20">
-                                                <a  href="{!! route('landing.companies.show', $company->slug) !!}" title="{{ $company->name }}">
-                                                    <button class="btn btn-primary f-300 f-16">
-                                                        Mais informações
-                                                    </button>
-                                                </a>
-                                            </div>
+                <div class="swiper-container swiper-featureds m-t-30">
+                    <div class="swiper-wrapper p-t-0">
+                        @foreach($companies as $index_company => $company)
+                            <div class="swiper-slide text-center">
+                                <div class="card m-0">
+                                    <div class="card-header ch-alt text-center">
+                                        <div class="picture-circle  picture-circle-p m-b-10" style="background-image:url({{$company->avatar}})">
                                         </div>
+                                        <h3 class="m-b-0 t-overflow">
+                                            <a  href="{!! route('landing.companies.show', $company->slug) !!}" title="{{ $company->name }}">{{ $company->name }}</a>
+                                        </h3>
+                                        <h4 class="f-300">Avaliação</h4>
+                                        <div class="wp-rating-div">
+                                            <?php $rating_to_loop = $company->current_rating; ?>
+                                            @include('components.rating', ['size' => '22'])
+                                        </div>
+
+                                        <div class="m-t-20">
+                                            @foreach($company->categories as $index_category => $category)
+                                                <a href="{!! route('landing.search.index', ['category' => $category->slug]) !!}"><button class="btn btn-success btn-xs m-b-5">{{ $category->name }}</button></a>
+                                            @endforeach
+                                        </div>
+
+                                        <div class="m-t-20">
+                                            <span class="f-300 f-18 t-overflow">
+                                                <i class="ion-ios-location-outline m-r-5"></i>
+                                                {{ $company->address['full_address'] }}
+                                            </span>
+                                        </div>
+                                        <hr class="m-t-20">
+                                        <a  href="{!! route('landing.companies.show', $company->slug) !!}" title="{{ $company->name }}">
+                                            <button class="btn btn-primary f-300 f-16">
+                                                Mais informações
+                                            </button>
+                                        </a>
                                     </div>
-                                @endforeach
+                                </div>
                             </div>
-                            <div class="swiper-button-prev swiper-button-black"></div>
-                            <div class="swiper-button-next swiper-button-black"></div>
-                        </div>
+                        @endforeach
+                    </div>
+                    <div class="swiper-button-prev swiper-button-black"></div>
+                    <div class="swiper-button-next swiper-button-black"></div>
+                </div>
+            </div>
+            <!-- / Featured Companies -->
+
+            <!-- Professional Acitivities -->
+            <div class="col-sm-3" style="margin-top: 80px;">
+                <div class="card wow fadeInUp">
+                    <div class="card-header ch-alt text-center">
+                        <h2 class="is-title-side secondary">Atividades de profissionais</h2>
+                    </div>
+                    <div class="card-body">
+                        <span class=f-300>Aqui vai vir atividades em tempo real dos profissionais</span>
                     </div>
                 </div>
             </div>
+            <!-- / Professional Acitivities -->
+
         </div>
     </div>
 
