@@ -1,5 +1,5 @@
-    <div class="navbar-default navbar-fixed-top animated" id="navigation">
-        <div class="container">
+    <div class="navbar-default navbar-fixed-top animated" id="navigation" style="padding: 10px 0;">
+        <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
