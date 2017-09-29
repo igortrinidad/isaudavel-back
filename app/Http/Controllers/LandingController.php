@@ -34,7 +34,7 @@ class LandingController extends Controller
     public function index(Request $request)
     {
         $companies = Company::with('categories')->limit(8)->get();
-        $events = Event::with('categories')->limit(8)->get();
+        $events = Event::with('categories')->limit(8)->paginate(8);
         $recipes = MealRecipe::with('from')->orderBy('created_at', 'DESC')->limit(8)->get();
         $categories = Category::all();
 
@@ -357,7 +357,7 @@ class LandingController extends Controller
     {
         $recipes = MealRecipe::with('from')->orderBy('created_at', 'DESC')->limit(8)->get();
         $companies = Company::with('categories')->limit(8)->get();
-        $events = Event::with('categories')->limit(8)->get();
+        $events = Event::with('categories')->limit(8)->paginate(8);
 
         return view('landing.home.for-client', compact('companies', 'events', 'recipes'));
     }
@@ -377,7 +377,7 @@ class LandingController extends Controller
     {
         $recipes = MealRecipe::with('from')->orderBy('created_at', 'DESC')->limit(8)->get();
         $companies = Company::with('categories')->limit(8)->get();
-        $events = Event::with('categories')->limit(8)->get();
+        $events = Event::with('categories')->limit(8)->paginate(8);
 
         return view('landing.home.for-professional', compact('companies', 'events', 'recipes'));
     }
