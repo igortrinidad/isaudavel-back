@@ -392,13 +392,9 @@
 
                 var swiperFeatureds = new Swiper('.swiper-featureds', {
                     initialSlide: 0,
-                    centeredSlides: true,
-                    spaceBetween: 15,
-                    loop: true,
+                    spaceBetween: 10,
                     slidesPerView: 3,
-                    slideToClickedSlide: true,
-                    paginationClickable: true,
-                    pagination: '.swiper-pagination',
+                    slideToClickedSlide: false,
                     prevButton: '.swiper-button-prev',
                     nextButton: '.swiper-button-next',
                     breakpoints: {

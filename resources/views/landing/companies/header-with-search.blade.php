@@ -33,7 +33,7 @@
     }
 
     #search-area {
-        padding: 80px 0 80px 0px;
+        padding: 40px 0 80px 0px;
         background: #fff;
         position: relative;
         display: block;
@@ -81,8 +81,9 @@
 <header id="search-area" :class="{ 'search-page' : pathSearch }">
 
     <div class="container p-t-30">
-       <div class="row header-mobile">
-           <h3 class="text-center m-b-30">Encontre empresas e profissionais de saúde próximos à você</h3>
+        <h3 class="is-title primary">Encontre empresas e profissionais de saúde próximos à você</h3>
+
+        <div class="row header-mobile m-t-30">
            <div class="col-xs-12 col-sm-4 col-md-4">
                <div class="form-group">
                    <input class="form-control" id="autocomplete" placeholder="Informe a cidade" />
