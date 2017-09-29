@@ -15,6 +15,22 @@
         <!-- Styles -->
         <link rel="stylesheet" href="{{ elixir('build/landing/css/build_vendors_custom.css') }}">
 
+        <style media="screen">
+            .is-title {
+                border-left: 4px solid;
+                border-bottom: 4px solid;
+                display: inline-block;
+                width: auto;
+                border-radius: 4px;
+                padding: 10px 20px 10px 20px;
+                font-weight: 700;
+            }
+            .is-title.default {
+                border-color: #fff;
+                color: #fff;
+            }
+        </style>
+
         <!-- Hotjar Tracking Code for https://isaudavel.com -->
         @include('components.hotjar')
 

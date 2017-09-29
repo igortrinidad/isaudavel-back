@@ -1,5 +1,5 @@
 <style media="screen">
-    #categories-section { transition: ease .3s; }
+    #categories-section { transition: ease 1s; }
 
     #categories-section.pilates     { background-color: #615de2 }
     #categories-section.personal    { background-color: #00cbb2 }
@@ -16,38 +16,35 @@
 <section id="categories-section" class="section bg-pattern p-b-30 p-t-30 pilates">
     <div class="container">
 
-        <h3 class="text-center m-b-30">Selecione uma categoria para pesquisar</h3>
+        <h3 class="is-title default">Selecione uma categoria para pesquisar</h3>
 
-        <div class="row m-t-10">
-            <div class="col-sm-12">
-                <div class="swiper-container swiper-categories wow fadeInUp">
-                    <div class="swiper-wrapper">
-                        @foreach($categories as $category)
-                            <div class="swiper-slide">
-                                <div class="card category">
-                                    <a href="{{route('landing.search.index', ['category' => $category->slug])}}">
-                                        <div
-                                            class="card-header ch-alt picture-bg"
-                                            style="background-image:url({{ $category->avatar }})"
-                                        >
-                                        </div>
-                                        <div class="card-body card-padding text-center">
-                                            <h5 class="f-300">{{ $category->name }}</h5>
-                                        </div>
-                                    </a>
+        <div class="swiper-container swiper-categories wow fadeInUp">
+            <div class="swiper-wrapper">
+                @foreach($categories as $category)
+                    <div class="swiper-slide">
+                        <div class="card category">
+                            <a href="{{route('landing.search.index', ['category' => $category->slug])}}">
+                                <div
+                                    class="card-header ch-alt picture-bg"
+                                    style="background-image:url({{ $category->avatar }})"
+                                >
                                 </div>
-                            </div>
-                        @endforeach
+                                <div class="card-body card-padding text-center">
+                                    <h5 class="f-300">{{ $category->name }}</h5>
+                                </div>
+                            </a>
+                        </div>
                     </div>
-                    <div class="swiper-button-prev">
-                        <i class="ion-ios-arrow-left"></i>
-                    </div>
-                    <div class="swiper-button-next">
-                        <i class="ion-ios-arrow-right"></i>
-                    </div>
-                </div>
+                @endforeach
+            </div>
+            <div class="swiper-button-prev">
+                <i class="ion-ios-arrow-left"></i>
+            </div>
+            <div class="swiper-button-next">
+                <i class="ion-ios-arrow-right"></i>
             </div>
         </div>
+
     </div>
 </section>
 

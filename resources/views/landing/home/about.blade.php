@@ -18,7 +18,7 @@
 
     @include('landing.companies.categories')
 
-    <section id="about" class="section divider">
+    <!-- <section id="about" class="section divider">
         <div class="container">
             <div class="text-center">
                 <h2 class="f-700 text-center m-b-10" style="color: #fff;">Para você e profissionais de </h2>
@@ -27,7 +27,7 @@
                 </svg>
             </div>
 
-            <!-- <div class="row m-t-30">
+            <div class="row m-t-30">
                 <div class="col-xs-12 col-sm-6 col-md-6">
                     <div class="card min-height-card wow fadeInUp m-t-30">
                         <div class="card-header ch-alt text-center">
@@ -59,9 +59,8 @@
                         </div>
         			</div>
                 </div>
-            </div> -->
+            </div>
         </div>
-    </section>
-
+    </section> -->
 
 @stop
