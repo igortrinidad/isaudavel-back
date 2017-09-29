@@ -74,6 +74,36 @@
     .gray {
         background-color: #f4f5f4;
     }
+
+    /* Pagination */
+    .pagination {
+        font-size: 16px !important;
+    }
+    .pagination > li > a,
+    .pagination > li > span {
+        background-color: #fff;
+        color: #73C158 !important;
+    }
+
+    .pagination > li.active > a,
+    .pagination > li.active > span {
+        background-color: #73C158 !important;
+        border-color: #73C158 !important;
+        color: #fff !important;
+    }
+
+    .pagination > li.disabled > a,
+    .pagination > li.disabled > span {
+
+        color: #ccc !important;
+    }
+
+    .pagination > li > a > i,
+    .pagination > li > span > i{
+        padding: 6px;
+    }
+
+
 </style>
 
 <section class="section {{ $has_title ? 'gray' : 'divider' }}">
@@ -90,9 +120,9 @@
             @unless($events->count())
                 <p class="text-center m-t-20">Nenhum evento localizado.</p>
             @else
-
+                <p class="text-center">Exibindo <strong>{{$events->count()}}</strong> {{$events->count() > 1? 'eventos': 'evento'}} de <strong>{{$events->total()}}</strong> {{$events->total() > 1 ? 'eventos': 'evento'}} {{$events->total() > 1 ? 'localizados': 'localizado'}}</p>
                 @foreach($events as $event)
-                    <div class="col-sm-3 col-xs-12 m-t-30">
+                    <div class="col-sm-4 col-xs-12 m-t-30">
                         <a href="/eventos/{{ $event->slug }}" title="Confira mais sobre {{ $event->name }}">
                             <!-- Card Event -->
                             <div class="card m-b-10 cursor-pointer">
@@ -151,6 +181,11 @@
                 @endforeach
             @endunless
         </div>
+
+
+            <div class="text-center">
+                {{ $events->links() }}
+            </div>
     </div>
     <!-- / List Events -->
 </section>

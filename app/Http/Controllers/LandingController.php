@@ -49,8 +49,41 @@ class LandingController extends Controller
      */
     public function ListEvents(Request $request)
     {
-        $events = Event::with('categories')->limit(8)->get();
+        $filters = is_array($request->get('filters')) ? $request->get('filters') : json_decode($request->get('filters'), true);
+
+        $latitude = isset($filters['latitude']) ? $filters['latitude'] :  null;
+        $longitude = isset($filters['longitude']) ? $filters['longitude'] : null;
+
+        $events = Event::select(\DB::raw("*, 
+                (ATAN(SQRT(POW(COS(RADIANS(events.lat)) * SIN(RADIANS(events.lng)
+                 - RADIANS('$longitude')), 2) +POW(COS(RADIANS('$latitude')) * 
+                 SIN(RADIANS(events.lat)) - SIN(RADIANS('$latitude')) * cos(RADIANS(events.lat)) * 
+                 cos(RADIANS(events.lng) - RADIANS('$longitude')), 2)),SIN(RADIANS('$latitude')) * 
+                 SIN(RADIANS(events.lat)) + COS(RADIANS('$latitude')) * COS(RADIANS(events.lat)) * 
+                 COS(RADIANS(events.lng) - RADIANS('$longitude'))) * 6371000) as distance_m"))
+            ->whereHas('categories', function ($query) use ($filters) {
+                if(!empty($filters['categories'])) {
+                    $query->whereIn('slug', $filters['categories']);
+                }
+
+            })->where(function($query) use($filters){
+
+                if(!empty($filters['search'])){
+                    $search = explode(' ', $filters['search']);
+                    $query->where('name', 'LIKE', '%' . $filters['search']. '%');
+                    $query->orWhereIn('name', $search);
+                }
+            })
+            ->orderBy('distance_m', 'asc')
+            ->paginate(10);
+        
+        $events->appends(['filters' => $filters]);
+
+        $categories = Category::orderBy('name')->get();
+
         $companies = Company::with('categories')->limit(8)->get();
+
+        \JavaScript::put(['categories' => $categories, 'filters' => $filters]);
 
         return view('landing.events.list', compact('events', 'companies'));
     }
