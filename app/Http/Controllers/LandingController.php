@@ -245,7 +245,8 @@ class LandingController extends Controller
             })
             ->with(['tags' => function($query){
                 $query->select('id', 'name', 'slug');
-            }, 'type'])->paginate(10);
+            }, 'type'])
+            ->paginate(10);
 
         $recipes->appends(['filters' => $filters]);
 
@@ -255,7 +256,7 @@ class LandingController extends Controller
 
         $tags = MealRecipeTag::orderBy('name')->get();
 
-        \JavaScript::put(['meal_types' => $meal_types, 'tags' => $tags]);
+        \JavaScript::put(['meal_types' => $meal_types, 'tags' => $tags, 'filters' => $filters]);
 
         return view('landing.recipes.list', compact('recipes', 'companies', 'meal_types', 'tags'));
     }

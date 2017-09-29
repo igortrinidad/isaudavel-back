@@ -5,12 +5,21 @@
 	if($rating_to_loop <= 5){
 		$rating_remain = 5 - $rating_to_loop;
 	}
+
+
+	if(!isset($icon)){
+		$icon = 'ion-ios-star';
+	}
+
+	if(!isset($color)){
+		$color = '#FFCC5F';
+	}
 ?>
 
 @for ($i = 0; $i < $rating_to_loop; $i++)
-   	<i class="ion ion-ios-star c-gold" style="font-size: {{$size}}px; color: #FFCC5F;"></i>
+   	<i class="ion {{$icon}} " style="font-size: {{$size}}px; color: {{$color}};"></i>
 @endfor
 
 @for ($i = 0; $i < $rating_remain; $i++)
-   	<i class="ion ion-ios-star-outline c-gold" style="font-size: {{$size}}px; color: #FFCC5F;"></i>
+   	<i class="ion {{$icon}}" style="font-size: {{$size}}px; color: #CBC3C6;"></i>
 @endfor

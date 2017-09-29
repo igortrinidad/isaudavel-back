@@ -89,6 +89,12 @@
             color: #fff;
         }
 
+        .tag-selected {
+            color: #007DB2;
+            border: 1px solid #007DB2;
+            background-color: #fff
+        }
+
     </style>
 
 
@@ -101,16 +107,11 @@
                 <form class="form" id="recipe-filters" action="{{route('landing.recipes.list')}}" method="get">
                     <input type="hidden" name="filters" v-model="recipe_filters" id="recipe_filters">
 
-
                     <div class="col-sm-12 text-center">
                         <div class="form-group search m-t-20">
                             <span class="search-label d-block m-b-5 text-center"></span>
-                            <label class="input-group">
-                                <input type="text" class="form-control" v-model="interactions.search"
-                                       placeholder="Procure uma receita" value="" @keyup.enter="getMealRecipes()">
-                                <span class="input-group-addon btn btn-light" name="span" @click="getMealRecipes()"><i
-                                            class="ion-ios-search f-20"></i></span>
-                            </label>
+                            <input type="text" class="form-control" v-model="interactions.search"
+                                   placeholder="Procure uma receita" @blur="getMealRecipes()">
                         </div>
                         <div class="filters">
                             <div class="tag-list m-t-20 m-b-20">
@@ -131,7 +132,7 @@
                                     <span class="label f-14 m-t-5 m-r-5 p-5 cursor-pointer"
                                           v-for="(tag, $tagIndex) in tags"
                                           @click="selectTag(tag)"
-                                          :class="{'label-primary':selectedTags.indexOf(tag) < 0,  'label-success': selectedTags.indexOf(tag) > -1}">
+                                          :class="{'label-primary':selectedTags.indexOf(tag) < 0,  'tag-selected': selectedTags.indexOf(tag) > -1}">
                                             @{{tag.name}} <i class="ion-close" v-if="selectedTags.indexOf(tag) > -1"></i>
                                     </span>
                                 </div>
@@ -152,6 +153,7 @@
 
                     <div class="col-sm-12 m-t-20">
                         <button type="submit" class="btn btn-default btn-block">Pesquisar</button>
+                        <button type="submit" class="btn btn-link btn-block c-withe" v-if="filterHistory" @click="clearFilters">Limpar filtros de pesquisa</button>
                     </div>
                 </form>
             </div>
@@ -257,7 +259,7 @@
                         </div>
                         <div class="modal-footer">
                             <button class="btn btn-default" data-dismiss="modal">Fechar</button>
-                            <button class="btn btn-info" @click.prevent="getMealRecipes">Filtrar</button>
+                            <button class="btn btn-info" @click.prevent="getMealRecipes">Adicionar filtros</button>
                         </div>
                     </div>
                 </div>
@@ -326,12 +328,20 @@
                     mealTypesFiltered: [],
                     tagsFiltered: [],
                     current_page: null,
-                    recipe_filters: null
+                    recipe_filters: null,
+                    filterHistory: null,
 
                 },
                 mounted: function () {
                     this.mealTypes = meal_types
                     this.tags = tags
+
+                    if(filters){
+                        this.filterHistory = filters
+                        this.handleFilters()
+                    }
+
+
                 },
                 methods: {
                     selectTag(selected) {
@@ -366,11 +376,11 @@
                         $('#filter-macro-nutrients').modal('show')
                         this.$nextTick(() => {
                             this.$refs.kcal.refresh()
-                        this.$refs.protein.refresh()
-                        this.$refs.carbohydrate.refresh()
-                        this.$refs.lipids.refresh()
-                        this.$refs.fiber.refresh()
-                    })
+                            this.$refs.protein.refresh()
+                            this.$refs.carbohydrate.refresh()
+                            this.$refs.lipids.refresh()
+                            this.$refs.fiber.refresh()
+                        })
                     },
 
                     selectMealType(selected) {
@@ -434,10 +444,48 @@
                             search: that.interactions.search
                         }
 
+                        $('#filter-macro-nutrients').modal('hide')
+
                         that.recipe_filters = JSON.stringify(filters)
 
-                        console.log(that.recipe_filters)
+                    },
 
+                    handleFilters(){
+                        let that = this
+
+                        that.mealTypesFiltered = that.filterHistory.types
+                        that.tagsFiltered = that.filterHistory.tags
+                        that.macroNutrients =  _.mapValues(that.filterHistory.nutrients,(value, key) => {return parseInt(value)});
+                        that.interactions.search = that.filterHistory.search
+
+                        if(that.mealTypesFiltered.length)
+                        {
+                            that.mealTypesFiltered.map((type) => {
+                                let meal_type = _.find(that.mealTypes, {slug: type})
+
+                                if(meal_type){
+                                    that.selectedMealTypes.push(meal_type)
+                                }
+                            })
+                        }
+
+                        if(that.tagsFiltered.length)
+                        {
+                            that.tagsFiltered.map((tag) => {
+                                let filter_tag = _.find(that.tags, {slug: tag})
+
+                                if(filter_tag){
+                                    that.selectedTags.push(filter_tag)
+                                }
+                            })
+                        }
+
+                    },
+
+                    clearFilters(){
+                        let that = this
+
+                        that.recipe_filters = null
                     }
                 }
 
