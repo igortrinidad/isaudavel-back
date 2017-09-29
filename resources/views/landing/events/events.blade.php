@@ -163,7 +163,7 @@
                                         </div>
                                     </div>
 
-                                    <h3 class="f-300 m-t-10">{{ $event->name }}</h3>
+                                    <h3 class="f-300 m-t-10" style="height: 60px;">{{ $event->name }}</h3>
                                     <!-- location -->
                                     <div class="m-t-10">
                                     <span class="d-block f-300 f-14">
