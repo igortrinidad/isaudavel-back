@@ -150,6 +150,7 @@
                                 <h3 class="f-300 m-t-5" style="height: 60px;">{{ $recipe->title }}</h3>
 
                                 @if($recipe->current_rating > 0)
+                                    <h5 style="margin-bottom: -20px;">Avaliação</h5>
                                     <div class="wp-rating-div m-t-20">
                                         @php
                                             $rating_to_loop = $recipe->current_rating

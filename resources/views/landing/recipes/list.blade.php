@@ -125,8 +125,20 @@
                                 </div>
                             </div>
 
-                            <button class="btn btn-primary btn-block m-t-20 m-b-20" @click.prevent="showModalSliders">Filtrar
-                                por macro nutrientes
+                            <div class="tag-list m-t-20">
+                                <div class="row">
+                                    <label class="c-withe m-b-20">Tags</label><br>
+                                    <span class="label f-14 m-t-5 m-r-5 p-5 cursor-pointer"
+                                          v-for="(tag, $tagIndex) in tags"
+                                          @click="selectTag(tag)"
+                                          :class="{'label-primary':selectedTags.indexOf(tag) < 0,  'label-success': selectedTags.indexOf(tag) > -1}">
+                                            @{{tag.name}} <i class="ion-close" v-if="selectedTags.indexOf(tag) > -1"></i>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-primary btn-block m-t-20 m-b-20" @click.prevent="showModalSliders">
+                                Filtrar por macro nutrientes
                             </button>
                             <div class="row m-t-20">
                                 <span class="label label-default m-t-5 m-r-5 p-5" v-if="macroNutrients.kcal">Calorias: @{{macroNutrients.kcal}} kcal</span>
@@ -135,23 +147,11 @@
                                 <span class="label label-default m-t-5 m-r-5 p-5" v-if="macroNutrients.lipids">Lipídios: @{{macroNutrients.lipids}} gramas</span>
                                 <span class="label label-default m-t-5 m-r-5 p-5" v-if="macroNutrients.fiber">Fibra: @{{macroNutrients.fiber}} gramas</span>
                             </div>
-
-                            <div class="tag-list m-t-20">
-                                <div class="row">
-                                    <label class="c-withe m-b-20">Tags</label><br>
-                                    <span class="label f-14 m-t-5 m-r-5 p-5 cursor-pointer"
-                                          v-for="(tag, $tagIndex) in tags"
-                                          @click="selectTag(tag)"
-                                          :class="{'label-primary':selectedTags.indexOf(tag) < 0,  'label-success': selectedTags.indexOf(tag) > -1}">
-                            @{{tag.name}} <i class="ion-close" v-if="selectedTags.indexOf(tag) > -1"></i>
-                        </span>
-                                </div>
-                            </div>
                         </div>
                     </div>
 
                     <div class="col-sm-12 m-t-20">
-                        <button type="submit" class="btn btn-default btn-block">Filtrar</button>
+                        <button type="submit" class="btn btn-default btn-block">Pesquisar</button>
                     </div>
                 </form>
             </div>

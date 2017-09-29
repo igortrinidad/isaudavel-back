@@ -96,4 +96,133 @@ class SystemController extends Controller
 
     }
 
+    /**
+     * Update version of the application
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function generate_sitemap(Request $request)
+    {
+
+        // create new sitemap object
+        $sitemap = \App::make("sitemap");
+
+        $root = \Request::root();
+
+        // set cache key (string), duration in minutes (Carbon|Datetime|int), turn on/off (boolean)
+        // by default cache is disabled
+        //$sitemap->setCache('laravel.sitemap', 60);
+
+        // check if there is cached sitemap and build new only if is not
+        if (!$sitemap->isCached())
+        {
+            // add item to the sitemap (url, date, priority, freq)
+            $sitemap->add($root . '/clientes/sobre', \Carbon\Carbon::now(), '1.0', 'monthly');
+            $sitemap->add($root . '/profissionais/sobre', \Carbon\Carbon::now(), '1.0', 'monthly');
+            $sitemap->add($root . '/buscar', \Carbon\Carbon::now(), '1.0', 'monthly');
+
+            //Empresas
+            $companies = \App\Models\Company::all();
+
+            foreach($companies as $company){
+
+                $photos = [];
+                foreach ($company->photos as $photo) {
+                    $photos[] = [
+                        'url' => $photo->photo_url,
+                        'title' => 'Imagem de '. $company->name ,
+                        'caption' => 'Imagem de '. $company->name
+                    ];
+                }
+
+                $sitemap->add($root . '/empresas/'. $company->slug, $company->updated_at, '1.0', 'daily', $photos);
+            }
+
+            //Cidades
+            $cities = \App\Models\Company::select('city', 'lat', 'lng')->groupBy('city', 'lat', 'lng')->get();
+
+            foreach($cities as $city){
+                $sitemap->add($root . '/buscar?city=' . $city->city . '&lat=' . $city->lat . '&lng=' . $city->lng, \Carbon\Carbon::now(), '1.0', 'daily');
+            }
+
+            //Categorias
+            $categories = \App\Models\Category::get();
+
+            foreach($categories as $category){
+                $sitemap->add($root . '/buscar?category=' . $category->slug, \Carbon\Carbon::now(), '1.0', 'daily');
+            }
+
+            //Profissionais
+            $professionals = \App\Models\Professional::all();
+
+            foreach($professionals as $professional){
+
+                $photos = [];
+                foreach ($professional->photos as $photo) {
+                    $photos[] = [
+                        'url' => $photo->photo_url,
+                        'title' => 'Imagem de '. $professional->full_name ,
+                        'caption' => 'Imagem de '. $professional->full_name
+                    ];
+                }
+
+                $sitemap->add($root . '/profissionais/'. $professional->slug, $professional->updated_at, '1.0', 'daily', $photos);
+            }
+
+            //Eventos
+            $events = \App\Models\Event::all();
+
+            foreach($events as $event){
+
+                $photos = [];
+                foreach ($event->photos as $photo) {
+                    $photos[] = [
+                        'url' => $photo->photo_url,
+                        'title' => 'Imagem de '. $event->name ,
+                        'caption' => 'Imagem de '. $event->name
+                    ];
+                }
+
+                $sitemap->add($root . '/eventos/'. $event->slug, $event->updated_at, '1.0', 'daily', $photos);
+            }
+
+            //Receitas
+            $recipes = \App\Models\MealRecipe::all();
+
+            foreach($recipes as $recipe){
+
+                $photos = [];
+                foreach ($recipe->photos as $photo) {
+                    $photos[] = [
+                        'url' => $photo->photo_url,
+                        'title' => 'Imagem de '. $recipe->title,
+                        'caption' => 'Imagem de '. $recipe->title
+                    ];
+                }
+
+                $sitemap->add($root . '/receitas/'. $recipe->slug, $recipe->updated_at, '1.0', 'daily', $photos);
+            }
+
+        }
+
+        return $sitemap->render('xml');
+
+
+        //Generate and store the xml file
+        /*$sitemap->store('xml', 'sitemap');
+
+        //Send the new sitemap to Google
+        $url = 'http://www.google.com/webmasters/sitemaps/ping?sitemap='.\Config('app.url').'/sitemap.xml';
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);*/
+
+    }
+
+
+
+
 }

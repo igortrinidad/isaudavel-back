@@ -35,7 +35,7 @@
 
     @include('landing.companies.categories')
 
-    <section id="contact" class="section divider">
+    <section id="about" class="section divider">
         <div class="container">
 
             <div class="text-center">

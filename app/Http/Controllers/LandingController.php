@@ -38,7 +38,7 @@ class LandingController extends Controller
         $recipes = MealRecipe::with('from')->orderBy('created_at', 'DESC')->limit(8)->get();
         $categories = Category::all();
 
-        return view('landing.home.home', compact('companies', 'events', 'categories', 'recipes'));
+        return view('landing.home.about', compact('companies', 'events', 'categories', 'recipes'));
     }
 
     /**
