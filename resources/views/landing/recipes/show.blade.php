@@ -208,35 +208,49 @@
                         </div>
                         <!-- / Recipe Informations -->
 
-                        <div class="card">
-                            <div class="card-header ch-alt text-center">
-                                <h4 class="f-300 m-0">Macro nutrientes</h4>
-                                <small class="f-300">Por {{ $recipe_fetched->portion_size }}</small>
-                            </div>
-                            <div class="card-body">
-                                <ul class="list-group m-t-10 m-b-0">
-                                    <li class="list-group-item f-300">
-                                        Calorias <span class="badge badge-info">{{ $recipe_fetched->kcal }}</span>
-                                    </li>
-                                    <li class="list-group-item f-300">
-                                        Proteínas <span class="badge badge-info">{{ $recipe_fetched->protein }}</span>
-                                    </li>
-                                    <li class="list-group-item f-300">
-                                        Carboidrato <span class="badge badge-info">{{ $recipe_fetched->carbohydrate }}</span>
-                                    </li>
-                                    <li class="list-group-item f-300">
-                                        Lipídios <span class="badge badge-info">{{ $recipe_fetched->lipids }}</span>
-                                    </li>
-                                    <li class="list-group-item f-300">
-                                        Fibra <span class="badge badge-info">{{ $recipe_fetched->fiber }}</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
                         <!-- Card Recipe Content -->
                         <div class="card">
                             <div class="card-body" style="padding: 6px;">
+
+                                <!-- Macro Informations -->
+                                <div class="row m-b-30">
+                                    <div class="col-md-2 col-xs-6 col-md-offset-1 m-t-15">
+                                        <div class="circle">
+                                            <div class="circle_border"></div>
+                                            <strong>{{ $recipe_fetched->kcal }}</strong>
+                                            <small>Calorias</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-xs-6 m-t-15">
+                                        <div class="circle">
+                                            <div class="circle_border"></div>
+                                            <strong>{{ $recipe_fetched->protein }}</strong>
+                                            <small>Proteinas</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-xs-6 m-t-15">
+                                        <div class="circle">
+                                            <div class="circle_border"></div>
+                                            <strong>{{ $recipe_fetched->carbohydrate }}</strong>
+                                            <small>Carboidrato</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-xs-6 m-t-15">
+                                        <div class="circle">
+                                            <div class="circle_border"></div>
+                                            <strong>{{ $recipe_fetched->lipids }}</strong>
+                                            <small>Lipídios</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-xs-12 m-t-15">
+                                        <div class="circle">
+                                            <div class="circle_border"></div>
+                                            <strong>{{ $recipe_fetched->fiber }}</strong>
+                                            <small>Fibras</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- / Macro Informations -->
 
                                 <!-- Recipe Ingredients -->
                                 <h4 class="f-300 m-t-15">Ingredientes:</h4>
