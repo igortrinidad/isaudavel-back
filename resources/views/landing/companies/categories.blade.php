@@ -1,4 +1,19 @@
-<section class="section bg-pattern p-b-30 p-t-30">
+<style media="screen">
+    #categories-section { transition: ease .3s; }
+
+    #categories-section.pilates     { background-color: #615de2 }
+    #categories-section.personal    { background-color: #00cbb2 }
+    #categories-section.fisio       { background-color: #54d4de }
+    #categories-section.nutri       { background-color: #9c40a9 }
+    #categories-section.crossfit    { background-color: #6ccf5f }
+    #categories-section.massagem    { background-color: #d65e00 }
+    #categories-section.acupuntura  { background-color: #f8d163 }
+    #categories-section.academia    { background-color: #cc427f }
+    #categories-section.demarto     { background-color: #c192e2 }
+    #categories-section.cardio      { background-color: #d64646 }
+    #categories-section.ortopedia   { background-color: #63b0ce }
+</style>
+<section id="categories-section" class="section bg-pattern p-b-30 p-t-30 pilates">
     <div class="container">
 
         <h3 class="text-center m-b-30">Selecione uma categoria para pesquisar</h3>
@@ -30,8 +45,6 @@
                     <div class="swiper-button-next">
                         <i class="ion-ios-arrow-right"></i>
                     </div>
-                    <div style="height: 30px;"></div>
-                    <div class="swiper-pagination"></div>
                 </div>
             </div>
         </div>
@@ -41,6 +54,11 @@
 @section('scripts')
     @parent
         <script>
+            var setClassToChangeColorBeta = function (pos) {
+                var classesColors = ['pilates', 'personal', 'fisio', 'nutri', 'crossfit', 'massagem', 'acupuntura', 'academia', 'demarto', 'cardio', 'ortopedia']
+                $('#categories-section').attr('class', 'section bg-pattern p-b-30 p-t-30')
+                $('#categories-section').addClass(classesColors[pos])
+            }
             var swiperFeatureds = new Swiper('.swiper-categories', {
                 centeredSlides: true,
                 spaceBetween: 15,
@@ -51,6 +69,9 @@
                 pagination: '.swiper-pagination',
                 prevButton: '.swiper-button-prev',
                 nextButton: '.swiper-button-next',
+                onSlideChangeEnd: swiper => {
+                    setClassToChangeColorBeta(swiper.realIndex)
+                },
                 breakpoints: {
                     768: {
                         slidesPerView: 1
