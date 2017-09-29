@@ -22,13 +22,14 @@
                 display: inline-block;
                 width: auto;
                 border-radius: 4px;
-                padding: 10px 20px 10px 20px;
+                padding: 5px 10px 5px 10px;
                 font-weight: 700;
+                text-transform: uppercase;
+                font-size: 2rem !important;
             }
-            .is-title.default {
-                border-color: #fff;
-                color: #fff;
-            }
+            .is-title.default { border-color: #fff; color: #fff; }
+            .is-title.primary { border-color: #6ec058; color: #6ec058; }
+            .is-title.secondary { border-color: #f1562b; color: #f1562b; }
         </style>
 
         <!-- Hotjar Tracking Code for https://isaudavel.com -->

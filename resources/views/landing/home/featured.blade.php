@@ -18,7 +18,7 @@
     /* Swiper */
     .swiper-wrapper { padding-top: 30px; }
     .swiper-slide .card {
-        transform: scale(.9);
+        transform: scale(1) !important;
         z-index: 99999;
         transition: ease .3s;
     }
@@ -67,56 +67,58 @@
 
  <section id="contact" class="section featured">
     <div class="container">
-        <div class="text-center">
-            <h2 class="f-300">Empresas em destaque</h2>
-        </div>
+        <h2 class="is-title secondary">Empresas em destaque</h2>
 
-        <div class="swiper-container swiper-featureds wow fadeInUp">
-            <div class="swiper-wrapper">
-                @foreach($companies as $index_company => $company)
-                    <div class="swiper-slide text-center">
-                        <div class="card">
-                            <div class="card-header ch-alt text-center">
-                                <div class="picture-circle  picture-circle-p m-b-10" style="background-image:url({{$company->avatar}})">
-                                </div>
-                                <h3 class="m-b-0 t-overflow">
-                                    <a  href="{!! route('landing.companies.show', $company->slug) !!}" title="{{ $company->name }}">{{ $company->name }}</a>
-                                </h3>
+        <div class="row m-t-30">
+            <div class="col-sm-9">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="swiper-container swiper-featureds wow fadeInUp">
+                            <div class="swiper-wrapper p-t-0">
+                                @foreach($companies as $index_company => $company)
+                                    <div class="swiper-slide text-center">
+                                        <div class="card m-0">
+                                            <div class="card-header ch-alt text-center">
+                                                <div class="picture-circle  picture-circle-p m-b-10" style="background-image:url({{$company->avatar}})">
+                                                </div>
+                                                <h3 class="m-b-0 t-overflow">
+                                                    <a  href="{!! route('landing.companies.show', $company->slug) !!}" title="{{ $company->name }}">{{ $company->name }}</a>
+                                                </h3>
+                                                <h4 class="f-300">Avaliação</h4>
+                                                <div class="wp-rating-div">
+                                                    <?php $rating_to_loop = $company->current_rating; ?>
+                                                    @include('components.rating', ['size' => '22'])
+                                                </div>
+
+                                                <div class="m-t-20">
+                                                    @foreach($company->categories as $index_category => $category)
+                                                        <a href="{!! route('landing.search.index', ['category' => $category->slug]) !!}"><button class="btn btn-success btn-xs m-b-5">{{ $category->name }}</button></a>
+                                                    @endforeach
+                                                </div>
+
+                                                <div class="m-t-20">
+                                                    <span class="f-300 f-18 t-overflow">
+                                                        <i class="ion-ios-location-outline m-r-5"></i>
+                                                        {{ $company->address['full_address'] }}
+                                                    </span>
+                                                </div>
+                                                <hr class="m-t-20">
+                                                <a  href="{!! route('landing.companies.show', $company->slug) !!}" title="{{ $company->name }}">
+                                                    <button class="btn btn-primary f-300 f-16">
+                                                        Mais informações
+                                                    </button>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
-                            <div class="card-body card-padding text-center">
-                                <h4 class="f-300">Avaliação</h4>
-                                <div class="wp-rating-div">
-                                    <?php $rating_to_loop = $company->current_rating; ?>
-                                    @include('components.rating', ['size' => '22'])
-                                </div>
-
-                                <div class="m-t-20">
-                                    @foreach($company->categories as $index_category => $category)
-                                        <a href="{!! route('landing.search.index', ['category' => $category->slug]) !!}"><button class="btn btn-success btn-xs m-b-5">{{ $category->name }}</button></a>
-                                    @endforeach
-                                </div>
-
-                                <div class="m-t-20">
-                                    <span class="f-300 f-18 t-overflow">
-                                        <i class="ion-ios-location-outline m-r-5"></i>
-                                        {{ $company->address['full_address'] }}
-                                    </span>
-                                </div>
-                                <hr class="m-t-20">
-                                <a  href="{!! route('landing.companies.show', $company->slug) !!}" title="{{ $company->name }}">
-                                    <button class="btn btn-primary f-300 f-16">
-                                        Mais informações
-                                    </button>
-                                </a>
-                            </div>
+                            <div class="swiper-button-prev swiper-button-black"></div>
+                            <div class="swiper-button-next swiper-button-black"></div>
                         </div>
                     </div>
-                @endforeach
+                </div>
             </div>
-            <div class="swiper-button-prev swiper-button-black"></div>
-            <div class="swiper-button-next swiper-button-black"></div>
-            <div style="height: 50px;"></div>
-            <div class="swiper-pagination"></div>
         </div>
     </div>
 
@@ -140,7 +142,7 @@
 
     <script>
         var swiperFeatureds = new Swiper('.swiper-featureds', {
-            centeredSlides: true,
+            centeredSlides: false,
             spaceBetween: 15,
             loop: false,
             slidesPerView: 3,
