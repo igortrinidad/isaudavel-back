@@ -47,13 +47,13 @@
 
             $(document).ready(function(){
                 //animated header class
-                $(window).scroll(function () {
-                    if ($(window).scrollTop() > 100) {
-                        $(".navbar-default").addClass("animated");
-                    } else {
-                        $(".navbar-default").removeClass('animated');
-                    }
-                });
+                // $(window).scroll(function () {
+                //     if ($(window).scrollTop() > 100) {
+                //         $(".navbar-default").addClass("animated");
+                //     } else {
+                //         $(".navbar-default").removeClass('animated');
+                //     }
+                // });
             });
         </script>
 

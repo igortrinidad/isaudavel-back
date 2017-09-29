@@ -37,7 +37,7 @@
         background: #fff;
         position: relative;
         display: block;
-        margin-top: -80px;
+        margin-top: -160px;
     }
     #search-area.search-page {
         margin-top: 0;

@@ -14,38 +14,20 @@
             background-repeat: no-repeat;
             background-attachment: fixed
         }
-        /*.section.divider {
-            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAQElEQVQoU2NkIAIYWhtKMRJSB1J0/uj5Z3gVwhSBDMOpEFkRToXoirAqxKYIQyEuRSgK8SmCKySkCKyQGEUghQDZYyTCcREOzgAAAABJRU5ErkJggg==);
-            background-repeat: repeat;
-            background-attachment: fixed;
-
-        }*/
-
-        /*.section.divider {
-            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAQ0lEQVQoU2NkIBIwIqsztDaUgvHPHz3/DFkOrhBZETbFYIXoJmEzGUUhsnUwxTAx0kxEtx6nG2ESRPmaUHCihCM+xQCj5ygLviR2SQAAAABJRU5ErkJggg==);
-            background-repeat: repeat;
-            background-color: #fff;
-        }*/
-
-        /*.section.divider {
-            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAPElEQVQoU2M0tDaUOn/0/DMGAoARJE+MYrBCYhTDFRJSjKIQn2IMhbgUY1WITTFOheiK8SpEVkxQIUwxAJXnJMK1cQiCAAAAAElFTkSuQmCC);
-            background-repeat: repeat;
-        }*/
     </style>
 
     @include('landing.companies.categories')
 
     <section id="about" class="section divider">
         <div class="container">
-
             <div class="text-center">
-                <h2 class="f-700 text-center m-b-10" style="color: #fff;">Para você e profissionais de saúde</h2>
+                <h2 class="f-700 text-center m-b-10" style="color: #fff;">Para você e profissionais de </h2>
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="60px" height="20px" viewBox="0 0 60 20" enable-background="new 0 0 60 20" xml:space="preserve">
                     <path fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" d="M3.188,8.848 C20.521,3.89,38.313,16.66,56.813,9.473" style="stroke-dasharray: 54.3116, 54.3116; stroke-dashoffset: 0;"></path>
                 </svg>
             </div>
 
-            <div class="row m-t-30">
+            <!-- <div class="row m-t-30">
                 <div class="col-xs-12 col-sm-6 col-md-6">
                     <div class="card min-height-card wow fadeInUp m-t-30">
                         <div class="card-header ch-alt text-center">
@@ -77,8 +59,7 @@
                         </div>
         			</div>
                 </div>
-
-            </div>
+            </div> -->
         </div>
     </section>
 

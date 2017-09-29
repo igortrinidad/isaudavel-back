@@ -29,7 +29,7 @@
         border-radius: 4px;
         display: flex;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: center;
         margin: 0 -30px 0 -30px;
         background: rgba(0, 0, 0, 0) linear-gradient(180deg, #88C657 20%, #6EC058 100%) repeat scroll 0 0;
         color: #f4f5f5;
@@ -43,12 +43,6 @@
         position: absolute;
         top: 50%;
         margin-top: -75px;
-    }
-    .screenshot {
-        position: absolute;
-        max-width: 230px;
-        bottom: 90px; right: 130px;
-        z-index: 100;
     }
 
     .slogan-icon-inverse { display: none; }
@@ -95,11 +89,6 @@
       <img id="video-gif" src="https://media.giphy.com/media/11sgrFEeuaiL60/giphy.gif" width="100%" />
     </div>
 
-
-
-    <!-- Screenshot -->
-    <img class="screenshot" src="https://s3.amazonaws.com/isaudavel-assets/img/SCREEN_SEM_BG_1.png" alt="Screen 1">
-
     <!-- Slogan -->
     <div class="slogan-container">
         <div class="container">
@@ -108,8 +97,8 @@
                 A sua saúde em boas mãos.
             </h2>
         </div>
-    </div>
 
+    </div>
 
 </div>
 

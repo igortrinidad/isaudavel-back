@@ -1,4 +1,4 @@
-    <div class="navbar-default navbar-fixed-top" id="navigation">
+    <div class="navbar-default navbar-fixed-top animated" id="navigation">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
@@ -43,7 +43,7 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right" id="top-nav">
                     <li class="{{ getActiveRoute('landing.index') }}"><a href="{!! route('landing.index') !!}">Home</a></li>
-                    <li class=""><a href="#about">Sobre</a></li>
+                    <li class="{{ getActiveRoute('landing.about') }}"><a href="">Sobre</a></li>
                     <li class="{{ getActiveRoute('landing.search.index') }}"><a href="{!! route('landing.search.index', ['category' => 'pilates']) !!}">Buscar empresas</a></li>
                     <li class="{{ getActiveRoute('landing.events.list') }}"><a href="{!! route('landing.events.list') !!}">Eventos</a></li>
                     <li class="{{ getActiveRoute('landing.recipes.list') }}"><a href="{!! route('landing.recipes.list') !!}">Receitas</a></li>
