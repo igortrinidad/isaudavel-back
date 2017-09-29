@@ -313,7 +313,7 @@
                                             <div class="swiper-slide text-center">
                                                 <div class="p-10" style="background-color: #f4f5f5; border-radius: 4px;">
                                                     <div class="picture-circle picture-circle-p" style="background-image:url({{$rating->client->avatar}})"></div>
-                                                    <h4 class="m-t-10">{{ $recomendation->client['full_name'] }}</h4>
+                                                    <h4 class="m-t-10">{{ $recomendation->from->full_name }}</h4>
                                                     <p class="f-300 m-t-10">{{ $recomendation->created_at->format('d/m/Y') }}</p>
                                                     <p class="f-300 m-t-10">{{ $recomendation->content }}</p>
                                                 </div>
