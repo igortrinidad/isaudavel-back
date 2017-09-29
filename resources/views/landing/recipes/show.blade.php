@@ -224,28 +224,28 @@
                                     <div class="col-md-2 col-xs-6 m-t-15">
                                         <div class="circle">
                                             <div class="circle_border"></div>
-                                            <strong>{{ $recipe_fetched->protein }}</strong>
+                                            <strong>{{ $recipe_fetched->protein }}g</strong>
                                             <small>Proteinas</small>
                                         </div>
                                     </div>
                                     <div class="col-md-2 col-xs-6 m-t-15">
                                         <div class="circle">
                                             <div class="circle_border"></div>
-                                            <strong>{{ $recipe_fetched->carbohydrate }}</strong>
+                                            <strong>{{ $recipe_fetched->carbohydrate }}g</strong>
                                             <small>Carboidrato</small>
                                         </div>
                                     </div>
                                     <div class="col-md-2 col-xs-6 m-t-15">
                                         <div class="circle">
                                             <div class="circle_border"></div>
-                                            <strong>{{ $recipe_fetched->lipids }}</strong>
+                                            <strong>{{ $recipe_fetched->lipids }}g</strong>
                                             <small>Lipídios</small>
                                         </div>
                                     </div>
                                     <div class="col-md-2 col-xs-12 m-t-15">
                                         <div class="circle">
                                             <div class="circle_border"></div>
-                                            <strong>{{ $recipe_fetched->fiber }}</strong>
+                                            <strong>{{ $recipe_fetched->fiber }}g</strong>
                                             <small>Fibras</small>
                                         </div>
                                     </div>
