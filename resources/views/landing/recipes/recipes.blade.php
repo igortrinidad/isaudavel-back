@@ -161,10 +161,11 @@
 
                                     @if($recipe->current_rating > 0)
                                         <div class="wp-rating-div">
+                                            <h5>Avaliação</h5>
                                             @php
                                                 $rating_to_loop = $recipe->current_rating;
                                             @endphp
-                                            @include('components.rating', ['size' => '52', 'icon' => 'ion-spoon', 'color' => '#75C258'])
+                                            @include('components.rating', ['size' => '28', 'icon' => 'ion-star', 'color' => '#DEB62F'])
                                         </div>
                                     @endif
 

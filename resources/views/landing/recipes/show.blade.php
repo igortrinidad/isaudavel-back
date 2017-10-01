@@ -195,10 +195,12 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="recipe-box">
-                                            <i class="ion-ios-star recipe-icon"></i>
-
+                                            @php
+                                                $rating_to_loop = $recipe_fetched->current_rating;
+                                            @endphp
+                                            @include('components.rating', ['size' => '28', 'icon' => 'ion-star', 'color' => '#DEB62F'])
                                             <h5 class="f-300 m-0 m-b-10">Avaliação</h5>
-                                            <small class="f-300">{{ $recipe_fetched->current_rating }} {{ $recipe_fetched->current_rating > 1 ? 'Estrelas' : 'Estrela' }}</small>
+                                            <small class="f-300">{{ $recipe_fetched->current_rating }}</small>
                                         </div>
                                     </div>
                                 </div>
