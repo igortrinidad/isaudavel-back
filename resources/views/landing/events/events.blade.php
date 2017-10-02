@@ -74,21 +74,27 @@
     .gray {
         background-color: #f4f5f4;
     }
+    .section.default {
+        background-color: #fff;
+    }
 </style>
 
 <section class="section {{ $has_title ? 'gray' : 'divider' }}">
     <!-- List Events -->
     <div class="container">
         @if($has_title)
-            <div class="text-center">
-                <h2>Eventos</h2>
-                <span class="f-300">Encontre eventos próximos à você.</span>
-            </div>
+            <h2 class="is-title secondary">
+                Eventos esportivos
+                <span class="is-icon is-icon-events"></span>
+            </h2>
         @endif
         <div class="row m-t-30">
-
             @unless($events->count())
-                <p class="text-center m-t-20">Nenhum evento localizado.</p>
+                <div class="card">
+                    <div class="card-header ch-alt p-30">
+                        <p class="text-center m-0 f-300">Nenhum evento localizado.</p>
+                    </div>
+                </div>
             @else
 
                 @foreach($events as $event)

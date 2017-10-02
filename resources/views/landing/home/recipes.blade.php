@@ -71,10 +71,10 @@
 
  <section id="contact" class="section featured bg-pattern" style="background-color: #fff;">
     <div class="container">
-        <div class="text-center">
-            <h2 class="f-300">Receitas</h2>
-            <p>Sua receita fitness está aqui</p>
-        </div>
+        <h2 class="is-title secondary">
+            Receitas fitness
+            <span class="is-icon is-icon-recipes"></span>
+        </h2>
 
         <div class="swiper-container swiper-featureds">
             @unless($recipes->count())

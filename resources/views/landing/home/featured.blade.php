@@ -150,7 +150,7 @@
                 <div class="card card-pattern wow fadeInUp">
                     <div class="card-body card-padding">
                         <div class="text-center">
-                            <h3 class="f-300 m-t-30">Baixe o <strong style="color: #72c157">iSaudavel</strong> e faça parte da rede social que cuida da sua strong.</h3>
+                            <h3 class="f-300 m-t-30">Baixe o <strong style="color: #72c157">iSaudavel</strong> e faça parte da rede social que cuida da sua saúde.</h3>
                             <div class="row">
                                 <div class="col-sm-12 m-t-30">
                                     <a href="https://play.google.com/store/apps/details?id=com.isaudavel" target="_blank" title="Faça o download na PlayStore para Android">

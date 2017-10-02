@@ -40,6 +40,18 @@
             .is-swiper-button-default.swiper-button-prev { left: 10px; }
             .is-swiper-button-default.swiper-button-next { right: 10px; }
 
+            /* Isaudavel Icons */
+            .is-icon {
+                background-repeat: no-repeat;
+                display: inline-block;
+                background-size: cover;
+                background-color: transparent;
+                width: 40px; height: 36px;
+                margin-left: 10px;
+            }
+            .is-icon.is-icon-events  { background-image: url("/icons/icon_events.png"); }
+            .is-icon.is-icon-recipes { background-image: url("/icons/icon_recipes.png"); }
+
             /* Card With Background Pattern */
             .card.card-pattern {
                 background-image: url("/images/pattern-isaudavel-5-300.png");
@@ -61,16 +73,19 @@
             }
             .store-badge { margin: 0 auto; }
             /* Default Isaudavel Title */
+
             .is-title {
                 border-left: 4px solid;
                 border-bottom: 4px solid;
-                display: inline-block;
+                display: inline-flex;
+                align-items: center;
                 width: auto;
                 border-radius: 4px;
                 padding: 5px 10px 5px 10px;
                 font-weight: 700;
                 text-transform: uppercase;
                 font-size: 2rem !important;
+                position: relative;
             }
 
             .is-title-side {
