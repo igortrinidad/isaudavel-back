@@ -82,7 +82,7 @@
     <div class="container">
 
         <!-- User Activities -->
-        <div class="row wow fadeInUp">
+        <div class="row wow fadeInUp" style="margin-top: -160px;">
             <div class="col-sm-12">
                 <div class="card card-activities">
                     <h4 class="is-activities-title"><small>atividades de</small>Usuarios</h4>

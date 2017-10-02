@@ -88,7 +88,7 @@
                 padding: 5px 10px 5px 10px;
                 font-weight: 700;
                 text-transform: uppercase;
-                font-size: 2rem !important;
+                font-size: 2.6rem !important;
                 position: relative;
             }
 

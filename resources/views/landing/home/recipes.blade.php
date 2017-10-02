@@ -133,6 +133,10 @@
                     </div>
                 </div>
             @endunless
+
+            <div class="col-sm-12 m-t-30 text-center">
+                <a href="/receitas" class="btn btn-info f-300">Veja todos as receitas</a>
+            </div>
         </div>
 
         <div class="swiper-container swiper-featureds">

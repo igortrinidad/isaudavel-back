@@ -39,8 +39,7 @@
                     </div>
                 </div>
                 <div class="col-sm-12 text-center">
-                    <button id="contact-submit" type="submit" class="btn btn-lg btn-primary f-300" name="button">
-                        <i class="ion-ios-paperplane-outline m-r-5"></i>
+                    <button id="contact-submit" type="submit" class="btn btn-primary f-300" name="button">
                         <span style="text-transform: uppercase">Enviar</span>
                     </button>
                 </div>
