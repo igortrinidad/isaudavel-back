@@ -97,7 +97,10 @@
         </div>
         <!-- / Profissionals Activities -->
 
-        <h2 class="is-title secondary">Empresas em destaque</h2>
+        <h2 class="is-title secondary">
+            Empresas em destaque
+            <span class="is-icon is-icon-companies"></span>
+        </h2>
 
         <div class="row m-t-30">
 

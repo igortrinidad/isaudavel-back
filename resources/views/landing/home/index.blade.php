@@ -48,11 +48,12 @@
                 display: inline-block;
                 background-size: cover;
                 background-color: transparent;
-                width: 40px; height: 36px;
+                width: 22px; height: 20px;
                 margin-left: 10px;
             }
             .is-icon.is-icon-events  { background-image: url("/icons/icon_events.png"); }
             .is-icon.is-icon-recipes { background-image: url("/icons/icon_recipes.png"); }
+            .is-icon.is-icon-companies { background-image: url("/icons/icon_companies.png"); }
 
             /* Card With Background Pattern */
             .card.card-pattern {
