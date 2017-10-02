@@ -75,22 +75,24 @@
             <!-- Profissionals Activities -->
             <div class="col-sm-12">
                 <div class="card card-activities">
-                    <h4 class="is-activities-title">Atividades</h4>
+                    <h4 class="is-activities-title"><small>atividades de</small>Profissionais</h4>
                     <div class="card-body">
-                        <div class="swiper-container swiper-home-activities">
-                            <div class="swiper-wrapper p-t-10">
+                        <div class="swiper-container swiper-professional-activities">
+                            <div class="swiper-wrapper p-t-30">
                                 @foreach($companies as $index_company => $company)
-                                    <div class="swiper-slide text-center p-l-20 p-r-20">
-                                        <div class="picture-circle picture-circle-p m-b-10" style="background-image:url({{$company->avatar}})">
+                                    <div class="swiper-slide text-center p-l-10 p-r-10">
+                                        <div class="is-box">
+                                            <div class="picture-circle picture-circle-p m-b-10" style="background-image:url({{$company->avatar}})">
+                                            </div>
+                                            <h5 class="f-300 t-overflow m-b-5">{{ $company->name }} adicionou uma receita</h5>
+                                            <span class="label label-success">Receita</span>
+                                            <a href="#" class="label label-primary" title="Confira a reiceita de {{ $company->name }}">Ver mais</a>
                                         </div>
-                                        <h5 class="f-300 t-overflow m-b-5">{{ $company->name }} adicionou uma receita</h5>
-                                        <span class="label label-success">Receita</span>
-                                        <a href="#" class="label label-primary" title="Confira a reiceita de {{ $company->name }}">Ver mais</a>
                                     </div>
                                 @endforeach
                             </div>
-                            <div class="swiper-button-prev is-swiper-button-default arrow-ms arrow-top"><i class="ion-ios-arrow-back"></i></div>
-                            <div class="swiper-button-next is-swiper-button-default arrow-ms arrow-top"><i class="ion-ios-arrow-forward"></i></div>
+                            <div class="swiper-button-prev is-swiper-button-default arrow-xs arrow-top"><i class="ion-ios-arrow-back"></i></div>
+                            <div class="swiper-button-next is-swiper-button-default arrow-xs arrow-top"><i class="ion-ios-arrow-forward"></i></div>
                         </div>
                     </div>
                 </div>
@@ -128,9 +130,8 @@
                                                 {{ $company->address['full_address'] }}
                                             </span>
                                         </div>
-                                        <hr class="m-t-20">
                                         <a  href="{!! route('landing.companies.show', $company->slug) !!}" title="{{ $company->name }}">
-                                            <button class="btn btn-primary f-300 f-16">
+                                            <button class="btn btn-primary f-300 f-16 m-t-20">
                                                 Mais informações
                                             </button>
                                         </a>
@@ -204,9 +205,9 @@
                 }
             }
         })
-        var swiperHomeActivities = new Swiper('.swiper-home-activities', {
+        var swiperHomeActivities = new Swiper('.swiper-professional-activities', {
             initialSlide: 0,
-            spaceBetween: 10,
+            spaceBetween: 0,
             slidesPerView: 4,
             slideToClickedSlide: false,
             prevButton: '.swiper-button-prev',

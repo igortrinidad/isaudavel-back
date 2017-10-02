@@ -29,13 +29,13 @@
                 width: auto; height: auto;
             }
 
-            .is-swiper-button-default.arrow-top { top: 10px; margin: 0; }
+            .is-swiper-button-default.arrow-top { top: 2px; margin: 0; }
 
             .is-swiper-button-default.swiper-button-disabled { opacity: .2; }
 
             .is-swiper-button-default.arrow-ls { font-size: 50px; }
             .is-swiper-button-default.arrow-ms { font-size: 30px; }
-            .is-swiper-button-default.arrow-xs { font-size: 20px; }
+            .is-swiper-button-default.arrow-xs { font-size: 25px; }
 
             .is-swiper-button-default.swiper-button-prev { left: 10px; }
             .is-swiper-button-default.swiper-button-next { right: 10px; }
@@ -55,20 +55,20 @@
             /* Card With Background Pattern */
             .card.card-pattern {
                 background-image: url("/images/pattern-isaudavel-5-300.png");
-                min-height: 376px;
+                min-height: 350px;
             }
             /* Card Activities */
             .card-activities {
                 position: relative;
-                min-height: 119.48px;
-                max-height: 119.48px;
+                min-height: 180px;
+                max-height: 180px;
                 padding: 0 !important
             }
             .card-activities .picture-circle.picture-circle-p {
                 width: 48px; height: 48px;
             }
             .card-activities .card-body {
-                padding-left: 35px;
+                padding-left: 50px;
                 padding-right: 0;
             }
             .store-badge { margin: 0 auto; }
@@ -104,18 +104,33 @@
                 transform: rotate(-90deg);
                 background: #f1562b;
                 position: absolute;
-                top: 41px; left: -42px;
+                top: 66px; left: -66px;
                 color: #fff;
                 border-radius: 4px 4px 0 0;
                 text-transform: uppercase;
-                font-size: 14px;
+                font-size: 16px;
                 padding: 5px 10px 7px 10px;
                 letter-spacing: .2rem;
                 text-align: center;
+                font-weight: 300;
+                width: 180px;
+            }
+
+            .is-activities-title small {
+                font-size: 12px;
+                display: block;
+                color: inherit;
+                font-weight: 700 !important;
             }
 
             .is-activities-title span { display: block; }
 
+            /* Isaudavel Box */
+            .is-box {
+                border: 1px solid #efefef;
+                border-radius: 4px;
+                padding: 10px;
+            }
         </style>
 
         <!-- Hotjar Tracking Code for https://isaudavel.com -->
