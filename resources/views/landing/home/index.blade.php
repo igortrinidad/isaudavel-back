@@ -29,13 +29,13 @@
                 width: auto; height: auto;
             }
 
-            .is-swiper-button-default.arrow-top { top: 2px; margin: 0; }
+            .is-swiper-button-default.arrow-top { top: 7px; margin: 0; }
 
             .is-swiper-button-default.swiper-button-disabled { opacity: .2; }
 
             .is-swiper-button-default.arrow-ls { font-size: 50px; }
             .is-swiper-button-default.arrow-ms { font-size: 30px; }
-            .is-swiper-button-default.arrow-xs { font-size: 25px; }
+            .is-swiper-button-default.arrow-xs { font-size: 20px; }
 
             .is-swiper-button-default.swiper-button-prev { left: 10px; }
             .is-swiper-button-default.swiper-button-next { right: 10px; }

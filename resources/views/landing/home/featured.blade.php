@@ -68,17 +68,14 @@
  <section id="contact" class="section featured">
     <div class="container">
 
-        <h2 class="is-title secondary">Empresas em destaque</h2>
-
-        <div class="row m-t-30">
-
+        <div class="row">
             <!-- Profissionals Activities -->
             <div class="col-sm-12">
                 <div class="card card-activities">
                     <h4 class="is-activities-title"><small>atividades de</small>Profissionais</h4>
                     <div class="card-body">
                         <div class="swiper-container swiper-professional-activities">
-                            <div class="swiper-wrapper p-t-30">
+                            <div class="swiper-wrapper" style="padding-top: 45px">
                                 @foreach($companies as $index_company => $company)
                                     <div class="swiper-slide text-center p-l-10 p-r-10">
                                         <div class="is-box">
@@ -91,13 +88,18 @@
                                     </div>
                                 @endforeach
                             </div>
-                            <div class="swiper-button-prev is-swiper-button-default arrow-xs arrow-top"><i class="ion-ios-arrow-back"></i></div>
-                            <div class="swiper-button-next is-swiper-button-default arrow-xs arrow-top"><i class="ion-ios-arrow-forward"></i></div>
+                            <div class="swiper-button-prev is-swiper-button-default arrow-ms arrow-top"><i class="ion-ios-arrow-back"></i></div>
+                            <div class="swiper-button-next is-swiper-button-default arrow-ms arrow-top"><i class="ion-ios-arrow-forward"></i></div>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- / Profissionals Activities -->
+        </div>
+
+        <h2 class="is-title secondary">Empresas em destaque</h2>
+
+        <div class="row m-t-30">
 
             <!-- Featured Companies -->
             <div class="col-sm-9 wow fadeInUp m-b-30">

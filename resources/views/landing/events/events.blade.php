@@ -80,24 +80,16 @@
 </style>
 
 <section class="section {{ $has_title ? 'gray' : 'divider' }}">
-    <!-- Event Section -->
+
+    <!-- User Activities -->
     <div class="container">
-        @if($has_title)
-            <h2 class="is-title secondary">
-                Eventos esportivos
-                <span class="is-icon is-icon-events"></span>
-            </h2>
-        @endif
-
-        <div class="row m-t-30">
-
-            <!-- User Activities -->
+        <div class="row">
             <div class="col-sm-12">
                 <div class="card card-activities">
                     <h4 class="is-activities-title"><small>atividades de</small>Usuarios</h4>
                     <div class="card-body">
                         <div class="swiper-container swiper-user-activities">
-                            <div class="swiper-wrapper p-t-30">
+                            <div class="swiper-wrapper" style="padding-top: 45px">
                                 @foreach($companies as $index_company => $company)
                                     <div class="swiper-slide text-center p-l-10 p-r-10">
                                         <div class="is-box">
@@ -110,13 +102,26 @@
                                     </div>
                                 @endforeach
                             </div>
-                            <div class="swiper-button-prev is-swiper-button-default arrow-xs arrow-top"><i class="ion-ios-arrow-back"></i></div>
-                            <div class="swiper-button-next is-swiper-button-default arrow-xs arrow-top"><i class="ion-ios-arrow-forward"></i></div>
+                            <div class="swiper-button-prev is-swiper-button-default arrow-ms arrow-top"><i class="ion-ios-arrow-back"></i></div>
+                            <div class="swiper-button-next is-swiper-button-default arrow-ms arrow-top"><i class="ion-ios-arrow-forward"></i></div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- / User Activities -->
+        </div>
+    </div>
+    <!-- / User Activities -->
+
+    <!-- Event Section -->
+    <div class="container">
+        @if($has_title)
+            <h2 class="is-title secondary">
+                Eventos esportivos
+                <span class="is-icon is-icon-events"></span>
+            </h2>
+        @endif
+
+        <div class="row m-t-30">
 
             @unless($events->count())
             <!-- No Events Found -->
