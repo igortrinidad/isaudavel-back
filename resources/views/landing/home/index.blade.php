@@ -16,19 +16,27 @@
         <link rel="stylesheet" href="{{ elixir('build/landing/css/build_vendors_custom.css') }}">
 
         <style media="screen">
+
+            ::selection { background-color: #6ec058; color: #fff; }
+
+             /* Card With Background Pattern */
+             .card.card-pattern {
+                 background-image: url("/images/pattern-isaudavel-5-300.png");
+                 min-height: 376px;
+             }
             /* Card Activities */
             .card-activities {
                 position: relative;
-                min-height: 99.48px;
-                max-height: 99.48px;
+                min-height: 119.48px;
+                max-height: 119.48px;
                 padding: 0 !important
             }
             .card-activities .picture-circle.picture-circle-p {
                 width: 48px; height: 48px;
             }
             .card-activities .card-body {
-                padding-left: 40px;
-                padding-right: 10px;
+                padding-left: 35px;
+                padding-right: 0;
             }
             .store-badge { margin: 0 auto; }
             /* Default Isaudavel Title */
@@ -60,13 +68,13 @@
                 transform: rotate(-90deg);
                 background: #f1562b;
                 position: absolute;
-                top: 31px; left: -32px;
+                top: 41px; left: -42px;
                 color: #fff;
                 border-radius: 4px 4px 0 0;
                 text-transform: uppercase;
                 font-size: 14px;
                 padding: 5px 5px 7px 5px;
-                letter-spacing: .1rem;
+                letter-spacing: .3rem;
                 text-align: center;
             }
 

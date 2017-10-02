@@ -78,13 +78,14 @@
                     <h4 class="is-activities-title">Atividades</h4>
                     <div class="card-body">
                         <div class="swiper-container swiper-home-activities">
-                            <div class="swiper-wrapper p-t-5">
+                            <div class="swiper-wrapper p-t-10">
                                 @foreach($companies as $index_company => $company)
-                                    <div class="swiper-slide text-center">
+                                    <div class="swiper-slide text-center p-l-20 p-r-20">
                                         <div class="picture-circle picture-circle-p m-b-10" style="background-image:url({{$company->avatar}})">
                                         </div>
-                                        <h5 class="f-300 t-overflow">{{ $company->name }} adicionou uma receita</h5>
-                                        <a href="#" title="Confira a reiceita de {{ $company->name }}">veja</a>
+                                        <h5 class="f-300 t-overflow m-b-5">{{ $company->name }} adicionou uma receita</h5>
+                                        <span class="label label-primary">Receita</span>
+                                        <a href="#" class="label label-primary" title="Confira a reiceita de {{ $company->name }}">Ver mais</a>
                                     </div>
                                 @endforeach
                             </div>
@@ -144,17 +145,17 @@
 
             <!-- Call To Download -->
             <div class="col-sm-3">
-                <div class="card wow fadeInUp">
+                <div class="card card-pattern wow fadeInUp">
                     <div class="card-body card-padding">
                         <div class="text-center">
-                            <h3 class="f-300">Baixe o <strong style="color: #72c157">iSaudavel</strong> e faça parte da rede social que cuida da sua strong.</h3>
+                            <h3 class="f-300 m-t-30">Baixe o <strong style="color: #72c157">iSaudavel</strong> e faça parte da rede social que cuida da sua strong.</h3>
                             <div class="row">
-                                <div class="col-sm-12 m-t-20">
+                                <div class="col-sm-12 m-t-30">
                                     <a href="https://play.google.com/store/apps/details?id=com.isaudavel" target="_blank" title="Faça o download na PlayStore para Android">
                                         <img class="store-badge img-responsive" src="/images/play_store_btn.png" alt="Faça o download na PlayStore para Android">
                                     </a>
                                 </div>
-                                <div class="col-sm-12 m-t-5">
+                                <div class="col-sm-12 m-t-30">
                                     <a href="https://itunes.apple.com/us/app/isaudavel/id1277115133?mt=8" target="_blank" title="Faça o download na APP Store para IOS">
                                         <img class="store-badge img-responsive" src="/images/app_store_btn.png" alt="Faça o download na APP Store para IOS">
                                     </a>
