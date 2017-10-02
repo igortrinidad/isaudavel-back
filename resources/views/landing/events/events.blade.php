@@ -171,7 +171,7 @@
                                                         <div class="list-cats">
                                                             @foreach($event->categories as $indexCat => $category)
                                                                 @if($indexCat < 1)
-                                                                    <span class="label label-primary t-overflow f-300 f-14 m-t-5 m-r-5">
+                                                                    <span class="label label-success t-overflow f-300 f-14 m-t-5 m-r-5">
                                                                     {{ $category->name }}
                                                                 </span>
                                                                 @endif
@@ -189,6 +189,12 @@
                                                 </div>
                                                 <!-- / location -->
 
+                                                <div class="text-center">
+                                                    <button class="btn btn-primary f-300 f-16 m-t-15">
+                                                        Mais informações
+                                                    </button>
+                                                </div>
+
                                             </div>
                                             <!-- / Card Event body -->
                                         </div>
@@ -202,6 +208,24 @@
                     </div>
                 </div>
                 <!-- / Events List -->
+
+                <!-- Call To Download -->
+                <div class="col-sm-3">
+                    <div class="card card-pattern wow fadeInUp">
+                        <div class="card-body card-padding">
+                            <div class="text-center">
+                                <h4 class="f-300" style="margin-top: 60px;">
+                                    Com o <strong style="color: #72c157">iSaudavel</strong>
+                                    você pode encontrar as melhores empresas e profissionais para te
+                                    ajudar a manter a forma, mas também pode marcar presença em eventos
+                                    próximos a você.
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- / Call To Download -->
+
             @endunless
         </div>
     </div>
