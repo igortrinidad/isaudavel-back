@@ -67,13 +67,36 @@
 
  <section id="contact" class="section featured">
     <div class="container">
-        <div class="row">
+
+        <h2 class="is-title secondary">Empresas em destaque</h2>
+
+        <div class="row m-t-30">
+
+            <!-- Profissionals Activities -->
+            <div class="col-sm-12">
+                <div class="card card-activities">
+                    <h4 class="is-activities-title">Atividades</h4>
+                    <div class="card-body">
+                        <div class="swiper-container swiper-home-activities">
+                            <div class="swiper-wrapper p-t-5">
+                                @foreach($companies as $index_company => $company)
+                                    <div class="swiper-slide text-center">
+                                        <div class="picture-circle picture-circle-p m-b-10" style="background-image:url({{$company->avatar}})">
+                                        </div>
+                                        <h5 class="f-300 t-overflow">{{ $company->name }} adicionou uma receita</h5>
+                                        <a href="#" title="Confira a reiceita de {{ $company->name }}">veja</a>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- / Profissionals Activities -->
 
             <!-- Featured Companies -->
-            <div class="col-sm-9 wow fadeInUp">
-                <h2 class="is-title secondary">Empresas em destaque</h2>
-
-                <div class="swiper-container swiper-featureds m-t-30">
+            <div class="col-sm-9 wow fadeInUp m-b-30">
+                <div class="swiper-container swiper-featureds">
                     <div class="swiper-wrapper p-t-0">
                         @foreach($companies as $index_company => $company)
                             <div class="swiper-slide text-center">
@@ -119,18 +142,29 @@
             </div>
             <!-- / Featured Companies -->
 
-            <!-- Professional Acitivities -->
-            <div class="col-sm-3" style="margin-top: 80px;">
+            <!-- Call To Download -->
+            <div class="col-sm-3">
                 <div class="card wow fadeInUp">
-                    <div class="card-header ch-alt text-center">
-                        <h2 class="is-title-side secondary">Atividades de profissionais</h2>
-                    </div>
-                    <div class="card-body">
-                        <span class=f-300>Aqui vai vir atividades em tempo real dos profissionais</span>
+                    <div class="card-body card-padding">
+                        <div class="text-center">
+                            <h3 class="f-300">Baixe o <strong style="color: #72c157">iSaudavel</strong> e faça parte da rede social que cuida da sua strong.</h3>
+                            <div class="row">
+                                <div class="col-sm-12 m-t-20">
+                                    <a href="https://play.google.com/store/apps/details?id=com.isaudavel" target="_blank" title="Faça o download na PlayStore para Android">
+                                        <img class="store-badge img-responsive" src="/images/play_store_btn.png" alt="Faça o download na PlayStore para Android">
+                                    </a>
+                                </div>
+                                <div class="col-sm-12 m-t-5">
+                                    <a href="https://itunes.apple.com/us/app/isaudavel/id1277115133?mt=8" target="_blank" title="Faça o download na APP Store para IOS">
+                                        <img class="store-badge img-responsive" src="/images/app_store_btn.png" alt="Faça o download na APP Store para IOS">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <!-- / Professional Acitivities -->
+            <!-- / Call To Download -->
 
         </div>
     </div>
@@ -161,6 +195,17 @@
             slideToClickedSlide: false,
             prevButton: '.swiper-button-prev',
             nextButton: '.swiper-button-next',
+            breakpoints: {
+                768: {
+                    slidesPerView: 1
+                }
+            }
+        })
+        var swiperHomeActivities = new Swiper('.swiper-home-activities', {
+            initialSlide: 0,
+            spaceBetween: 10,
+            slidesPerView: 4,
+            slideToClickedSlide: false,
             breakpoints: {
                 768: {
                     slidesPerView: 1

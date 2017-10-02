@@ -16,6 +16,22 @@
         <link rel="stylesheet" href="{{ elixir('build/landing/css/build_vendors_custom.css') }}">
 
         <style media="screen">
+            /* Card Activities */
+            .card-activities {
+                position: relative;
+                min-height: 99.48px;
+                max-height: 99.48px;
+                padding: 0 !important
+            }
+            .card-activities .picture-circle.picture-circle-p {
+                width: 48px; height: 48px;
+            }
+            .card-activities .card-body {
+                padding-left: 40px;
+                padding-right: 10px;
+            }
+            .store-badge { margin: 0 auto; }
+            /* Default Isaudavel Title */
             .is-title {
                 border-left: 4px solid;
                 border-bottom: 4px solid;
@@ -38,6 +54,24 @@
             .is-title.default { border-color: #fff; color: #fff; }
             .is-title.primary { border-color: #6ec058; color: #6ec058; }
             .is-title.secondary { border-color: #f1562b; color: #f1562b; }
+
+            /* Default Isaudavel Title For Activites Section */
+            .is-activities-title {
+                transform: rotate(-90deg);
+                background: #f1562b;
+                position: absolute;
+                top: 31px; left: -32px;
+                color: #fff;
+                border-radius: 4px 4px 0 0;
+                text-transform: uppercase;
+                font-size: 14px;
+                padding: 5px 5px 7px 5px;
+                letter-spacing: .1rem;
+                text-align: center;
+            }
+
+            .is-activities-title span { display: block; }
+
         </style>
 
         <!-- Hotjar Tracking Code for https://isaudavel.com -->
