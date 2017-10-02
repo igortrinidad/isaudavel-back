@@ -19,11 +19,24 @@
 
             ::selection { background-color: #6ec058; color: #fff; }
 
-             /* Card With Background Pattern */
-             .card.card-pattern {
-                 background-image: url("/images/pattern-isaudavel-5-300.png");
-                 min-height: 376px;
-             }
+            /* Isaudavel Swiper Arrow Default */
+            .is-swiper-button-default.swiper-button-prev,
+            .is-swiper-button-default.swiper-button-next {
+                background-image: none;
+                font-size: 50px;
+                color: #f1562b;
+                padding: 0 !important;
+                display: inline-block;
+                width: auto;
+            }
+            .is-swiper-button-default.swiper-button-prev { left: 10px; }
+            .is-swiper-button-default.swiper-button-next { right: 10px; }
+
+            /* Card With Background Pattern */
+            .card.card-pattern {
+                background-image: url("/images/pattern-isaudavel-5-300.png");
+                min-height: 376px;
+            }
             /* Card Activities */
             .card-activities {
                 position: relative;

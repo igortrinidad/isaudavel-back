@@ -84,7 +84,7 @@
                                         <div class="picture-circle picture-circle-p m-b-10" style="background-image:url({{$company->avatar}})">
                                         </div>
                                         <h5 class="f-300 t-overflow m-b-5">{{ $company->name }} adicionou uma receita</h5>
-                                        <span class="label label-primary">Receita</span>
+                                        <span class="label label-success">Receita</span>
                                         <a href="#" class="label label-primary" title="Confira a reiceita de {{ $company->name }}">Ver mais</a>
                                     </div>
                                 @endforeach
@@ -137,8 +137,8 @@
                             </div>
                         @endforeach
                     </div>
-                    <div class="swiper-button-prev swiper-button-black"></div>
-                    <div class="swiper-button-next swiper-button-black"></div>
+                    <div class="swiper-button-prev is-swiper-button-default"><i class="ion-ios-arrow-back"></i></div>
+                    <div class="swiper-button-next is-swiper-button-default"><i class="ion-ios-arrow-forward"></i></div>
                 </div>
             </div>
             <!-- / Featured Companies -->
