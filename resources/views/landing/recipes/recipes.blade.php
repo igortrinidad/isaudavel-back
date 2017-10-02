@@ -179,8 +179,10 @@
                                     </div>
 
                                     <div  class="row m-t-20" style="height: 100px;">
-                                        <div class="text-center m-b-10 m-t-10">
-                                            <span class="label label-info f-14 ">{{$recipe->type->name}}</span>
+                                        <div class=" tag-list text-center m-b-10">
+                                            @foreach($recipe->types as $type)
+                                                <span class="label label-info f-14 p-5">{{$type->name}}</span>
+                                            @endforeach
                                         </div>
                                         <div class=" tag-list text-center m-b-10">
                                             @foreach($recipe->tags as $tag)

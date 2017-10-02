@@ -244,7 +244,7 @@ class LandingController extends Controller
     {
         $filters = is_array($request->get('filters')) ? $request->get('filters') : json_decode($request->get('filters'), true);
 
-        $recipes = MealRecipe::whereHas('type', function($query) use ($filters){
+        $recipes = MealRecipe::whereHas('types', function($query) use ($filters){
             if(!empty($filters['types'])){
                 $query->whereIn('slug', $filters['types']);
             }
@@ -279,7 +279,7 @@ class LandingController extends Controller
             ->with(['tags' => function($query){
                 $query->select('id', 'name', 'slug');
             }, 'type'])
-            ->paginate(10);
+            ->paginate(12);
 
         $recipes->appends(['filters' => $filters]);
 

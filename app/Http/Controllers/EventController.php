@@ -17,9 +17,34 @@ class EventController extends Controller
      */
     public function index(Request $request)
     {
-        $events = Event::with(['from', 'categories', 'photos'])->get();
+       /* $events = Event::with(['from', 'photos', 'modality', 'sub_modalities'])->paginate(12);*/
 
-        return response()->json(['events' => $events]);
+        $latitude = $request->has('latitude') ? $request->get('latitude') :  null;
+        $longitude = $request->has('longitude') ? $request->get('longitude') :  null;
+
+        $events = Event::select(\DB::raw("*, 
+                (ATAN(SQRT(POW(COS(RADIANS(events.lat)) * SIN(RADIANS(events.lng)
+                 - RADIANS('$longitude')), 2) +POW(COS(RADIANS('$latitude')) * 
+                 SIN(RADIANS(events.lat)) - SIN(RADIANS('$latitude')) * cos(RADIANS(events.lat)) * 
+                 cos(RADIANS(events.lng) - RADIANS('$longitude')), 2)),SIN(RADIANS('$latitude')) * 
+                 SIN(RADIANS(events.lat)) + COS(RADIANS('$latitude')) * COS(RADIANS(events.lat)) * 
+                 COS(RADIANS(events.lng) - RADIANS('$longitude'))) * 6371000) as distance_m"))
+            ->whereHas('modality', function ($query) use ($request) {
+                if(!empty($request->get('modalities'))) {
+                    $query->whereIn('slug', $request->get('modalities'));
+                }
+            })->where(function($query) use($request){
+                if(!empty($request->get('search'))){
+                    $search = explode(' ', $request->get('search'));
+                    $query->where('name', 'LIKE', '%' . $request->get('search'). '%');
+                    $query->orWhereIn('name', $search);
+                }
+            })
+            ->with(['from', 'photos', 'modality', 'sub_modalities'])
+            ->orderBy('distance_m', 'asc')
+            ->paginate(12);
+
+        return response()->json(custom_paginator($events, 'events'));
     }
 
     /**
@@ -32,7 +57,7 @@ class EventController extends Controller
     {
         $limit = $request->get('limit') ? $request->get('limit') : 8;
 
-        $events = Event::with('from', 'categories', 'photos')
+        $events = Event::with('from', 'photos', 'modality', 'sub_modalities')
             ->orderByRaw("RAND()")
             ->limit($limit)
             ->get();
@@ -56,8 +81,8 @@ class EventController extends Controller
 
         $event = Event::create($request->all());
 
-        // attach categories
-        $event->categories()->attach($request->get('categories'));
+        // sub modalities
+        $event->sub_modalities()->attach($request->get('sub_modalities'));
 
         //update photos
         if (array_key_exists('photos', $request->all())) {
@@ -81,7 +106,7 @@ class EventController extends Controller
      */
     public function show($id)
     {
-        $event = Event::with(['photos', 'categories', 'from', 'comments'])->find($id);
+        $event = Event::with(['photos', 'categories', 'from', 'comments', 'modality', 'sub_modalities'])->find($id);
 
         return response()->json(['event' => $event]);
     }
@@ -101,9 +126,8 @@ class EventController extends Controller
 
         $event = tap(Event::find($request->get('id')))->update($request->all())->fresh();
 
-        // attach categories
-        $event->categories()->detach();
-        $event->categories()->attach($request->get('categories'));
+        // sub modalities
+        $event->sub_modalities()->sync($request->get('sub_modalities'));
 
         //update photos
         if (array_key_exists('photos', $request->all())) {

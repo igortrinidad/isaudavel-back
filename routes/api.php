@@ -441,7 +441,7 @@ Route::group(['prefix' => 'professional'], function(){
 * Unprotected Event Router
 */
 Route::get('event/show/{id}', 'EventController@show');
-Route::get('event/list', 'EventController@index');
+Route::post('event/list', 'EventController@index');
 Route::post('event/home/list', 'EventController@homeList');
 Route::get('event/comment/list/{id}', 'EventCommentController@index');
 Route::get('event/participant/list/{id}', 'EventParticipantController@index');
@@ -453,6 +453,10 @@ Route::get('check_slug/company/{slug}', 'CompanyController@check_slug');
 Route::get('check_slug/client/{slug}', 'ClientController@check_slug');
 Route::get('check_slug/professional/{slug}', 'ProfessionalController@check_slug');
 Route::get('check_slug/event/{slug}', 'EventController@check_slug');
+
+//Modality routes
+
+Route::get('/modality/list', 'ModalityController@forSelect');
 
 
 

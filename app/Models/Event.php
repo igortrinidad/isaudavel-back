@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
 
 class Event extends Model
 {
+
+    use Sluggable;
 
     protected $dates = ['date'];
 
@@ -32,6 +35,7 @@ class Event extends Model
      */
     protected $fillable = [
         'id',
+        'modality_id',
         'name',
         'slug',
         'created_by_type',
@@ -58,6 +62,20 @@ class Event extends Model
         'lng' => 'float',
         'is_published' => 'boolean'
     ];
+
+    /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => 'name'
+            ]
+        ];
+    }
 
     /**
      * The accessors to append to the model's array.
@@ -157,6 +175,22 @@ class Event extends Model
     public function comments()
     {
         return $this->hasMany(EventComment::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function modality()
+    {
+        return $this->belongsTo(Modality::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function sub_modalities()
+    {
+        return $this->belongsToMany(SubModality::class, 'event_sub_modality');
     }
 
 }

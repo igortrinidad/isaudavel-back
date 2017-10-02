@@ -53,6 +53,7 @@ class ProccessSubscriptions extends Command
 
         $this->info('Processing '. $client_subscriptions->count() . ' subscription(s)' );
 
+
         foreach ($client_subscriptions as $client_subscription) {
 
             $old_start = Carbon::createFromFormat('d/m/Y', $client_subscription->start_at);
@@ -82,6 +83,7 @@ class ProccessSubscriptions extends Command
 
                     $schedule_data = [
                         'subscription_id' => $client_subscription->id,
+                        'category_id' => $client_subscription->plan->category_id,
                         'company_id' => $client_subscription->company_id,
                         'date' => $new_start->format('d/m/Y'),
                         'time' => $client_subscription->workdays[$i]['init'],
@@ -99,25 +101,41 @@ class ProccessSubscriptions extends Command
                         $i = 0;
                     }
 
-                    while ($client_subscription->workdays[$i]['dow'] == $new_start->dayOfWeek && count($new_schedules) < $client_subscription->quantity) {
-
-                        dd('teste');
-
-                        $schedule_data['date'] = $new_start->format('d/m/Y');
-                        $schedule_data['time'] = $client_subscription->workdays[$i]['init'];
-
-                        $new_schedule = Schedule::create($schedule_data);
-
-                        $new_schedules[] = $new_schedule;
-
-                        $i++;
-                    }
-
                 }
 
             }
 
+            //New invoice Mail
+            $data = [];
+            $data['align'] = 'center';
+
+            $schedules = '';
+
+            foreach ($new_invoice->schedules as $schedule) {
+                $schedules .= $schedule->date . ' ' . $schedule->time . '<br>';
+            }
+
+            $data['messageTitle'] = '<h4>Nova fatura</h4>';
+            $data['messageOne'] = 'A empresa ' . $new_invoice->company->name . ' renovou seu plano de <b>' . $new_invoice->subscription->plan->name . '</b>  e uma nova fatura no valor de <b>R$' . number_format($new_invoice->value,2,',', '.'). '</b> com vencimento para <b>' . $new_invoice->expire_at . '</b> foi emitida.';
+            $data['messageTwo'] = 'Confira abaixo os novos agendamentos.<br/>
+            <p>Agendamentos</p>
+            <b>' . $schedules . '</b>';
+
+            $data['messageThree'] = 'Acesse online em https://isaudavel.com ou baixe o aplicativo para Android e iOS (Apple)';
+
+            $data['messageSubject'] = 'iSaudavel: Nova fatura';
+
+            \Mail::send('emails.standart-with-btn', ['data' => $data], function ($message) use ($data, $new_invoice) {
+                $message->from('no-reply@isaudavel.com', 'iSaudavel App');
+                $message->to($new_invoice->subscription->client->email, $new_invoice->subscription->client->full_name)->subject($data['messageSubject']);
+            });
+
+            $client_subscription->start_at = $new_start->format('d/m/Y');
+            $client_subscription->expire_at = $new_expire->format('d/m/Y');
+
+            $client_subscription->save();
         }
+
 
         $this->info('Finished' );
 

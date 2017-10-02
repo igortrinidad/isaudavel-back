@@ -18,6 +18,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\SendClientInvoiceReminder1Day::class,
         \App\Console\Commands\SendCompanyInvoiceReminder3Days::class,
         \App\Console\Commands\SendCompanyInvoiceReminder1Day::class,
+        \App\Console\Commands\AlterRecipesTypes::class,
     ];
 
     /**

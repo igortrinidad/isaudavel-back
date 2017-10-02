@@ -17,7 +17,7 @@ class MealRecipeController extends Controller
      */
     public function index(Request $request)
     {
-        $meal_recipes = MealRecipe::whereHas('type', function($query) use ($request){
+        $meal_recipes = MealRecipe::whereHas('types', function($query) use ($request){
             if(!empty($request->get('types'))){
                 $query->whereIn('slug', $request->get('types'));
             }
@@ -48,7 +48,7 @@ class MealRecipeController extends Controller
         })
             ->with(['tags' => function($query){
             $query->select('id', 'name', 'slug');
-        }, 'type'])->paginate(10);
+        }, 'type', 'types'])->paginate(12);
 
         return response()->json(custom_paginator($meal_recipes));
     }
@@ -63,7 +63,7 @@ class MealRecipeController extends Controller
     {
         $limit = $request->get('limit') ? $request->get('limit') : 8;
 
-        $meal_recipes = MealRecipe::with('type', 'tags')
+        $meal_recipes = MealRecipe::with('type', 'tags', 'types')
            ->orderByRaw("RAND()")
             ->limit($limit)
             ->get();
@@ -95,7 +95,7 @@ class MealRecipeController extends Controller
             $query->where('slug', $request->get('slug'));
         })->with(['tags' => function($query){
             $query->select('id', 'name', 'slug');
-        }, 'comments', 'type'])->get();
+        }, 'comments', 'type', 'types'])->get();
 
         return response()->json(['count' => $meal_recipes->count(), 'data' => $meal_recipes]);
     }
@@ -111,7 +111,7 @@ class MealRecipeController extends Controller
             ->whereHas('tags', function ($query) use ($request) {
                 $query->whereIn('slug', $request->get('tags'));
 
-            })->with(['tags', 'comments', 'type'])->get();
+            })->with(['tags', 'comments', 'type', 'types'])->get();
 
         return response()->json(['count' => $meal_recipes->count(), 'data' => $meal_recipes]);
     }
@@ -129,7 +129,7 @@ class MealRecipeController extends Controller
             $query->where('title', 'LIKE', '%' . $request->get('search') . '%');
             $query->orWhereIn('title', $search);
 
-        })->with(['tags', 'type'])->paginate(1);
+        })->with(['tags', 'type', 'types'])->paginate(1);
 
         return response()->json(custom_paginator($meal_recipes));
     }
@@ -157,7 +157,7 @@ class MealRecipeController extends Controller
                 $query->orWhereBetween($key,[$min, $max]);
             }
 
-        })->with('type','from')->get();
+        })->with('type','from', 'types')->get();
 
         return response()->json(['count' => $meal_recipes->count(), 'data' => $meal_recipes]);
     }
@@ -182,6 +182,11 @@ class MealRecipeController extends Controller
 
         $meal_recipe = MealRecipe::create($request->all());
 
+        //Attach Types
+        if($request->has('types') && !empty($request->get('types'))){
+            $meal_recipe->types()->attach($request->get('types'));
+        }
+
         //Attach tags
         if($request->has('tags') && !empty($request->get('tags'))){
             $meal_recipe->tags()->attach($request->get('tags'));
@@ -201,7 +206,7 @@ class MealRecipeController extends Controller
      */
     public function show($id)
     {
-        $meal_recipe = MealRecipe::with('photos', 'tags', 'type')->find($id);
+        $meal_recipe = MealRecipe::with('photos', 'tags', 'type', 'types')->find($id);
 
         return response()->json(['meal_recipe' => $meal_recipe]);
     }
@@ -214,7 +219,7 @@ class MealRecipeController extends Controller
      */
     public function showPublic($slug)
     {
-        $meal_recipe = MealRecipe::where('slug', $slug)->with('photos', 'from', 'tags')->first();
+        $meal_recipe = MealRecipe::where('slug', $slug)->with('photos', 'from', 'tags', 'types')->first();
 
         return response()->json(['data' => $meal_recipe]);
     }
@@ -235,6 +240,11 @@ class MealRecipeController extends Controller
         }
 
         $meal_recipe = tap(MealRecipe::find($request->get('id')))->update($request->all())->fresh();
+
+        //Sync types
+        if($request->has('types') && !empty($request->get('types'))){
+            $meal_recipe->types()->sync($request->get('types'));
+        }
 
         //Sync tags
         if($request->has('tags') && !empty($request->get('tags'))){
