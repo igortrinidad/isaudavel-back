@@ -34,6 +34,7 @@
     "laravel-elixir": "^6.0.0-15",
     "moment": "^2.18.1",
     "slug": "^0.9.1",
+    "summernote": "^0.8.8",
     "sweetalert2": "^6.6.9",
     "swiper": "^3.4.2",
     "unitegallery": "^1.7.28",

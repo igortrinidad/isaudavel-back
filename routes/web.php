@@ -149,6 +149,11 @@ Route::group(['prefix' => 'oracle', 'as' => 'oracle.'], function () {
             Route::post('remover', ['uses' => 'OracleController@destroyRecipe', 'as' => 'destroy']);
         });
 
+        //Artigos
+        Route::group(['prefix' => 'artigos', 'as' => 'articles.'], function () {
+            Route::get('/', ['uses' => 'SiteArticleController@index', 'as' => 'list']);
+        });
+
         //Eval index
         Route::group(['prefix' => 'indices', 'as' => 'eval-index.'], function () {
             Route::get('/listar', ['uses' => 'OracleController@eval_index_list', 'as' => 'list']);
