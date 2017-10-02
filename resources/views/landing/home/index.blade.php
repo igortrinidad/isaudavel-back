@@ -54,6 +54,7 @@
             .is-icon.is-icon-events  { background-image: url("/icons/icon_events.png"); }
             .is-icon.is-icon-recipes { background-image: url("/icons/icon_recipes.png"); }
             .is-icon.is-icon-companies { background-image: url("/icons/icon_companies.png"); }
+            .is-icon.is-icon-contact { background-image: url("/icons/icon_contact.png"); }
 
             /* Card With Background Pattern */
             .card.card-pattern {

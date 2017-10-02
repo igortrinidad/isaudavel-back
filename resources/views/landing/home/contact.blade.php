@@ -4,10 +4,10 @@
 
 <section id="contact" class="section default contact-section">
     <div class="container">
-        <div class="text-center">
-            <h2>Contato</h2>
-            <span class="f-300">Dúvidas? Entre em contato agora mesmo!</span>
-        </div>
+        <h2 class="is-title secondary m-t-30">
+            Contato
+            <span class="is-icon is-icon-contact"></span>
+        </h2>
         <form class="wow fadeInUp" action="{{route('landing.send-contact-form')}}" method="post">
             {!! csrf_field() !!}
             <div class="row">
