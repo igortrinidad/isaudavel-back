@@ -19,9 +19,9 @@ class CrTableSiteArticles extends Migration
             $table->string('title');
             $table->longText('content');
             $table->string('path');
-            $table->boolean('is_published');
-            $table->integer('views');
-            $table->integer('shares');
+            $table->boolean('is_published')->default(0);
+            $table->integer('views')->default(0);
+            $table->integer('shares')->default(0);
             $table->timestamps();
         });
     }

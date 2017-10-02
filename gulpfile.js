@@ -25,6 +25,10 @@ elixir(function(mix) {
         '/node_modules/ionicons/fonts'
     ], './public/build/landing/fonts');
 
+    mix.copy([
+        './node_modules/summernote/dist/font',
+    ], './public/build/build/landing/css/font');
+
 
     //STYLES LANDING
     mix.styles([

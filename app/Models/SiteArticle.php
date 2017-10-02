@@ -18,6 +18,9 @@ class SiteArticle extends Model
      */
     protected $table = 'site_articles';
 
+
+    protected $dates = ['created_at'];
+
     /**
      * Indicates if the IDs are auto-incrementing.
      *

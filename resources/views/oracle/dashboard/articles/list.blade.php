@@ -8,13 +8,20 @@
             <div class="col-md-12">
                 <h3><strong>Artigos</strong></h3>
 
+                <div class="m-t-20">
+                    <a href="{{route('oracle.dashboard.articles.create')}}" class="btn btn-primary">Adicionar novo artigo</a>
+                </div>
+
                 <table class="table table-bordered table-hover table-striped m-t-20">
                     <thead>
                         <tr>
                             <th>Data</th>
                             <th>Título</th>
+                            <th>Url</th>
                             <th>Visualizações</th>
                             <th>Compartilhamentos</th>
+                            <th>Editar</th>
+                            <th>Excluir</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -22,8 +29,15 @@
                         <tr>
                             <td>{{$article->created_at}}</td>
                             <td>{{$article->title}}</td>
+                            <td>{{$article->slug}}</td>
                             <td>{{$article->views}}</td>
                             <td>{{$article->shares}}</td>
+                            <td>
+                                <a class="btn btn-primary btn-sm" href="{{route('oracle.dashboard.articles.edit', $article->id)}}">Editar</a>
+                            </td>
+                            <td>
+                                <a class="btn btn-danger btn-sm" href="{{route('oracle.dashboard.articles.destroy', $article->id)}}">Excluir</a>
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>

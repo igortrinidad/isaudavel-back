@@ -23,6 +23,8 @@
 
                 <li class="{{ getActiveRoute('oracle.dashboard.recipes.list') }}"><a href="{!! route('oracle.dashboard.recipes.list') !!}">Receitas</a></li>
 
+                <li class="{{ getActiveRoute('oracle.dashboard.articles.list') }}"><a href="{!! route('oracle.dashboard.articles.list') !!}">Artigos</a></li>
+
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                         Usuários <span class="caret"></span>
