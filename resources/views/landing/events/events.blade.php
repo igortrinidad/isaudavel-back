@@ -81,8 +81,10 @@
 
 <section class="section {{ $has_title ? 'gray' : 'divider' }}">
 
-    <!-- User Activities -->
+    <!-- Event Section -->
     <div class="container">
+
+        <!-- User Activities -->
         <div class="row">
             <div class="col-sm-12">
                 <div class="card card-activities">
@@ -109,11 +111,8 @@
                 </div>
             </div>
         </div>
-    </div>
-    <!-- / User Activities -->
+        <!-- / User Activities -->
 
-    <!-- Event Section -->
-    <div class="container">
         @if($has_title)
             <h2 class="is-title secondary">
                 Eventos esportivos
@@ -136,9 +135,9 @@
             @else
 
                 <!-- Events List -->
-                <div class="col-sm-9">
+                <div class="col-sm-9 wow fadeInUp">
                     <div class="swiper-container swiper-featureds-events">
-                        <div class="swiper-wrapper">
+                        <div class="swiper-wrapper p-0">
                             @foreach($events as $event)
                                 <div class="swiper-slide">
                                     <a href="/eventos/{{ $event->slug }}" title="Confira mais sobre {{ $event->name }}">

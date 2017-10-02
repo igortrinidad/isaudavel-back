@@ -68,8 +68,8 @@
  <section id="contact" class="section featured">
     <div class="container">
 
+        <!-- Profissionals Activities -->
         <div class="row">
-            <!-- Profissionals Activities -->
             <div class="col-sm-12">
                 <div class="card card-activities">
                     <h4 class="is-activities-title"><small>atividades de</small>Profissionais</h4>
@@ -94,8 +94,8 @@
                     </div>
                 </div>
             </div>
-            <!-- / Profissionals Activities -->
         </div>
+        <!-- / Profissionals Activities -->
 
         <h2 class="is-title secondary">Empresas em destaque</h2>
 
