@@ -103,7 +103,7 @@
 
             <!-- Featured Companies -->
             <div class="col-sm-9 wow fadeInUp m-b-30">
-                <div class="swiper-container swiper-featureds">
+                <div class="swiper-container swiper-companies-featureds">
                     <div class="swiper-wrapper p-t-0">
                         @foreach($companies as $index_company => $company)
                             <div class="swiper-slide text-center">
@@ -194,9 +194,9 @@
     @parent
 
     <script>
-        var swiperFeatureds = new Swiper('.swiper-featureds', {
+        var swiperFeatureds = new Swiper('.swiper-companies-featureds', {
             initialSlide: 0,
-            spaceBetween: 10,
+            spaceBetween: 25,
             slidesPerView: 3,
             slideToClickedSlide: false,
             prevButton: '.swiper-button-prev',

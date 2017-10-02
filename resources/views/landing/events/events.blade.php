@@ -226,6 +226,9 @@
                 </div>
                 <!-- / Call To Download -->
 
+                <div class="col-sm-12 m-t-30 text-center">
+                    <a href="/eventos" class="btn btn-success f-300">Veja todos os eventos</a>
+                </div>
             @endunless
         </div>
     </div>
@@ -238,7 +241,7 @@
     <script>
         var swiperFeaturedsEvents = new Swiper('.swiper-featureds-events', {
             initialSlide: 0,
-            spaceBetween: 10,
+            spaceBetween: 25,
             slidesPerView: 3,
             slideToClickedSlide: false,
             prevButton: '.swiper-button-prev',

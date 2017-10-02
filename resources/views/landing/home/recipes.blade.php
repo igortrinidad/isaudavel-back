@@ -69,51 +69,77 @@
     }
 </style>
 
- <section id="contact" class="section featured bg-pattern" style="background-color: #fff;">
+ <section id="contact" class="section featured">
     <div class="container">
-        <h2 class="is-title secondary">
+
+        <div class="row" style="margin-top: -160px;">
+            <div class="col-sm-12">
+                <div class="card text-center">
+                    <div class="card-body card-padding">
+                        <span class="f-300">Aqui é um espaço que pode existir ou não, com algum conteudo (uma promoção, um ads, algo do tipo)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="is-title secondary m-t-30">
             Receitas fitness
             <span class="is-icon is-icon-recipes"></span>
         </h2>
+
+        <div class="row m-t-30">
+            @unless($recipes->count())
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header ch-alt p-30">
+                            <p class="text-center m-0 f-300">Nenhum receita localizada.</p>
+                        </div>
+                    </div>
+                </div>
+            @else
+                <div class="col-sm-12">
+                    <div class="swiper-container swiper-recipe-featureds">
+                        <div class="swiper-wrapper">
+                            @foreach($recipes as $recipe)
+                                <div class="swiper-slide text-center">
+                                    <div class="card">
+                                        <div class="card-header ch-alt card-picture-header" style="background-image:url('{{ $recipe->avatar }}')">
+                                            <a href="{!! route('landing.recipes.show', $recipe->slug) !!}" title="{{ $recipe->title }}">
+                                                <div class="hover">
+                                                    <i class="ion-ios-plus-empty"></i>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="card-body card-padding text-center">
+                                            <h3 class="f-300 t-overflow">{{$recipe->title}}</h3>
+
+                                            <h4 class="f-300 m-t-20">Avaliação dos usuários</h4>
+                                            <div class="wp-rating-div">
+                                                <?php $rating_to_loop = $recipe->current_rating; ?>
+                                                @include('components.rating', ['size' => '22'])
+                                            </div>
+                                            <a href="{!! route('landing.recipes.show', $recipe->slug) !!}" title="{{ $recipe->title }}">
+                                                <button class="btn btn-primary f-300 f-16 m-t-20">
+                                                    Ver receita completa
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                        <div class="swiper-button-prev is-swiper-button-default arrow-ls"><i class="ion-ios-arrow-back"></i></div>
+                        <div class="swiper-button-next is-swiper-button-default arrow-ls"><i class="ion-ios-arrow-forward"></i></div>
+                    </div>
+                </div>
+            @endunless
+        </div>
 
         <div class="swiper-container swiper-featureds">
             @unless($recipes->count())
                 <p class="text-center m-t-20">Nenhuma receita localizada.</p>
             @else
-                <div class="swiper-wrapper">
-                    @foreach($recipes as $recipe)
-                        <div class="swiper-slide text-center">
-                            <div class="card">
-                                <div class="card-header ch-alt card-picture-header" style="background-image:url('{{ $recipe->avatar }}')">
-                                    <a href="{!! route('landing.recipes.show', $recipe->slug) !!}" title="{{ $recipe->title }}">
-                                        <div class="hover">
-                                            <i class="ion-ios-plus-empty"></i>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="card-body card-padding text-center">
-                                    <h3>{{$recipe->title}}</h3>
 
-                                    <h4 class="f-300 m-t-20">Avaliação dos usuários</h4>
-                                    <div class="wp-rating-div">
-                                        <?php $rating_to_loop = $recipe->current_rating; ?>
-                                        @include('components.rating', ['size' => '22'])
-                                    </div>
-                                    <hr class="m-t-20">
-                                    <a href="{!! route('landing.recipes.show', $recipe->slug) !!}" title="{{ $recipe->title }}">
-                                        <button class="btn btn-primary f-300 f-16">
-                                            Ver receita completa
-                                        </button>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-                <div class="swiper-button-prev swiper-button-black"></div>
-                <div class="swiper-button-next swiper-button-black"></div>
-                <div style="height: 50px;"></div>
-                <div class="swiper-pagination"></div>
             @endunless
 
         </div>
@@ -125,10 +151,10 @@
     @parent
 
     <script>
-        var swiperFeatureds = new Swiper('.swiper-featureds', {
+        var swiperFeatureds = new Swiper('.swiper-recipe-featureds', {
             initialSlide: 0,
-            spaceBetween: 10,
-            slidesPerView: 3,
+            spaceBetween: 25,
+            slidesPerView: 4,
             slideToClickedSlide: false,
             prevButton: '.swiper-button-prev',
             nextButton: '.swiper-button-next',
