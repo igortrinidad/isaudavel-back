@@ -89,6 +89,8 @@
                                     </div>
                                 @endforeach
                             </div>
+                            <div class="swiper-button-prev is-swiper-button-default arrow-ms arrow-top"><i class="ion-ios-arrow-back"></i></div>
+                            <div class="swiper-button-next is-swiper-button-default arrow-ms arrow-top"><i class="ion-ios-arrow-forward"></i></div>
                         </div>
                     </div>
                 </div>
@@ -137,8 +139,8 @@
                             </div>
                         @endforeach
                     </div>
-                    <div class="swiper-button-prev is-swiper-button-default"><i class="ion-ios-arrow-back"></i></div>
-                    <div class="swiper-button-next is-swiper-button-default"><i class="ion-ios-arrow-forward"></i></div>
+                    <div class="swiper-button-prev is-swiper-button-default arrow-ls"><i class="ion-ios-arrow-back"></i></div>
+                    <div class="swiper-button-next is-swiper-button-default arrow-ls"><i class="ion-ios-arrow-forward"></i></div>
                 </div>
             </div>
             <!-- / Featured Companies -->
@@ -207,6 +209,8 @@
             spaceBetween: 10,
             slidesPerView: 4,
             slideToClickedSlide: false,
+            prevButton: '.swiper-button-prev',
+            nextButton: '.swiper-button-next',
             breakpoints: {
                 768: {
                     slidesPerView: 1
