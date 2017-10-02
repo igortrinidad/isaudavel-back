@@ -86,8 +86,8 @@
                 border-radius: 4px 4px 0 0;
                 text-transform: uppercase;
                 font-size: 14px;
-                padding: 5px 5px 7px 5px;
-                letter-spacing: .3rem;
+                padding: 5px 10px 7px 10px;
+                letter-spacing: .2rem;
                 text-align: center;
             }
 
