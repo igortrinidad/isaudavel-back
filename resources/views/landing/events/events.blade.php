@@ -74,9 +74,6 @@
     .gray {
         background-color: #f4f5f4;
     }
-    .section.default {
-        background-color: #fff;
-    }
 </style>
 
 <section class="section {{ $has_title ? 'gray' : 'divider' }}">
@@ -85,7 +82,7 @@
     <div class="container">
 
         <!-- User Activities -->
-        <div class="row">
+        <div class="row wow fadeInUp">
             <div class="col-sm-12">
                 <div class="card card-activities">
                     <h4 class="is-activities-title"><small>atividades de</small>Usuarios</h4>
@@ -120,7 +117,7 @@
             </h2>
         @endif
 
-        <div class="row m-t-30">
+        <div class="row m-t-30 wow fadeInUp">
 
             @unless($events->count())
             <!-- No Events Found -->
@@ -135,7 +132,7 @@
             @else
 
                 <!-- Events List -->
-                <div class="col-sm-9 wow fadeInUp">
+                <div class="col-sm-9">
                     <div class="swiper-container swiper-featureds-events">
                         <div class="swiper-wrapper p-0">
                             @foreach($events as $event)
@@ -211,7 +208,7 @@
 
                 <!-- Call To Download -->
                 <div class="col-sm-3">
-                    <div class="card card-pattern wow fadeInUp">
+                    <div class="card card-pattern">
                         <div class="card-body card-padding">
                             <div class="text-center">
                                 <h4 class="f-300" style="margin-top: 60px;">

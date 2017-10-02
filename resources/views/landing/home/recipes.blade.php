@@ -72,7 +72,7 @@
  <section id="contact" class="section featured">
     <div class="container">
 
-        <div class="row" style="margin-top: -160px;">
+        <div class="row wow fadeInUp" style="margin-top: -160px;">
             <div class="col-sm-12">
                 <div class="card text-center">
                     <div class="card-body card-padding">
@@ -87,7 +87,7 @@
             <span class="is-icon is-icon-recipes"></span>
         </h2>
 
-        <div class="row m-t-30">
+        <div class="row m-t-30 wow fadeInUp">
             @unless($recipes->count())
                 <div class="col-sm-12">
                     <div class="card">

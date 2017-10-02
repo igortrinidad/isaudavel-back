@@ -69,7 +69,7 @@
     <div class="container">
 
         <!-- Profissionals Activities -->
-        <div class="row">
+        <div class="row wow fadeInUp">
             <div class="col-sm-12">
                 <div class="card card-activities">
                     <h4 class="is-activities-title"><small>atividades de</small>Profissionais</h4>
@@ -102,10 +102,10 @@
             <span class="is-icon is-icon-companies"></span>
         </h2>
 
-        <div class="row m-t-30">
+        <div class="row m-t-30 wow fadeInUp">
 
             <!-- Featured Companies -->
-            <div class="col-sm-9 wow fadeInUp m-b-30">
+            <div class="col-sm-9 m-b-30">
                 <div class="swiper-container swiper-companies-featureds">
                     <div class="swiper-wrapper p-t-0">
                         @foreach($companies as $index_company => $company)
@@ -153,7 +153,7 @@
 
             <!-- Call To Download -->
             <div class="col-sm-3">
-                <div class="card card-pattern wow fadeInUp">
+                <div class="card card-pattern">
                     <div class="card-body card-padding">
                         <div class="text-center">
                             <h3 class="f-300 m-t-30">Baixe o <strong style="color: #72c157">iSaudavel</strong> e faça parte da rede social que cuida da sua saúde.</h3>
@@ -175,23 +175,16 @@
             </div>
             <!-- / Call To Download -->
 
-        </div>
-    </div>
-
-</section>
-
-<div class="wrapper call-to-search">
-    <div class="container">
-        <div class="row m-t-30">
-            <div class="col-md-12 col-xs-12 text-center">
-                <h4 class="f-700 m-b-30">Encontre empresas e seus profissionais para te ajudar a cuidar da sua saúde e estética.</h4>
+            <div class="col-sm-12 text-center">
                 <a href="{!! route('landing.search.index', ['category' => 'pilates']) !!}">
                     <button class="btn btn-primary m-t-10">Procurar empresas e profissionais</button>
                 </a>
             </div>
+
         </div>
     </div>
-</div>
+
+</section>
 
 @section('scripts')
     @parent

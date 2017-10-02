@@ -135,6 +135,10 @@
                 padding: 10px 30px;
                 height: 160px;
             }
+            /* Section */
+            .section.default {
+                background-color: #fff;
+            }
         </style>
 
         <!-- Hotjar Tracking Code for https://isaudavel.com -->
@@ -155,7 +159,7 @@
         @include('landing.events.events', ['has_title' => true])
         @include('landing.home.recipes')
         <!-- @include('landing.home.user-activities') -->
-        @include('landing.home.download')
+        <!-- @include('landing.home.download') -->
         @include('landing.home.contact')
         @include('landing.home.footer')
 
