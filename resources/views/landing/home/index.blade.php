@@ -29,7 +29,7 @@
                 width: auto; height: auto;
             }
 
-            .is-swiper-button-default.arrow-top { top: 7px; margin: 0; }
+            .is-swiper-button-default.arrow-top { top: 50%; margin-top: -10px; }
 
             .is-swiper-button-default.swiper-button-disabled { opacity: .2; }
 
@@ -40,6 +40,8 @@
             .is-swiper-button-default.swiper-button-prev { left: 10px; }
             .is-swiper-button-default.swiper-button-next { right: 10px; }
 
+            .is-swiper-button-default.arrow-ms.swiper-button-prev { left: 20px; }
+            .is-swiper-button-default.arrow-ms.swiper-button-next { right: 20px; }
             /* Isaudavel Icons */
             .is-icon {
                 background-repeat: no-repeat;
@@ -65,7 +67,7 @@
                 padding: 0 !important
             }
             .card-activities .picture-circle.picture-circle-p {
-                width: 48px; height: 48px;
+                width: 60px; height: 60px;
             }
             .card-activities .card-body {
                 padding-left: 50px;
@@ -129,7 +131,8 @@
             .is-box {
                 border: 1px solid #efefef;
                 border-radius: 4px;
-                padding: 10px;
+                padding: 10px 30px;
+                height: 160px;
             }
         </style>
 
