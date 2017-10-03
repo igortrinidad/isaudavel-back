@@ -358,6 +358,51 @@
      }
    </script>
 
+@endif
+
+@if($routeName == 'landing.articles.show')
+<!-- ARTICLE INDEX -->
+
+	<title>{{$article_fetched->title}} - iSaudavel</title> 
+	<meta name="description" content="{!! $article_fetched->title !!}">
+
+	<meta property="og:url" content="{{ $current_url }}">
+	<meta property="og:title" content="iSaudavel: {{ $article_fetched->title }}">
+	<meta property="og:description" content="{!! strip_tags( $article_fetched->description ) !!}">
+	<meta property="og:image" content="{{$article_fetched->avatar}}">
+	<meta property="og:image:type" content="image/png">
+
+
+	<script type="application/ld+json">
+	{
+	  "@context": "http://schema.org",
+	  "@type": "NewsArticle",
+	  "mainEntityOfPage": {
+	    "@type": "WebPage",
+	    "@id": "https://isaudavel.com/artigos"
+	  },
+	  "headline": "{{$article_fetched->title}}",
+	  "image": [
+	    "{{$article_fetched->avatar}}"
+	   ],
+	  "datePublished": "{{$article_fetched->created_at->toIso8601String()}}",
+	  "dateModified": "{{$article_fetched->updated_at->toIso8601String()}}",
+	  "author": {
+	    "@type": "Person",
+	    "name": "Igor Trindade"
+	  },
+	   "publisher": {
+	    "@type": "Organization",
+	    "name": "iSaudavel",
+	    "logo": {
+	      "@type": "ImageObject",
+	      "url": "https://s3.amazonaws.com/isaudavel-assets/img/isaudavel_holder550.png"
+	    }
+	  },
+	  "description": "{{$article_fetched->content}}"
+	}
+	</script>
+
 
 @endif
 

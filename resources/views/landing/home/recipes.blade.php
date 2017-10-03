@@ -72,7 +72,7 @@
  <section id="contact" class="section featured">
     <div class="container">
 
-        <div class="row wow fadeInUp" style="margin-top: -160px;">
+        <div class="row" style="margin-top: -160px;">
             <div class="col-sm-12">
                 <div class="card text-center">
                     <div class="card-body card-padding">
