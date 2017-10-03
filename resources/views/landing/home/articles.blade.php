@@ -113,8 +113,10 @@
                                 </div>
                             @endforeach
                         </div>
-                        <div class="swiper-button-prev is-swiper-button-default arrow-ls"><i class="ion-ios-arrow-back"></i></div>
-                        <div class="swiper-button-next is-swiper-button-default arrow-ls"><i class="ion-ios-arrow-forward"></i></div>
+                        @if($articles->count() > 4)
+                            <div class="swiper-button-prev is-swiper-button-default arrow-ls"><i class="ion-ios-arrow-back"></i></div>
+                            <div class="swiper-button-next is-swiper-button-default arrow-ls"><i class="ion-ios-arrow-forward"></i></div>
+                        @endif
                     </div>
                 </div>
             @endunless
