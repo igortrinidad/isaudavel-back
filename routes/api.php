@@ -495,6 +495,17 @@ Route::group(['prefix' => 'meal'], function(){
     Route::get('/recipe/from/{id}', 'MealRecipeController@recipesByUser');
 });
 
+
+/*
+ * Unprotected Site Articles
+ */
+Route::group(['prefix' => 'article'], function(){
+
+    Route::get('/home/list', 'SiteArticleController@list_for_app');
+    Route::get('/show/{slug}', 'SiteArticleController@show_for_app');
+
+});
+
 /*
  * Oracle
  */

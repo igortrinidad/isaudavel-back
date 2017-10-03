@@ -49,7 +49,29 @@ class SiteArticle extends Model
      *
      * @var array
      */
-    protected $appends = ['photo_url'];
+    protected $appends = ['avatar', 'short_desc'];
+        
+    /**
+     * @return string
+     */
+    public function getAvatarAttribute()
+    {
+        if ($this->attributes['path']) {
+            return $this->getFileUrl($this->attributes['path']);
+        }
+
+    }
+
+    /**
+     * @return string
+     */
+    public function getShortDescAttribute()
+    {
+        if ($this->attributes['content']) {
+            return substr($this->attributes['content'],0,280) . '...';
+        }
+
+    }
 
     /**
      * -------------------------------

@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class SiteArticleController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * List for Oracle Dashboard
      *
      * @param $id
      * @return \Illuminate\Http\Response
@@ -19,6 +19,33 @@ class SiteArticleController extends Controller
 
         return view('oracle.dashboard.articles.list', compact('articles'));
     }
+
+    /**
+     * List for app
+     *
+     * @param $id
+     * @return \Illuminate\Http\Response
+     */
+    public function list_for_app()
+    {
+        $articles = SiteArticle::orderBy('created_at', 'DESC')->orderBy('created_at', 'DESC')->limit(8)->get();
+
+        return response()->json(['articles' => $articles]);
+    }
+
+    /**
+     * List for app
+     *
+     * @param $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show_for_app($slug)
+    {
+        $article = SiteArticle::where('slug', $slug)->first();
+
+        return response()->json(['article' => $article]);
+    }
+
 
     /**
      * Display a listing of the resource.
