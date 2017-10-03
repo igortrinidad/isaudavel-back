@@ -30,7 +30,7 @@ class EventsTableSeeder extends Seeder
 
             $sub_modalites = \App\Models\SubModality::where('modality_id', $event->modality_id)->get()->pluck('id')->flatten()->toArray();
 
-            $event->sub_modalities()->attach($faker->randomElements($sub_modalites, rand(2,3)));
+            $event->submodalities()->attach($faker->randomElements($sub_modalites, rand(2,3)));
 
         });
 

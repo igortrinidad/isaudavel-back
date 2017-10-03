@@ -124,8 +124,11 @@ class DatabaseSeeder extends Seeder
              */
             $this->call(MealRecipesTableSeeder::class);
 
+            /*
+             * Events
+             */
 
-
+            $this->call(EventsTableSeeder::class);
 
 
         }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use App\Models\ClientPhoto;
+use App\Models\Company;
 use Carbon\Carbon;
 use function foo\func;
 use Illuminate\Http\Request;
@@ -395,6 +396,25 @@ class ClientController extends Controller
                 ->withPivot('is_confirmed', 'is_deleted', 'requested_by_client')
                 ->first();
 
+            $company = Company::find($request->get('company_id'));
+
+            //Envia email para informar o cliente
+            $data = [];
+            $data['align'] = 'center';
+            $data['messageTitle'] = '<h4>Nova solicitação</h4>';
+            $data['messageOne'] = '
+            <p>Olá ' . $client->full_name . '  <p>A empresa <b>' . $company->name . '</b> está solicitando acesso ao seu perfil na plataforma iSaudavel, acesse seu perfil e configure as permissões para cada módulo que a empresa terá acesso</p>
+            <br>
+            <p>Acesse online em <a href="https://app.isaudavel.com">app.isaudavel.com</a> ou baixe o aplicativo 
+            para <a href="https://play.google.com/store/apps/details?id=com.isaudavel" target="_blank">Android</a> e <a href="https://itunes.apple.com/us/app/isaudavel/id1277115133?mt=8" target="_blank">iOS (Apple)</a></p>';
+
+            $data['messageSubject'] = 'Nova solicitação iSaudavel';
+
+            \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $client){
+                $message->from('no-reply@isaudavel.com', 'iSaudavel App');
+                $message->to($client->email, $client->full_name)->subject($data['messageSubject']);
+            });
+
             return response()->json(['message' => 'OK', 'company' => $client_company]);
         }
 
@@ -525,6 +545,25 @@ class ClientController extends Controller
                     'deleted_at' => null
                 ]
             );
+
+            $company = Company::find($request->get('company_id'));
+
+            //Envia email para informar o cliente
+            $data = [];
+            $data['align'] = 'center';
+            $data['messageTitle'] = '<h4>Nova solicitação</h4>';
+            $data['messageOne'] = '
+            <p>Olá ' . $client->full_name . '  <p>A empresa <b>' . $company->name . '</b> está solicitando acesso ao seu perfil na plataforma iSaudavel, acesse seu perfil e configure as permissões para cada módulo que a empresa terá acesso</p>
+            <br>
+            <p>Acesse online em <a href="https://app.isaudavel.com">app.isaudavel.com</a> ou baixe o aplicativo 
+            para <a href="https://play.google.com/store/apps/details?id=com.isaudavel" target="_blank">Android</a> e <a href="https://itunes.apple.com/us/app/isaudavel/id1277115133?mt=8" target="_blank">iOS (Apple)</a></p>';
+
+            $data['messageSubject'] = 'Nova solicitação iSaudavel';
+
+            \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $client){
+                $message->from('no-reply@isaudavel.com', 'iSaudavel App');
+                $message->to($client->email, $client->full_name)->subject($data['messageSubject']);
+            });
 
             return response()->json(['message' => 'Relationship reactivated']);
         }

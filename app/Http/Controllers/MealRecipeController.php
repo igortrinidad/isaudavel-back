@@ -260,20 +260,32 @@ class MealRecipeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param $id
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $destroyed = MealRecipe::destroy($id);
+        $recipe = MealRecipe::find($request->get('recipe_id'));
 
-        if($destroyed){
-            return response()->json([
-                'message' => 'Meal recipe destroyed.',
-                'id' => $id
-            ]);
+        if($recipe){
+            //Remove relations
+            $recipe->comments()->delete();
+
+            foreach ($recipe->photos as $photo) {
+                \Storage::disk('media')->delete($photo->path);
+                $photo->delete();
+            }
+
+            $recipe->types()->detach();
+            $recipe->tags()->detach();
+
+
+            if($recipe->delete()){
+                return response()->json([
+                    'message' => 'Meal recipe destroyed.',
+                ]);
+            }
         }
-
         return response()->json([
             'message' => 'Meal recipe not found.',
         ], 404);

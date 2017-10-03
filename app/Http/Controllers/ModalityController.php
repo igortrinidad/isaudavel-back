@@ -94,7 +94,7 @@ class ModalityController extends Controller
      */
     public function forSelect()
     {
-        $modalities = Modality::select('id', 'name', 'slug')->with(['sub_modalities' => function($query){
+        $modalities = Modality::select('id', 'name', 'slug')->with(['submodalities' => function($query){
             $query->select('id','modality_id', 'name', 'slug');
         }])->get();
 

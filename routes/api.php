@@ -60,6 +60,7 @@ Route::group(['middleware' => 'both.auth'], function () {
             Route::get('/show/{id}', 'MealRecipeController@show');
             Route::post('/store', 'MealRecipeController@store');
             Route::post('/update', 'MealRecipeController@update');
+            Route::post('/destroy', 'MealRecipeController@destroy');
 
             //Meal recipes photos resources
             Route::post('/photo/upload', 'MealRecipePhotoController@store');
@@ -174,6 +175,7 @@ Route::group(['prefix' => 'professional'], function () {
                 Route::post('/list', 'InvoiceController@index');
                 Route::post('/store', 'InvoiceController@store');
                 Route::post('/update', 'InvoiceController@update');
+                Route::post('/destroy', 'InvoiceController@destroy');
                 Route::get('/schedules/{id}', 'ScheduleController@byInvoice');
             });
 
@@ -183,6 +185,7 @@ Route::group(['prefix' => 'professional'], function () {
             Route::post('/schedule/confirm', 'ScheduleController@confirm');
             Route::post('/schedule/cancel', 'ScheduleController@cancel');
             Route::post('/schedule/update', 'ScheduleController@update');
+            Route::post('/schedule/destroy_all', 'ScheduleController@destroyAll');
 
         });
 

@@ -144,7 +144,7 @@ class ClientSubscriptionController extends Controller
 
         return response()->json([
             'message' => 'Subscription updated.',
-            'subscription' => $subscription->load('plan')
+            'subscription' => $subscription->load('plan', 'invoices.schedules')
         ]);
     }
 

@@ -17,7 +17,7 @@ class EventController extends Controller
      */
     public function index(Request $request)
     {
-       /* $events = Event::with(['from', 'photos', 'modality', 'sub_modalities'])->paginate(12);*/
+       /* $events = Event::with(['from', 'photos', 'modality', 'submodalities'])->paginate(12);*/
 
         $latitude = $request->has('latitude') ? $request->get('latitude') :  null;
         $longitude = $request->has('longitude') ? $request->get('longitude') :  null;
@@ -33,14 +33,19 @@ class EventController extends Controller
                 if(!empty($request->get('modalities'))) {
                     $query->whereIn('slug', $request->get('modalities'));
                 }
-            })->where(function($query) use($request){
+            })->whereHas('submodalities', function ($query) use ($request) {
+                if(!empty($request->get('submodalities'))) {
+                    $query->whereIn('slug', $request->get('submodalities'));
+                }
+            })
+            ->where(function($query) use($request){
                 if(!empty($request->get('search'))){
                     $search = explode(' ', $request->get('search'));
                     $query->where('name', 'LIKE', '%' . $request->get('search'). '%');
                     $query->orWhereIn('name', $search);
                 }
             })
-            ->with(['from', 'photos', 'modality', 'sub_modalities'])
+            ->with(['from', 'photos', 'modality', 'submodalities'])
             ->orderBy('distance_m', 'asc')
             ->paginate(12);
 
@@ -57,7 +62,7 @@ class EventController extends Controller
     {
         $limit = $request->get('limit') ? $request->get('limit') : 8;
 
-        $events = Event::with('from', 'photos', 'modality', 'sub_modalities')
+        $events = Event::with('from', 'photos', 'modality', 'submodalities')
             ->orderByRaw("RAND()")
             ->limit($limit)
             ->get();
@@ -82,7 +87,7 @@ class EventController extends Controller
         $event = Event::create($request->all());
 
         // sub modalities
-        $event->sub_modalities()->attach($request->get('sub_modalities'));
+        $event->submodalities()->attach($request->get('submodalities'));
 
         //update photos
         if (array_key_exists('photos', $request->all())) {
@@ -106,7 +111,7 @@ class EventController extends Controller
      */
     public function show($id)
     {
-        $event = Event::with(['photos', 'categories', 'from', 'comments', 'modality', 'sub_modalities'])->find($id);
+        $event = Event::with(['photos', 'categories', 'from', 'comments', 'modality', 'submodalities'])->find($id);
 
         return response()->json(['event' => $event]);
     }
@@ -127,7 +132,7 @@ class EventController extends Controller
         $event = tap(Event::find($request->get('id')))->update($request->all())->fresh();
 
         // sub modalities
-        $event->sub_modalities()->sync($request->get('sub_modalities'));
+        $event->submodalities()->sync($request->get('submodalities'));
 
         //update photos
         if (array_key_exists('photos', $request->all())) {

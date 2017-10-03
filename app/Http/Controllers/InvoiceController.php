@@ -139,17 +139,17 @@ class InvoiceController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param $id
+     * @param Request $request
      * @return \Illuminate\Http\Response
+     * @internal param $id
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $destroyed = Invoice::destroy($id);
+        $destroyed = Invoice::where('company_id', $request->get('company_id'))->where('id', $request->get('invoice_id'))->delete();
 
         if ($destroyed) {
             return response()->json([
                 'message' => 'Invoice destroyed.',
-                'id' => $id
             ]);
         }
 

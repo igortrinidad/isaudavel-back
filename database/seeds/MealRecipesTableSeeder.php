@@ -45,6 +45,11 @@ class MealRecipesTableSeeder extends Seeder
                 'is_cover' => true
             ]);
 
+            //types
+            $types = \App\Models\MealType::all()->pluck('id')->flatten()->toArray();
+
+            $meal_recipe->types()->attach($faker->randomElements($types,  rand(1, 3)));
+
             //Tags
             $meal_recipe->tags()->attach($faker->randomElements($tags,  rand(2, 5)));
 

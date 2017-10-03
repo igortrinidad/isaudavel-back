@@ -188,7 +188,7 @@ class Event extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function sub_modalities()
+    public function submodalities()
     {
         return $this->belongsToMany(SubModality::class, 'event_sub_modality');
     }

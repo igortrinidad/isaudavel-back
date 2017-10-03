@@ -54,7 +54,7 @@ class Modality extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function sub_modalities()
+    public function submodalities()
     {
         return $this->hasMany(SubModality::class);
     }
