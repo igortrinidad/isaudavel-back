@@ -129,7 +129,7 @@
 
     </style>
 
-    <section class="section" id="companies-list">
+    <section class="section p-b-0" id="companies-list">
 
         <!-- Categories Tabs -->
         <div class="swiper-container tabs" ref="tabs">

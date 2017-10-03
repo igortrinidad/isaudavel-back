@@ -152,7 +152,7 @@
 
         @include('landing.home.video')
         @include('landing.home.navbar')
-        @include('landing.companies.header-with-search')
+        @include('landing.companies.header-with-search', ['is_view_company' => false])
 
         @section('content')
         @show

@@ -76,11 +76,14 @@
         margin-top: -40px !important;
         box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
     }
+    .extra-padding {
+        padding-top: 60px;
+    }
 </style>
 
 <header id="search-area" :class="{ 'search-page' : pathSearch }">
 
-    <div class="container p-t-30">
+    <div class="container {{ $is_view_company ? 'extra-padding' : 'p-t-30' }}">
         <h3 class="is-title primary">Encontre empresas e profissionais de saúde próximos à você</h3>
 
         <div class="row header-mobile m-t-30">
