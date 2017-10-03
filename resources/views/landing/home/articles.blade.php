@@ -87,7 +87,7 @@
                     </div>
                 </div>
             @else
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <div class="swiper-container swiper-article-featureds">
                         <div class="swiper-wrapper">
                             @foreach($recipes as $recipe)
@@ -138,7 +138,7 @@
         var swiperFeatureds = new Swiper('.swiper-article-featureds', {
             initialSlide: 0,
             spaceBetween: 25,
-            slidesPerView: 3,
+            slidesPerView: 4,
             slideToClickedSlide: false,
             prevButton: '.swiper-button-prev',
             nextButton: '.swiper-button-next',
