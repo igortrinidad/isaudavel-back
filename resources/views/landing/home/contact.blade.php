@@ -2,9 +2,9 @@
     a, a:hover{ color: #383939; text-decoration: none; }
 </style>
 
-<section id="contact" class="section default contact-section">
+<section id="contact" class="section default contact-section p-t-30 p-b-30">
     <div class="container">
-        <h2 class="is-title secondary m-t-30">
+        <h2 class="is-title secondary">
             Contato
             <span class="is-icon is-icon-contact"></span>
         </h2>

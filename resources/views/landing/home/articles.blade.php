@@ -68,23 +68,13 @@
         background-image: url("/images/pattern-isaudavel-5-300.png");
     }
 </style>
+ <section id="contact" class="section featured p-t-30 p-b-30">
 
- <section id="contact" class="section featured">
     <div class="container">
 
-        <div class="row wow fadeInUp" style="margin-top: -160px;">
-            <div class="col-sm-12">
-                <div class="card text-center">
-                    <div class="card-body card-padding">
-                        <span class="f-300">Aqui é um espaço que pode existir ou não, com algum conteudo (uma promoção, um ads, algo do tipo)</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <h2 class="is-title secondary m-t-30">
-            Receitas fitness
-            <span class="is-icon is-icon-recipes"></span>
+        <h2 class="is-title secondary">
+            Blog
+            <span class="is-icon is-icon-blog"></span>
         </h2>
 
         <div class="row m-t-30 wow fadeInUp">
@@ -92,13 +82,13 @@
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-header ch-alt p-30">
-                            <p class="text-center m-0 f-300">Nenhum receita localizada.</p>
+                            <p class="text-center m-0 f-300">Nenhum artigo localizado.</p>
                         </div>
                     </div>
                 </div>
             @else
-                <div class="col-sm-12">
-                    <div class="swiper-container swiper-recipe-featureds">
+                <div class="col-sm-9">
+                    <div class="swiper-container swiper-article-featureds">
                         <div class="swiper-wrapper">
                             @foreach($recipes as $recipe)
                                 <div class="swiper-slide text-center">
@@ -120,7 +110,7 @@
                                             </div>
                                             <a href="{!! route('landing.recipes.show', $recipe->slug) !!}" title="{{ $recipe->title }}">
                                                 <button class="btn btn-primary f-300 f-16 m-t-20">
-                                                    Ver receita completa
+                                                    Continue lendo
                                                 </button>
                                             </a>
                                         </div>
@@ -135,21 +125,20 @@
             @endunless
 
             <div class="col-sm-12 m-t-30 text-center">
-                <a href="/receitas" class="btn btn-info f-300">Veja todas as receitas</a>
+                <a href="/receitas" class="btn btn-info f-300">Veja todos os artigos</a>
             </div>
         </div>
     </div>
-
 </section>
 
 @section('scripts')
     @parent
 
     <script>
-        var swiperFeatureds = new Swiper('.swiper-recipe-featureds', {
+        var swiperFeatureds = new Swiper('.swiper-article-featureds', {
             initialSlide: 0,
             spaceBetween: 25,
-            slidesPerView: 4,
+            slidesPerView: 3,
             slideToClickedSlide: false,
             prevButton: '.swiper-button-prev',
             nextButton: '.swiper-button-next',

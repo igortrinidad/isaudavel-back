@@ -59,7 +59,7 @@
                 <div class="col-sm-3 col-xs-12 m-b-20">
                     <h4 class="f-400">Acesso</h4>
                     <a href="https://play.google.com/store/apps/details?id=com.isaudavel">Download para android</a>
-                    <a href="https://itunes.apple.com/us/app/isaudavel/id1277115133?mt=8">Download para iphone - Em breve!</a>
+                    <a href="https://itunes.apple.com/us/app/isaudavel/id1277115133?mt=8">Download para iphone</a>
                 </div>
 
                 <div class="col-xs-12 hidden-lg hidden-md hidden-sm">

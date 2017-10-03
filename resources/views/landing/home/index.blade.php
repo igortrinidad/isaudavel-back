@@ -54,6 +54,7 @@
             .is-icon.is-icon-events  { background-image: url("/icons/icon_events.png"); }
             .is-icon.is-icon-recipes { background-image: url("/icons/icon_recipes.png"); }
             .is-icon.is-icon-companies { background-image: url("/icons/icon_companies.png"); }
+            .is-icon.is-icon-blog { background-image: url("/icons/icon_blog.png"); }
             .is-icon.is-icon-contact { background-image: url("/icons/icon_contact.png"); }
 
             /* Card With Background Pattern */
@@ -85,7 +86,7 @@
                 align-items: center;
                 width: auto;
                 border-radius: 4px;
-                padding: 5px 10px 5px 10px;
+                padding: 15px 10px 15px 10px;
                 font-weight: 700;
                 text-transform: uppercase;
                 font-size: 2.6rem !important;
@@ -159,8 +160,8 @@
         @include('landing.home.featured')
         @include('landing.events.events', ['has_title' => true])
         @include('landing.home.recipes')
-        <!-- @include('landing.home.user-activities') -->
-        <!-- @include('landing.home.download') -->
+        @include('landing.home.download')
+        @include('landing.home.articles')
         @include('landing.home.contact')
         @include('landing.home.footer')
 
