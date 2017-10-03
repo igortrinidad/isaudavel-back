@@ -26,9 +26,22 @@ class SiteArticleController extends Controller
      * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function list_for_app()
+    public function last_articles_for_app($quantity)
     {
-        $articles = SiteArticle::orderBy('created_at', 'DESC')->orderBy('created_at', 'DESC')->limit(8)->get();
+        $articles = SiteArticle::orderBy('created_at', 'DESC')->limit($quantity)->get();
+
+        return response()->json(['articles' => $articles]);
+    }
+
+    /**
+     * List for app
+     *
+     * @param $id
+     * @return \Illuminate\Http\Response
+     */
+    public function list_random_articles_for_app($quantity)
+    {
+        $articles = SiteArticle::inRandomOrder()->limit($quantity)->get();
 
         return response()->json(['articles' => $articles]);
     }

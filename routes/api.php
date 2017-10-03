@@ -501,7 +501,8 @@ Route::group(['prefix' => 'meal'], function(){
  */
 Route::group(['prefix' => 'article'], function(){
 
-    Route::get('/home/list', 'SiteArticleController@list_for_app');
+    Route::get('/last/{quantity}', 'SiteArticleController@last_articles_for_app');
+    Route::get('/list_random/{quantity}', 'SiteArticleController@list_random_articles_for_app');
     Route::get('/show/{slug}', 'SiteArticleController@show_for_app');
 
 });
