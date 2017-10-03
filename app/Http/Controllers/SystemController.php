@@ -120,7 +120,11 @@ class SystemController extends Controller
             // add item to the sitemap (url, date, priority, freq)
             $sitemap->add($root . '/clientes/sobre', \Carbon\Carbon::now(), '1.0', 'monthly');
             $sitemap->add($root . '/profissionais/sobre', \Carbon\Carbon::now(), '1.0', 'monthly');
-            $sitemap->add($root . '/buscar', \Carbon\Carbon::now(), '1.0', 'monthly');
+            $sitemap->add($root . '/profissionais/sobre', \Carbon\Carbon::now(), '1.0', 'daily');
+            $sitemap->add($root . '/eventos', \Carbon\Carbon::now(), '1.0', 'daily');
+            $sitemap->add($root . '/receitas', \Carbon\Carbon::now(), '1.0', 'daily');
+            $sitemap->add($root . '/artigos', \Carbon\Carbon::now(), '1.0', 'daily');
+            $sitemap->add($root . '/buscar', \Carbon\Carbon::now(), '1.0', 'daily');
 
             //Empresas
             $companies = \App\Models\Company::all();
@@ -202,6 +206,21 @@ class SystemController extends Controller
                 }
 
                 $sitemap->add($root . '/receitas/'. $recipe->slug, $recipe->updated_at, '1.0', 'daily', $photos);
+            }
+
+            //Artigos
+            $articles = \App\Models\SiteArticle::all();
+
+            foreach($articles as $article){
+
+                $photos = [];
+                $photos[] = [
+                    'url' => $article->avatar,
+                    'title' => 'Imagem de '. $article->title,
+                    'caption' => 'Imagem de '. $article->title
+                ];
+
+                $sitemap->add($root . '/artigos/'. $article->slug, $article->updated_at, '1.0', 'daily', $photos);
             }
 
         }

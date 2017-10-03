@@ -73,7 +73,7 @@
     <div class="container">
 
         <h2 class="is-title secondary">
-            Blog
+            Artigos
             <span class="is-icon is-icon-blog"></span>
         </h2>
 
