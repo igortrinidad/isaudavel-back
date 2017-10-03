@@ -77,8 +77,8 @@
             <span class="is-icon is-icon-blog"></span>
         </h2>
 
-        <div class="row m-t-30 wow fadeInUp">
-            @unless($recipes->count())
+        <div class="row m-t-30">
+            @unless($articles->count())
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-header ch-alt p-30">
@@ -94,7 +94,7 @@
                                 <div class="swiper-slide text-center">
                                     <div class="card">
                                         <div class="card-header ch-alt card-picture-header" style="background-image:url('{{ $article->avatar }}')">
-                                            <a href="{!! route('landing.recipes.show', $article->slug) !!}" title="{{ $article->title }}">
+                                            <a href="{!! route('landing.articles.show', $article->slug) !!}" title="{{ $article->title }}">
                                                 <div class="hover">
                                                     <i class="ion-ios-plus-empty"></i>
                                                 </div>

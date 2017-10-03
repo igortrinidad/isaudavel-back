@@ -80,9 +80,10 @@ class SiteArticleController extends Controller
      */
     public function show_for_site($slug)
     {
-        $article = SiteArticle::where('slug', $slug)->first();
+        $article_fetched = SiteArticle::where('slug', $slug)->first();
+        $see_too_articles = SiteArticle::inRandomOrder()->limit(6)->get();
 
-        return view('landing.articles.show', compact('article'));
+        return view('landing.articles.show', compact('article_fetched', 'see_too_articles'));
     }
 
 
