@@ -29,8 +29,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        //Verifica as subscriptions, gera e envia as fatura que vencem no dia para os clientes das empresas
+        $schedule->command('process:subscriptions')->dailyAt('07:21');
     }
 
     /**
