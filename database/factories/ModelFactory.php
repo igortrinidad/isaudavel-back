@@ -153,4 +153,89 @@ $factory->define(App\Models\MealRecipeTag::class, function () use($faker){
     ];
 });
 
+$factory->define(App\Models\Modality::class, function () use($faker){
+
+    $name = $faker->words(rand(1,2), true);
+    return [
+        'name' => ucfirst($name),
+        'slug' => str_slug($name)
+    ];
+});
+
+$factory->define(App\Models\SubModality::class, function () use($faker){
+
+    $name = $faker->words(rand(1,2), true);
+    return [
+        'name' => ucfirst($name),
+        'slug' => str_slug($name)
+    ];
+});
+
+
+
+
+$factory->define(App\Models\Event::class, function () use($faker){
+
+    $name = $faker->words(rand(1,3), true);
+
+    $created_by_id = null;
+    $created_by_type = null;
+
+    $creator_type = $faker->randomElement(['professional', 'client']);
+
+    $locations = [
+        ['city' => 'Rio de Janeiro', 'state' => 'RJ',
+            'address' => json_decode('{"url": "https://maps.google.com/?q=Rio+de+Janeiro,+RJ,+Brasil&ftid=0x9bde559108a05b:0x50dc426c672fd24e", "name": "Rio de Janeiro", "geolocation": {"lat": -22.9068467, "lng": -43.17289649999998}, "full_address": "Rio de Janeiro, RJ, Brasil"}', true)
+        ],
+        ['city' => 'Belo Horizonte', 'state' => 'MG',
+            'address' => json_decode('{"url": "https://maps.google.com/?q=Belo+Horizonte,+MG,+Brasil&ftid=0xa690cacacf2c33:0x5b35795e3ad23997", "name": "Belo Horizonte", "geolocation": {"lat": -19.9166813, "lng": -43.9344931}, "full_address": "Belo Horizonte, MG, Brasil"}', true)
+        ],
+        ['city' => 'São Paulo', 'state' => 'SP',
+            'address' => json_decode('{"url": "https://maps.google.com/?q=S%C3%A3o+Paulo,+SP,+Brasil&ftid=0x94ce448183a461d1:0x9ba94b08ff335bae", "name": "São Paulo", "geolocation": {"lat": -23.5505199, "lng": -46.63330940000003}, "full_address": "São Paulo, SP, Brasil"}', true)
+        ],
+        ['city' => 'Campo Grande', 'state' => 'MS',
+            'address' => json_decode('{"url": "https://maps.google.com/?q=Campo+Grande,+MS,+Brasil&ftid=0x9486e6726b2b9f27:0xf5a8469ebc84d2c1", "name": "Campo Grande", "geolocation": {"lat": -20.4697105, "lng": -54.620121100000006}, "full_address": "Campo Grande, MS, Brasil"}', true)
+        ],
+    ];
+
+    if($creator_type == 'professional'){
+
+        $professional = \App\Models\Professional::inRandomOrder()->first();
+        $created_by_id = $professional->id;
+        $created_by_type = \App\Models\Professional::class;
+    }else{
+        $client = \App\Models\Client::inRandomOrder()->first();
+        $created_by_id = $client->id;
+        $created_by_type = \App\Models\Client::class;
+    }
+
+    $location = $faker->randomElement($locations);
+
+    $location['address']['name'] = $name;
+
+    $lat = $location['address']['geolocation']['lat'];
+    $lng = $location['address']['geolocation']['lng'];
+
+    unset($location['address']['geolocation']);
+
+    return [
+        'id' => Uuid::generate()->string,
+        'name' => ucfirst($name),
+        'slug' => str_slug($name),
+        'description' => $faker->paragraph(5),
+        'address' => $location['address'],
+        'lat' => $lat,
+        'lng' => $lng,
+        'city' => $location['city'],
+        'state' => $location['state'],
+        'is_free' => true,
+        'value' => 0,
+        'date' => $faker->dateTimeBetween($startDate = 'now', $endDate ='+3 weeks'),
+        'time' => $faker->randomElement(['09:00', '10:00', '11:00','15:00', '16:00' ]),
+        'created_by_id' => $created_by_id,
+        'created_by_type' => $created_by_type,
+        'is_published' => true
+    ];
+});
+
 

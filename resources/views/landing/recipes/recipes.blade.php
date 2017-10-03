@@ -161,10 +161,11 @@
 
                                     @if($recipe->current_rating > 0)
                                         <div class="wp-rating-div">
+                                            <h5>Avaliação</h5>
                                             @php
                                                 $rating_to_loop = $recipe->current_rating;
                                             @endphp
-                                            @include('components.rating', ['size' => '52', 'icon' => 'ion-spoon', 'color' => '#75C258'])
+                                            @include('components.rating', ['size' => '28', 'icon' => 'ion-star', 'color' => '#DEB62F'])
                                         </div>
                                     @endif
 
@@ -178,8 +179,10 @@
                                     </div>
 
                                     <div  class="row m-t-20" style="height: 100px;">
-                                        <div class="text-center m-b-10 m-t-10">
-                                            <span class="label label-info f-14 ">{{$recipe->type->name}}</span>
+                                        <div class=" tag-list text-center m-b-10">
+                                            @foreach($recipe->types as $type)
+                                                <span class="label label-info f-14 p-5">{{$type->name}}</span>
+                                            @endforeach
                                         </div>
                                         <div class=" tag-list text-center m-b-10">
                                             @foreach($recipe->tags as $tag)

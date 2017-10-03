@@ -18,6 +18,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\SendClientInvoiceReminder1Day::class,
         \App\Console\Commands\SendCompanyInvoiceReminder3Days::class,
         \App\Console\Commands\SendCompanyInvoiceReminder1Day::class,
+        \App\Console\Commands\AlterRecipesTypes::class,
     ];
 
     /**
@@ -28,8 +29,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        //Verifica as subscriptions, gera e envia as fatura que vencem no dia para os clientes das empresas
+        $schedule->command('process:subscriptions')->dailyAt('07:21');
     }
 
     /**

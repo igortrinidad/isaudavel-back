@@ -34,7 +34,7 @@ class LandingController extends Controller
     public function index(Request $request)
     {
         $companies = Company::with('categories')->limit(8)->get();
-        $events = Event::with('categories')->limit(8)->get();
+        $events = Event::with('categories')->limit(8)->paginate(8);
         $recipes = MealRecipe::with('from')->orderBy('created_at', 'DESC')->limit(8)->get();
         $categories = Category::all();
 
@@ -49,8 +49,41 @@ class LandingController extends Controller
      */
     public function ListEvents(Request $request)
     {
-        $events = Event::with('categories')->limit(8)->get();
+        $filters = is_array($request->get('filters')) ? $request->get('filters') : json_decode($request->get('filters'), true);
+
+        $latitude = isset($filters['latitude']) ? $filters['latitude'] :  null;
+        $longitude = isset($filters['longitude']) ? $filters['longitude'] : null;
+
+        $events = Event::select(\DB::raw("*, 
+                (ATAN(SQRT(POW(COS(RADIANS(events.lat)) * SIN(RADIANS(events.lng)
+                 - RADIANS('$longitude')), 2) +POW(COS(RADIANS('$latitude')) * 
+                 SIN(RADIANS(events.lat)) - SIN(RADIANS('$latitude')) * cos(RADIANS(events.lat)) * 
+                 cos(RADIANS(events.lng) - RADIANS('$longitude')), 2)),SIN(RADIANS('$latitude')) * 
+                 SIN(RADIANS(events.lat)) + COS(RADIANS('$latitude')) * COS(RADIANS(events.lat)) * 
+                 COS(RADIANS(events.lng) - RADIANS('$longitude'))) * 6371000) as distance_m"))
+            ->whereHas('categories', function ($query) use ($filters) {
+                if(!empty($filters['categories'])) {
+                    $query->whereIn('slug', $filters['categories']);
+                }
+
+            })->where(function($query) use($filters){
+
+                if(!empty($filters['search'])){
+                    $search = explode(' ', $filters['search']);
+                    $query->where('name', 'LIKE', '%' . $filters['search']. '%');
+                    $query->orWhereIn('name', $search);
+                }
+            })
+            ->orderBy('distance_m', 'asc')
+            ->paginate(10);
+        
+        $events->appends(['filters' => $filters]);
+
+        $categories = Category::orderBy('name')->get();
+
         $companies = Company::with('categories')->limit(8)->get();
+
+        \JavaScript::put(['categories' => $categories, 'filters' => $filters]);
 
         return view('landing.events.list', compact('events', 'companies'));
     }
@@ -211,7 +244,7 @@ class LandingController extends Controller
     {
         $filters = is_array($request->get('filters')) ? $request->get('filters') : json_decode($request->get('filters'), true);
 
-        $recipes = MealRecipe::whereHas('type', function($query) use ($filters){
+        $recipes = MealRecipe::whereHas('types', function($query) use ($filters){
             if(!empty($filters['types'])){
                 $query->whereIn('slug', $filters['types']);
             }
@@ -246,7 +279,7 @@ class LandingController extends Controller
             ->with(['tags' => function($query){
                 $query->select('id', 'name', 'slug');
             }, 'type'])
-            ->paginate(10);
+            ->paginate(12);
 
         $recipes->appends(['filters' => $filters]);
 
@@ -324,7 +357,7 @@ class LandingController extends Controller
     {
         $recipes = MealRecipe::with('from')->orderBy('created_at', 'DESC')->limit(8)->get();
         $companies = Company::with('categories')->limit(8)->get();
-        $events = Event::with('categories')->limit(8)->get();
+        $events = Event::with('categories')->limit(8)->paginate(8);
 
         return view('landing.home.for-client', compact('companies', 'events', 'recipes'));
     }
@@ -344,7 +377,7 @@ class LandingController extends Controller
     {
         $recipes = MealRecipe::with('from')->orderBy('created_at', 'DESC')->limit(8)->get();
         $companies = Company::with('categories')->limit(8)->get();
-        $events = Event::with('categories')->limit(8)->get();
+        $events = Event::with('categories')->limit(8)->paginate(8);
 
         return view('landing.home.for-professional', compact('companies', 'events', 'recipes'));
     }

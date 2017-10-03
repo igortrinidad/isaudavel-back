@@ -441,7 +441,7 @@ Route::group(['prefix' => 'professional'], function(){
 * Unprotected Event Router
 */
 Route::get('event/show/{id}', 'EventController@show');
-Route::get('event/list', 'EventController@index');
+Route::post('event/list', 'EventController@index');
 Route::post('event/home/list', 'EventController@homeList');
 Route::get('event/comment/list/{id}', 'EventCommentController@index');
 Route::get('event/participant/list/{id}', 'EventParticipantController@index');
@@ -453,6 +453,10 @@ Route::get('check_slug/company/{slug}', 'CompanyController@check_slug');
 Route::get('check_slug/client/{slug}', 'ClientController@check_slug');
 Route::get('check_slug/professional/{slug}', 'ProfessionalController@check_slug');
 Route::get('check_slug/event/{slug}', 'EventController@check_slug');
+
+//Modality routes
+
+Route::get('/modality/list', 'ModalityController@forSelect');
 
 
 
@@ -489,6 +493,18 @@ Route::group(['prefix' => 'meal'], function(){
     Route::get('/recipe/rating/list/{id}', 'MealRecipeRatingController@index');
     Route::get('/recipe/show/{slug}', 'MealRecipeController@showPublic');
     Route::get('/recipe/from/{id}', 'MealRecipeController@recipesByUser');
+});
+
+
+/*
+ * Unprotected Site Articles
+ */
+Route::group(['prefix' => 'article'], function(){
+
+    Route::get('/last/{quantity}', 'SiteArticleController@last_articles_for_app');
+    Route::get('/list_random/{quantity}', 'SiteArticleController@list_random_articles_for_app');
+    Route::get('/show/{slug}', 'SiteArticleController@show_for_app');
+
 });
 
 /*

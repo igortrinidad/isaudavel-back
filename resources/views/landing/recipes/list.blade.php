@@ -104,7 +104,7 @@
             <div class="row header-mobile">
                 <h3 class="text-center">Encontre as melhores receitas para você</h3>
 
-                <form class="form" id="recipe-filters" action="{{route('landing.recipes.list')}}" method="get">
+                <form class="form hidden" id="recipe-filters" action="{{route('landing.recipes.list')}}" method="get" >
                     <input type="hidden" name="filters" v-model="recipe_filters" id="recipe_filters">
 
                     <div class="col-sm-12 text-center">
@@ -274,8 +274,6 @@
 @stop
 
 @section('scripts')
-    <script src="https://nightcatsama.github.io/vue-slider-component/dist/index.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
     <script>
 
         Vue.http.headers.common['X-CSRF-TOKEN'] = $('input[name=_token]').val();
@@ -296,6 +294,7 @@
                     'vueSlider': window['vue-slider-component'],
                 },
                 data: {
+                    is_loading: false,
                     mealTypes: [],
                     tags: [],
                     interactions: {
@@ -333,6 +332,10 @@
 
                 },
                 mounted: function () {
+
+                    //Remove class hidden to prevent show brackets on page loading
+                    document.getElementById("recipe-filters").classList.remove("hidden")
+
                     this.mealTypes = meal_types
                     this.tags = tags
 

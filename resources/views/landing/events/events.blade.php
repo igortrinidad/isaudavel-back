@@ -74,6 +74,36 @@
     .gray {
         background-color: #f4f5f4;
     }
+
+    /* Pagination */
+    .pagination {
+        font-size: 16px !important;
+    }
+    .pagination > li > a,
+    .pagination > li > span {
+        background-color: #fff;
+        color: #73C158 !important;
+    }
+
+    .pagination > li.active > a,
+    .pagination > li.active > span {
+        background-color: #73C158 !important;
+        border-color: #73C158 !important;
+        color: #fff !important;
+    }
+
+    .pagination > li.disabled > a,
+    .pagination > li.disabled > span {
+
+        color: #ccc !important;
+    }
+
+    .pagination > li > a > i,
+    .pagination > li > span > i{
+        padding: 6px;
+    }
+
+
 </style>
 
 <section class="section divider">
@@ -184,6 +214,11 @@
                 <!-- / Call To Download -->
             @endunless
         </div>
+
+
+            <div class="text-center">
+                {{ $events->links() }}
+            </div>
     </div>
     <!-- / Event Section -->
 </section>

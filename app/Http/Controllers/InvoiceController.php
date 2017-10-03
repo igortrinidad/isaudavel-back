@@ -106,9 +106,22 @@ class InvoiceController extends Controller
         $data = [];
         $data['align'] = 'center';
 
+        if($invoice->is_canceled && !$invoice->is_confirmed){
+            //Cancelado
+            $status = '<span style="background-color: #E14E48; padding: 10px; border-radius: 4px;">Cancelado</span>';
+        } else if(!$invoice->is_canceled && $invoice->is_confirmed) {
+            //Confirmado
+            $status = '<span style="background-color: #00A268; padding: 10px; border-radius: 4px;">Confirmado</span>';
+        } else {
+            //Pendente
+            $status = '<span style="background-color: #FEC059; padding: 10px; border-radius: 4px;">Pendente</span>';
+        }
+
         $data['messageTitle'] = '<h4>Fatura atualizada</h4>';
-        $data['messageOne'] = 'Sua fatura com vencimento para '. $invoice->expire_at. ' foi atualizada em '. $invoice->updated_at->format('d/m/Y h:i:s') . '.';
-        $data['messageTwo'] = 'Acesse online em https://isaudavel.com ou baixe o aplicativo para Android e iOS (Apple)';
+        $data['messageOne'] = 'Sua fatura com vencimento para '. $invoice->expire_at. ' foi atualizada em '. $invoice->updated_at->format('d/m/Y h:i:s') . '.
+        <br>
+        <h4>Status da fatura</h4>' . $status;
+        $data['messageTwo'] = 'Acesse online em https://app.isaudavel.com ou baixe o aplicativo para Android e iOS (Apple)';
 
         $data['messageSubject'] = 'Alteração de fatura';
 

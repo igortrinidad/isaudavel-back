@@ -177,4 +177,12 @@ class MealRecipe extends Model
     {
         return $this->hasMany(MealRecipeRating::class);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public  function types()
+    {
+        return $this->belongsToMany(MealType::class, 'meal_recipe_meal_type');
+    }
 }

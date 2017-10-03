@@ -3,18 +3,19 @@
 namespace App\Models;
 
 use App\Models\Traits\Uuids;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 
-class MealType extends Model
+class Modality extends Model
 {
-    use Uuids;
+    use Uuids, Sluggable;
 
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'meal_types';
+    protected $table = 'modalities';
 
     /**
      * Indicates if the IDs are auto-incrementing.
@@ -31,6 +32,20 @@ class MealType extends Model
     protected $fillable = ['name', 'slug'];
 
     /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => 'name'
+            ]
+        ];
+    }
+
+    /**
      * -------------------------------
      * Relationships
      * -------------------------------
@@ -39,18 +54,16 @@ class MealType extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function meals()
+    public function sub_modalities()
     {
-        return $this->hasMany(MealRecipe::class);
+        return $this->hasMany(SubModality::class);
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function meal_recipes()
+    public function events()
     {
-        return $this->belongsToMany(MealRecipe::class);
+        return $this->belongsToMany(Event::class);
     }
-
-
 }

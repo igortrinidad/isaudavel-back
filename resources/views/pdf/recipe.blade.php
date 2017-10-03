@@ -15,6 +15,24 @@
     background-size: cover; height: 300px;
     text-align: center;
 }
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th{
+	background-color: #84C567;
+}
 </style>
 
 <div class="" style="text-align: center;">
