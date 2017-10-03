@@ -47,9 +47,9 @@ class SiteArticleController extends Controller
     }
 
     /**
-     * List for app
+     * Show for app
      *
-     * @param $id
+     * @param $slug
      * @return \Illuminate\Http\Response
      */
     public function show_for_app($slug)
@@ -57,6 +57,32 @@ class SiteArticleController extends Controller
         $article = SiteArticle::where('slug', $slug)->first();
 
         return response()->json(['article' => $article]);
+    }
+
+    /**
+     * List for site
+     *
+     * @param $slug
+     * @return \Illuminate\Http\Response
+     */
+    public function list_for_site()
+    {
+        $articles = SiteArticle::orderBy('created_at', 'DESC')->paginate(12);
+
+        return view('landing.articles.list', compact('articles'));
+    }
+
+    /**
+     * Show for site
+     *
+     * @param $slug
+     * @return \Illuminate\Http\Response
+     */
+    public function show_for_site($slug)
+    {
+        $article = SiteArticle::where('slug', $slug)->first();
+
+        return view('landing.articles.show', compact('article'));
     }
 
 

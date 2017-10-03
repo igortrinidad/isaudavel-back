@@ -90,25 +90,20 @@
                 <div class="col-sm-12">
                     <div class="swiper-container swiper-article-featureds">
                         <div class="swiper-wrapper">
-                            @foreach($recipes as $recipe)
+                            @foreach($articles as $article)
                                 <div class="swiper-slide text-center">
                                     <div class="card">
-                                        <div class="card-header ch-alt card-picture-header" style="background-image:url('{{ $recipe->avatar }}')">
-                                            <a href="{!! route('landing.recipes.show', $recipe->slug) !!}" title="{{ $recipe->title }}">
+                                        <div class="card-header ch-alt card-picture-header" style="background-image:url('{{ $article->avatar }}')">
+                                            <a href="{!! route('landing.recipes.show', $article->slug) !!}" title="{{ $article->title }}">
                                                 <div class="hover">
                                                     <i class="ion-ios-plus-empty"></i>
                                                 </div>
                                             </a>
                                         </div>
                                         <div class="card-body card-padding text-center">
-                                            <h3 class="f-300 t-overflow">{{$recipe->title}}</h3>
+                                            <h3 class="f-300" style="min-height: 70px;">{{$article->title}}</h3>
 
-                                            <h4 class="f-300 m-t-20">Avaliação dos usuários</h4>
-                                            <div class="wp-rating-div">
-                                                <?php $rating_to_loop = $recipe->current_rating; ?>
-                                                @include('components.rating', ['size' => '22'])
-                                            </div>
-                                            <a href="{!! route('landing.recipes.show', $recipe->slug) !!}" title="{{ $recipe->title }}">
+                                            <a href="{!! route('landing.articles.show', $article->slug) !!}" title="{{ $article->title }}">
                                                 <button class="btn btn-primary f-300 f-16 m-t-20">
                                                     Continue lendo
                                                 </button>
@@ -125,7 +120,7 @@
             @endunless
 
             <div class="col-sm-12 m-t-30 text-center">
-                <a href="/receitas" class="btn btn-info f-300">Veja todos os artigos</a>
+                <a href="{{route('landing.articles.list')}}" class="btn btn-info f-300">Veja todos os artigos</a>
             </div>
         </div>
     </div>

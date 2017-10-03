@@ -111,9 +111,9 @@
                                             </a>
                                         </div>
                                         <div class="card-body card-padding text-center">
-                                            <h3 class="f-300 t-overflow">{{$recipe->title}}</h3>
+                                            <h3 class="f-300" style="min-height: 70px;">{{$recipe->title}}</h3>
 
-                                            <h4 class="f-300 m-t-20">Avaliação dos usuários</h4>
+                                            <h5 class="f-300 m-t-20">Avaliação dos usuários</h5>
                                             <div class="wp-rating-div">
                                                 <?php $rating_to_loop = $recipe->current_rating; ?>
                                                 @include('components.rating', ['size' => '22'])

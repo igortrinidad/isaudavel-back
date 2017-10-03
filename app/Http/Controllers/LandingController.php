@@ -6,6 +6,7 @@ use App\Models\CompanyInvoice;
 use App\Models\CompanySubscription;
 use App\Models\MealRecipeTag;
 use App\Models\MealType;
+use App\Models\SiteArticle;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -36,9 +37,10 @@ class LandingController extends Controller
         $companies = Company::with('categories')->limit(8)->get();
         $events = Event::with('categories')->limit(8)->paginate(8);
         $recipes = MealRecipe::with('from')->orderBy('created_at', 'DESC')->limit(8)->get();
+        $articles = SiteArticle::orderBy('created_at', 'DESC')->limit(8)->get();
         $categories = Category::all();
 
-        return view('landing.home.about', compact('companies', 'events', 'categories', 'recipes'));
+        return view('landing.home.about', compact('companies', 'events', 'categories', 'recipes', 'articles'));
     }
 
     /**
