@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ClientActivity;
 use App\Models\Activity;
 use App\Models\Evaluation;
 use App\Models\EvaluationPhoto;
@@ -41,6 +42,8 @@ class EvaluationController extends Controller
 
         $evaluation = Evaluation::create($request->all());
 
+        //Xp points
+        event(new ClientActivity($evaluation->client, 1));
 
         //Adiciona atividade
         if($request->get('share_profile')){

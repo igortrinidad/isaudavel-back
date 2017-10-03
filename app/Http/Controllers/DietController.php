@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ClientActivity;
 use App\Models\Activity;
 use App\Models\Diet;
 use Illuminate\Http\Request;
@@ -47,6 +48,8 @@ class DietController extends Controller
 
         $diet = Diet::create($request->all());
 
+        //Xp points
+        event(new ClientActivity($diet->client, 1));
 
         //Atividade
         if($request->get('share_profile')){

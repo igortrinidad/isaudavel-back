@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ClientActivity;
 use App\Models\MealRecipe;
 use App\Models\MealRecipePhoto;
 use Illuminate\Http\Request;
@@ -181,6 +182,11 @@ class MealRecipeController extends Controller
         }
 
         $meal_recipe = MealRecipe::create($request->all());
+
+        //Xp points
+        if(\Auth::user()->role == 'client'){
+            event(new ClientActivity(\Auth::user(), 5));
+        }
 
         //Attach Types
         if($request->has('types') && !empty($request->get('types'))){

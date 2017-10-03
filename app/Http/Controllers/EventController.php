@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ClientActivity;
 use App\Models\Activity;
 use App\Models\Event;
 use App\Models\EventPhoto;
@@ -85,6 +86,11 @@ class EventController extends Controller
         ]);
 
         $event = Event::create($request->all());
+
+        //Xp points
+        if(\Auth::user()->role == 'client'){
+            event(new ClientActivity(\Auth::user(), 5));
+        }
 
         // sub modalities
         $event->submodalities()->attach($request->get('submodalities'));

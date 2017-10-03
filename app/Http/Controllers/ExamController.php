@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ClientActivity;
 use App\Models\Activity;
 use App\Models\Exam;
 use App\Models\ExamAttachment;
@@ -37,6 +38,9 @@ class ExamController extends Controller
         ]);
 
         $exam = Exam::create($request->all());
+
+        //Xp points
+        event(new ClientActivity($exam->client, 1));
 
         //Adiciona atividade
         if($request->get('share_profile')){

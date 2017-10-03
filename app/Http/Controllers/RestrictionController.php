@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ClientActivity;
 use App\Models\Activity;
 use App\Models\Restriction;
 use Illuminate\Http\Request;
@@ -46,6 +47,9 @@ class RestrictionController extends Controller
         $request->merge(['created_by_id' => \Auth::user()->id, 'created_by_type' => get_class(\Auth::user())]);
 
         $restriction = Restriction::create($request->all());
+
+        //Xp points
+        event(new ClientActivity($restriction->client, 1));
 
         //Adiciona atividade
         if($request->get('share_profile')){

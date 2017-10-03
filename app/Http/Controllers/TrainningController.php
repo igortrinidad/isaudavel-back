@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ClientActivity;
 use App\Models\Activity;
 use App\Models\Trainning;
 use Illuminate\Http\Request;
@@ -52,6 +53,9 @@ class TrainningController extends Controller
         $request->merge(['created_by_id' => \Auth::user()->id, 'created_by_type' => get_class(\Auth::user())]);
 
         $trainning = Trainning::create($request->all());
+
+        //Xp points
+        event(new ClientActivity($trainning->client, 1));
 
         //Atividade
         if($request->get('share_profile')){
