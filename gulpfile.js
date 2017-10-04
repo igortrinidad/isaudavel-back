@@ -87,8 +87,8 @@ elixir(function(mix) {
     ], 'public/build/landing/js/build_vendors_custom.js');
 
     mix.version([
-        
-        'public/build/landing/css/build_vendors_custom.css', 
+
+        'public/build/landing/css/build_vendors_custom.css',
         'public/build/landing/js/build_vendors_custom.js',
     ]);
 
