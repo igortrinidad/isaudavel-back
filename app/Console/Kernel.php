@@ -30,7 +30,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         //Verifica as subscriptions, gera e envia as fatura que vencem no dia para os clientes das empresas
-        $schedule->command('process:subscriptions')->dailyAt('07:21');
+        $schedule->command('process:subscriptions')->dailyAt('07:54');
+        $schedule->command('invoice:client-reminder-3-days')->dailyAt('07:59');
     }
 
     /**
