@@ -647,5 +647,12 @@ class ClientController extends Controller
         return view('users.show', compact('user'));
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function XpInfo()
+    {
+        return response()->json(['total_xp' => \Auth::user()->total_xp]);
+    }
 
 }
