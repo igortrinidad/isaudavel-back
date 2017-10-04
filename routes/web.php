@@ -60,6 +60,15 @@ Route::group(['as' => 'landing.'], function () {
         Route::get('/imprimir/{slug}', ['uses' => 'MealRecipeController@generate_pdf', 'as' => 'pdf']);
 	});
 
+    //Tools na landing
+    Route::group(['prefix' => 'tools', 'as' => 'tools.'], function () {
+
+        Route::group(['prefix' => 'print', 'as' => 'print.'], function () {
+            Route::get('/trainning/{id}', ['uses' => 'TrainningController@generate_pdf', 'as' => 'pdf']);
+        });
+
+    });
+
 	//Professionals
 	Route::group(['prefix' => 'profissionais', 'as' => 'professionals.'], function () {
     	Route::get('/sobre', ['uses' => 'LandingController@forProfessionalsLanding', 'as' => 'about']);

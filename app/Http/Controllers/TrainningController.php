@@ -6,6 +6,7 @@ use App\Events\ClientActivity;
 use App\Models\Activity;
 use App\Models\Trainning;
 use Illuminate\Http\Request;
+use PDF;
 
 class TrainningController extends Controller
 {
@@ -147,6 +148,19 @@ class TrainningController extends Controller
         return response()->json([
             'message' => 'trainning not found.',
         ], 404);
+
+    }
+
+    public function generate_pdf($id){
+
+        $trainning = Trainning::where('id', $id)->with('from')->first();
+
+        $data = [
+            'trainning' => $trainning
+        ];
+
+        $pdf = PDF::loadView('pdf.trainning', $data);
+        return $pdf->stream('iSaudavel_' . $trainning->id . '.pdf');
 
     }
 }
