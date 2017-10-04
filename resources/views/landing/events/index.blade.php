@@ -124,8 +124,6 @@
             @section('landing-content')
             @show
 
-            @include('landing.home.featured')
-
             @include('landing.home.footer')
 
         </div>
