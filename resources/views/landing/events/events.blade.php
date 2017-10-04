@@ -111,7 +111,7 @@
     <!-- Event Section -->
     <div class="container">
 
-        <div class="row m-t-30 wow fadeInUp">
+        <div class="row m-t-30">
 
             @unless($events->count())
                 <!-- No Events Found -->

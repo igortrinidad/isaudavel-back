@@ -170,25 +170,20 @@
     @section('scripts')
     	@parent
 
-    	        <script type="text/javascript">
+    	<script type="text/javascript">
             $(document).ready(function(){
 
                 $('.open-share-facebook').on('click', function() {
-                    var url = `https://www.facebook.com/dialog/share?app_id=151705885358217&href=https://isaudavel.com/receitas/{{ $article_fetched->slug }}&display=popup&mobile_iframe=true`;
+                    var url = `https://www.facebook.com/dialog/share?app_id=151705885358217&href=https://isaudavel.com/artigos/{{ $article_fetched->slug }}&display=popup&mobile_iframe=true`;
                     window.open(url, '_blank', 'location=yes');
                 })
 
                 $('.open-share-whatsapp').on('click', function() {
                     // Whatsapp share
-                    var url = `https://api.whatsapp.com/send?text=Encontrei a receita {{ $article_fetched->title }} no iSaudavel, veja o abaixo: https://isaudavel.com/receitas/{{ $article_fetched->slug }}`;
+                    var url = `https://api.whatsapp.com/send?text=Veja o artigo{{ $article_fetched->title }} no iSaudavel, acesse: https://isaudavel.com/artigos/{{ $article_fetched->slug }}`;
                     window.open(url, '_system', null);
                 })
 
-                $('.open-print').on('click', function() {
-                    // Printer
-                    var url = `https://isaudavel.com/receitas/imprimir/{{ $article_fetched->id }}`;
-                    window.open(url, '_system', null);
-                })
             });
         </script>
 
