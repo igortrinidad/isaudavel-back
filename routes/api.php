@@ -357,6 +357,9 @@ Route::group(['prefix' => 'client'], function () {
     //Client protected routes 
     Route::group(['middleware' => 'auth:client'], function () {
 
+        //XP info
+        Route::get('/current_xp', 'ClientController@XpInfo');
+
         //Activties
         Route::get('/activity/list/{id}', 'ActivityController@client_list');
         Route::post('/activity/store', 'ActivityController@client_store');
