@@ -159,7 +159,9 @@ class TrainningController extends Controller
             'trainning' => $trainning
         ];
 
-        $pdf = PDF::loadView('pdf.trainning', $data);
+        $pdf = PDF::loadView('pdf.trainning', $data, [
+            'orientation' => 'L'
+        ]);
         return $pdf->stream('iSaudavel_' . $trainning->id . '.pdf');
 
     }
