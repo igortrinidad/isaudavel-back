@@ -145,9 +145,11 @@ class InvoiceController extends Controller
      */
     public function destroy(Request $request)
     {
-        $destroyed = Invoice::where('company_id', $request->get('company_id'))->where('id', $request->get('invoice_id'))->delete();
+        $invoice = Invoice::where('company_id', $request->get('company_id'))->where('id', $request->get('invoice_id'))->first();
 
-        if ($destroyed) {
+        $invoice->schedules()->delete();
+
+        if ($invoice->delete()) {
             return response()->json([
                 'message' => 'Invoice destroyed.',
             ]);

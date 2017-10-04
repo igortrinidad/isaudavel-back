@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\CategoryCalendarSetting;
+use App\Models\ClientSubscription;
 use App\Models\Company;
 use App\Models\CompanyInvoice;
 use App\Models\ProfessionalCalendarSetting;
 use App\Models\Schedule;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class ScheduleController extends Controller
 {
@@ -40,6 +42,33 @@ class ScheduleController extends Controller
         $category_calendar_settings = CategoryCalendarSetting::where('company_id', $request->get('company_id'))
             ->where('category_id', $request->get('category_id'))->select('advance_schedule','advance_reschedule', 'cancel_schedule', 'is_professional_scheduled' )->first();
 
+
+      /*  $client_subscriptions = ClientSubscription::where('company_id', $request->get('company_id'))
+            ->whereBetween('expire_at', [$request->get('start'), $request->get('end')])
+            ->where('is_active', true)
+            ->where('auto_renew', true)->get();*/
+
+
+        $client_subscriptions = ClientSubscription::whereHas('plan', function ($query) use ($request) {
+            $query->where('category_id', $request->get('category_id'));
+        })
+            ->whereBetween('expire_at', [$request->get('start'), $request->get('end')])
+            ->where('is_active', true)
+            ->where('auto_renew', true)
+            ->get();
+
+        $start = Carbon::parse($request->get('start'));
+        $end = Carbon::parse($request->get('end'));
+
+        $date_range = [];
+
+        while ($start->lte($end)) {
+
+            $date_range[] = $start->copy();
+
+            $start->addDay();
+        }
+
         foreach($calendar_settings as $calendar_setting){
 
             $calendar_setting->professional->makeHidden(['companies','categories','blank_password']);
@@ -53,17 +82,62 @@ class ScheduleController extends Controller
                 ->orderBy('time')
                 ->get();
 
+            $fake_schedules = new Collection();
+            foreach ($client_subscriptions as $client_subscription) {
+
+                $new_schedules = new Collection();
+                $i = 0;
+                foreach($date_range as $date){
+
+                    if ($client_subscription->workdays[$i]['dow'] == $date->dayOfWeek && $date->isFuture() && $client_subscription->workdays[$i]['professional_id'] == $calendar_setting->professional_id) {
+
+                        $schedule_data = [
+                            'subscription_id' => $client_subscription->id,
+                            'category_id' => $client_subscription->plan->category_id,
+                            'client' => $client_subscription->client()->select('id', 'name', 'last_name')->first()->toArray(),
+                            'company_id' => $client_subscription->company_id,
+                            'date' => $date->format('d/m/Y'),
+                            'time' => $client_subscription->workdays[$i]['init'].':00',
+                            'professional_id' => $client_subscription->workdays[$i]['professional_id'],
+                            'is_fake' => true
+                        ];
+
+                        $exists = Schedule::where([
+                            'subscription_id' => $client_subscription->id,
+                            'category_id' => $client_subscription->plan->category_id,
+                            'company_id' => $client_subscription->company_id,
+                            'date' => $date->format('Y-m-d'),
+                            'time' => $client_subscription->workdays[$i]['init'].':00',
+                            'professional_id' => $client_subscription->workdays[$i]['professional_id'],
+                            ])->first();
+
+                        if(!$exists){
+                            $new_schedules->push($schedule_data);
+                            $fake_schedules->push($schedule_data);
+                        }
+
+                        $i++;
+
+                        if ($i == count($client_subscription->workdays)) {
+                            $i = 0;
+                        }
+
+                    }
+                }
+            }
+
             foreach($schedules as $schedule){
 
                 $schedule->professional->makeHidden(['companies','categories','blank_password']);
 
                 $schedule->setAttribute('client', $schedule->subscription->client);
+                $schedule->setAttribute('is_fake', false);
 
                 $schedule->makeHidden(['subscription', 'professional']);
             }
 
-            $calendar_setting->setAttribute('schedules', $schedules);
 
+            $calendar_setting->setAttribute('schedules', array_merge_recursive($schedules->toArray(), $fake_schedules->toArray()));
         }
         
         return response()->json(['schedules' => $calendar_settings, 'category_calendar_settings'=>  $category_calendar_settings]);

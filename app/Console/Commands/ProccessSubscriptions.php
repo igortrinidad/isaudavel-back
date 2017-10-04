@@ -56,6 +56,11 @@ class ProccessSubscriptions extends Command
 
         foreach ($client_subscriptions as $client_subscription) {
 
+            if(empty($client_subscription->workdays)){
+                $this->info($client_subscription->client->full_name . ' workday vazio');
+                continue;
+            }
+
             $old_start = Carbon::createFromFormat('d/m/Y', $client_subscription->start_at);
             $old_expire = Carbon::createFromFormat('d/m/Y', $client_subscription->expire_at);
 
@@ -130,8 +135,8 @@ class ProccessSubscriptions extends Command
                 $message->to($new_invoice->subscription->client->email, $new_invoice->subscription->client->full_name)->subject($data['messageSubject']);
             });
 
-            $client_subscription->start_at = $new_start->format('d/m/Y');
-            $client_subscription->expire_at = $new_expire->format('d/m/Y');
+            $client_subscription->start_at = $old_start->addMonths($client_subscription->plan->expiration)->format('d/m/Y');
+            $client_subscription->expire_at = $old_expire->addMonths($client_subscription->plan->expiration)->format('d/m/Y');
 
             $client_subscription->save();
         }

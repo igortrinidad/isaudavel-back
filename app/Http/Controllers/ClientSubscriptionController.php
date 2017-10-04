@@ -112,11 +112,10 @@ class ClientSubscriptionController extends Controller
                         'professional_id' => $subscription->workdays[$i]['professional_id'],
                         'invoice_id' => $last_invoice->id])->first();
 
-                    if(!$new_schedule){
+                    if(!$new_schedule && !$start->isPast()){
                         $new_schedule = Schedule::create($schedule_data);
+                        $new_schedules->push($new_schedule);
                     }
-
-                    $new_schedules[] = $new_schedule;
 
                     $i++;
 
