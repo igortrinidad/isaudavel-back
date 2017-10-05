@@ -29,10 +29,7 @@ table, th, td {
     border: 1px solid black;
 }
 
-th, td {
-    padding: 10px;
-    text-align: left;
-}
+
 
 th{
 	background-color: #84C567;
@@ -86,71 +83,63 @@ h3, h4, h5{
     </tbody>
 </table>
 
-<h5 style=" padding-left: 10px;">Observações</h5>
-<p style="padding-left: 10px; margin-top: 0px;">{{$trainning->observation}}</p>
+<h5>Observações</h5>
+<p style="margin-top: 0px;">{{$trainning->observation}}</p>
 
 <h5>Séries e exercícios</h5>
 
 <table>
     <thead>
         <tr>
-            <th width="12%">Série</th>
-            <th width="88%" style="text-align: center;">Exercícios</th>
+            <th width="10%" style="font-size: 12px;">Série</th>
+            <th width="14%" style="font-size: 12px;">Exercício</th>
+            <th width="7%" style="font-size: 12px;">Intervalo</th>
+            <th width="10%" style="font-size: 12px;">Quantidade</th>
+            <th width="10%" style="font-size: 12px;">Carga</th>
+            <th width="10%" style="font-size: 12px;">Ritmo</th>
+            <th width="10%" style="font-size: 12px;">Local</th>
+            <th width="10%" style="font-size: 12px;">Posição</th>
         </tr>
     </thead>
     <tbody>
 
+        {{$iserie = 0}}
         @foreach($trainning->series as $serie)
 
-                    <tr>
-                        <td>{{ $serie['name'] }}</td>
-                        <td colspan="6">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th style="font-size: 12px;">Exercício</th>
-                                        <th style="font-size: 12px;">Intervalo</th>
-                                        <th style="font-size: 12px;">Quantidade</th>
-                                        <th style="font-size: 12px;">Carga</th>
-                                        <th style="font-size: 12px;">Ritmo</th>
-                                        <th style="font-size: 12px;">Local</th>
-                                        <th style="font-size: 12px;">Posição</th>
-                                    </tr>
-                                </thead>
-                                <tbody style="font-size: 10px !important; padding: 3px;">
-                                    @foreach($serie['exercises'] as $exercise)
-                                        
-                                        <tr style="font-size: 10px !important; padding: 3px;">
-                                            <td style="font-size: 10px !important; padding: 3px;">{{$exercise['name']}}</td>
-                                            <td style="font-size: 10px !important; padding: 3px;">{{ $serie['interval'] }}</td>
-                                            <td style="font-size: 10px !important; padding: 3px;">
-                                                @foreach($exercise['method'] as $method)
-                                                    {{ $method['quantity'] }} {{$method['label']}},
-                                                @endforeach
-                                            </td>
-                                            
-                                            <td style="font-size: 10px !important; padding: 3px;">
-                                                @foreach($exercise['method'] as $method)
-                                                    {{ $method['load'] }},
-                                                @endforeach
-                                            </td>
-                                            <td style="font-size: 10px !important; padding: 3px;">
-                                                @foreach($exercise['method'] as $method)
-                                                    {{ $method['cadency'] }},
-                                                @endforeach
-                                            </td>
-                                            <td style="font-size: 10px !important; padding: 3px;">{{ $exercise['location'] }}</td>
-                                            <td style="font-size: 10px !important; padding: 3px;">{{ $exercise['position'] }}</td>
-                                        </tr>
+            {{$iexerc = 0}}
+            @foreach($serie['exercises'] as $exercise)
+                
+                <tr style="font-size: 10px !important; padding: 3px;">
 
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
+                    @if($iexerc == 0)
+                        <td rowspan="{{count($serie['exercises'])}}">{{ $serie['name'] }}</td>
+                    @endif
+                    <td style="font-size: 10px !important; padding: 3px;">{{$exercise['name']}}</td>
+                    <td style="font-size: 10px !important; padding: 3px;">{{ $serie['interval'] }}</td>
+                    <td style="font-size: 10px !important; padding: 3px;">
+                        @foreach($exercise['method'] as $method)
+                            {{ $method['quantity'] }} {{$method['label']}},
+                        @endforeach
+                    </td>
+                    
+                    <td style="font-size: 10px !important; padding: 3px;">
+                        @foreach($exercise['method'] as $method)
+                            {{ $method['load'] }},
+                        @endforeach
+                    </td>
+                    <td style="font-size: 10px !important; padding: 3px;">
+                        @foreach($exercise['method'] as $method)
+                            {{ $method['cadency'] }},
+                        @endforeach
+                    </td>
+                    <td style="font-size: 10px !important; padding: 3px;">{{ $exercise['location'] }}</td>
+                    <td style="font-size: 10px !important; padding: 3px;">{{ $exercise['position'] }}</td>
+                </tr>
 
+            {{$iexerc++}}
+            @endforeach
 
-            
+        {{$iserie++}}
         @endforeach
 
     </tbody>
