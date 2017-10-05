@@ -17774,7 +17774,7 @@ button, .btn {
 /* Categories Colors */
 #categories-section { transition: ease 1s; }
 
-.section.pilates        { background-color: rgba(97, 93, 226, .5) !important;  }
+/*.section.pilates        { background-color: rgba(97, 93, 226, .5) !important;  }
 .section.personal       { background-color: rgba(0, 203, 178, .5) !important;  }
 .section.fisioterapia   { background-color: rgba(84, 212, 222, .5) !important;  }
 .section.nutricao       { background-color: rgba(156, 64, 169, .5) !important;  }
@@ -17784,7 +17784,7 @@ button, .btn {
 .section.academia       { background-color: rgba(204, 66, 127, .5) !important;  }
 .section.dermatologia   { background-color: rgba(193, 146, 226, .5) !important;  }
 .section.cardiologia    { background-color: rgba(214, 70, 70, .5) !important;  }
-.section.ortopedia      { background-color: rgba(99, 176, 206, .5) !important;  }
+.section.ortopedia      { background-color: rgba(99, 176, 206, .5) !important;  }*/
 
 .section.pilates b { color: #615de2 !important;  }
 .section.personal b { color: #00cbb2 !important;  }
@@ -17818,15 +17818,15 @@ button, .btn {
 .tabs .tab.swiper-slide-active { font-weight: 700; }
 
 .tabs .tab {
-    border-top: 1px solid rgba(112, 192, 88, .3);
-    border-left: 1px solid rgba(112, 192, 88, .3);
+    border-top: 1px solid rgba(255, 255, 255, .3);
+    border-left: 1px solid rgba(255, 255, 255, .3);
     display: flex;
     height: 50px;
     align-items: center;
     justify-content: center;
     text-align: center;
-    background-color: #FFF;
-    color: #72c157;
+    background-color: #72c157;
+    color: #FFF;
     padding: 0 10px;
     font-size: 14px;
     position: relative;
@@ -17849,7 +17849,7 @@ button, .btn {
 
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
-    border-top: 6px solid #fff;
+    border-top: 6px solid #72c157;
 }
 
 /* Tabs Arrows */
@@ -17864,7 +17864,7 @@ button, .btn {
     justify-content: center;
     width: auto; height: auto;
     top: 37px;
-    color: rgb(112, 192, 88);
+    color: rgb(255, 255, 255);
     /*margin-top: -10px;*/
 }
 

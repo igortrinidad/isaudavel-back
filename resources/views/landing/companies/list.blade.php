@@ -164,7 +164,7 @@
         <hr class="divider-colorful">
         <div class="wrapper call-to-recomendation">
             <div class="container text-center">
-                <h4 class="f-700 m-b-30" style="color: #fff">Não achou a empresa ou profissional que você procura?</h4>
+                <h4 class="f-700 m-b-30">Não achou a empresa ou profissional que você procura?</h4>
                 <button class="btn btn-secondary">Indique uma empresa ou profissional</button>
             </div>
         </div>
