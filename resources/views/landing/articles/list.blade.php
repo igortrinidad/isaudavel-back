@@ -122,42 +122,65 @@
     <div>
         <section id="articles-list" class="section divider">
 
-                <div class="row container">
+            <div class="container">
 
-                	<div class="col-md-12 col-xs-12">
-                		<form method="GET" action="{{route('landing.articles.list')}}">
-                		<div class="form-group">
-                			<label>Pesquisar</label>
-                			<input class="form-control" name="search">
-                		</div>
-                		<div class="form-group">
-                			<button type="submit" class="btn btn-primary">Pesquisar</button>
-                		</div>
-                	</div>
-                    <!-- CENTER COL "ABOUT" -->
-                    @foreach($articles as $article)
-                    <div class="col-sm-3">
+                <div class="row">
 
-                        <div class="card">
-                            <div class="card-header ch-alt card-picture-header" style="background-image:url('{{ $article->avatar }}')">
-                                <a href="{!! route('landing.articles.show', $article->slug) !!}" title="{{ $article->title }}">
-                                    <div class="hover">
-                                        <i class="ion-ios-plus-empty"></i>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-9">
+                        <div class="row">
+
+                            <div class="col-md-12 col-xs-12">
+                                <div class="card">
+                                    <div class="card-body card-padding">
+                                        <form method="GET" action="{{route('landing.articles.list')}}">
+                                        <div class="form-group">
+                                            <label class="f-300 f-24 m-b-10" for="input-search-articles">Pesquisar artigos</label>
+                                            <input class="form-control" id="input-search-articles" name="search" placeholder="Pesquise por palavra chave ou parte do conteúdo">
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-primary">Pesquisar</button>
+                                        </div>
+                                        @if ($articles->count() == 0)
+                                            <div class="m-t-20">
+                                                <span class="f-300 f-16">Nenhum artigo encontrado <i class="m-l-5 ion-sad-outline"></i></span>
+                                            </div>
+                                        @endif
                                     </div>
-                                </a>
+                                </div>
                             </div>
-                            <div class="card-body card-padding text-center">
-                                <h3 class="f-300" style="min-height: 70px;">{{$article->title}}</h3>
 
-                                <a href="{!! route('landing.articles.show', $article->slug) !!}" title="{{ $article->title }}">
-                                    <button class="btn btn-primary f-300 f-16 m-t-20">
-                                        Continue lendo
-                                    </button>
-                                </a>
-                            </div>
+                            @foreach($articles as $article)
+                                <div class="col-md-4 col-xs-12">
+
+                                    <div class="card">
+                                        <div class="card-header ch-alt card-picture-header" style="background-image:url('{{ $article->avatar }}')">
+                                            <a href="{!! route('landing.articles.show', $article->slug) !!}" title="{{ $article->title }}">
+                                                <div class="hover">
+                                                    <i class="ion-ios-plus-empty"></i>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="card-body card-padding text-center">
+                                            <h3 class="f-300" style="min-height: 70px;">{{$article->title}}</h3>
+
+                                            <a href="{!! route('landing.articles.show', $article->slug) !!}" title="{{ $article->title }}">
+                                                <button class="btn btn-primary f-300 f-16 m-t-20">
+                                                    Continue lendo
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </div>
+            	                </div>
+        	                @endforeach
                         </div>
-	                </div>
-	                @endforeach
+                    </div>
+                    <div class="col-sm-3">
+                        @include('landing.home.sidebar', ['current_view' => 'articles'])
+                    </div>
+                </div>
             </div>
         </section>
 

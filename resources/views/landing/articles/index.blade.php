@@ -151,7 +151,6 @@
         <div id="app">
 
             @include('landing.home.navbar')
-            @include('landing.companies.header-blank')
 
             @section('landing-content')
             @show
