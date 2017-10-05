@@ -84,7 +84,7 @@
 <header id="search-area" :class="{ 'search-page' : pathSearch }">
 
     <div class="container {{ isset($is_view_company) && $is_view_company ? 'extra-padding' : 'p-t-30' }}">
-        @if (isset($is_view_company) && $is_view_company)
+        @if (isset($is_view_company) && !$is_view_company)
             <h3 class="is-title primary">Encontre empresas e profissionais de saúde próximos à você</h3>
         @else
             <h3 class="f-300">Encontre empresas e profissionais de saúde próximos à você</h3>
