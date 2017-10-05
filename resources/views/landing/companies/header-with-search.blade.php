@@ -111,12 +111,9 @@
                    <input type="hidden" name="lng" id="lng" value="">
                    <input type="hidden" name="category" id="category" value="">
                    <div class="form-group">
-                       <button type="submit" class="btn btn-primary btn-block btn-buscar" :disabled="!category">Buscar</button>
+                       <button type="submit" class="btn btn-outline btn-block btn-buscar" :disabled="!category">Buscar</button>
                    </div>
                </form>
-           </div>
-           <div class="col-xs-12 col-md-12 text-left" v-if="category">
-               <p class="f-13">Você está pesquisando por <b>@{{ category }}</b><span v-if="city"> em <b>@{{ city }}</b></span></p>
            </div>
        </div>
 

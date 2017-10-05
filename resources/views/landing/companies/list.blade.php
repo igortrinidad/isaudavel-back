@@ -195,7 +195,7 @@
 
                                     @if(count($companies) == 0)
                                         <div class="m-t-30">
-                                            <span class="f-300 f-18">Porém, nenhuma empresa foi encontrada <i class="ion-sad-outline"></i></span>
+                                            <span class="f-300 f-18">Porém, nenhuma empresa ou profissional foi encontrado <i class="ion-sad-outline"></i></span>
                                         </div>
                                     @endif
                                 </div>
