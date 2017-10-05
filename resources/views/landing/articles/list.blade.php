@@ -120,7 +120,7 @@
     </style>
 
     <div>
-        <section id="articles-list" class="section divider">
+        <section id="articles-list" class="section gray divider">
 
             <div class="container">
 

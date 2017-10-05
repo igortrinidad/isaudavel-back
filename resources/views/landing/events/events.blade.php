@@ -106,7 +106,7 @@
 
 </style>
 
-<section class="section divider">
+<section class="section gray divider">
 
     <!-- Event Section -->
     <div class="container">

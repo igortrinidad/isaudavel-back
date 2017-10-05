@@ -127,7 +127,7 @@
     }
 </style>
 
-<section class="section {{ $has_title ? 'gray' : 'divider' }}">
+<section class="section {{ $has_title ? 'gray' : 'gray divider' }}">
     <!-- List Events -->
     <div class="container">
         @if($has_title)
