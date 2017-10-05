@@ -49,6 +49,7 @@
 
         #companies-list{
             background-image: url("/images/pattern-isaudavel-5-300.png");
+            /*background-color: #fff;*/
         }
 
     </style>
