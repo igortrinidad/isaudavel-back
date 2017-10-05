@@ -43,7 +43,7 @@
         <div id="app">
 
             @include('landing.home.navbar')
-            @if($header_with_search)
+            @if(isset($header_with_search) && $header_with_search)
                 @include('landing.companies.header-with-search', ['is_view_company' => true])
             @else
                 @include('landing.companies.header-blank')
