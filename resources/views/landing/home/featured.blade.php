@@ -68,7 +68,7 @@
  <section id="contact" class="section featured">
     <div class="container">
 
-        @include('landing.home.activities-professional')
+        {{-- @include('landing.home.activities-professional') --}}
 
         <h2 class="is-title secondary">
             Empresas em destaque

@@ -81,7 +81,7 @@
     <!-- Event Section -->
     <div class="container">
 
-        @include('landing.home.activities-user')
+        {{-- @include('landing.home.activities-user') --}}
 
         <h2 class="is-title secondary">
             Eventos esportivos

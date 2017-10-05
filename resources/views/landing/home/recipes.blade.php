@@ -72,7 +72,7 @@
  <section id="contact" class="section featured">
     <div class="container">
 
-        <div class="row" style="margin-top: -160px;">
+        {{-- <div class="row" style="margin-top: -160px;">
             <div class="col-sm-12">
                 <div class="card text-center">
                     <div class="card-body card-padding">
@@ -80,7 +80,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <h2 class="is-title secondary m-t-30">
             Receitas fitness
