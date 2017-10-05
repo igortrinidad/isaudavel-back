@@ -17757,6 +17757,10 @@ button, .btn {
     background-color: #fff;
 }
 
+/* button secondary */
+
+.btn.btn-secondary { background-color: #f1562b !important; border-color: #f1562b !important; color: #fff; }
+
 /* LIGHT = 300 */
 @font-face {
   font-family: 'Lato';
