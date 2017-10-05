@@ -17391,6 +17391,14 @@ px      68    160    252    */
 	margin-top: 90px;
 }
 
+html, body,
+body a,
+body a:hover,
+body a:active {
+    color: #383938;
+    text-decoration: none;
+}
+
 /* CHECKBOX FROM MAILCHIMP */
 
 
@@ -17762,6 +17770,106 @@ button, .btn {
 
 /* button outline */
 .btn.btn-outline { background-color: transparent !important; border:2px solid #fff !important; color: #fff; }
+
+/* Categories Colors */
+#categories-section { transition: ease 1s; }
+
+.section.pilates        { background-color: rgba(97, 93, 226, .5) !important;  }
+.section.personal       { background-color: rgba(0, 203, 178, .5) !important;  }
+.section.fisioterapia   { background-color: rgba(84, 212, 222, .5) !important;  }
+.section.nutricao       { background-color: rgba(156, 64, 169, .5) !important;  }
+.section.crossfit       { background-color: rgba(108, 207, 95, .5) !important;  }
+.section.massagem-estetica    { background-color: rgba(214, 94, 0, .5) !important;  }
+.section.acupuntura     { background-color: rgba(248, 209, 99, .5) !important;  }
+.section.academia       { background-color: rgba(204, 66, 127, .5) !important;  }
+.section.dermatologia   { background-color: rgba(193, 146, 226, .5) !important;  }
+.section.cardiologia    { background-color: rgba(214, 70, 70, .5) !important;  }
+.section.ortopedia      { background-color: rgba(99, 176, 206, .5) !important;  }
+
+.section.pilates b { color: #615de2 !important;  }
+.section.personal b { color: #00cbb2 !important;  }
+.section.fisioterapia b { color: #54d4de !important;  }
+.section.nutricao b { color: #9c40a9 !important;  }
+.section.crossfit b { color: #6ccf5f !important;  }
+.section.massagem-estetica b { color: #d65e00 !important;  }
+.section.acupuntura b { color: #f8d163 !important;  }
+.section.academia b { color: #cc427f !important;  }
+.section.dermatologia b { color: #c192e2 !important;  }
+.section.cardiologia b { color: #d64646 !important;  }
+.section.ortopedia b { color: #63b0ce !important;  }
+
+.divider-colorful {
+    margin: 0 !important;
+    border-top: 1px solid rgba(0, 0, 0, .1);
+}
+
+
+/* Tabs Default */
+/* Tabs */
+.tabs {
+    position: relative;
+    top: -1px;
+    overflow: visible !important;
+    margin-top: -100px;
+    margin-bottom: 40px;
+    padding-top: 1px;
+}
+
+.tabs .tab.swiper-slide-active { font-weight: 700; }
+
+.tabs .tab {
+    border-top: 1px solid rgba(112, 192, 88, .3);
+    border-left: 1px solid rgba(112, 192, 88, .3);
+    display: flex;
+    height: 50px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #FFF;
+    color: #72c157;
+    padding: 0 10px;
+    font-size: 14px;
+    position: relative;
+    cursor: pointer;
+    font-weight: 300;
+}
+.tabs .tab:first-child { border-left: 0;}
+
+.tabs .tab.swiper-slide-active:before{
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+    width: 0;
+    height: 0;
+    bottom: -6px;
+    left: 50%;
+    margin-left: -6px;
+    position: absolute;
+
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #fff;
+}
+
+/* Tabs Arrows */
+.tabs .swiper-button-prev,
+.tabs .swiper-button-next {
+    background-image: none !important;
+    font-size: 20px;
+    background: transparent;
+    padding: 0;
+    display: inline;
+    align-items: center;
+    justify-content: center;
+    width: auto; height: auto;
+    top: 37px;
+    color: rgb(112, 192, 88);
+    /*margin-top: -10px;*/
+}
+
+.tabs .swiper-button-prev{ left: 15px; }
+.tabs .swiper-button-next{ right: 15px; }
 
 /* LIGHT = 300 */
 @font-face {
