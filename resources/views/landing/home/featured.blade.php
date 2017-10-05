@@ -65,7 +65,7 @@
     }
 </style>
 
- <section id="contact" class="section featured">
+ <section id="contact" class="section featured p-t-30 p-b-30">
     <div class="container">
 
         {{-- @include('landing.home.activities-professional') --}}

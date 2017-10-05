@@ -76,7 +76,7 @@
     }
 </style>
 
-<section class="section">
+<section class="section p-t-30 p-b-30">
 
     <!-- Event Section -->
     <div class="container">
