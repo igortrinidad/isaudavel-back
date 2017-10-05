@@ -221,7 +221,7 @@
 
             {{-- sidebar --}}
             <div class="col-sm-3">
-                @include('landing.home.sidebar')
+                @include('landing.home.sidebar', ['current_view' => 'recipes'])
             </div>
             {{-- sidebar --}}
         </div>

@@ -205,7 +205,7 @@
 
             {{-- Sidebar --}}
             <div class="col-sm-3">
-                @include('landing.home.sidebar')
+                @include('landing.home.sidebar', ['current_view' => 'events'])
             </div>
             {{-- End Side Bar --}}
 
