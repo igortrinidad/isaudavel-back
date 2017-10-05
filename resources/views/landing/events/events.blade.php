@@ -114,8 +114,7 @@
         <div class="row">
             <div class="col-sm-9">
                 <div class="row">
-
-                    @unless($events->count())
+                    @if($events->count() == 0)
                         <!-- No Events Found -->
                         <div class="col-sm-12">
                             <div class="card">
@@ -126,7 +125,6 @@
                         </div>
                         <!-- No Events Found -->
                     @else
-
                         <!-- Events List -->
                         @foreach($events as $event)
                             <div class="col-md-4 col-xs-12">
@@ -199,7 +197,7 @@
                                 {{ $events->links() }}
                             </div>
                         </div>
-                    @endunless
+                    @endif
                 </div>
             </div>
 
