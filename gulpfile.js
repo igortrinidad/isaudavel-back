@@ -18,7 +18,7 @@ elixir.extend('compress', function() {
 });
 
 elixir(function(mix) {
-    // mix.compress();
+    mix.compress();
 
 
     mix.copy([
