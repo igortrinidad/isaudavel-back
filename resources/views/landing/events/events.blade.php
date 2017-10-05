@@ -111,25 +111,25 @@
     <!-- Event Section -->
     <div class="container">
 
-        <div class="row m-t-30">
+        <div class="row">
+            <div class="col-sm-9">
+                <div class="row">
 
-            @unless($events->count())
-                <!-- No Events Found -->
-                <div class="col-sm-12">
-                    <div class="card">
-                        <div class="card-header ch-alt p-30">
-                            <p class="text-center m-0 f-300">Nenhum evento localizado.</p>
+                    @unless($events->count())
+                        <!-- No Events Found -->
+                        <div class="col-sm-12">
+                            <div class="card">
+                                <div class="card-body card-padding">
+                                    <span class="f-300 f-18">Nenhum evento foi encontrado <i class="ion-sad-outline"></i></span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <!-- No Events Found -->
-            @else
+                        <!-- No Events Found -->
+                    @else
 
-                <!-- Events List -->
-                <div class="col-sm-9">
-                    <div class="row">
+                        <!-- Events List -->
                         @foreach($events as $event)
-                            <div class="col-sm-4">
+                            <div class="col-md-4 col-xs-12">
                                 <a href="/eventos/{{ $event->slug }}" title="Confira mais sobre {{ $event->name }}">
                                     <!-- Card Event -->
                                     <div class="card m-b-10 cursor-pointer">
@@ -192,33 +192,25 @@
                                 </a>
                             </div>
                         @endforeach
-                    </div>
-                </div>
-                <!-- / Events List -->
+                        <!-- / Events List -->
 
-                <!-- Call To Download -->
-                <div class="col-sm-3">
-                    <div class="card card-pattern">
-                        <div class="card-body card-padding">
+                        <div class="col-sm-12">
                             <div class="text-center">
-                                <h4 class="f-300" style="margin-top: 60px;">
-                                    Com o <strong style="color: #72c157">iSaudavel</strong>
-                                    você pode encontrar as melhores empresas e profissionais para te
-                                    ajudar a manter a forma, mas também pode marcar presença em eventos
-                                    próximos a você.
-                                </h4>
+                                {{ $events->links() }}
                             </div>
                         </div>
-                    </div>
+                    @endunless
                 </div>
-                <!-- / Call To Download -->
-            @endunless
+            </div>
+
+            {{-- Sidebar --}}
+            <div class="col-sm-3">
+                @include('landing.home.sidebar')
+            </div>
+            {{-- End Side Bar --}}
+
         </div>
 
-
-            <div class="text-center">
-                {{ $events->links() }}
-            </div>
     </div>
     <!-- / Event Section -->
 </section>
