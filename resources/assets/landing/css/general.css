@@ -365,5 +365,7 @@ button, .btn {
 }
 
 /* button secondary */
-
 .btn.btn-secondary { background-color: #f1562b !important; border-color: #f1562b !important; color: #fff; }
+
+/* button outline */
+.btn.btn-outline { background-color: transparent !important; border:2px solid #fff !important; color: #fff; }
