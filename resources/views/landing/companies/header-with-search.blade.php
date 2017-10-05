@@ -87,7 +87,7 @@
         @if (isset($is_view_company) && !$is_view_company)
             <h3 class="is-title primary">Encontre empresas e profissionais de saúde próximos à você</h3>
         @else
-            <h3 class="f-300">Encontre empresas e profissionais de saúde próximos à você</h3>
+            <h3 class="f-300" style="color: #fff;">Encontre empresas e profissionais de saúde próximos à você</h3>
         @endif
 
         <div class="row header-mobile m-t-30">
