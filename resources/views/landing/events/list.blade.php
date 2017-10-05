@@ -55,7 +55,7 @@
 
         #search-area.search-page {
             margin-top: 0;
-            padding-bottom: 20px;
+            padding-bottom: 40px;
             background: rgba(0, 0, 0, 0) linear-gradient(180deg, #6EC058 20%, #88C657 100%) repeat scroll 0 0;
         }
 

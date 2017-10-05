@@ -22,7 +22,7 @@
 
 </style>
 
-<header>
+<header style="padding-top: 60px;">
     <div class="container">
 
     </div>
