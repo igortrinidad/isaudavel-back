@@ -477,3 +477,11 @@ button, .btn {
 
 .tabs .swiper-button-prev{ left: 15px; }
 .tabs .swiper-button-next{ right: 15px; }
+
+/* Sidebar */
+
+.sidebar .sidebar-item:nth-child(odd) strong { color: #f1562b; }
+.sidebar .sidebar-item:nth-child(even) strong { color: #72c157; }
+.sidebar .sidebar-item:nth-child(1) hr { display: none !important; }
+.sidebar .sidebar-item:nth-child(odd) .btn.btn-success { display: none !important; }
+.sidebar .sidebar-item:nth-child(even) .btn.btn-secondary { display: none !important; }
