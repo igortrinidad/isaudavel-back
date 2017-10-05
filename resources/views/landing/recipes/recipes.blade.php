@@ -137,73 +137,93 @@
             </div>
         @endif
         <div class="row">
-           @unless($recipes->count())
-               <p class="text-center">Nenhuma receita localizada.</p>
-               @else
-                <p class="text-center">Exibindo <strong>{{$recipes->count()}}</strong> {{$recipes->count() > 1? 'receitas': 'receita'}} de <strong>{{$recipes->total()}}</strong> {{$recipes->total() > 1 ? 'receitas': 'receita'}} localizadas</p>
-                @foreach($recipes as $recipe)
-                    <div class="col-sm-4 col-xs-12 wow fadeInUp m-t-30">
-                        <a href="{{route('landing.recipes.show', $recipe->slug)}}" title="Confira mais sobre {{ $recipe->title }}">
-                            <!-- Card recipe -->
-                            <div class="card m-b-10 cursor-pointer">
-                                <!--  Card recipe Header-->
-                                <div class="card-header ch-alt card-picture-header" style="background-image:url('{{ $recipe->avatar }}')">
-                                    <div class="hover">
-                                        <i class="ion-ios-plus-empty"></i>
+            {{-- Recipes --}}
+            <div class="col-sm-9">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-body card-padding">
+                                <h2 class="f-300">Exibindo <strong>{{$recipes->count()}}</strong> {{$recipes->count() > 1? 'receitas': 'receita'}} de <strong>{{$recipes->total()}}</strong> {{$recipes->total() > 1 ? 'receitas': 'receita'}} localizadas
+                                </h2>
+                                {{-- @if($recipes->count() == 0)
+                                    <div class="m-t-30">
+                                        <span class="f-300 f-18">Porém, nenhuma receita foi encontrada <i class="ion-sad-outline"></i></span>
                                     </div>
-                                </div>
-                                <!-- / Card recipe Header -->
-
-                                <!--  Card recipe body-->
-                                <div class="card-body card-padding text-center">
-
-                                    <h3 class="f-300 m-t-5" style="height: 60px;">{{ $recipe->title }}</h3>
-
-                                    @if($recipe->current_rating > 0)
-                                        <div class="wp-rating-div">
-                                            <h5>Avaliação</h5>
-                                            @php
-                                                $rating_to_loop = $recipe->current_rating;
-                                            @endphp
-                                            @include('components.rating', ['size' => '28', 'icon' => 'ion-star', 'color' => '#DEB62F'])
-                                        </div>
-                                    @endif
-
-                                    <div class="row m-t-10">
-                                        <div class="recipe-info time-info">
-                                            <i class="ion-android-alarm-clock fa-lg f-primary"></i> {{$recipe->prep_time}} MIN
-                                        </div>
-                                        <div class="recipe-info">
-                                            <i class="ion-android-restaurant fa-lg f-primary"></i> {{$recipe->portions}} {{$recipe->portions > 1 ? 'Porções' : 'Porção'}}
-                                        </div>
-                                    </div>
-
-                                    <div  class="row m-t-20" style="height: 100px;">
-                                        <div class=" tag-list text-center m-b-10">
-                                            @foreach($recipe->types as $type)
-                                                <span class="label label-info f-14 p-5">{{$type->name}}</span>
-                                            @endforeach
-                                        </div>
-                                        <div class=" tag-list text-center m-b-10">
-                                            @foreach($recipe->tags as $tag)
-                                                <span class="label label-success f-14 p-5">{{$tag->name}}</span>
-                                            @endforeach
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <!-- / Card recipe body -->
+                                @endif --}}
                             </div>
-                            <!-- / Card recipe -->
-                        </a>
+                        </div>
                     </div>
-                @endforeach
-            @endunless
-        </div>
+                    @foreach($recipes as $recipe)
+                        <div class="col-md-4 col-xs-12 wow fadeInUp m-t-30">
+                            <a href="{{route('landing.recipes.show', $recipe->slug)}}" title="Confira mais sobre {{ $recipe->title }}">
+                                <!-- Card recipe -->
+                                <div class="card m-b-10 cursor-pointer">
+                                    <!--  Card recipe Header-->
+                                    <div class="card-header ch-alt card-picture-header" style="background-image:url('{{ $recipe->avatar }}')">
+                                        <div class="hover">
+                                            <i class="ion-ios-plus-empty"></i>
+                                        </div>
+                                    </div>
+                                    <!-- / Card recipe Header -->
 
+                                    <!--  Card recipe body-->
+                                    <div class="card-body card-padding text-center">
 
-        <div class="text-center">
-            {{ $recipes->links() }}
+                                        <h3 class="f-300 m-t-5" style="height: 60px;">{{ $recipe->title }}</h3>
+
+                                        @if($recipe->current_rating > 0)
+                                            <div class="wp-rating-div">
+                                                <h5>Avaliação</h5>
+                                                @php
+                                                    $rating_to_loop = $recipe->current_rating;
+                                                @endphp
+                                                @include('components.rating', ['size' => '28', 'icon' => 'ion-star', 'color' => '#DEB62F'])
+                                            </div>
+                                        @endif
+
+                                        <div class="row m-t-10">
+                                            <div class="recipe-info time-info">
+                                                <i class="ion-android-alarm-clock fa-lg f-primary"></i> {{$recipe->prep_time}} MIN
+                                            </div>
+                                            <div class="recipe-info">
+                                                <i class="ion-android-restaurant fa-lg f-primary"></i> {{$recipe->portions}} {{$recipe->portions > 1 ? 'Porções' : 'Porção'}}
+                                            </div>
+                                        </div>
+
+                                        <div  class="row m-t-20" style="height: 100px;">
+                                            <div class=" tag-list text-center m-b-10">
+                                                @foreach($recipe->types as $type)
+                                                    <span class="label label-info f-14 p-5">{{$type->name}}</span>
+                                                @endforeach
+                                            </div>
+                                            <div class=" tag-list text-center m-b-10">
+                                                @foreach($recipe->tags as $tag)
+                                                    <span class="label label-success f-14 p-5">{{$tag->name}}</span>
+                                                @endforeach
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <!-- / Card recipe body -->
+                                </div>
+                                <!-- / Card recipe -->
+                            </a>
+                        </div>
+                    @endforeach
+                    <div class="col-sm-12">
+                        <div class="text-center">
+                            {{ $recipes->links() }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{-- Recipes --}}
+
+            {{-- sidebar --}}
+            <div class="col-sm-3">
+                @include('landing.home.sidebar')
+            </div>
+            {{-- sidebar --}}
         </div>
 
     </div>
