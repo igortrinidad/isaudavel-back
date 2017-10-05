@@ -44,7 +44,6 @@
         /* Tabs Default */
         /* Tabs */
         .tabs {
-
             position: relative;
             top: -1px;
             overflow: visible !important;
@@ -56,15 +55,15 @@
         .tabs .tab.swiper-slide-active { font-weight: 700; }
 
         .tabs .tab {
-            border-top: 1px solid rgba(255, 255, 255, .3);
-            border-left: 1px solid rgba(255, 255, 255, .3);
+            border-top: 1px solid rgba(112, 192, 88, .3);
+            border-left: 1px solid rgba(112, 192, 88, .3);
             display: flex;
             height: 50px;
             align-items: center;
             justify-content: center;
             text-align: center;
-            background-color: #70c058;
-            color: rgba(255, 255, 255, .8);
+            background-color: #FFF;
+            color: #72c157;
             padding: 0 10px;
             font-size: 14px;
             position: relative;
@@ -87,7 +86,7 @@
 
             border-left: 6px solid transparent;
             border-right: 6px solid transparent;
-            border-top: 6px solid #70c058;
+            border-top: 6px solid #fff;
         }
 
         /* Tabs Arrows */
@@ -102,7 +101,7 @@
             justify-content: center;
             width: auto; height: auto;
             top: 37px;
-            color: #fff;
+            color: rgb(112, 192, 88);
             /*margin-top: -10px;*/
         }
 
@@ -127,10 +126,41 @@
             background-image: url("/images/pattern-isaudavel-5-300.png");
         }
 
+        /* Categories Test */
+        #categories-section { transition: ease 1s; }
+
+        .section.pilates        { background-color: rgba(97, 93, 226, .5) !important;  }
+        .section.personal       { background-color: rgba(0, 203, 178, .5) !important;  }
+        .section.fisioterapia   { background-color: rgba(84, 212, 222, .5) !important;  }
+        .section.nutricao       { background-color: rgba(156, 64, 169, .5) !important;  }
+        .section.crossfit       { background-color: rgba(108, 207, 95, .5) !important;  }
+        .section.massagem-estetica    { background-color: rgba(214, 94, 0, .5) !important;  }
+        .section.acupuntura     { background-color: rgba(248, 209, 99, .5) !important;  }
+        .section.academia       { background-color: rgba(204, 66, 127, .5) !important;  }
+        .section.dermatologia   { background-color: rgba(193, 146, 226, .5) !important;  }
+        .section.cardiologia    { background-color: rgba(214, 70, 70, .5) !important;  }
+        .section.ortopedia      { background-color: rgba(99, 176, 206, .5) !important;  }
+
+        .section.pilates b { color: #615de2 !important;  }
+        .section.personal b { color: #00cbb2 !important;  }
+        .section.fisioterapia b { color: #54d4de !important;  }
+        .section.nutricao b { color: #9c40a9 !important;  }
+        .section.crossfit b { color: #6ccf5f !important;  }
+        .section.massagem-estetica b { color: #d65e00 !important;  }
+        .section.acupuntura b { color: #f8d163 !important;  }
+        .section.academia b { color: #cc427f !important;  }
+        .section.dermatologia b { color: #c192e2 !important;  }
+        .section.cardiologia b { color: #d64646 !important;  }
+        .section.ortopedia b { color: #63b0ce !important;  }
+
+        .divider-colorful {
+            margin: 0 !important;
+            border-top: 1px solid rgba(0, 0, 0, .1);
+        }
+
     </style>
 
-    <section class="section p-b-0" id="companies-list">
-
+    <section class="section p-b-0" id="companies-list" :class="categoryFromParams">
         <!-- Categories Tabs -->
         <div class="swiper-container tabs" ref="tabs">
             <div class="swiper-wrapper">
@@ -155,16 +185,23 @@
                 {{-- Companies List --}}
                 <div class="col-sm-9">
                     <div class="row">
+                        <div class="col-sm-12">
+                            <div class="card">
+                                <div class="card-body card-padding">
+                                    <h2 class="f-300">
+                                        Você está pesquisando por <b>@{{ categoryFromParams }}</b>
+                                        <span v-if="city"> em <b>@{{ city }}</b></span>
+                                    </h2>
 
-                        @if(count($companies) == 0)
-                            <div class="col-sm-12">
-                                <div class="card">
-                                    <div class="card-body card-padding">
-                                        <h3 class="f-300">Nenhuma empresa encontrada em <strong>{{$category->name}}</strong>.</h3>
-                                    </div>
+                                    @if(count($companies) == 0)
+                                        <div class="m-t-30">
+                                            <span class="f-300 f-18">Porém, nenhuma empresa foi encontrada <i class="ion-sad-outline"></i></span>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
-                        @endif
+                        </div>
+
 
                         @foreach($companies as $company)
                         <div class="col-md-4 col-xs-12">
@@ -231,10 +268,10 @@
                 {{-- End Side Bar --}}
             </div>
         </div>
-        <hr class="m-0">
+        <hr class="divider-colorful">
         <div class="wrapper call-to-recomendation">
             <div class="container text-center">
-                <h4 class="f-700 m-b-30">Não achou a empresa ou profissional que você procura?</h4>
+                <h4 class="f-700 m-b-30" style="color: #fff">Não achou a empresa ou profissional que você procura?</h4>
                 <button class="btn btn-primary">Indique uma empresa ou profissional</button>
             </div>
         </div>
@@ -250,9 +287,18 @@
             var vm = new Vue({
                 el: '#companies-list',
                 data: {
+                    city: '',
+                    categoryFromParams: null,
                 },
                 mounted: function() {
                     this.initSwiperTabs()
+
+                    var url = new URL(window.location.href);
+                    var categoryFromParams = url.searchParams.get("category");
+                    var city = url.searchParams.get("city");
+
+                    this.categoryFromParams = categoryFromParams;
+                    this.city = city
                     console.log('Vue rodando no companies-list');
                 },
                 methods: {

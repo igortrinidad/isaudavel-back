@@ -42,7 +42,7 @@
     #search-area.search-page {
         margin-top: 0;
         padding-bottom: 20px;
-        background: rgba(0, 0, 0, 0) linear-gradient(180deg, #88C657 20%, #6EC058 100%) repeat scroll 0 0;
+        background: #72c157;
     }
     .card.category .picture-bg { border-radius: 4px; height: 120px; }
 
