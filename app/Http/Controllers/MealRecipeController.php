@@ -23,7 +23,7 @@ class MealRecipeController extends Controller
                 $query->whereIn('slug', $request->get('types'));
             }
         })
-        ->whereHas('tags', function ($query) use ($request) {
+        ->orWhereHas('tags', function ($query) use ($request) {
             if(!empty($request->get('tags'))) {
                 $query->whereIn('slug', $request->get('tags'));
             }

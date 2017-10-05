@@ -181,6 +181,8 @@ Route::group(['prefix' => 'professional'], function () {
 
             //Schedule
             Route::post('/schedule/calendar_list', 'ScheduleController@forCalendar');
+            Route::post('/schedule/calendar_list_new', 'ScheduleController@forCalendarNew'); // for compatibility
+            Route::post('/schedule/by_day', 'ScheduleController@schedulesByDay');
             Route::post('/schedule/reschedule', 'ScheduleController@reschedule');
             Route::post('/schedule/confirm', 'ScheduleController@confirm');
             Route::post('/schedule/cancel', 'ScheduleController@cancel');
@@ -259,6 +261,7 @@ Route::group(['prefix' => 'professional'], function () {
 
         //calendar
         Route::post('/calendar/list', 'ScheduleController@professionalCalendar');
+        Route::post('/calendar/list_new', 'ScheduleController@professionalCalendarNew'); //for compatibility
         Route::post('/calendar/reschedule', 'ScheduleController@reschedule');
 
         //profile update
