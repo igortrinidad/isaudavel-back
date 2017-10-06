@@ -130,6 +130,10 @@ class DatabaseSeeder extends Seeder
 
             $this->call(EventsTableSeeder::class);
 
+            /*
+             * Professional without company
+             */
+            $this->call(ProfessionalSeeder::class);
 
         }
         $this->command->info('Finished database seeder');

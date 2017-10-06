@@ -140,10 +140,11 @@ class ClientSubscriptionController extends Controller
             $message->to($subscription->client->email, $subscription->client->full_name)->subject($data['messageSubject']);
         });
 
-
         return response()->json([
             'message' => 'Subscription updated.',
-            'subscription' => $subscription->load('plan', 'invoices.schedules')
+            'subscription' => $subscription->load(['plan', 'invoices' => function($query){
+                $query->orderBy('expire_at', 'ASC');
+            }, 'invoices.schedules'])
         ]);
     }
 

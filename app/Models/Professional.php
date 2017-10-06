@@ -273,4 +273,20 @@ class Professional extends Authenticatable implements JWTSubject
             }])->limit(5);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function subscription()
+    {
+        return $this->hasOne(ProfessionalSubscription::class)->select('id', 'professional_id','clients', 'is_active');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function clients()
+    {
+        return $this->belongsToMany(Client::class, 'client_professional');
+    }
+
 }
