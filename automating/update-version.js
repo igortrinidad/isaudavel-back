@@ -7,10 +7,17 @@ let versionArray = file.version.split('.');
 
 let env = process.env.env;
 
+//Atualiza as versões de 10 em 10 pontos para cada tipo de atualização
 versionArray[2] = parseInt(versionArray[2])+1
 
-if(env == 'production'){
-  	versionArray[1] = parseInt(versionArray[1])+1
+if(versionArray[2] == 10){
+  versionArray[2] = 0;
+  versionArray[1] = parseInt(versionArray[1])+1
+}
+
+if(parseInt(versionArray[1]) == 10){
+  versionArray[1] = 0;
+  versionArray[0] = parseInt(versionArray[0])+1
 }
 
 file.version = versionArray.join(".");
