@@ -122,7 +122,7 @@
             @endunless
 
             <div class="col-sm-12 m-t-30 text-center">
-                <a href="{!! route('landing.articles.show', $article->slug) !!}" title="{{ $article->title }}" class="btn btn-info f-300">Veja todos os artigos</a>
+                <a href="{{route('landing.articles.list')}}" class="btn btn-info f-300">Veja todos os artigos</a>
             </div>
         </div>
     </div>
