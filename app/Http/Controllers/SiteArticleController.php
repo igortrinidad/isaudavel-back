@@ -68,7 +68,7 @@ class SiteArticleController extends Controller
      */
     public function list_for_site(Request $request)
     {
-        $articles = SiteArticle::where('title', 'LIKE', '%' . $request->query('search') . '%')->orderBy('created_at', 'DESC')->paginate(12);
+        $articles = SiteArticle::where('title', 'LIKE', '%' . $request->query('search') . '%')->where('content', 'LIKE', '%' . $request->query('search') . '%')->orderBy('created_at', 'DESC')->paginate(12);
 
         return view('landing.articles.list', compact('articles'));
     }
