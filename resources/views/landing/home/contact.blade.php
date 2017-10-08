@@ -2,7 +2,7 @@
     a, a:hover{ color: #383939; text-decoration: none; }
 </style>
 
-<section id="contact" class="section default contact-section p-t-30 p-b-30">
+<section id="contact" class="section default contact-section p-t-30 p-b-30 bg-pattern shadow">
     <div class="container">
         <h2 class="is-title secondary">
             Contato

@@ -69,7 +69,7 @@
     }
 </style>
 
- <section id="contact" class="section featured">
+ <section id="contact" class="section featured bg-pattern shadow">
     <div class="container">
 
         {{-- <div class="row" style="margin-top: -160px;">

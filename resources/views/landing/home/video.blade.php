@@ -1,110 +1,21 @@
 <style media="screen">
-    .section{ background: #F4F5F5; }
-
-    .video-container {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-    }
-    .video-container video {
-        min-width: 100%;
-        min-height: 100%;
-        width: auto;
+    .header-site{
+        margin-top: 70px;
         height: auto;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        -webkit-transform: translate(-50%, -50%);
-        transform: translate(-50%, -50%);
-    }
-    .slogan {
-        font-size: 60px;
-        line-height: 80px;
-        font-weight: 700;
-        height: 170px;
-        padding: 20px 20px 20px 20px;
-        border-radius: 4px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 -30px 0 -30px;
-        background: rgba(0, 0, 0, 0) linear-gradient(180deg, #88C657 20%, #6EC058 100%) repeat scroll 0 0;
-        color: #f4f5f5;
-        text-shadow: 0 4px 5px rgba(0, 0, 0, .3);
-        text-align: center;
-    }
-
-    .slogan-container {
-        width: 100%;
-        height: 170px;
-        position: absolute;
-        top: 50%;
-        margin-top: -75px;
-    }
-
-    .slogan-icon-inverse { display: none; }
-
-    @media (max-width: 1280px) {
-        .slogan { padding-right: 230px; font-size: 50px; line-height: 50px; text-align: left; }
-        .screenshot{ right: 30px; }
-        .slogan-container { padding: 15px; }
-    }
-    @media (max-width: 768px) {
-        .slogan { padding-right: 230px; text-align: left; font-size: 30px; line-height: 30px;}
-        .screenshot{ bottom: 120px; right: 15px; }
-
-        #video-intro, .slogan-container{
-            display:none;
-        }
-        #video-gif{
-            display:block;
-            margin-top: 60px;
-            background-color: #fff;
-        }
-
-    }
-    @media (max-width: 414px) {
-        .slogan { padding-right: 165px; font-size: 20px; }
-        .slogan-icon{ max-width: 50px; }
-        .screenshot{ max-width: 150px; }
-
-    }
-    @media (max-width: 320px) {
-        .slogan-container { top: 40%; }
-        .slogan-icon{ display: none; }
-
     }
 </style>
 
-<div class="video-section" style="height: calc(100vh - 112px);">
+<div>
 
-    <div class="video-container">
-      <video autoplay loop="true" width="1280" height="720" id="video-intro">
-        <source type="video/mp4" src="https://d2v9y0dukr6mq2.cloudfront.net/video/preview/ibUZgsf/kipping-pull-ups-crossfit_njexfxci__PM.mp4">
-      </video>
-
-      <img id="video-gif" src="https://media.giphy.com/media/11sgrFEeuaiL60/giphy.gif" width="100%" />
-    </div>
-
-    <!-- Slogan -->
-    <div class="slogan-container">
-        <div class="container">
-            <h2 class="slogan">
-                <img src="/icons/icon_p.png" class="slogan-icon m-r-10" alt="">
-                A sua saúde em boas mãos.
-            </h2>
-        </div>
-
+    <div class="header-site">
+        <img src="/images/HEADER_SITE-01.png" width="100%"/>
     </div>
 
 </div>
 
 @section('scripts')
-        @parent
+    @parent
 
 
 
-    @stop
+@stop
