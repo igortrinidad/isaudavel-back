@@ -4,9 +4,12 @@
     .bg-pattern{
         background-image: url("/images/pattern-isaudavel-5-300.png");
     }
+    .shadow {
+        box-shadow: inset 0px 11px 8px -10px rgba(24, 24, 24, .2), inset 0px -11px 8px -10px rgba(24, 24, 24, .2);
+    }
 </style>
 
-<section id="contact" class="section contact-section bg-pattern" style="background-color: #fff;">
+<section id="contact" class="section contact-section bg-pattern shadow" style="background-color: #fff;">
     <div class="container">
         <div class="text-center">
             <h2>Download</h2>

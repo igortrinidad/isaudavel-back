@@ -73,27 +73,27 @@
 
             /* Event Date */
             .event-date {
-            height: 78px; width: 100%;
-            border: 2px solid #383938;
-            border-radius: 4px;
+                height: 78px; width: 100%;
+                border: 2px solid #383938;
+                border-radius: 4px;
             }
 
             .event-date-header,
             .event-date-body {
-            width: 100%;
-            position: relative;
+                width: 100%;
+                position: relative;
             }
 
             .event-date-header {
-            background-color: #383938;
-            display: block;
-            color: #F4F5F5;
-            padding: 2px 0;
+                background-color: #383938;
+                display: block;
+                color: #F4F5F5;
+                padding: 2px 0;
             }
 
             .event-date-body {
-            text-transform: uppercase;
-            padding: 4px;
+                text-transform: uppercase;
+                padding: 4px;
             }
             .event-date-body span { display: block; }
             .event-date-body span:first-child { border-bottom: 1px solid rgba(56, 57, 56, .6); }
@@ -107,6 +107,38 @@
                 background-color: #f4f5f4;
             }
 
+            /* The_Date */
+            .circle { color: #fff; }
+            .circle {
+                width: 100px; height: 100px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-flow: row wrap;
+                background-color: #f1592a;
+                border-color: #000;
+                padding: 15px 10px;
+                position: relative;
+                margin: 0 auto;
+                box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+            }
+            .circle_border {
+                position: absolute;
+                width: 90px; height: 90px;
+                top: 50%; left: 50%;
+                margin-top: -45px;
+                margin-left: -45px;
+                border-radius: 50%;
+                border: 2px solid #ffffff;
+            }
+
+            .circle strong,
+            .circle small { display: block; width: 100%; text-align: center; position: relative; }
+
+            .circle strong { font-size: 20px; top: 10px; }
+            .circle small { font-size: 12px; top: -5px; }
+
         </style>
 
         <!-- Hotjar Tracking Code for https://isaudavel.com -->
@@ -119,7 +151,6 @@
         <div id="app">
 
             @include('landing.home.navbar')
-            @include('landing.companies.header-blank')
 
             @section('landing-content')
             @show
@@ -135,18 +166,7 @@
         @section('scripts')
         @show
 
-        <script type="text/javascript">
-            $(document).ready(function(){
-                //animated header class
-                // $(window).scroll(function () {
-                //     if ($(window).scrollTop() > 100) {
-                //         $(".navbar-default").addClass("animated");
-                //     } else {
-                //         $(".navbar-default").removeClass('animated');
-                //     }
-                // });
-            });
-        </script>
+
 
     </body>
 </html>

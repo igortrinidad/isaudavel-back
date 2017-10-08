@@ -2,12 +2,12 @@
     a, a:hover{ color: #383939; text-decoration: none; }
 </style>
 
-<section id="contact" class="section contact-section">
+<section id="contact" class="section default contact-section p-t-30 p-b-30 bg-pattern shadow">
     <div class="container">
-        <div class="text-center">
-            <h2>Contato</h2>
-            <span class="f-300">Dúvidas? Entre em contato agora mesmo!</span>
-        </div>
+        <h2 class="is-title secondary">
+            Contato
+            <span class="is-icon is-icon-contact"></span>
+        </h2>
         <form class="wow fadeInUp" action="{{route('landing.send-contact-form')}}" method="post">
             {!! csrf_field() !!}
             <div class="row">
@@ -39,8 +39,7 @@
                     </div>
                 </div>
                 <div class="col-sm-12 text-center">
-                    <button id="contact-submit" type="submit" class="btn btn-lg btn-primary f-300" name="button">
-                        <i class="ion-ios-paperplane-outline m-r-5"></i>
+                    <button id="contact-submit" type="submit" class="btn btn-primary f-300" name="button">
                         <span style="text-transform: uppercase">Enviar</span>
                     </button>
                 </div>

@@ -33,16 +33,16 @@
     }
 
     #search-area {
-        padding: 80px 0 80px 0px;
+        padding: 40px 0 80px 0px;
         background: #fff;
         position: relative;
         display: block;
-        margin-top: -80px;
+        margin-top: -160px;
     }
     #search-area.search-page {
         margin-top: 0;
         padding-bottom: 20px;
-        background: rgba(0, 0, 0, 0) linear-gradient(180deg, #88C657 20%, #6EC058 100%) repeat scroll 0 0;
+        background: #72c157;
     }
     .card.category .picture-bg { border-radius: 4px; height: 120px; }
 
@@ -76,13 +76,21 @@
         margin-top: -40px !important;
         box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
     }
+    .extra-padding {
+        padding-top: 60px;
+    }
 </style>
 
 <header id="search-area" :class="{ 'search-page' : pathSearch }">
 
-    <div class="container p-t-30">
-       <div class="row header-mobile">
-           <h3 class="text-center m-b-30">Encontre empresas e profissionais de saúde próximos à você</h3>
+    <div class="container {{ isset($is_view_company) && $is_view_company ? 'extra-padding' : 'p-t-30' }}">
+        @if (isset($is_view_company) && !$is_view_company)
+            <h3 class="is-title primary">Encontre empresas e profissionais de saúde próximos à você</h3>
+        @else
+            <h3 class="f-300" style="color: #fff;">Encontre empresas e profissionais de saúde próximos à você</h3>
+        @endif
+
+        <div class="row header-mobile m-t-30">
            <div class="col-xs-12 col-sm-4 col-md-4">
                <div class="form-group">
                    <input class="form-control" id="autocomplete" placeholder="Informe a cidade" />
@@ -103,12 +111,9 @@
                    <input type="hidden" name="lng" id="lng" value="">
                    <input type="hidden" name="category" id="category" value="">
                    <div class="form-group">
-                       <button type="submit" class="btn btn-primary btn-block btn-buscar" :disabled="!category">Buscar</button>
+                       <button type="submit" class="btn btn-outline btn-block btn-buscar" :disabled="!category">Buscar</button>
                    </div>
                </form>
-           </div>
-           <div class="col-xs-12 col-md-12 text-left" v-if="category">
-               <p class="f-13">Você está pesquisando por <b>@{{ category }}</b><span v-if="city"> em <b>@{{ city }}</b></span></p>
            </div>
        </div>
 

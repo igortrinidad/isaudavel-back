@@ -167,39 +167,5 @@
         @section('scripts')
         @show
 
-        <script type="text/javascript">
-            $(document).ready(function(){
-                //animated header class
-                $(window).scroll(function () {
-                    if ($(window).scrollTop() > 100) {
-                        $(".navbar-default").addClass("animated");
-                    } else {
-                        $(".navbar-default").removeClass('animated');
-                    }
-                });
-
-                jQuery("#gallery").unitegallery({
-                    tiles_type:"justified"
-                });
-
-                $('.open-share-facebook').on('click', function() {
-                    var url = `https://www.facebook.com/dialog/share?app_id=151705885358217&href=https://isaudavel.com/receitas/{{ $recipe_fetched->slug }}&display=popup&mobile_iframe=true`;
-                    window.open(url, '_blank', 'location=yes');
-                })
-
-                $('.open-share-whatsapp').on('click', function() {
-                    // Whatsapp share
-                    var url = `https://api.whatsapp.com/send?text=Encontrei a receita {{ $recipe_fetched->title }} no iSaudavel, veja o abaixo: https://isaudavel.com/receitas/{{ $recipe_fetched->slug }}`;
-                    window.open(url, '_system', null);
-                })
-
-                $('.open-print').on('click', function() {
-                    // Printer
-                    var url = `https://isaudavel.com/receitas/imprimir/{{ $recipe_fetched->id }}`;
-                    window.open(url, '_system', null);
-                })
-            });
-        </script>
-
     </body>
 </html>

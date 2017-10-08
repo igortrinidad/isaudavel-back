@@ -56,7 +56,7 @@
         #search-area.search-page {
             margin-top: 0;
             padding-bottom: 20px;
-            background: rgba(0, 0, 0, 0) linear-gradient(180deg, #6EC058 20%, #88C657 100%) repeat scroll 0 0;
+            background: #72c157;
         }
 
         .search .form-control {
@@ -102,7 +102,7 @@
 
         <div class="container" id="search-recipes">
             <div class="row header-mobile">
-                <h3 class="text-center">Encontre as melhores receitas para você</h3>
+                <h3 class="text-center" style="color: #fff">Encontre as melhores receitas para você</h3>
 
                 <form class="form hidden" id="recipe-filters" action="{{route('landing.recipes.list')}}" method="get" >
                     <input type="hidden" name="filters" v-model="recipe_filters" id="recipe_filters">
@@ -121,7 +121,7 @@
                                           v-for="(type, typeIndex) in mealTypes"
                                           @click="selectMealType(type)"
                                           :class="{'label-primary':selectedMealTypes.indexOf(type) < 0,  'label-info': selectedMealTypes.indexOf(type) > -1}">
-                            @{{type.name}} <i class="ion-close" v-if="selectedMealTypes.indexOf(type) > -1"></i>
+                            @{{type.name}} <i class="ion-close m-l-5" v-if="selectedMealTypes.indexOf(type) > -1"></i>
                         </span>
                                 </div>
                             </div>
@@ -151,9 +151,9 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-12 m-t-20">
+                    <div class="col-sm-12 m-t-20 text-center">
                         <button type="submit" class="btn btn-default btn-block">Pesquisar</button>
-                        <button type="submit" class="btn btn-link btn-block c-withe" v-if="filterHistory" @click="clearFilters">Limpar filtros de pesquisa</button>
+                        <button type="submit" class="btn btn-outline btn-xs c-withe m-t-20" v-if="filterHistory" @click="clearFilters">Limpar filtros de pesquisa</button>
                     </div>
                 </form>
             </div>
@@ -496,5 +496,3 @@
 
     </script>
 @endsection
-
-

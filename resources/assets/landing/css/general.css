@@ -1,3 +1,11 @@
+html, body,
+body a,
+body a:hover,
+body a:active {
+    color: #383938;
+    text-decoration: none;
+}
+
 /* CHECKBOX FROM MAILCHIMP */
 
 
@@ -139,8 +147,8 @@ input:checked + .slider:before {
 
 .card {
   position: relative;
-  background: #fff;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+  background: #FFF;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
   margin-bottom: 30px;
   border-radius: 4px;
   padding: 4px;
@@ -236,3 +244,244 @@ input:checked + .slider:before {
 button, .btn {
     border-radius: 3px !important;
 }
+
+/* New Landing Style */
+
+::selection { background-color: #6ec058; color: #fff; }
+
+/* Isaudavel Swiper Arrow Default */
+.is-swiper-button-default.swiper-button-prev,
+.is-swiper-button-default.swiper-button-next {
+    background-image: none;
+    color: #f1562b;
+    padding: 0 !important;
+    display: inline-block;
+    width: auto; height: auto;
+}
+
+.is-swiper-button-default.arrow-top { top: 50%; margin-top: -10px; }
+
+.is-swiper-button-default.swiper-button-disabled { opacity: .2; }
+
+.is-swiper-button-default.arrow-ls { font-size: 50px; }
+.is-swiper-button-default.arrow-ms { font-size: 30px; }
+.is-swiper-button-default.arrow-xs { font-size: 20px; }
+
+.is-swiper-button-default.swiper-button-prev { left: 10px; }
+.is-swiper-button-default.swiper-button-next { right: 10px; }
+
+.is-swiper-button-default.arrow-ms.swiper-button-prev { left: 20px; }
+.is-swiper-button-default.arrow-ms.swiper-button-next { right: 20px; }
+/* Isaudavel Icons */
+.is-icon {
+    background-repeat: no-repeat;
+    display: inline-block;
+    background-size: cover;
+    background-color: transparent;
+    width: 22px; height: 20px;
+    margin-left: 10px;
+}
+.is-icon.is-icon-events  { background-image: url("/icons/icon_events.png"); }
+.is-icon.is-icon-recipes { background-image: url("/icons/icon_recipes.png"); }
+.is-icon.is-icon-companies { background-image: url("/icons/icon_companies.png"); }
+.is-icon.is-icon-blog { background-image: url("/icons/icon_blog.png"); }
+.is-icon.is-icon-contact { background-image: url("/icons/icon_contact.png"); }
+
+/* Card With Background Pattern */
+.card.card-pattern {
+    background-image: url("/images/pattern-isaudavel-5-300.png");
+    min-height: 350px;
+}
+/* Card Activities */
+.card-activities {
+    position: relative;
+    min-height: 180px;
+    max-height: 180px;
+    padding: 0 !important
+}
+.card-activities .picture-circle.picture-circle-p {
+    width: 60px; height: 60px;
+}
+.card-activities .card-body {
+    padding-left: 50px;
+    padding-right: 0;
+}
+.store-badge { margin: 0 auto; }
+/* Default Isaudavel Title */
+
+.is-title {
+    border-left: 4px solid;
+    border-bottom: 4px solid;
+    display: inline-flex;
+    align-items: center;
+    width: auto;
+    border-radius: 4px;
+    padding: 15px 10px 15px 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 2.6rem !important;
+    position: relative;
+}
+
+.is-title-side {
+    text-transform: uppercase;
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.is-title.default { border-color: #fff; color: #fff; }
+.is-title.primary { border-color: #6ec058; color: #6ec058; }
+.is-title.secondary { border-color: #f1562b; color: #f1562b; }
+
+/* Default Isaudavel Title For Activites Section */
+.is-activities-title {
+    transform: rotate(-90deg);
+    background: #f1562b;
+    position: absolute;
+    top: 66px; left: -66px;
+    color: #fff;
+    border-radius: 4px 4px 0 0;
+    text-transform: uppercase;
+    font-size: 16px;
+    padding: 5px 10px 7px 10px;
+    letter-spacing: .2rem;
+    text-align: center;
+    font-weight: 300;
+    width: 180px;
+}
+
+.is-activities-title small {
+    font-size: 12px;
+    display: block;
+    color: inherit;
+    font-weight: 700 !important;
+}
+
+.is-activities-title span { display: block; }
+
+/* Isaudavel Box */
+.is-box {
+    border: 1px solid #efefef;
+    border-radius: 4px;
+    padding: 10px 30px;
+    height: 160px;
+}
+/* Section */
+.section.default {
+    background-color: #fff;
+}
+
+/* button secondary */
+.btn.btn-secondary { background-color: #f1562b !important; border-color: #f1562b !important; color: #fff; }
+
+/* button outline */
+.btn.btn-outline { background-color: transparent !important; border:2px solid #fff !important; color: #fff; }
+
+/* Categories Colors */
+#categories-section { transition: ease 1s; }
+
+/*.section.pilates        { background-color: rgba(97, 93, 226, .5) !important;  }
+.section.personal       { background-color: rgba(0, 203, 178, .5) !important;  }
+.section.fisioterapia   { background-color: rgba(84, 212, 222, .5) !important;  }
+.section.nutricao       { background-color: rgba(156, 64, 169, .5) !important;  }
+.section.crossfit       { background-color: rgba(108, 207, 95, .5) !important;  }
+.section.massagem-estetica    { background-color: rgba(214, 94, 0, .5) !important;  }
+.section.acupuntura     { background-color: rgba(248, 209, 99, .5) !important;  }
+.section.academia       { background-color: rgba(204, 66, 127, .5) !important;  }
+.section.dermatologia   { background-color: rgba(193, 146, 226, .5) !important;  }
+.section.cardiologia    { background-color: rgba(214, 70, 70, .5) !important;  }
+.section.ortopedia      { background-color: rgba(99, 176, 206, .5) !important;  }*/
+
+.section.pilates b { color: #615de2 !important;  }
+.section.personal b { color: #00cbb2 !important;  }
+.section.fisioterapia b { color: #54d4de !important;  }
+.section.nutricao b { color: #9c40a9 !important;  }
+.section.crossfit b { color: #6ccf5f !important;  }
+.section.massagem-estetica b { color: #d65e00 !important;  }
+.section.acupuntura b { color: #f8d163 !important;  }
+.section.academia b { color: #cc427f !important;  }
+.section.dermatologia b { color: #c192e2 !important;  }
+.section.cardiologia b { color: #d64646 !important;  }
+.section.ortopedia b { color: #63b0ce !important;  }
+
+.divider-colorful {
+    margin: 0 !important;
+    border-top: 1px solid rgba(0, 0, 0, .1);
+}
+
+
+/* Tabs Default */
+/* Tabs */
+.tabs {
+    position: relative;
+    top: -1px;
+    overflow: visible !important;
+    margin-top: -100px;
+    margin-bottom: 40px;
+    padding-top: 1px;
+}
+
+.tabs .tab.swiper-slide-active { font-weight: 700; }
+
+.tabs .tab {
+    border-top: 1px solid rgba(255, 255, 255, .3);
+    border-left: 1px solid rgba(255, 255, 255, .3);
+    display: flex;
+    height: 50px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #72c157;
+    color: #FFF;
+    padding: 0 10px;
+    font-size: 14px;
+    position: relative;
+    cursor: pointer;
+    font-weight: 300;
+}
+.tabs .tab:first-child { border-left: 0;}
+
+.tabs .tab.swiper-slide-active:before{
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+    width: 0;
+    height: 0;
+    bottom: -6px;
+    left: 50%;
+    margin-left: -6px;
+    position: absolute;
+
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #72c157;
+}
+
+/* Tabs Arrows */
+.tabs .swiper-button-prev,
+.tabs .swiper-button-next {
+    background-image: none !important;
+    font-size: 20px;
+    background: transparent;
+    padding: 0;
+    display: inline;
+    align-items: center;
+    justify-content: center;
+    width: auto; height: auto;
+    top: 37px;
+    color: rgb(255, 255, 255);
+    /*margin-top: -10px;*/
+}
+
+.tabs .swiper-button-prev{ left: 15px; }
+.tabs .swiper-button-next{ right: 15px; }
+
+/* Sidebar */
+
+.sidebar .sidebar-item:nth-child(odd) strong { color: #f1562b; }
+.sidebar .sidebar-item:nth-child(even) strong { color: #72c157; }
+.sidebar .sidebar-item:nth-child(1) hr { display: none !important; }
+.sidebar .sidebar-item:nth-child(odd) .btn.btn-success { display: none !important; }
+.sidebar .sidebar-item:nth-child(even) .btn.btn-secondary { display: none !important; }

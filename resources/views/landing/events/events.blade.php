@@ -106,86 +106,114 @@
 
 </style>
 
-<section class="section {{ $has_title ? 'gray' : 'divider' }}">
-    <!-- List Events -->
+<section class="section gray divider">
+
+    <!-- Event Section -->
     <div class="container">
-        @if($has_title)
-            <div class="text-center">
-                <h2>Eventos</h2>
-                <span class="f-300">Encontre eventos próximos à você.</span>
-            </div>
-        @endif
-        <div class="row m-t-30">
 
-            @unless($events->count())
-                <p class="text-center m-t-20">Nenhum evento localizado.</p>
-            @else
-                <p class="text-center">Exibindo <strong>{{$events->count()}}</strong> {{$events->count() > 1? 'eventos': 'evento'}} de <strong>{{$events->total()}}</strong> {{$events->total() > 1 ? 'eventos': 'evento'}} {{$events->total() > 1 ? 'localizados': 'localizado'}}</p>
-                @foreach($events as $event)
-                    <div class="col-sm-4 col-xs-12 m-t-30">
-                        <a href="/eventos/{{ $event->slug }}" title="Confira mais sobre {{ $event->name }}">
-                            <!-- Card Event -->
-                            <div class="card m-b-10 cursor-pointer">
-                                <!--  Card Event Header-->
-                                <div class="card-header ch-alt card-picture-header" style="background-image:url('{{ $event->avatar }}')">
-                                    <div class="hover">
-                                        <i class="ion-ios-plus-empty"></i>
-                                    </div>
-                                </div>
-                                <!-- / Card Event Header -->
-
-                                <!--  Card Event body-->
+        <div class="row">
+            <div class="col-sm-9">
+                <div class="row">
+                    @if($events->count() == 0)
+                        <!-- No Events Found -->
+                        <div class="col-sm-12">
+                            <div class="card">
                                 <div class="card-body card-padding">
-                                    <div class="row row-event">
-                                        <!-- Event Date -->
-                                        <div class="col-xs-3 event-col">
-                                            <div class="event-date text-center">
-                                                <div class="event-date-header">
-                                                    <span class="f-700 f-12">{{ $event->date->format('Y') }}</span>
-                                                </div>
-                                                <div class="event-date-body">
-                                                    <span class="f-700 f-16">{{ $event->date->format('d') }}</span>
-                                                    <span class="f-300">{{ $event->date->format('M') }}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- / Event Date -->
-                                        <div class="col-xs-9 event-col">
-                                            <div class="list-cats">
-                                                @foreach($event->categories as $indexCat => $category)
-                                                    @if($indexCat < 1)
-                                                        <span class="label label-primary t-overflow f-300 f-14 m-t-5 m-r-5">
-                                                        {{ $category->name }}
-                                                    </span>
-                                                    @endif
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <h3 class="f-300 m-t-10" style="height: 60px;">{{ $event->name }}</h3>
-                                    <!-- location -->
-                                    <div class="m-t-10">
-                                    <span class="d-block f-300 f-14">
-                                        <i class="icon ion-ios-location-outline m-r-10 f-20"></i>{{ $event->city }} - {{ $event->state }}
-                                    </span>
-                                    </div>
-                                    <!-- / location -->
-
+                                    <span class="f-300 f-18">Nenhum evento foi encontrado <i class="ion-sad-outline"></i></span>
                                 </div>
-                                <!-- / Card Event body -->
                             </div>
-                            <!-- / Card Event -->
-                        </a>
-                    </div>
-                @endforeach
-            @endunless
+                        </div>
+                        <!-- No Events Found -->
+                    @else
+                        <!-- Events List -->
+                        @foreach($events as $event)
+                            <div class="col-md-4 col-xs-12">
+                                <a href="/eventos/{{ $event->slug }}" title="Confira mais sobre {{ $event->name }}">
+                                    <!-- Card Event -->
+                                    <div class="card m-b-10 cursor-pointer">
+                                        <!--  Card Event Header-->
+                                        <div class="card-header ch-alt card-picture-header" style="background-image:url('{{ $event->avatar }}')">
+                                            <div class="hover">
+                                                <i class="ion-ios-plus-empty"></i>
+                                            </div>
+                                        </div>
+                                        <!-- / Card Event Header -->
+
+                                        <!--  Card Event body-->
+                                        <div class="card-body card-padding">
+                                            <div class="row row-event">
+                                                <!-- Event Date -->
+                                                <div class="col-xs-3 event-col">
+                                                    <div class="event-date text-center">
+                                                        <div class="event-date-header">
+                                                            <span class="f-700 f-12">{{ $event->date->format('Y') }}</span>
+                                                        </div>
+                                                        <div class="event-date-body">
+                                                            <span class="f-700 f-16">{{ $event->date->format('d') }}</span>
+                                                            <span class="f-300">{{ $event->date->format('M') }}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- / Event Date -->
+                                                <div class="col-xs-9 event-col">
+                                                    <div class="list-cats">
+                                                        @foreach($event->categories as $indexCat => $category)
+                                                            @if($indexCat < 1)
+                                                                <span class="label label-success t-overflow f-300 f-14 m-t-5 m-r-5">
+                                                                {{ $category->name }}
+                                                            </span>
+                                                            @endif
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <h3 class="f-300 m-t-10 t-overflow">{{ $event->name }}</h3>
+                                            <!-- location -->
+                                            <div class="m-t-10">
+                                                <span class="d-block f-300 f-14">
+                                                    <i class="icon ion-ios-location-outline m-r-10 f-20"></i>{{ $event->city }} - {{ $event->state }}
+                                                </span>
+                                            </div>
+                                            <!-- / location -->
+
+                                            <div class="text-center">
+                                                <button class="btn btn-primary f-300 f-16 m-t-15">
+                                                    Mais informações
+                                                </button>
+                                            </div>
+
+                                        </div>
+                                        <!-- / Card Event body -->
+                                    </div>
+                                    <!-- / Card Event -->
+                                </a>
+                            </div>
+                        @endforeach
+                        <!-- / Events List -->
+
+                        <div class="col-sm-12">
+                            <div class="text-center">
+                                {{ $events->links() }}
+                            </div>
+                        </div>
+                    @endif
+                </div>
+            </div>
+
+            {{-- Sidebar --}}
+            <div class="col-sm-3">
+                @include('landing.home.sidebar', ['current_view' => 'events'])
+            </div>
+            {{-- End Side Bar --}}
+
         </div>
 
-
-            <div class="text-center">
-                {{ $events->links() }}
-            </div>
     </div>
-    <!-- / List Events -->
+    <!-- / Event Section -->
 </section>
+
+@section('scripts')
+    @parent
+
+@stop

@@ -54,10 +54,16 @@ Route::group(['as' => 'landing.'], function () {
     });
 
     //Receitas
-	Route::group(['prefix' => 'receitas', 'as' => 'recipes.'], function () {
-		Route::get('/', ['uses' => 'LandingController@ListRecipes', 'as' => 'list']);
+    Route::group(['prefix' => 'receitas', 'as' => 'recipes.'], function () {
+        Route::get('/', ['uses' => 'LandingController@ListRecipes', 'as' => 'list']);
         Route::get('/{slug}', ['uses' => 'LandingController@ShowRecipe', 'as' => 'show']);
         Route::get('/imprimir/{slug}', ['uses' => 'MealRecipeController@generate_pdf', 'as' => 'pdf']);
+    });
+
+    //Artigos
+	Route::group(['prefix' => 'artigos', 'as' => 'articles.'], function () {
+		Route::get('/', ['uses' => 'SiteArticleController@list_for_site', 'as' => 'list']);
+        Route::get('/{slug}', ['uses' => 'SiteArticleController@show_for_site', 'as' => 'show']);
 	});
 
     //Tools na landing

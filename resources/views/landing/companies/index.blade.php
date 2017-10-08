@@ -43,8 +43,8 @@
         <div id="app">
 
             @include('landing.home.navbar')
-            @if($header_with_search)
-                @include('landing.companies.header-with-search')
+            @if(isset($header_with_search) && $header_with_search)
+                @include('landing.companies.header-with-search', ['is_view_company' => true])
             @else
                 @include('landing.companies.header-blank')
             @endif
@@ -66,13 +66,13 @@
         <script type="text/javascript">
             $(document).ready(function(){
                 //animated header class
-                $(window).scroll(function () {
-                    if ($(window).scrollTop() > 100) {
-                        $(".navbar-default").addClass("animated");
-                    } else {
-                        $(".navbar-default").removeClass('animated');
-                    }
-                });
+                // $(window).scroll(function () {
+                //     if ($(window).scrollTop() > 100) {
+                //         $(".navbar-default").addClass("animated");
+                //     } else {
+                //         $(".navbar-default").removeClass('animated');
+                //     }
+                // });
             });
         </script>
 

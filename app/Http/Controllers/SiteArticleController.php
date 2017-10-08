@@ -47,16 +47,45 @@ class SiteArticleController extends Controller
     }
 
     /**
-     * List for app
+     * Show for app
      *
-     * @param $id
+     * @param $slug
      * @return \Illuminate\Http\Response
      */
     public function show_for_app($slug)
     {
         $article = SiteArticle::where('slug', $slug)->first();
+        $article->increment('views', 1);
 
         return response()->json(['article' => $article]);
+    }
+
+    /**
+     * List for site
+     *
+     * @param $slug
+     * @return \Illuminate\Http\Response
+     */
+    public function list_for_site(Request $request)
+    {
+        $articles = SiteArticle::where('title', 'LIKE', '%' . $request->query('search') . '%')->orderBy('created_at', 'DESC')->paginate(12);
+
+        return view('landing.articles.list', compact('articles'));
+    }
+
+    /**
+     * Show for site
+     *
+     * @param $slug
+     * @return \Illuminate\Http\Response
+     */
+    public function show_for_site($slug)
+    {
+        $article_fetched = SiteArticle::where('slug', $slug)->first();
+        $article_fetched->increment('views', 1);
+        $see_too_articles = SiteArticle::inRandomOrder()->limit(6)->get();
+
+        return view('landing.articles.show', compact('article_fetched', 'see_too_articles'));
     }
 
 
@@ -125,6 +154,26 @@ class SiteArticleController extends Controller
     public function update(Request $request)
     {
         $article = tap(siteArticle::find($request->get('id')))->update($request->all())->fresh();
+
+        if($request->hasFile('file')){
+
+            \Storage::disk('media')->delete($article->path);
+            
+            $file = $request->file('file');
+
+            $originalName = $file->getClientOriginalName();
+            $extension = $file->getClientOriginalExtension();
+
+            $fileName = bin2hex(random_bytes(16)) . '.' . $extension;
+
+            $filePath = 'articles/' . $fileName;
+
+            \Storage::disk('media')->put($filePath, file_get_contents($file), 'public');
+
+            //merge file path on request
+            $request->merge(['path' => $filePath, 'filename' => $originalName, 'extension' => $extension]);
+            
+        }
 
         return redirect(route('oracle.dashboard.articles.list'));
     }

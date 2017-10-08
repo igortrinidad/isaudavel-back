@@ -22,15 +22,8 @@
 
 </style>
 
-<header id="search-area">
+<header style="padding-top: 60px;">
     <div class="container">
-
-
-        <div class="row">
-
-            <br>
-
-        </div>
 
     </div>
 </header>

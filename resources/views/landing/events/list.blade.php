@@ -55,7 +55,7 @@
 
         #search-area.search-page {
             margin-top: 0;
-            padding-bottom: 20px;
+            padding-bottom: 40px;
             background: rgba(0, 0, 0, 0) linear-gradient(180deg, #6EC058 20%, #88C657 100%) repeat scroll 0 0;
         }
 
@@ -76,7 +76,7 @@
 
         <div class="container" id="search-events">
             <div class="row header-mobile">
-                <h3 class="text-center">Encontre eventos próximos à você</h3>
+                <h2 class="text-center" style="color: #fff;">Encontre eventos próximos à você</h2>
 
                 <form class="form hidden" id="event-filters" action="{{route('landing.events.list')}}" method="get">
                     <input type="hidden" name="filters" v-model="event_filters" id="event_filters">
@@ -293,4 +293,3 @@
         })
     </script>
 @endsection
-

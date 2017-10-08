@@ -6,7 +6,7 @@
 
     </style>
 
-    <section>
+    <section class="section">
 
         <div class="container">
             <div class="row m-t-30">
@@ -55,7 +55,7 @@
         @parent
 
         <script>
-            
+
 
         </script>
 
