@@ -366,6 +366,10 @@ class ScheduleController extends Controller
                 $i = 0;
                 foreach($date_range as $date){
 
+                    if(empty($client_subscription->workdays)){
+                        continue;
+                    }
+
                     if ($client_subscription->workdays[$i]['dow'] == $date->dayOfWeek && $date->isFuture() && $client_subscription->workdays[$i]['professional_id'] == $calendar_setting->professional_id) {
 
                         $schedule_data = [
