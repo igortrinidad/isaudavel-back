@@ -6,6 +6,7 @@ use App\Events\ClientActivity;
 use App\Models\Activity;
 use App\Models\Diet;
 use Illuminate\Http\Request;
+use PDF;
 
 class DietController extends Controller
 {
@@ -145,6 +146,26 @@ class DietController extends Controller
         return response()->json([
             'message' => 'diet not found.',
         ], 404);
+
+    }
+
+    public function generate_pdf($id){
+
+        $diet = Diet::where('id', $id)->with('from')->first();
+
+        if(!$diet){
+            abort(404);   
+        }
+
+        $data = [
+            'diet' => $diet
+        ];
+
+        $pdf = PDF::loadView('pdf.diet', $data, [
+            'orientation' => 'P'
+        ]);
+
+        return $pdf->stream('App_iSaudavel_Dieta_' . $diet->id . '.pdf');
 
     }
 }

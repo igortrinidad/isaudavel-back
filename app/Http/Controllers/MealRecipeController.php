@@ -302,6 +302,10 @@ class MealRecipeController extends Controller
 
         $meal = MealRecipe::where('id', $id)->with('from')->first();
 
+        if(!$meal){
+            abort(404);   
+        }
+
         $data = [
             'meal' => $meal
         ];

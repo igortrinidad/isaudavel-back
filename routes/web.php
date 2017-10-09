@@ -71,6 +71,7 @@ Route::group(['as' => 'landing.'], function () {
 
         Route::group(['prefix' => 'print', 'as' => 'print.'], function () {
             Route::get('/trainning/{id}', ['uses' => 'TrainningController@generate_pdf', 'as' => 'pdf']);
+            Route::get('/diet/{id}', ['uses' => 'DietController@generate_pdf', 'as' => 'pdf']);
             Route::get('/recipes/{slug}', ['uses' => 'MealRecipeController@generate_pdf', 'as' => 'pdf']);
         });
 

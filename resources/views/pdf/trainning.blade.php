@@ -29,13 +29,17 @@ table, th, td {
     border: 1px solid black;
 }
 
-
-
 th{
+    font-size: 12px;
 	background-color: #84C567;
 }
 
-.table table, .table tr, .table td, .table{
+td{
+    font-size: 10px;
+    padding: 3px;
+}
+
+.table-no-border table, .table-no-border tr, .table-no-border td, .table-no-border{
     border: 0px;
 }
 
@@ -52,7 +56,7 @@ h3, h4, h5{
 </style>
 
 
-<table class="table">
+<table class="table-no-border">
     <tbody>
         <tr>
             <td style="text-align: left;"><img src="https://s3.amazonaws.com/isaudavel-assets/logos/i_saudavel-LOGO-01.png" width="200" alt="Logo" border="0" style="text-align: center;"></td>
@@ -66,39 +70,44 @@ h3, h4, h5{
 </table>
 
 
-<h3 style="text-align: center;">Ficha de treinamento</h3>
+<h3 style="text-align: center;">Treinamento</h3>
 
-<table class="table">
+<table class="table-no-border">
     <tbody>
         <tr>
-            <td style="text-align: left;">
+            <td style="text-align: left; font-size: 12px;">
                 <h5>Criado em</h5>
-                <p>{{\Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $trainning->created_at)->format('d/m/Y H:i:s')}}</p>
+                <p>{{\Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $trainning->created_at)->format('d/m/Y')}}</p>
             </td>
-            <td style="text-align: right">
+            <td style="text-align: right; font-size: 12px;">
                 <h5>Frequência cardíaca alvo</h5>
                 <p>{{$trainning->heart_rate}}</p>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: left; font-size: 12px;">
+                <h5>Observações</h5>
+                <p>{{$trainning->observation}}</p>
             </td>
         </tr>
     </tbody>
 </table>
 
-<h5>Observações</h5>
-<p style="margin-top: 0px;">{{$trainning->observation}}</p>
+
 
 <h5>Séries e exercícios</h5>
 
 <table>
     <thead>
         <tr>
-            <th width="10%" style="font-size: 12px;">Série</th>
-            <th width="14%" style="font-size: 12px;">Exercício</th>
-            <th width="7%" style="font-size: 12px;">Intervalo</th>
-            <th width="10%" style="font-size: 12px;">Quantidade</th>
-            <th width="10%" style="font-size: 12px;">Carga</th>
-            <th width="10%" style="font-size: 12px;">Ritmo</th>
-            <th width="10%" style="font-size: 12px;">Local</th>
-            <th width="10%" style="font-size: 12px;">Posição</th>
+            <th width="10%">Série</th>
+            <th width="14%">Exercício</th>
+            <th width="7%">Intervalo</th>
+            <th width="10%">Quantidade</th>
+            <th width="10%">Carga</th>
+            <th width="10%">Ritmo</th>
+            <th width="10%">Local</th>
+            <th width="10%">Posição</th>
         </tr>
     </thead>
     <tbody>
@@ -109,31 +118,31 @@ h3, h4, h5{
             {{$iexerc = 0}}
             @foreach($serie['exercises'] as $exercise)
                 
-                <tr style="font-size: 10px !important; padding: 3px;">
+                <tr style="padding: 3px;">
 
                     @if($iexerc == 0)
                         <td rowspan="{{count($serie['exercises'])}}">{{ $serie['name'] }}</td>
                     @endif
-                    <td style="font-size: 10px !important; padding: 3px;">{{$exercise['name']}}</td>
-                    <td style="font-size: 10px !important; padding: 3px;">{{ $serie['interval'] }}</td>
-                    <td style="font-size: 10px !important; padding: 3px;">
+                    <td style="padding: 3px;">{{$exercise['name']}}</td>
+                    <td style="padding: 3px;">{{ $serie['interval'] }}</td>
+                    <td style="padding: 3px;">
                         @foreach($exercise['method'] as $method)
                             {{ $method['quantity'] }} {{$method['label']}},
                         @endforeach
                     </td>
                     
-                    <td style="font-size: 10px !important; padding: 3px;">
+                    <td style="padding: 3px;">
                         @foreach($exercise['method'] as $method)
                             {{ $method['load'] }},
                         @endforeach
                     </td>
-                    <td style="font-size: 10px !important; padding: 3px;">
+                    <td style="padding: 3px;">
                         @foreach($exercise['method'] as $method)
                             {{ $method['cadency'] }},
                         @endforeach
                     </td>
-                    <td style="font-size: 10px !important; padding: 3px;">{{ $exercise['location'] }}</td>
-                    <td style="font-size: 10px !important; padding: 3px;">{{ $exercise['position'] }}</td>
+                    <td style="padding: 3px;">{{ $exercise['location'] }}</td>
+                    <td style="padding: 3px;">{{ $exercise['position'] }}</td>
                 </tr>
 
             {{$iexerc++}}

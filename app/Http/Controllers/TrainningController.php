@@ -155,6 +155,10 @@ class TrainningController extends Controller
 
         $trainning = Trainning::where('id', $id)->with('from')->first();
 
+        if(!$trainning){
+            abort(404);   
+        }
+
         $data = [
             'trainning' => $trainning
         ];
