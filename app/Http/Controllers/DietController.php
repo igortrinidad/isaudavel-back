@@ -151,7 +151,7 @@ class DietController extends Controller
 
     public function generate_pdf($id){
 
-        $diet = Diet::where('id', $id)->with('from')->first();
+        $diet = Diet::where('id', $id)->with(['from', 'client'])->first();
 
         if(!$diet){
             abort(404);   

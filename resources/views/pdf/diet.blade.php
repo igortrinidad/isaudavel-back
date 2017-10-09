@@ -63,7 +63,7 @@ h3, h4, h5{
             <td style="text-align: right;">
                 <div class="picture-circle" style="background-image: url('{{$diet->from->avatar}}');"></div>
                 <p>Por</p>
-                <p>{{$diet->from->full_name}}</p>
+                <h4>{{$diet->from->full_name}}</h4>
             </td>
         </tr>
     </tbody>
@@ -75,11 +75,14 @@ h3, h4, h5{
 <table class="table-no-border">
     <tbody>
         <tr>
+
             <td style="text-align: left; font-size: 12px;">
-                <h5>Criado em</h5>
-                <p>{{\Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $diet->created_at)->format('d/m/Y')}}</p>
+                <h5>Usuário</h5>
+                {{$diet->client->full_name}}
             </td>
             <td style="text-align: right; font-size: 12px;">
+                <h5>Data</h5>
+                <p>{{\Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $diet->created_at)->format('d/m/Y')}}</p>
             </td>
         </tr>
         <tr>

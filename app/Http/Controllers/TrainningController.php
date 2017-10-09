@@ -153,7 +153,7 @@ class TrainningController extends Controller
 
     public function generate_pdf($id){
 
-        $trainning = Trainning::where('id', $id)->with('from')->first();
+        $trainning = Trainning::where('id', $id)->with(['from', 'client'])->first();
 
         if(!$trainning){
             abort(404);   

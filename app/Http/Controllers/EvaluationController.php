@@ -7,6 +7,7 @@ use App\Models\Activity;
 use App\Models\Evaluation;
 use App\Models\EvaluationPhoto;
 use Illuminate\Http\Request;
+use PDF;
 
 class EvaluationController extends Controller
 {
@@ -195,6 +196,26 @@ class EvaluationController extends Controller
         }
 
         return response()->json(['evaluations' => $data]);
+
+    }
+
+    public function generate_pdf($id){
+
+        $evaluation = Evaluation::where('id', $id)->with(['from', 'client'])->first();
+
+        if(!$evaluation){
+            abort(404);   
+        }
+
+        $data = [
+            'evaluation' => $evaluation
+        ];
+
+        $pdf = PDF::loadView('pdf.evaluation', $data, [
+            'orientation' => 'P'
+        ]);
+
+        return $pdf->stream('App_iSaudavel_Avaliacao_' . $evaluation->id . '.pdf');
 
     }
 }

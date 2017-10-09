@@ -25,32 +25,61 @@ table, th, td {
     border: 1px solid black;
 }
 
-th, td {
-    padding: 10px;
-    text-align: left;
+th{
+    font-size: 12px;
+    background-color: #84C567;
 }
 
-th{
-	background-color: #84C567;
+td{
+    font-size: 10px;
+    padding: 3px;
 }
+
+
+.table-no-border table, .table-no-border tr, .table-no-border td, .table-no-border{
+    border: 0px;
+}
+
 </style>
 
-<div class="" style="text-align: center;">
-	<img src="https://s3.amazonaws.com/isaudavel-assets/logos/i_saudavel-LOGO-01.png" width="200" alt="Logo" border="0" style="text-align: center;">
-</div>
-<h3 style="text-align: center;">{{ $meal->title}}</h3>
 
-<div class="picture-all-bg" style="background-image: url('{{$meal->avatar}}');"></div>
-<br>
+<table class="table-no-border">
+    <tbody>
+        <tr>
+            <td style="text-align: left;"><img src="https://s3.amazonaws.com/isaudavel-assets/logos/i_saudavel-LOGO-01.png" width="200" alt="Logo" border="0" style="text-align: center;"></td>
+            <td style="text-align: right;">
+                <div class="picture-circle" style="background-image: url('{{$meal->from->avatar}}');"></div>
+                <p>Enviado por</p>
+                <h4>{{$meal->from->full_name}}</h4>
+            </td>
+        </tr>
+    </tbody>
+</table>
 
-<h4>Enviado por</h4>
-<div class="picture-circle" style="background-image: url('{{$meal->from->avatar}}');"></div>
-<p>{{$meal->from->full_name}}</p>
+<h4 style="text-align: center;">{{$meal->title}}</h4>
 
-<h4>Macro nutrientes</h4>
-<p>
-	<b>Kcal:</b> {{$meal->kcal}} | <b>Proteína: </b>{{$meal->protein}}g | <b>Carbs: </b>{{$meal->carbohydrate}}g | <b>Lípidios: </b>{{$meal->lipids}}g | <b>Fibra: </b>{{$meal->fiber}}g
-</b>
+<h5 style="text-align: center;">Macronutrientes por porção</h5>
+
+<table>
+    <thead>
+        <tr>
+            <th width="20%" style="text-align: center;">Calorias</th>
+            <th width="20%" style="text-align: center;">Proteínas</th>
+            <th width="20%" style="text-align: center;">Carboidratos</th>
+            <th width="20%" style="text-align: center;">Lipídios</th>
+            <th width="20%" style="text-align: center;">Fibras</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td style="text-align: center;">{{$meal->kcal}}</td>
+            <td style="text-align: center;">{{$meal->protein}} g</td>
+            <td style="text-align: center;">{{$meal->carbohydrate}} g</td>
+            <td style="text-align: center;">{{$meal->lipids}} g</td>
+            <td style="text-align: center;">{{$meal->fiber}} g</td>
+        </tr>
+    </tbody>
+</table>
 
 <h4>Ingredientes</h4>
 	<p>
