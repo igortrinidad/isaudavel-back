@@ -213,6 +213,19 @@ class Client extends Authenticatable implements JWTSubject
         return $this->hasMany(Activity::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function professionals()
+    {
+        return $this->belongsToMany(Professional::class, 'client_professional')
+            ->withPivot('is_confirmed','is_deleted','requested_by_client',
+                'trainnings_show', 'trainnings_edit', 'diets_show', 'diets_edit',
+                'evaluations_show', 'evaluations_edit', 'restrictions_show',
+                'restrictions_edit', 'exams_show', 'exams_edit');
+    }
+
+
     /** Overide some attributes on update
      * @param array $attributes
      * @param array $options

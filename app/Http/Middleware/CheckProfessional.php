@@ -28,7 +28,7 @@ class CheckProfessional
 
         \Config::set('auth.defaults.guard', $user->role);
 
-        if($user->role == 'professional'){
+        if ($user->role == 'professional') {
 
             //get professional companies
             $professional_companies = $user->companies()->get()->pluck('id')->flatten()->toArray();
@@ -36,13 +36,23 @@ class CheckProfessional
             //get client
             $client = Client::find($client_id);
 
-            $client_companies = $client->companies()->get()->pluck('id')->flatten();
+            //handle with professional companies
+            if ($professional_companies) {
+                $client_companies = $client->companies()->get()->pluck('id')->flatten();
 
-            foreach($professional_companies as $company){
+                foreach ($professional_companies as $company) {
 
-                if ($client_companies->contains($company)) {
-                    return $next($request);
+                    if ($client_companies->contains($company)) {
+                        return $next($request);
+                    }
                 }
+            }
+
+            //handle with client professionals
+            $client_professionals = $client->professionals()->get()->pluck('id')->flatten();
+
+            if ($client_professionals->contains($user->id)) {
+                return $next($request);
             }
         }
 

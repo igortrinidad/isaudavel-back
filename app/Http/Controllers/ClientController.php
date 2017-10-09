@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\ClientPhoto;
 use App\Models\Company;
+use App\Models\Professional;
 use Carbon\Carbon;
 use function foo\func;
 use Illuminate\Http\Request;
@@ -223,6 +224,55 @@ class ClientController extends Controller
 
         }
 
+        //If is a professional creating a client attach automatically
+        if($request->has('professional_id') && $request->get('professional_id')){
+            $client->professionals()->attach($request->get('professional_id'),
+                [
+                    'is_confirmed' => true,
+                    'confirmed_by_id' => \Auth::user()->id,
+                    'confirmed_by_type' => get_class(\Auth::user()),
+                    'confirmed_at' => Carbon::now(),
+                    'trainnings_show' => true,
+                    'trainnings_edit' => true,
+                    'diets_show' => true,
+                    'diets_edit' => true,
+                    'evaluations_show' => true,
+                    'evaluations_edit' => true,
+                    'restrictions_show' => true,
+                    'restrictions_edit' => true,
+                    'exams_show' => true,
+                    'exams_edit' => true,
+                ]);
+
+            //Envia email para informar o cliente do cadastro
+            $data = [];
+            $data['align'] = 'center';
+            $data['messageTitle'] = '<h4>Cadastro iSaudavel</h4>';
+            $data['messageOne'] = '
+            <p>Olá ' . $request->get('name') . ',</p>
+            <p>O profissional <b>' . \Auth::user()->full_name . '</b> acabou de criar um perfil para você na plataforma <a href="https://isaudavel.com" target="_blank">iSaudavel</a>. Agora você poderá acessar diretamente suas avaliações físicas, dietas, fichas de treinamento além de controlar seus agendamentos com as empresas que você adicionar e muito mais.
+            </p>
+            <br>
+            <p>Acesse online em <a href="https://app.isaudavel.com">app.isaudavel.com</a> ou baixe o aplicativo 
+            para <a href="https://play.google.com/store/apps/details?id=com.isaudavel" target="_blank">Android</a> e <a href="https://itunes.apple.com/us/app/isaudavel/id1277115133?mt=8" target="_blank">iOS (Apple)</a></p>.
+            <hr>
+            <h4>Dados de acesso</h4>
+            <b>
+            <h5>Email de acesso</h5>
+            <p><b>' .$request->get('email') . '</b></p>
+            <h5>Password provisório</h5>
+            <p>' . $pass . '</p>
+            <p>Solicitamos que você altere sua senha no primeiro acesso.</p>';
+
+            $data['messageSubject'] = 'Cadastro iSaudavel';
+
+            \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $request){
+                $message->from('no-reply@isaudavel.com', 'iSaudavel App');
+                $message->to($request->get('email'), $request->get('name'))->subject($data['messageSubject']);
+            });
+
+        }
+
         return response()->json([
             'message' => 'Client created.',
             'client' => $client->fresh(['photos'])
@@ -238,7 +288,7 @@ class ClientController extends Controller
     public function show(Request $request)
     {
 
-        $client = Client::find($request->get('client_id'))->load(['photos', 'subscriptions.plan', 'subscriptions.invoices', 'companies']);
+        $client = Client::find($request->get('client_id'))->load(['photos', 'subscriptions.plan', 'subscriptions.invoices', 'companies', 'professionals']);
 
         return response()->json(['client' => $client]);
     }
@@ -655,6 +705,356 @@ class ClientController extends Controller
     public function XpInfo()
     {
         return response()->json(['total_xp' => \Auth::user()->total_xp]);
+    }
+
+    /**
+     * Professional
+     */
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function professionalClients(Request $request)
+    {
+        $clients_confirmed = Client::whereHas('professionals', function ($query) use($request){
+            $query->where('professional_id', $request->get('professional_id'))
+                ->where('is_confirmed', true)
+                ->where('is_deleted', false);
+        })->with(['professionals' => function($query) use($request){
+            $query->where('professional_id', $request->get('professional_id'));
+        }])->orderBy('name')->paginate(10);
+
+        $clients_unconfirmed = Client::whereHas('professionals', function ($query) use($request){
+            $query->where('professional_id', $request->get('professional_id'))
+                ->where('is_confirmed', false)
+                ->where('is_deleted', false);
+        })->with(['professionals' => function($query) use($request){
+            $query->where('professional_id', $request->get('professional_id'));
+        }])->orderBy('name')->paginate(10);
+
+        $clients_deleted = Client::whereHas('professionals', function ($query) use($request){
+            $query->where('professional_id', $request->get('professional_id'))
+                ->where('is_confirmed', false)
+                ->where('is_deleted', true);
+        })->with(['professionals' => function($query) use($request){
+            $query->where('professional_id', $request->get('professional_id'))->withPivot('deleted_by_id');
+        }])->orderBy('name')->paginate(10);
+
+        return response()->json([
+            'clients_confirmed' => custom_paginator($clients_confirmed, 'clients_confirmed'),
+            'clients_unconfirmed' => custom_paginator($clients_unconfirmed, 'clients_unconfirmed'),
+            'clients_deleted' => custom_paginator($clients_deleted, 'clients_deleted'),
+        ]);
+    }
+
+    /**
+     * Client Search.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function searchProfessional(Request $request)
+    {
+        $search = explode(' ', $request->get('search'));
+
+        $clients_confirmed = Client::whereHas('professionals', function ($query) use($request){
+            $query->where('professional_id', $request->get('professional_id'))
+                ->where('is_confirmed', true)
+                ->where('is_deleted', false);
+        })->where(function($query) use($request, $search){
+            $query->where('name', 'LIKE', '%' . $request->get('search') . '%');
+            $query->orWhere('last_name', 'LIKE', '%' . $request->get('search') . '%');
+            $query->orWhere('email', 'LIKE', '%' . $request->get('search') . '%');
+
+            //for full name
+            $query->orWhereIn('name', $search);
+            $query->orWhere(function ($query) use ($search) {
+                $query->whereIn('last_name', $search);
+            });
+        })->with(['professionals' => function($query) use($request){
+            $query->where('professional_id', $request->get('professional_id'));
+        }])->orderBy('name')->paginate(10);
+
+        $clients_unconfirmed = Client::whereHas('professionals', function ($query) use($request){
+            $query->where('professional_id', $request->get('professional_id'))
+                ->where('is_confirmed', false)
+                ->where('is_deleted', false);
+        })->where(function($query) use($request, $search){
+            $query->where('name', 'LIKE', '%' . $request->get('search') . '%');
+            $query->orWhere('last_name', 'LIKE', '%' . $request->get('search') . '%');
+            $query->orWhere('email', 'LIKE', '%' . $request->get('search') . '%');
+
+            //for full name
+            $query->orWhereIn('name', $search);
+            $query->orWhere(function ($query) use ($search) {
+                $query->whereIn('last_name', $search);
+            });
+        })->with(['professionals' => function($query) use($request){
+            $query->where('professional_id', $request->get('professional_id'));
+        }])->orderBy('name')->paginate(10);
+
+
+        $clients_deleted = Client::whereHas('professionals', function ($query) use($request){
+            $query->where('professional_id', $request->get('professional_id'))
+                ->where('is_confirmed', false)
+                ->where('is_deleted', true);
+        })->with(['professionals' => function($query) use($request){
+            $query->where('professional_id', $request->get('professional_id'));
+        }])->orderBy('name')->paginate(10);
+
+        //Quando não clientes deixar a company procurar somente de posse do email para não virar spam ou uma company que não tem acesso mesmo ao cliente ficar solicitando para ver as infos...
+        $non_clients = Client::whereDoesntHave('professionals', function ($query) use($request, $search){
+            $query->where('professional_id', $request->get('professional_id'));
+        })->where(function($query) use($request, $search){
+            $query->orWhere('email', $request->get('search'));
+        })->orderBy('name')->paginate(10);
+
+
+        return response()->json([
+            'clients_confirmed' => custom_paginator($clients_confirmed, 'clients_confirmed'),
+            'clients_unconfirmed' => custom_paginator($clients_unconfirmed, 'clients_unconfirmed'),
+            'clients_deleted' => custom_paginator($clients_deleted, 'clients_deleted'),
+            'non_clients' => custom_paginator($non_clients, 'non_clients'),
+        ]);
+    }
+
+    /**
+     * Company requests client solicitation
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function professionalSolicitation(Request $request)
+    {
+
+        $results = Client::where('id', $request->get('client_id'))->whereHas('professionals', function($query) use ($request){
+            $query->where('professional_id', $request->get('professional_id'));
+        })->count();
+
+        if($results > 0){
+            return response()->json([
+                'message' => 'Client already added.',
+                'status' => 422,
+            ], 422);
+        }
+
+        $requested_by_client = $request->get('requested_by_client');
+
+        $client = Client::find($request->get('client_id'));
+
+        if($client){
+
+            if(!$requested_by_client){
+                $client->professionals()->attach($request->get('professional_id'), [
+                    'is_confirmed' => false,
+                    'requested_by_client' => $requested_by_client
+                ]);
+            } else {
+
+                $client->professionals()->attach($request->get('professional_id'), [
+                    'is_confirmed' => false,
+                    'requested_by_client' => $requested_by_client,
+                    'diets_edit' => $request->get('diets_edit'),
+                    'diets_show' => $request->get('diets_show'),
+                    'evaluations_edit' => $request->get('evaluations_edit'),
+                    'evaluations_show' => $request->get('evaluations_show'),
+                    'exams_edit' => $request->get('exams_edit'),
+                    'exams_show' => $request->get('exams_show'),
+                    'restrictions_edit' => $request->get('restrictions_edit'),
+                    'restrictions_show' => $request->get('restrictions_show'),
+                    'trainnings_edit' => $request->get('trainnings_edit'),
+                    'trainnings_show' => $request->get('trainnings_show')
+                ]);
+
+            }
+
+            //load relation to return
+            $client_professional = $client->professionals()->select('id', 'name', 'last_name')
+                ->wherePivot('professional_id', '=',$request->get('professional_id'))
+                ->withPivot('is_confirmed', 'is_deleted', 'requested_by_client')
+                ->first();
+
+            $professional = Professional::find($request->get('professional_id'));
+
+            //Envia email para informar o cliente
+            $data = [];
+            $data['align'] = 'center';
+            $data['messageTitle'] = '<h4>Nova solicitação</h4>';
+            $data['messageOne'] = '
+            <p>Olá ' . $client->full_name . '  <p>O profissional <b>' . $professional->full_name . '</b> está solicitando acesso ao seu perfil na plataforma iSaudavel, acesse seu perfil e configure as permissões para cada módulo que o profissional terá acesso.</p>
+            <br>
+            <p>Acesse online em <a href="https://app.isaudavel.com">app.isaudavel.com</a> ou baixe o aplicativo 
+            para <a href="https://play.google.com/store/apps/details?id=com.isaudavel" target="_blank">Android</a> e <a href="https://itunes.apple.com/us/app/isaudavel/id1277115133?mt=8" target="_blank">iOS (Apple)</a></p>';
+
+            $data['messageSubject'] = 'Nova solicitação iSaudavel';
+
+            \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $client){
+                $message->from('no-reply@isaudavel.com', 'iSaudavel App');
+                $message->to($client->email, $client->full_name)->subject($data['messageSubject']);
+            });
+
+            return response()->json(['message' => 'OK', 'professional' => $client_professional]);
+        }
+
+        if(!$client){
+            return response()->json([
+                'message' => 'Client not found.',
+            ], 404);
+        }
+
+    }
+
+    /**
+     *  Client accept professional solicitation
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function acceptProfessionalSolicitation(Request $request)
+    {
+        $client = Client::find($request->get('client_id'));
+
+        if($client){
+
+            $client->professionals()->updateExistingPivot($request->get('professional_id'),
+                [
+                    'is_confirmed' => true,
+                    'is_deleted' => false,
+                    'confirmed_by_id' => \Auth::user()->id,
+                    'confirmed_by_type' => get_class(\Auth::user()),
+                    'confirmed_at' => Carbon::now(),
+                    'deleted_by_id' => null,
+                    'deleted_by_type' => null,
+                    'deleted_at' => null
+                ]);
+
+
+            //load relation to return
+            $client_professional = $client->professionals()->select('id', 'name', 'last_name')
+                ->wherePivot('professional_id', '=',$request->get('professional_id'))
+                ->withPivot('is_confirmed', 'requested_by_client')
+                ->first();
+
+            return response()->json(['message' => 'OK', 'professional' => $client_professional]);
+        }
+
+        if(!$client){
+            return response()->json([
+                'message' => 'Client not found.',
+            ], 404);
+        }
+
+    }
+
+
+    /**
+     *  Client remove professional solicitation
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function removeProfessionalSolicitation(Request $request)
+    {
+        $client = Client::find($request->get('client_id'));
+
+        if($client){
+
+            $client->professionals()->updateExistingPivot($request->get('professional_id'),
+                ['is_deleted' => true,
+                    'is_confirmed' => false,
+                    'deleted_by_id' => \Auth::user()->id,
+                    'deleted_by_type' => get_class(\Auth::user()),
+                    'deleted_at' => Carbon::now()
+                ]);
+
+            return response()->json(['message' => 'OK']);
+        }
+
+        if(!$client){
+            return response()->json([
+                'message' => 'Client not found.',
+            ], 404);
+        }
+
+    }
+
+    /**
+     *  Update client professional relationship
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function updateProfessionalRelationship(Request $request)
+    {
+        $client = Client::find($request->get('client_id'));
+
+        if($client){
+
+            $client->professionals()->updateExistingPivot($request->get('professional_id'), $request->all());
+
+            return response()->json(['message' => 'Relationship updated']);
+        }
+
+        if(!$client){
+            return response()->json([
+                'message' => 'Client not found.',
+            ], 404);
+        }
+
+    }
+
+    /**
+     *  Reactivate client company relationship
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function reactivateProfessionalRelationship(Request $request)
+    {
+        $client = Client::find($request->get('client_id'));
+
+        if($client){
+
+            $client->professionals()->updateExistingPivot($request->get('professional_id'),
+                [
+                    'is_deleted' => false,
+                    'deleted_by_id' => null,
+                    'deleted_by_type' => null,
+                    'deleted_at' => null
+                ]
+            );
+
+            $professional = Professional::find($request->get('professional_id'));
+
+            //Envia email para informar o cliente
+            $data = [];
+            $data['align'] = 'center';
+            $data['messageTitle'] = '<h4>Nova solicitação</h4>';
+            $data['messageOne'] = '
+            <p>Olá ' . $client->full_name . '  <p>O profissional <b>' . $professional->full_name . '</b> está solicitando acesso ao seu perfil na plataforma iSaudavel, acesse seu perfil e configure as permissões para cada módulo que o profissional terá acesso.</p>
+            <br>
+            <p>Acesse online em <a href="https://app.isaudavel.com">app.isaudavel.com</a> ou baixe o aplicativo 
+            para <a href="https://play.google.com/store/apps/details?id=com.isaudavel" target="_blank">Android</a> e <a href="https://itunes.apple.com/us/app/isaudavel/id1277115133?mt=8" target="_blank">iOS (Apple)</a></p>';
+
+            $data['messageSubject'] = 'Nova solicitação iSaudavel';
+
+            \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $client){
+                $message->from('no-reply@isaudavel.com', 'iSaudavel App');
+                $message->to($client->email, $client->full_name)->subject($data['messageSubject']);
+            });
+
+            return response()->json(['message' => 'Relationship reactivated']);
+        }
+
+        if(!$client){
+            return response()->json([
+                'message' => 'Client not found.',
+            ], 404);
+        }
+
     }
 
 }

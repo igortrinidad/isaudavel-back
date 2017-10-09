@@ -264,6 +264,20 @@ Route::group(['prefix' => 'professional'], function () {
         Route::post('/calendar/list_new', 'ScheduleController@professionalCalendarNew'); //for compatibility
         Route::post('/calendar/reschedule', 'ScheduleController@reschedule');
 
+        //Client
+        Route::group(['prefix' => 'client'], function(){
+            //list
+            Route::post('/list', 'ClientController@professionalClients');
+            Route::post('/search', 'ClientController@searchProfessional');
+
+            //Client professional relationship
+            Route::post('/solicitation', 'ClientController@professionalSolicitation');
+            Route::post('/accept_solicitation', 'ClientController@acceptProfessionalSolicitation');
+            Route::post('/remove_solicitation', 'ClientController@removeProfessionalSolicitation');
+            Route::post('/update_relationship', 'ClientController@updateProfessionalRelationship');
+            Route::post('/reactivate_solicitation', 'ClientController@reactivateProfessionalRelationship');
+        });
+
         //profile update
         Route::get('/profile/show/{id}', 'ProfessionalController@show');
         Route::post('/profile/update', 'ProfessionalController@update');
@@ -408,14 +422,25 @@ Route::group(['prefix' => 'client'], function () {
             Route::post('/schedule/cancel', 'ScheduleController@cancel');
         });
 
-        //Professional rating
-        Route::post('/professional/rating/create', 'ProfessionalRatingController@store');
-        Route::post('/professional/rating/update', 'ProfessionalRatingController@update');
-        Route::get('/professional/rating/destroy/{id}', 'ProfessionalRatingController@destroy');
+        //Professional  Resources
+        Route::group(['prefix' => 'professional'], function() {
 
+            Route::get('/list', 'ProfessionalController@clientProfessionals');
+
+            //Professional rating
+            Route::post('/rating/create', 'ProfessionalRatingController@store');
+            Route::post('/rating/update', 'ProfessionalRatingController@update');
+            Route::get('/rating/destroy/{id}', 'ProfessionalRatingController@destroy');
+
+            //Client professional relationship
+            Route::post('/solicitation', 'ClientController@professionalSolicitation');
+            Route::post('/accept_solicitation', 'ClientController@acceptProfessionalSolicitation');
+            Route::post('/remove_solicitation', 'ClientController@removeProfessionalSolicitation');
+            Route::post('/update_relationship', 'ClientController@updateProfessionalRelationship');
+            Route::post('/reactivate_solicitation', 'ClientController@reactivateProfessionalRelationship');
+
+        });
     });
-
-
 });
 
 

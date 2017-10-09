@@ -75,6 +75,36 @@ class ProfessionalController extends Controller
         return response()->json(custom_paginator($paged_professionals, 'professionals'));
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function clientProfessionals(Request $request)
+    {
+        $professionals_confirmed = \Auth::user()->professionals()->with(['categories'])
+            ->wherePivot('is_confirmed', true)
+            ->wherePivot('is_deleted', false)
+            ->orderBy('name')->paginate(10);
+
+        $professionals_unconfirmed = \Auth::user()->professionals()->with(['categories'])
+            ->wherePivot('is_confirmed', false)
+            ->wherePivot('is_deleted', false)
+            ->orderBy('name')->paginate(10);
+
+        $professionals_deleted = \Auth::user()->professionals()->with(['categories'])
+            ->wherePivot('is_deleted', true)
+            ->wherePivot('is_confirmed', false)
+            ->orderBy('name')->paginate(10);
+
+        return response()->json([
+            'professionals_confirmed' => custom_paginator($professionals_confirmed, 'professionals_confirmed'),
+            'professionals_unconfirmed' => custom_paginator($professionals_unconfirmed, 'professionals_unconfirmed'),
+            'professionals_deleted' => custom_paginator($professionals_deleted, 'professionals_deleted'),
+        ]);
+    }
+
 
     /**
      * Professional Search.
