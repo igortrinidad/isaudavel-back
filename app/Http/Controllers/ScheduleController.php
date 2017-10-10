@@ -436,13 +436,16 @@ class ScheduleController extends Controller
         $client_schedules = Schedule::whereHas('subscription', function ($query) {
             $query->where('client_id', \Auth::user()->id);
         })->whereBetween('date', [$request->get('start'), $request->get('end')])
-            ->with('category')
+            ->with(['category', 'subscription' => function($query){
+                $query->select('id', 'start_at', 'expire_at');
+            }])
             ->get()
             ->groupBy('company_id');
 
             $companies = [];
             foreach($client_schedules as $key => $schedules)
             {
+
                 foreach ($schedules as $schedule){
                     $schedule->professional->makeHidden(['companies','categories','blank_password', 'password', 'remember_token']);
 

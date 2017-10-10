@@ -727,6 +727,15 @@ class ClientController extends Controller
             $query->where('professional_id', $request->get('professional_id'));
         }])->orderBy('name')->paginate(10);
 
+        $total_clients = Client::whereHas('professionals', function ($query) use($request){
+            $query->where('professional_id', $request->get('professional_id'))
+                ->where('is_confirmed', true)
+                ->orWhere('is_confirmed', false)
+                ->where('is_deleted', false);
+        })->with(['professionals' => function($query) use($request){
+            $query->where('professional_id', $request->get('professional_id'));
+        }])->count();
+
         $clients_unconfirmed = Client::whereHas('professionals', function ($query) use($request){
             $query->where('professional_id', $request->get('professional_id'))
                 ->where('is_confirmed', false)
@@ -744,6 +753,7 @@ class ClientController extends Controller
         }])->orderBy('name')->paginate(10);
 
         return response()->json([
+            'total_clients' => $total_clients,
             'clients_confirmed' => custom_paginator($clients_confirmed, 'clients_confirmed'),
             'clients_unconfirmed' => custom_paginator($clients_unconfirmed, 'clients_unconfirmed'),
             'clients_deleted' => custom_paginator($clients_deleted, 'clients_deleted'),
@@ -777,6 +787,15 @@ class ClientController extends Controller
         })->with(['professionals' => function($query) use($request){
             $query->where('professional_id', $request->get('professional_id'));
         }])->orderBy('name')->paginate(10);
+
+        $total_clients = Client::whereHas('professionals', function ($query) use($request){
+            $query->where('professional_id', $request->get('professional_id'))
+                ->where('is_confirmed', true)
+                ->orWhere('is_confirmed', false)
+                ->where('is_deleted', false);
+        })->with(['professionals' => function($query) use($request){
+            $query->where('professional_id', $request->get('professional_id'));
+        }])->count();
 
         $clients_unconfirmed = Client::whereHas('professionals', function ($query) use($request){
             $query->where('professional_id', $request->get('professional_id'))
@@ -814,6 +833,7 @@ class ClientController extends Controller
 
 
         return response()->json([
+            'total_clients' => $total_clients,
             'clients_confirmed' => custom_paginator($clients_confirmed, 'clients_confirmed'),
             'clients_unconfirmed' => custom_paginator($clients_unconfirmed, 'clients_unconfirmed'),
             'clients_deleted' => custom_paginator($clients_deleted, 'clients_deleted'),
