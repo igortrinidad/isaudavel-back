@@ -545,7 +545,7 @@ class ScheduleController extends Controller
         <p><b>Novo horário</b></p>
         <b>' .$schedule->date . ' ' . $schedule->time . '</b>';
 
-        $data['messageTwo'] = 'Acesse online em https://isaudavel.com ou baixe o aplicativo para Android e iOS (Apple)';
+        $data['messageTwo'] = 'Acesse online em https://app.isaudavel.com ou baixe o aplicativo para Android e iOS (Apple)';
 
         $data['messageSubject'] = 'Alteração de horário';
 

@@ -65,6 +65,12 @@ class InvoiceController extends Controller
         <p>Agendamentos</p>
         <b>' .$schedules . '</b>';
 
+        $data['messageTwo'] = 'Acesse online em https://app.isaudavel.com ou baixe o aplicativo para Android e iOS (Apple)';
+
+        $data['messageFour'] = 'Este email é apenas informativo - o pagamento referente à este plano deverá ser realizado diretamente com a empresa.
+        <br>
+        Desconsidere esta mensagem caso o pagamento já tenha sido efetuado.';
+
         $data['messageSubject'] = 'iSaudavel: Fatura recebida';
 
         \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $invoice){
