@@ -472,7 +472,7 @@ class ScheduleController extends Controller
      */
     public function show($id)
     {
-        $schedule = Schedule::find($id);
+        $schedule = Schedule::with(['invoice.subscription.client', 'invoice.subscription.plan', 'professional'])->find($id);
 
         return response()->json(['schedule' => $schedule]);
     }

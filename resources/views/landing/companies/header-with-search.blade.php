@@ -111,7 +111,7 @@
                    <input type="hidden" name="lng" id="lng" value="">
                    <input type="hidden" name="category" id="category" value="">
                    <div class="form-group">
-                       <button type="submit" class="btn btn-outline btn-block btn-buscar" :disabled="!category">Buscar</button>
+                       <button type="submit" class="btn btn-primary btn-block btn-buscar" :disabled="!category">Buscar</button>
                    </div>
                </form>
            </div>
