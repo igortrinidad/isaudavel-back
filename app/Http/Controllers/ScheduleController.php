@@ -475,7 +475,17 @@ class ScheduleController extends Controller
      */
     public function show($id)
     {
-        $schedule = Schedule::find($id);
+        $schedule = Schedule::with(['company', 'category', 'subscription' => function($query){
+            $query->select('id', 'start_at', 'expire_at');
+        }])->find($id);
+
+        $category_calendar_settings = CategoryCalendarSetting::where('company_id', $schedule->company_id)
+            ->where('category_id', $schedule->category_id)
+            ->select('advance_schedule','advance_reschedule', 'cancel_schedule', 'is_professional_scheduled' )
+            ->first();
+
+        $schedule->setAttribute('category_calendar_settings', $category_calendar_settings);
+
 
         return response()->json(['schedule' => $schedule]);
     }

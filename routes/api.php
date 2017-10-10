@@ -188,6 +188,7 @@ Route::group(['prefix' => 'professional'], function () {
             Route::post('/schedule/cancel', 'ScheduleController@cancel');
             Route::post('/schedule/update', 'ScheduleController@update');
             Route::post('/schedule/destroy_all', 'ScheduleController@destroyAll');
+            Route::get('/schedule/{id}', 'ScheduleController@show');
 
         });
 
@@ -417,9 +418,10 @@ Route::group(['prefix' => 'client'], function () {
             //calendar settings to reschedule
             Route::post('/calendar_settings/to_reschedule', 'ProfessionalCalendarSettingController@toReschedule');
 
-            //reschedule
+            //Schedule
             Route::post('/schedule/reschedule', 'ScheduleController@reschedule');
             Route::post('/schedule/cancel', 'ScheduleController@cancel');
+            Route::get('/schedule/{id}', 'ScheduleController@show');
         });
 
         //Professional  Resources
