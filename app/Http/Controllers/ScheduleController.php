@@ -476,8 +476,8 @@ class ScheduleController extends Controller
     public function show($id)
     {
         $schedule = Schedule::with(['company', 'category', 'subscription' => function($query){
-            $query->select('id', 'start_at', 'expire_at');
-        }])->find($id);
+            $query->select('id','client_id', 'plan_id', 'start_at', 'expire_at');
+        }, 'subscription.client', 'subscription.plan' ])->find($id);
 
         $category_calendar_settings = CategoryCalendarSetting::where('company_id', $schedule->company_id)
             ->where('category_id', $schedule->category_id)
