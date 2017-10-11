@@ -85,7 +85,7 @@ class ProfessionalCalendarSettingController extends Controller
             ->whereHas('plan', function ($query) use ($request) {
                 $query->where('category_id', $request->get('category_id'));
             })
-            ->where('expire_at', '<', $request->get('date'))
+            ->whereBetween('expire_at', [Carbon::now()->format('Y-m-d'), $request->get('date')])
             ->where('is_active', true)
             ->where('auto_renew', true)
             ->get();
