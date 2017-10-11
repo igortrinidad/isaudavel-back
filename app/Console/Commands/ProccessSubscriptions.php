@@ -53,7 +53,6 @@ class ProccessSubscriptions extends Command
 
         $this->info('Processing '. $client_subscriptions->count() . ' subscription(s)' );
 
-
         foreach ($client_subscriptions as $client_subscription) {
 
             if(empty($client_subscription->workdays)){
@@ -64,8 +63,8 @@ class ProccessSubscriptions extends Command
             $old_start = Carbon::createFromFormat('d/m/Y', $client_subscription->start_at);
             $old_expire = Carbon::createFromFormat('d/m/Y', $client_subscription->expire_at);
 
-            $new_start = $old_start->addMonths($client_subscription->plan->expiration);
-            $new_expire = $old_expire->addMonths($client_subscription->plan->expiration);
+            $new_start = $old_expire->copy()->addDay(1);
+            $new_expire = $new_start->copy()->addMonths($client_subscription->plan->expiration);
 
             $new_invoice = Invoice::create([
                 'subscription_id' => $client_subscription->id,
@@ -77,36 +76,75 @@ class ProccessSubscriptions extends Command
                 'history' => json_decode('[]')
             ]);
 
-
             $new_schedules = [];
 
-            $i = 0;
-            for ($new_start; count($new_schedules) < $client_subscription->quantity; $new_start->addDays(1, 'days')) {
+            //Limiteded schedules quantity
+            if ($client_subscription->plan->limit_quantity) {
+                for ($new_start; count($new_schedules) < $client_subscription->quantity; $new_start->addDays(1, 'days')) {
 
+                    // get dow index
+                    $dow_index = null;
+                    foreach($client_subscription->workdays as $key => $workday) {
 
-                if ($client_subscription->workdays[$i]['dow'] == $new_start->dayOfWeek) {
+                        if($workday['dow'] == $new_start->dayOfWeek){
+                            $dow_index = $key;
+                        }
+                    }
 
-                    $schedule_data = [
-                        'subscription_id' => $client_subscription->id,
-                        'category_id' => $client_subscription->plan->category_id,
-                        'company_id' => $client_subscription->company_id,
-                        'date' => $new_start->format('d/m/Y'),
-                        'time' => $client_subscription->workdays[$i]['init'],
-                        'professional_id' => $client_subscription->workdays[$i]['professional_id'],
-                        'invoice_id' => $new_invoice->id
-                    ];
+                    if ($dow_index > -1 && $client_subscription->workdays[$dow_index]['dow'] == $new_start->dayOfWeek) {
 
-                    $new_schedule = Schedule::create($schedule_data);
+                        $schedule_data = [
+                            'subscription_id' => $client_subscription->id,
+                            'category_id' => $client_subscription->plan->category_id,
+                            'company_id' => $client_subscription->company_id,
+                            'date' => $new_start->format('d/m/Y'),
+                            'time' => $client_subscription->workdays[$dow_index]['init'],
+                            'professional_id' => $client_subscription->workdays[$dow_index]['professional_id'],
+                            'invoice_id' => $new_invoice->id
+                        ];
 
-                    $new_schedules[] = $new_schedule;
+                        $new_schedule = Schedule::create($schedule_data);
 
-                    $i++;
+                        $new_schedules[] = $new_schedule;
 
-                    if ($i == count($client_subscription->workdays)) {
-                        $i = 0;
                     }
 
                 }
+            }
+
+            //Schedules by period
+            if (!$client_subscription->plan->limit_quantity) {
+                for ($new_start; $new_start <= $new_expire; $new_start->addDays(1, 'days')) {
+
+                    // get dow index
+                    $dow_index = null;
+                    foreach($client_subscription->workdays as $key => $workday) {
+
+                        if($workday['dow'] == $new_start->dayOfWeek){
+                            $dow_index = $key;
+                        }
+                    }
+
+                    if ($dow_index > -1 && $client_subscription->workdays[$dow_index]['dow'] == $new_start->dayOfWeek) {
+
+                        $schedule_data = [
+                            'subscription_id' => $client_subscription->id,
+                            'category_id' => $client_subscription->plan->category_id,
+                            'company_id' => $client_subscription->company_id,
+                            'date' => $new_start->format('d/m/Y'),
+                            'time' => $client_subscription->workdays[$dow_index]['init'],
+                            'professional_id' => $client_subscription->workdays[$dow_index]['professional_id'],
+                            'invoice_id' => $new_invoice->id
+                        ];
+
+                        $new_schedule = Schedule::create($schedule_data);
+
+                        $new_schedules[] = $new_schedule;
+
+                    }
+
+                }
+
 
             }
 
