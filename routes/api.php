@@ -423,7 +423,7 @@ Route::group(['prefix' => 'client'], function () {
             //Schedule
             Route::post('/schedule/reschedule', 'ScheduleController@reschedule');
             Route::post('/schedule/cancel', 'ScheduleController@cancel');
-            Route::get('/schedule/{id}', 'ScheduleController@show');
+            Route::get('/schedule/show/{id}', 'ScheduleController@show');
         });
 
         //Professional  Resources
