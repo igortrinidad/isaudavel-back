@@ -7,6 +7,7 @@ use App\Models\ClientSubscription;
 use App\Models\Company;
 use App\Models\CompanyInvoice;
 use App\Models\ProfessionalCalendarSetting;
+use App\Models\Professional;
 use App\Models\Schedule;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -50,7 +51,7 @@ class ScheduleController extends Controller
                 ->where('category_id', $request->get('category_id'))
                 ->where('professional_id', $calendar_setting->professional_id)
                 ->whereBetween('date', [$request->get('start'), $request->get('end')])
-                ->with('subscription')
+                ->with(['subscription', 'professional'])
                 ->orderBy('date')
                 ->orderBy('time')
                 ->get();
@@ -115,7 +116,7 @@ class ScheduleController extends Controller
                 ->where('category_id', $request->get('category_id'))
                 ->where('professional_id', $calendar_setting->professional_id)
                 ->whereBetween('date', [$request->get('start'), $request->get('end')])
-                ->with('subscription')
+                ->with(['subscription', 'professional'])
                 ->orderBy('date')
                 ->orderBy('time')
                 ->get();
@@ -159,7 +160,7 @@ class ScheduleController extends Controller
                             'date' => $date->format('Y-m-d'),
                             'time' => $client_subscription->workdays[$dow_index]['init'].':00',
                             'professional_id' => $client_subscription->workdays[$dow_index]['professional_id'],
-                        ])->first();
+                        ])->with(['professional'])->first();
 
                         if(!$exists){
                             $fake_schedules->push($schedule_data);
@@ -219,7 +220,7 @@ class ScheduleController extends Controller
                 ->where('category_id', $request->get('category_id'))
                 ->where('professional_id', $calendar_setting->professional_id)
                 ->where('date', $request->get('date'))
-                ->with('subscription')
+                ->with(['subscription', 'professional'])
                 ->orderBy('date')
                 ->orderBy('time')
                 ->get();
@@ -292,7 +293,7 @@ class ScheduleController extends Controller
                 ->where('category_id', $calendar_setting->category_id)
                 ->where('professional_id', $calendar_setting->professional_id)
                 ->whereBetween('date', [$request->get('start'), $request->get('end')])
-                ->with('subscription')
+                ->with(['subscription', 'professional'])
                 ->orderBy('date')
                 ->orderBy('time')
                 ->get();
@@ -347,7 +348,7 @@ class ScheduleController extends Controller
                 ->where('category_id', $calendar_setting->category_id)
                 ->where('professional_id', $calendar_setting->professional_id)
                 ->whereBetween('date', [$request->get('start'), $request->get('end')])
-                ->with('subscription')
+                ->with(['subscription', 'professional'])
                 ->orderBy('date')
                 ->orderBy('time')
                 ->get();
@@ -399,7 +400,7 @@ class ScheduleController extends Controller
                             'date' => $date->format('Y-m-d'),
                             'time' => $client_subscription->workdays[$dow_index]['init'].':00',
                             'professional_id' => $client_subscription->workdays[$dow_index]['professional_id'],
-                        ])->first();
+                        ])->with(['professional'])->first();
 
                         if(!$exists){
                             $fake_schedules->push($schedule_data);
@@ -478,7 +479,7 @@ class ScheduleController extends Controller
     public function show($id)
     {
 
-        $schedule = Schedule::with(['company', 'category', 'subscription' => function($query){
+        $schedule = Schedule::with(['professional', 'company', 'category', 'subscription' => function($query){
             $query->select('id','client_id', 'plan_id', 'start_at', 'expire_at');
         }, 'subscription.client', 'subscription.plan', 'professional', 'company' ])->find($id);
 
@@ -696,9 +697,28 @@ class ScheduleController extends Controller
      */
     public function byInvoice($id)
     {
-        $schedules = Schedule::where('invoice_id', $id)->get();
+        $schedules = Schedule::with(['professional'])->where('invoice_id', $id)->get();
 
         return response()->json(['schedules' => $schedules]);
+    }
+
+    /**
+     * Get Schedules by professional and date
+     *
+     * @param $id
+     * @return \Illuminate\Http\Response
+     */
+    public function schedules_by_professional_and_date(Request $request)
+    {
+        $company = Company::where('id', $request->get('company_id'))->with(['professionals' => function($query) use ($request){
+            $query->select('id', 'name', 'last_name');
+            $query->with(['schedules' => function($querytwo) use ($request){
+                $querytwo->where('date', '>=', $request->get('init'));
+                $querytwo->where('date', '<=', $request->get('end'));
+            }]);
+        }])->first();
+
+        return response()->json(['professionals_with_schedules' => $company->professionals]);
     }
 
 }

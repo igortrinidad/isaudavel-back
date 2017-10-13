@@ -18,8 +18,8 @@ class InvoiceController extends Controller
     public function index(Request $request)
     {
         $invoices = Invoice::where('company_id', $request->get('company_id'))
-        ->where('expire_at', '>', $request->get('init'))
-        ->where('expire_at', '<', $request->get('end'))
+        ->where('expire_at', '>=', $request->get('init'))
+        ->where('expire_at', '<=', $request->get('end'))
         ->with(['subscription.client', 'subscription.plan'])
             ->whereHas('subscription', function($query) use ($request){
                 $query->whereHas('client', function($querytow) use ($request){

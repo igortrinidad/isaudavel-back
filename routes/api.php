@@ -190,6 +190,7 @@ Route::group(['prefix' => 'professional'], function () {
                 Route::post('/update', 'ScheduleController@update');
                 Route::post('/destroy_all', 'ScheduleController@destroyAll');
                 Route::get('/show/{id}', 'ScheduleController@show');
+                Route::post('/schedules_by_professional_and_date', 'ScheduleController@schedules_by_professional_and_date');
             });
 
         });
@@ -424,6 +425,7 @@ Route::group(['prefix' => 'client'], function () {
             Route::post('/schedule/reschedule', 'ScheduleController@reschedule');
             Route::post('/schedule/cancel', 'ScheduleController@cancel');
             Route::get('/schedule/show/{id}', 'ScheduleController@show');
+
         });
 
         //Professional  Resources

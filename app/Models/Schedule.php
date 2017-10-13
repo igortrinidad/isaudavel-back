@@ -67,7 +67,7 @@ class Schedule extends Model
      *
      * @var array
      */
-    protected $with = ['professional'];
+    protected $with = [];
 
 
     /**

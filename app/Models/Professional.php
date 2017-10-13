@@ -289,4 +289,12 @@ class Professional extends Authenticatable implements JWTSubject
         return $this->belongsToMany(Client::class, 'client_professional');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function schedules()
+    {
+        return $this->hasMany(Schedule::class);
+    }
+
 }

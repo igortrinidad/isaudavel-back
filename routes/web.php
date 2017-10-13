@@ -14,6 +14,9 @@
 
 Route::post('/leadStoreForm', 'LandingController@leadStoreForm');
 
+
+Route::get('/testschedule', 'ScheduleController@insights_by_date');
+
 //New Landing
 
 
