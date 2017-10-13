@@ -745,6 +745,7 @@ class ScheduleController extends Controller
                 $querytwo->with(['subscription.client']);
                 $querytwo->where('date', '>=', $request->get('init'));
                 $querytwo->where('date', '<=', $request->get('end'));
+                $querytwo->orderBy('date', 'ASC');
             }]);
         }])->first();
 
