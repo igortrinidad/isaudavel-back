@@ -9,6 +9,7 @@ use App\Models\CompanyInvoice;
 use App\Models\ProfessionalCalendarSetting;
 use App\Models\Professional;
 use App\Models\Schedule;
+use App\Models\TrialSchedule;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -121,6 +122,15 @@ class ScheduleController extends Controller
                 ->orderBy('time')
                 ->get();
 
+            $trial_schedules = TrialSchedule::where('company_id', $request->get('company_id'))
+                ->where('category_id', $request->get('category_id'))
+                ->where('professional_id', $calendar_setting->professional_id)
+                ->whereBetween('date', [$request->get('start'), $request->get('end')])
+                ->with( 'professional', 'client')
+                ->orderBy('date')
+                ->orderBy('time')
+                ->get();
+
             $fake_schedules = new Collection();
             
             foreach ($client_subscriptions as $client_subscription) {
@@ -180,8 +190,13 @@ class ScheduleController extends Controller
                 $schedule->makeHidden(['subscription', 'professional']);
             }
 
+            foreach($trial_schedules as $trial_schedule){
+                $trial_schedule->setAttribute('is_trial', true);
+                $trial_schedule->setAttribute('is_fake', false);
+            }
 
-            $calendar_setting->setAttribute('schedules', array_merge_recursive($schedules->toArray(), $fake_schedules->toArray()));
+
+            $calendar_setting->setAttribute('schedules', array_merge_recursive($schedules->toArray(), $fake_schedules->toArray(), $trial_schedules->toArray()));
         }
 
         return response()->json(['schedules' => $calendar_settings, 'category_calendar_settings'=>  $category_calendar_settings]);
@@ -353,6 +368,15 @@ class ScheduleController extends Controller
                 ->orderBy('time')
                 ->get();
 
+            $trial_schedules = TrialSchedule::where('company_id', $calendar_setting->company_id)
+                ->where('category_id', $calendar_setting->category_id)
+                ->where('professional_id', $calendar_setting->professional_id)
+                ->whereBetween('date', [$request->get('start'), $request->get('end')])
+                ->with( 'professional', 'client')
+                ->orderBy('date')
+                ->orderBy('time')
+                ->get();
+
             $client_subscriptions = ClientSubscription::where('company_id', $calendar_setting->company_id)
                 ->whereHas('plan', function ($query) use ($calendar_setting) {
                     $query->where('category_id', $calendar_setting->category_id);
@@ -420,7 +444,12 @@ class ScheduleController extends Controller
                 $schedule->makeHidden(['subscription', 'professional']);
             }
 
-            $calendar_setting->setAttribute('schedules', array_merge_recursive($schedules->toArray(), $fake_schedules->toArray()));
+            foreach($trial_schedules as $trial_schedule){
+                $trial_schedule->setAttribute('is_trial', true);
+                $trial_schedule->setAttribute('is_fake', false);
+            }
+
+            $calendar_setting->setAttribute('schedules', array_merge_recursive($schedules->toArray(), $fake_schedules->toArray(), $trial_schedules->toArray()));
         }
 
         return response()->json(['schedules' => $calendar_settings]);

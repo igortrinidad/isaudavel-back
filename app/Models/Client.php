@@ -225,6 +225,13 @@ class Client extends Authenticatable implements JWTSubject
                 'restrictions_edit', 'exams_show', 'exams_edit');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function trial_schedules()
+    {
+        return $this->hasMany(TrialSchedule::class);
+    }
 
     /** Overide some attributes on update
      * @param array $attributes

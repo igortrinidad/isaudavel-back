@@ -193,6 +193,15 @@ Route::group(['prefix' => 'professional'], function () {
                 Route::post('/schedules_by_professional_and_date', 'ScheduleController@schedules_by_professional_and_date');
             });
 
+            //Trial schedule
+            Route::group(['prefix' => 'trial_schedule'], function(){
+                Route::post('/list', 'TrialScheduleController@index');
+                Route::get('/show/{id}', 'TrialScheduleController@show');
+                Route::post('/store', 'TrialScheduleController@store');
+                Route::post('/update', 'TrialScheduleController@update');
+                Route::get('/destroy/{id}', 'TrialScheduleController@destroy');
+            });
+
         });
 
         //Certifications

@@ -321,11 +321,11 @@ class ClientController extends Controller
         $client = Client::with(['subscriptions' => function($query) use ($request){
             $query->with(['plan', 'invoices' => function($query){
                 $query->orderBy('expire_at', 'ASC');
-            }, 'invoices.schedules']);
+            }, 'invoices.schedules.professional',]);
             $query->where('company_id',  '=', $request->get('company_id'));
             $query->orderBy('is_active', 'DESC');
             $query->orderBy('updated_at', 'DESC');
-        }])->find($request->get('client_id'));
+        }, 'trial_schedules'])->find($request->get('client_id'));
 
         return response()->json(['client' => $client]);
     }
