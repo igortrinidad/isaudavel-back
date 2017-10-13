@@ -742,6 +742,7 @@ class ScheduleController extends Controller
         $company = Company::where('id', $request->get('company_id'))->with(['professionals' => function($query) use ($request){
             $query->select('id', 'name', 'last_name');
             $query->with(['schedules' => function($querytwo) use ($request){
+                $querytwo->with(['subscription.client']);
                 $querytwo->where('date', '>=', $request->get('init'));
                 $querytwo->where('date', '<=', $request->get('end'));
             }]);
