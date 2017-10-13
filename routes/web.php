@@ -201,6 +201,22 @@ Route::group(['prefix' => 'oracle', 'as' => 'oracle.'], function () {
             Route::post('update', ['uses' => 'OracleController@oracleUpdate', 'as' => 'update']);
         });
 
+        // Modalidades
+        Route::group(['prefix' => 'modalidades', 'as' => 'modalities.'], function () {
+            Route::get('/', ['uses' => 'OracleController@modalitiesList', 'as' => 'list']);
+            Route::get('criar', ['uses' => 'OracleController@createModality', 'as' => 'create']);
+            Route::post('store', ['uses' => 'OracleController@storeModality', 'as' => 'store']);
+            Route::get('editar/{id}', ['uses' => 'OracleController@editModality', 'as' => 'edit']);
+            Route::post('update', ['uses' => 'OracleController@modalityUpdate', 'as' => 'update']);
+            Route::post('remover', ['uses' => 'OracleController@destroyModality', 'as' => 'destroy']);
+        });
+
+        Route::group(['prefix' => 'submodalidades', 'as' => 'submodalities.'], function () {
+            Route::post('criar', ['uses' => 'SubModalityController@store', 'as' => 'store']);
+            Route::post('atualizar', ['uses' => 'SubModalityController@update', 'as' => 'update']);
+            Route::post('remover', ['uses' => 'SubModalityController@destroy', 'as' => 'destroy']);
+        });
+
 
         Route::get('/meu-perfil', ['uses' => 'OracleController@profileShow', 'as' => 'profile.show']);
 

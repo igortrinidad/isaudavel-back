@@ -157,13 +157,9 @@
                                                 <!-- / Event Date -->
                                                 <div class="col-xs-9 event-col">
                                                     <div class="list-cats">
-                                                        @foreach($event->categories as $indexCat => $category)
-                                                            @if($indexCat < 1)
-                                                                <span class="label label-success t-overflow f-300 f-14 m-t-5 m-r-5">
-                                                                {{ $category->name }}
-                                                            </span>
-                                                            @endif
-                                                        @endforeach
+                                                         <span class="label label-success t-overflow f-300 f-14 m-t-5 m-r-5">
+                                                                {{ $event->modality->name }}
+                                                           </span>
                                                     </div>
                                                 </div>
                                             </div>

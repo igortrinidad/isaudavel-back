@@ -69,6 +69,12 @@
             margin-top: 5px;
         }
 
+        .selected-submodality {
+            color: #007DB2;
+            border: 1px solid #007DB2;
+            background-color: #fff
+        }
+
     </style>
 
 
@@ -113,20 +119,33 @@
                         <div class="filters">
                             <div class="category-list m-b-20">
                                 <div class="row">
-                                    <label class="c-withe">Categorias</label><br>
+                                    <label class="c-withe">Modalidades</label><br>
                                     <span class="label f-14 label-primary m-t-5 m-r-5 p-5 cursor-pointer"
-                                          v-for="(category, typeIndex) in categories"
-                                          @click="selectCategory(category)"
-                                          :class="{'label-primary':selectedCategories.indexOf(category) < 0, 'label-info': selectedCategories.indexOf(category) > -1}">
-                                            @{{category.name}} <i class="ion-close" v-if="selectedCategories.indexOf(category) > -1"></i></span>
+                                          v-for="(modality, modalityIndex) in modalities"
+                                          @click="selectModality(modality)"
+                                          :class="{'label-primary':selectedModalities.indexOf(modality) < 0, 'label-info': selectedModalities.indexOf(modality) > -1}">
+                                            @{{modality.name}} <i class="ion-close" v-if="selectedModalities.indexOf(modality) > -1"></i></span>
                                 </div>
                             </div>
+
+                            <div class="category-list m-b-20">
+                                <div class="row">
+                                    <label class="c-withe">Sub modalidades</label><br>
+                                    <span class="label f-14 label-primary m-t-5 m-r-5 p-5 cursor-pointer"
+                                          v-for="(sub_modality, sub_modalityIndex) in subModalities"
+                                          @click="selectSubModality(sub_modality)"
+                                          :class="{'label-primary':selectedSubModalities.indexOf(sub_modality) < 0, 'selected-submodality': selectedSubModalities.indexOf(sub_modality) > -1}">
+                                            @{{sub_modality.name}} <i class="ion-close" v-if="selectedSubModalities.indexOf(sub_modality) > -1"></i></span>
+                                </div>
+                            </div>
+
+
                         </div>
                     </div>
 
-                    <div class="col-sm-12 m-t-20">
+                    <div class="col-sm-12 m-t-20 text-center">
                         <button type="submit" class="btn btn-default btn-block">Pesquisar</button>
-                        <button type="submit" class="btn btn-link btn-block c-withe" v-if="filterHistory"
+                        <button type="submit" class="btn btn-outline btn-xs c-withe m-t-20" v-if="filterHistory"
                                 @click="clearFilters">Limpar filtros de pesquisa
                         </button>
                     </div>
@@ -178,13 +197,17 @@
                 },
                 latitude: -23.555877,
                 longitude: -46.691593,
-                categories: [],
-                selectedCategories: [],
-                categoriesFiltered: [],
+                modalities: [],
+                subModalities: [],
+                selectedModalities: [],
+                modalitiesFiltered: [],
+                selectedSubModalities: [],
+                subModalitiesFiltered: [],
                 event_filters: null,
                 filterHistory: null
             },
             mounted: function () {
+                let that = this
                 //Remove class hidden to prevent show brackets when vue is loading
                 document.getElementById("event-filters").classList.remove("hidden")
 
@@ -196,39 +219,74 @@
                     }
                 }
 
-                this.categories = categories
+                that.modalities = modalities
+
+                that.modalities.map(function (modality) {
+                    modality.submodalities.map(function (submodality) {
+                        that.subModalities.push(submodality)
+                    })
+                })
+
 
                 if(filters){
-                    this.filterHistory = filters
-                    this.handleFilters()
+                    that.filterHistory = filters
+                    that.handleFilters()
                 }
             },
             methods: {
 
-                selectCategory(selected) {
+                selectModality(selected) {
                     let that = this
 
-                    let type_index = that.selectedCategories.indexOf(selected)
+                    let type_index = that.selectedModalities.indexOf(selected)
 
                     if (type_index < 0) {
-                        that.selectedCategories.push(selected)
+                        that.selectedModalities.push(selected)
                     } else {
 
-                        that.selectedCategories.splice(type_index, 1)
+                        that.selectedModalities.splice(type_index, 1)
                     }
 
-                    that.handleSelectedCategories()
+                    that.handleSelectedModalities()
                 },
 
-                handleSelectedCategories() {
+                handleSelectedModalities() {
                     let that = this
 
-                    let selectedCategories = _.reduce(that.selectedCategories, function (result, category, key) {
+                    let selectedModalities = _.reduce(that.selectedModalities, function (result, category, key) {
                         result.push(category.slug);
                         return result;
                     }, []);
 
-                    that.categoriesFiltered = selectedCategories
+                    that.modalitiesFiltered = selectedModalities
+
+                    that.setFilters()
+                },
+
+                selectSubModality(selected) {
+                    let that = this
+
+                    let type_index = that.selectedSubModalities.indexOf(selected)
+
+                    if (type_index < 0) {
+                        that.selectedSubModalities.push(selected)
+                    } else {
+
+                        that.selectedSubModalities.splice(type_index, 1)
+                    }
+
+                    that.handleSelectedSubModalities()
+                },
+
+                handleSelectedSubModalities() {
+                    let that = this
+
+                    let selectedModalities = _.reduce(that.selectedSubModalities, function (result, category, key) {
+                        result.push(category.slug);
+                        return result;
+                    }, []);
+
+                    that.subModalitiesFiltered = selectedModalities
 
                     that.setFilters()
                 },
@@ -237,7 +295,8 @@
                     let that = this
 
                     let filters = {
-                        categories: that.categoriesFiltered,
+                        modalities: that.modalitiesFiltered,
+                        submodalities: that.subModalitiesFiltered,
                         city: that.interactions.city,
                         search: that.interactions.search,
                         latitude: that.latitude,
@@ -265,19 +324,32 @@
                 handleFilters(){
                     let that = this
 
-                    that.categoriesFiltered = that.filterHistory.categories
+                    that.modalitiesFiltered = that.filterHistory.modalities
+                    that.subModalitiesFiltered = that.filterHistory.submodalities
                     that.interactions.search = that.filterHistory.search
                     that.interactions.city = that.filterHistory.city
                     that.latitude = that.filterHistory.latitude
                     that.longitude = that.filterHistory.longitude
 
-                    if(that.categoriesFiltered.length)
+                    if(that.modalitiesFiltered.length)
                     {
-                        that.categoriesFiltered.map((selected_category) => {
-                            let category = _.find(that.categories, {slug: selected_category})
+                        that.modalitiesFiltered.map((selected_modality) => {
+                            let modality = _.find(that.modalities, {slug: selected_modality})
 
-                            if(category){
-                                that.selectedCategories.push(category)
+                            if(modality){
+                                that.selectedModalities.push(modality)
+                            }
+                        })
+                    }
+
+                    if(that.subModalitiesFiltered.length)
+                    {
+                        that.subModalitiesFiltered.map((selected_sub_modality) => {
+
+                            let sub_modality = _.find(that.subModalities, {slug: selected_sub_modality})
+
+                            if(sub_modality){
+                                that.selectedSubModalities.push(sub_modality)
                             }
                         })
                     }

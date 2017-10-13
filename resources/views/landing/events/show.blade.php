@@ -89,7 +89,6 @@
             </div>
 
 
-
             <div class="row m-t-30">
                 <!-- CENTER COL "ABOUT" -->
                 <div class="col-sm-9">
@@ -99,9 +98,12 @@
                         </div>
                         <div class="card-body" style="padding: 6px;">
 
-                            <h4 class="f-300 m-t-15 m-b-10">{{ count($event_fetched->categories) > 1 ? 'Categorias' : 'Categoria' }}:</h4>
-                            @foreach($event_fetched->categories as $category)
-                                <span class="label label-success">{{ $category->name }}</span>
+                            <h4 class="f-300 m-t-15 m-b-10">Modalidade:</h4>
+                            <span class="label label-success">{{ $event_fetched->modality->name }}</span>
+
+                            <h4 class="f-300 m-t-15 m-b-10">{{ count($event_fetched->submodalities) > 1 ? 'Sub modalides' : 'Sub modalidade' }}:</h4>
+                            @foreach($event_fetched->submodalities as $sub_modality)
+                                <span class="label label-primary">{{ $sub_modality->name }}</span>
                             @endforeach
 
                             <h4 class="f-300 m-t-15 m-b-10">Endereço:</h4>

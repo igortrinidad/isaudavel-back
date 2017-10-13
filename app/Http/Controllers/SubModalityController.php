@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\SubModality;
 use Illuminate\Http\Request;
 
-class SubSubModalityController extends Controller
+class SubModalityController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -31,7 +31,7 @@ class SubSubModalityController extends Controller
 
         return response()->json([
             'message' => 'Sub modality created.',
-            'category' => $sub_modality->fresh()
+            'submodality' => $sub_modality->fresh()
         ]);
     }
 
@@ -60,24 +60,23 @@ class SubSubModalityController extends Controller
 
         return response()->json([
             'message' => 'Sub modality updated.',
-            'category' => $sub_modality
+            'submodality' => $sub_modality
         ]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param $id
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $destroyed = SubModality::destroy($id);
+        $destroyed = SubModality::destroy($request->get('id'));
 
         if($destroyed){
             return response()->json([
                 'message' => 'Sub modality destroyed.',
-                'id' => $id
             ]);
         }
 

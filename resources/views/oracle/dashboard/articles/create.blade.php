@@ -23,7 +23,7 @@
 
                     <div class="form-group">
                         <label>URL</label>
-                        <input class="form-control" id="article-slug" name="slug" disabled>
+                        <input class="form-control" id="article-slug" name="slug" readonly>
                     </div>
 
                     <div class="form-group">
