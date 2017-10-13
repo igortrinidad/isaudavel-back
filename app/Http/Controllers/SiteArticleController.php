@@ -153,7 +153,7 @@ class SiteArticleController extends Controller
      */
     public function update(Request $request)
     {
-        $article = tap(siteArticle::find($request->get('id')))->update($request->all())->fresh();
+        $article = tap(SiteArticle::find($request->get('id')))->update($request->all())->fresh();
 
         if($request->hasFile('file')){
 
@@ -186,7 +186,7 @@ class SiteArticleController extends Controller
      */
     public function destroy($id)
     {
-        $destroyed = Exam::destroy($id);
+        $destroyed = SiteArticle::destroy($id);
 
         return redirect(route('oracle.dashboard.articles.list'));
 
