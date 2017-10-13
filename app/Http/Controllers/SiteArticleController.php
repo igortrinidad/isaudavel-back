@@ -153,7 +153,8 @@ class SiteArticleController extends Controller
      */
     public function update(Request $request)
     {
-        $article = tap(SiteArticle::find($request->get('id')))->update($request->all())->fresh();
+        $article = SiteArticle::find($request->get('id'));
+
 
         if($request->hasFile('file')){
 
@@ -174,6 +175,11 @@ class SiteArticleController extends Controller
             $request->merge(['path' => $filePath, 'filename' => $originalName, 'extension' => $extension]);
             
         }
+
+
+        $article->update($request->all());
+
+
 
         return redirect(route('oracle.dashboard.articles.list'));
     }

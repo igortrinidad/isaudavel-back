@@ -28,8 +28,14 @@
                         <input class="form-control" name="slug" value="{{$article->slug}}">
                     </div>
 
+
                     <div class="form-group">
-                        <label>Foto de capa</label>
+                        <label>Foto de capa</label><br>
+                        <a href="{{$article->photo_url}}" target="_blank"><img  class="img-responsive img-thumbnail" src="{{$article->photo_url}}" alt="{{$article->title}}" width="200"></a>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Alterar foto de capa</label>
                         <input type="file" class="form-control" name="file">
                     </div>
 
