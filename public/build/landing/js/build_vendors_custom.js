@@ -4475,7 +4475,11 @@ return hooks;
 })));
 
 /*!
+<<<<<<< Updated upstream
  * Vue.js v2.4.2
+=======
+ * Vue.js v2.4.3
+>>>>>>> Stashed changes
  * (c) 2014-2017 Evan You
  * Released under the MIT License.
  */
@@ -9122,7 +9126,11 @@ Object.defineProperty(Vue$3.prototype, '$ssrContext', {
   }
 });
 
+<<<<<<< Updated upstream
 Vue$3.version = '2.4.2';
+=======
+Vue$3.version = '2.4.3';
+>>>>>>> Stashed changes
 
 /*  */
 
@@ -20818,7 +20826,11 @@ else if (typeof define === 'function' && define.amd) {
 //# sourceMappingURL=maps/swiper.jquery.js.map
 
 /*!
+<<<<<<< Updated upstream
  * sweetalert2 v6.6.9
+=======
+ * sweetalert2 v6.7.0
+>>>>>>> Stashed changes
  * Released under the MIT License.
  */
 (function (global, factory) {
@@ -22494,7 +22506,11 @@ sweetAlert.resetDefaults = function () {
 
 sweetAlert.noop = function () {};
 
+<<<<<<< Updated upstream
 sweetAlert.version = '6.6.9';
+=======
+sweetAlert.version = '6.7.0';
+>>>>>>> Stashed changes
 
 sweetAlert.default = sweetAlert;
 

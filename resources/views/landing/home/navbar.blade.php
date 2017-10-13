@@ -40,6 +40,29 @@
                             </ul>
                         </li>
                     @endif
+
+                    @if(!Auth::guard('oracle_web')->guest())
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                    {{ Auth::guard('oracle_web')->user()->full_name }} <span class="caret"></span>
+                                </a>
+
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="{{ route('oracle.dashboard.companies.list') }}">Dashboard oracle</a></li>
+                                    <li>
+                                        <a href="{{ route('oracle.dashboard.logout') }}"
+                                           onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                            Sair
+                                        </a>
+
+                                        <form id="logout-form" action="{{ route('oracle.dashboard.logout') }}" method="POST" style="display: none;">
+                                            {{ csrf_field() }}
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+                    @endif
                 </ul>
                 <ul class="nav navbar-nav navbar-right" id="top-nav">
                     <li class="{{ getActiveRoute('landing.index') }}"><a href="{!! route('landing.index') !!}">Home</a></li>

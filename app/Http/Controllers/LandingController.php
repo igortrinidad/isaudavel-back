@@ -6,6 +6,7 @@ use App\Models\CompanyInvoice;
 use App\Models\CompanySubscription;
 use App\Models\MealRecipeTag;
 use App\Models\MealType;
+use App\Models\Modality;
 use App\Models\SiteArticle;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -35,7 +36,7 @@ class LandingController extends Controller
     public function index(Request $request)
     {
         $companies = Company::with('categories')->limit(8)->get();
-        $events = Event::with('categories')->limit(8)->paginate(8);
+        $events = Event::with('modality')->limit(8)->paginate(8);
         $recipes = MealRecipe::with('from')->orderBy('created_at', 'DESC')->limit(8)->get();
         $articles = SiteArticle::orderBy('created_at', 'DESC')->limit(8)->get();
         $categories = Category::all();
@@ -63,12 +64,16 @@ class LandingController extends Controller
                  cos(RADIANS(events.lng) - RADIANS('$longitude')), 2)),SIN(RADIANS('$latitude')) * 
                  SIN(RADIANS(events.lat)) + COS(RADIANS('$latitude')) * COS(RADIANS(events.lat)) * 
                  COS(RADIANS(events.lng) - RADIANS('$longitude'))) * 6371000) as distance_m"))
-            ->whereHas('categories', function ($query) use ($filters) {
-                if(!empty($filters['categories'])) {
-                    $query->whereIn('slug', $filters['categories']);
+            ->whereHas('modality', function ($query) use ($filters) {
+                if(!empty($filters['modalities'])) {
+                    $query->whereIn('slug', $filters['modalities']);
                 }
-
-            })->where(function($query) use($filters){
+            })->whereHas('submodalities', function ($query) use ($filters) {
+                if(!empty($filters['submodalities'])) {
+                    $query->whereIn('slug',$filters['submodalities']);
+                }
+            })
+            ->where(function($query) use($filters){
 
                 if(!empty($filters['search'])){
                     $search = explode(' ', $filters['search']);
@@ -81,11 +86,13 @@ class LandingController extends Controller
         
         $events->appends(['filters' => $filters]);
 
-        $categories = Category::orderBy('name')->get();
+        $modalities = Modality::select('id', 'name', 'slug')->with(['submodalities' => function($query){
+            $query->select('id','modality_id', 'name', 'slug')->orderBy('name');
+        }])->orderBy('name')->get();
 
         $companies = Company::with('categories')->limit(8)->get();
 
-        \JavaScript::put(['categories' => $categories, 'filters' => $filters]);
+        \JavaScript::put(['modalities' => $modalities, 'filters' => $filters]);
 
         return view('landing.events.list', compact('events', 'companies'));
     }
@@ -224,7 +231,7 @@ class LandingController extends Controller
             $query->with(['participant' => function($querydois){
                 $querydois->select('id', 'name', 'full_name', 'email', 'slug');
             }]);
-        }, 'comments.from'])->first();
+        }, 'comments.from', 'modality', 'submodalities'])->first();
 
 
         $companies = Company::with('categories')->limit(8)->get();

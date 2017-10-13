@@ -7,6 +7,7 @@ use App\Http\Services\SubscriptionServices;
 use App\Models\ClientSubscription;
 use App\Models\CompanyInvoice;
 use App\Models\CompanySubscription;
+use App\Models\Modality;
 use App\Models\OracleUser;
 use App\Models\Event;
 use App\Models\MealRecipe;
@@ -639,6 +640,103 @@ class OracleController extends Controller
         }
 
         return redirect( route('oracle.dashboard.eval-index.list') );
+    }
+
+
+    /**
+     * Lista de modalidades
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function modalitiesList(Request $request)
+    {
+        $modalities = Modality::where(function ($query) use ($request) {
+
+            if($request->has('search') && !empty($request->has('search'))) {
+                $query->where('name', 'LIKE', '%' . $request->query('search') . '%');
+            }
+
+        })->withCount('submodalities', 'events')->paginate(20);
+
+        \JavaScript::put(['modalities' => $modalities]);
+
+        return view('oracle.dashboard.modalities.list', compact('modalities'));
+    }
+
+    /**
+     * Create da modalidade
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function createModality()
+    {
+        return view('oracle.dashboard.modalities.create');
+    }
+
+
+    /**
+     * Store modalidade
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function storeModality(Request $request)
+    {
+        $submodalities =  json_decode($request->get('submodalities'), true);
+
+
+        $modality = Modality::create($request->all());
+
+        foreach ($submodalities as $submodality) {
+            $modality->submodalities()->create($submodality);
+        }
+
+        flash('Modalidade adicionada com sucesso')->success()->important();
+
+        return redirect()->route('oracle.dashboard.modalities.list');
+    }
+
+    /**
+     * Edit da modalidade
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function editModality($id)
+    {
+        $modality = Modality::with('submodalities')->find($id);
+
+        \JavaScript::put(['modality' => $modality]);
+
+        return view('oracle.dashboard.modalities.edit', compact('modality'));
+    }
+
+    /**
+     * Update modalidade
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function modalityUpdate(Request $request)
+    {
+        $modality = tap(Modality::find($request->get('id')))->update($request->all())->fresh();
+
+        flash('Modalidade atualizada com sucesso')->success()->important();
+
+        return redirect()->route('oracle.dashboard.modalities.list');
+    }
+
+    /**
+     * Excluir modalidade
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @internal param $id
+     */
+    public function destroyModality(Request $request)
+    {
+        $modality = Modality::find($request->get('modality_id'));
+
+        $modality->submodalities()->delete();
+
+        $modality->delete();
+
+        return response()->json(['message' => 'modality removed']);
     }
 
 }
