@@ -13,7 +13,7 @@
 
                     <div class="form-group" >
                         <label>Título</label>
-                        <input class="form-control" name="title">
+                        <input class="form-control" id="article-title" name="title">
                     </div>
 
                     <div class="form-group">
@@ -23,7 +23,7 @@
 
                     <div class="form-group">
                         <label>URL</label>
-                        <input class="form-control" name="slug">
+                        <input class="form-control" id="article-slug" name="slug" disabled>
                     </div>
 
                     <div class="form-group">
@@ -66,6 +66,10 @@
                     ['picture', ['picture']],
                     ['codeview', ['codeview']]
                 ]
+            })
+
+            $('#article-title').on('blur', function() {
+                $('#article-slug').val(slug($('#article-title').val()).toLowerCase())
             })
         </script>
     @stop
