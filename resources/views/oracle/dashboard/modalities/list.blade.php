@@ -18,6 +18,14 @@
                     @include('flash::message')
                 </div>
 
+                <div class="row">
+                    <div class="col-md-12 col-xs-12">
+                        <div class="form-group">
+                            <a href="{{route('oracle.dashboard.modalities.create')}}" class="btn btn-primary">Adicionar nova modalidade</a>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="m-t-20">
                     <form class="m-b-25" action="{{route('oracle.dashboard.modalities.list')}}" method="get" role="form">
                         <label>Buscar</label>
@@ -34,13 +42,7 @@
                 @unless($modalities->count())
                     <div class="alert alert-info">Nenhuma modalidade cadastrada.</div>
                 @else
-                    <div class="row">
-                        <div class="col-sm-12 text-right">
-                            <div class="m-t-20">
-                                <a href="{{route('oracle.dashboard.modalities.create')}}" class="btn btn-success">Nova modalidade</a>
-                            </div>
-                        </div>
-                    </div>
+
                     <div class="table-responsive m-t-20">
 
                         <table class="table table-striped table-hover table-vmiddle">
