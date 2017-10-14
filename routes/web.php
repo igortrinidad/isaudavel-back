@@ -35,7 +35,7 @@ Route::group(['as' => 'landing.'], function () {
 
 	//Companies
 	Route::group(['prefix' => 'buscar', 'as' => 'search.'], function () {
-		Route::get('/', ['uses' => 'LandingController@NewIndexSearch', 'as' => 'index']);
+		Route::get('/', ['uses' => 'LandingController@company_search', 'as' => 'index']);
 	});
 
 	//Search
