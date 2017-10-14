@@ -119,7 +119,7 @@
     }
 
     #show-company{
-        background-color: #F4F5F5;
+        background-color: #88C657;
         background-image: url("/images/pattern-isaudavel-5-300.png");
     }
 
