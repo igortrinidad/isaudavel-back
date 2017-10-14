@@ -27,7 +27,7 @@
         width: 100%;
         height: 350px;
         position: absolute;
-        top: 80px; left: 0; right: 0;
+        top: 70px; left: 0; right: 0;
     }
 
     .picture-circle{
@@ -119,7 +119,7 @@
     }
 
     #show-company{
-        background-color: #88C657;
+        background-color: #F4F5F5;
         background-image: url("/images/pattern-isaudavel-5-300.png");
     }
 
@@ -129,7 +129,7 @@
     </header>
     <section class="section p-t-20" id="show-company">
         <!-- GRID -->
-        <div class="container" style="margin-top: 120px;">
+        <div class="container" style="margin-top: 285px;">
 
             <div class="card">
                 <div class="card-header ch-alt text-center">
