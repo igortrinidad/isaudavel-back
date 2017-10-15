@@ -135,6 +135,15 @@ Route::group(['prefix' => 'professional'], function () {
                 Route::post('/accept_solicitation', 'ClientController@acceptCompanySolicitation');
                 Route::post('/reactivate_solicitation', 'ClientController@reactivateCompanyRelationship');
 
+
+                //Company client Observations
+                Route::group(['prefix' => 'observation'], function(){
+                    Route::post('/list', 'CompanyClientObservationController@index');
+                    Route::post('/create', 'CompanyClientObservationController@store');
+                    Route::get('/destroy/{$id}', 'CompanyClientObservationController@store');
+                });
+
+
             });
 
             //Subscription

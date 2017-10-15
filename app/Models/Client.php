@@ -208,6 +208,14 @@ class Client extends Authenticatable implements JWTSubject
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
+    public function company_client_observations()
+    {
+        return $this->hasMany(CompanyClientObservation::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function activities()
     {
         return $this->hasMany(Activity::class);
@@ -231,6 +239,22 @@ class Client extends Authenticatable implements JWTSubject
     public function trial_schedules()
     {
         return $this->hasMany(TrialSchedule::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function professionals_ratings()
+    {
+        return $this->hasMany(ProfessionalRating::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function companies_ratings()
+    {
+        return $this->hasMany(CompanyRating::class);
     }
 
     /** Overide some attributes on update
