@@ -134,6 +134,7 @@ Route::group(['prefix' => 'professional'], function () {
                 Route::post('/remove_solicitation', 'ClientController@removeCompanySolicitation');
                 Route::post('/accept_solicitation', 'ClientController@acceptCompanySolicitation');
                 Route::post('/reactivate_solicitation', 'ClientController@reactivateCompanyRelationship');
+                Route::post('/schedules/list', 'ScheduleController@clientSchedules');
 
 
                 //Company client Observations
@@ -182,6 +183,7 @@ Route::group(['prefix' => 'professional'], function () {
             //Invoice
             Route::group(['prefix' => 'invoice'], function(){
                 Route::post('/list', 'InvoiceController@index');
+                Route::post('/client_list', 'InvoiceController@clientList');
                 Route::post('/store', 'InvoiceController@store');
                 Route::post('/update', 'InvoiceController@update');
                 Route::post('/destroy', 'InvoiceController@destroy');
@@ -202,13 +204,17 @@ Route::group(['prefix' => 'professional'], function () {
                 Route::post('/schedules_by_professional_and_date', 'ScheduleController@schedules_by_professional_and_date');
             });
 
-            //Trial schedule
-            Route::group(['prefix' => 'trial_schedule'], function(){
-                Route::post('/list', 'TrialScheduleController@index');
-                Route::get('/show/{id}', 'TrialScheduleController@show');
-                Route::post('/store', 'TrialScheduleController@store');
-                Route::post('/update', 'TrialScheduleController@update');
-                Route::get('/destroy/{id}', 'TrialScheduleController@destroy');
+            //Single schedule
+            Route::group(['prefix' => 'single_schedule'], function(){
+                Route::post('/list', 'SingleScheduleController@index');
+                Route::post('/store', 'SingleScheduleController@store');
+                Route::post('/update', 'SingleScheduleController@update');
+                Route::post('/reschedule', 'SingleScheduleController@reschedule');
+                Route::post('/confirm', 'SingleScheduleController@confirm');
+                Route::post('/cancel', 'SingleScheduleController@cancel');
+                Route::get('/show/{id}', 'SingleScheduleController@show');
+                Route::get('/destroy/{id}', 'SingleScheduleController@destroy');
+
             });
 
         });

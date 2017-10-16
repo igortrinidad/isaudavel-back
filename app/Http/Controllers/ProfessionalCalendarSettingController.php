@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ClientSubscription;
 use App\Models\ProfessionalCalendarSetting;
 use App\Models\Schedule;
+use App\Models\SingleSchedule;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -140,7 +141,16 @@ class ProfessionalCalendarSettingController extends Controller
                 ->where('professional_id', $professional_calendar_setting->professional->id)
                 ->where('date', $request->get('date'))->orderBy('time')->get();
 
-            $professional_calendar_setting->setAttribute('schedules', array_merge_recursive($schedules->toArray(), $fake_schedules->toArray()));
+            $single_schedules = SingleSchedule::where('company_id', $request->get('company_id'))
+                ->where('category_id', $request->get('category_id'))
+                ->where('professional_id', $professional_calendar_setting->professional_id)
+                ->where('date', $request->get('date'))
+                ->with( 'professional', 'client')
+                ->orderBy('date')
+                ->orderBy('time')
+                ->get();
+
+            $professional_calendar_setting->setAttribute('schedules', array_merge_recursive($schedules->toArray(), $fake_schedules->toArray(), $single_schedules->toArray()));
         }
 
         return response()->json(['professional_calendar_settings' => $professional_calendar_settings]);

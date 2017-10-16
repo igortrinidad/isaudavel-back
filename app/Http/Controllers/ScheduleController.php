@@ -9,9 +9,11 @@ use App\Models\CompanyInvoice;
 use App\Models\ProfessionalCalendarSetting;
 use App\Models\Professional;
 use App\Models\Schedule;
-use App\Models\TrialSchedule;
+use App\Models\SingleSchedule;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 
 class ScheduleController extends Controller
@@ -122,7 +124,7 @@ class ScheduleController extends Controller
                 ->orderBy('time')
                 ->get();
 
-            $trial_schedules = TrialSchedule::where('company_id', $request->get('company_id'))
+            $single_schedules = SingleSchedule::where('company_id', $request->get('company_id'))
                 ->where('category_id', $request->get('category_id'))
                 ->where('professional_id', $calendar_setting->professional_id)
                 ->whereBetween('date', [$request->get('start'), $request->get('end')])
@@ -185,18 +187,16 @@ class ScheduleController extends Controller
                 $schedule->professional->makeHidden(['companies','categories','blank_password']);
 
                 $schedule->setAttribute('client', $schedule->subscription->client()->select('id', 'name', 'last_name')->first());
-                $schedule->setAttribute('is_fake', false);
 
                 $schedule->makeHidden(['subscription', 'professional']);
             }
 
-            foreach($trial_schedules as $trial_schedule){
-                $trial_schedule->setAttribute('is_trial', true);
-                $trial_schedule->setAttribute('is_fake', false);
+            foreach($single_schedules as $single_schedule){
+                $single_schedule->setAttribute('is_fake', false);
             }
 
 
-            $calendar_setting->setAttribute('schedules', array_merge_recursive($schedules->toArray(), $fake_schedules->toArray(), $trial_schedules->toArray()));
+            $calendar_setting->setAttribute('schedules', array_merge_recursive($schedules->toArray(), $fake_schedules->toArray(), $single_schedules->toArray()));
         }
 
         return response()->json(['schedules' => $calendar_settings, 'category_calendar_settings'=>  $category_calendar_settings]);
@@ -278,7 +278,6 @@ class ScheduleController extends Controller
                 $schedule->professional->makeHidden(['companies','categories','blank_password']);
 
                 $schedule->setAttribute('client', $schedule->subscription->client()->select('id', 'name', 'last_name')->first());
-                $schedule->setAttribute('is_fake', false);
 
                 $schedule->makeHidden(['subscription', 'professional']);
             }
@@ -368,7 +367,7 @@ class ScheduleController extends Controller
                 ->orderBy('time')
                 ->get();
 
-            $trial_schedules = TrialSchedule::where('company_id', $calendar_setting->company_id)
+            $single_schedules = SingleSchedule::where('company_id', $calendar_setting->company_id)
                 ->where('category_id', $calendar_setting->category_id)
                 ->where('professional_id', $calendar_setting->professional_id)
                 ->whereBetween('date', [$request->get('start'), $request->get('end')])
@@ -439,17 +438,11 @@ class ScheduleController extends Controller
                 $schedule->professional->makeHidden(['companies','categories','blank_password']);
 
                 $schedule->setAttribute('client', $schedule->subscription->client()->select('id', 'name', 'last_name')->first());
-                $schedule->setAttribute('is_fake', false);
 
                 $schedule->makeHidden(['subscription', 'professional']);
             }
 
-            foreach($trial_schedules as $trial_schedule){
-                $trial_schedule->setAttribute('is_trial', true);
-                $trial_schedule->setAttribute('is_fake', false);
-            }
-
-            $calendar_setting->setAttribute('schedules', array_merge_recursive($schedules->toArray(), $fake_schedules->toArray(), $trial_schedules->toArray()));
+            $calendar_setting->setAttribute('schedules', array_merge_recursive($schedules->toArray(), $fake_schedules->toArray(), $single_schedules->toArray()));
         }
 
         return response()->json(['schedules' => $calendar_settings]);
@@ -488,14 +481,51 @@ class ScheduleController extends Controller
                     $schedule->setAttribute('category_calendar_settings', $category_calendar_settings);
                 }
 
+                $singleSchedules = SingleSchedule::whereBetween('date', [$request->get('start'), $request->get('end')])
+                    ->where('company_id', $key)
+                    ->with(['company', 'professional', 'client', 'category'])
+                    ->get();
+
                 $company = Company::find($key);
 
-                $company->setAttribute('schedules', $schedules);
+                $company->setAttribute('schedules', array_merge_recursive($schedules->toArray(), $singleSchedules->toArray()));
 
                 $companies[] = $company;
             }
 
         return response()->json(['schedules' => $companies]);
+    }
+
+    /**
+     * Display a listing of schedules for calendar by month.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function clientSchedules(Request $request)
+    {
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $perPage = 12;
+
+        $client_schedules = Schedule::where('company_id', $request->get('company_id'))
+            ->whereHas('subscription', function ($query) use($request) {
+            $query->where('client_id', $request->get('client_id'));
+        })->whereBetween('date', [$request->get('init'), $request->get('end')])
+            ->with(['category', 'professional'])
+            ->get();
+
+        $single_schedules = SingleSchedule::whereBetween('date', [$request->get('init'), $request->get('end')])
+            ->where('company_id', $request->get('company_id'))
+            ->with(['professional', 'category'])
+            ->get();
+
+        $new_collection = array_merge_recursive($client_schedules->toArray(), $single_schedules->toArray());
+
+        $paged = array_slice($new_collection,($currentPage - 1) * $perPage, $perPage);
+
+        $schedules = new LengthAwarePaginator($paged, count($new_collection), $perPage, $currentPage);
+
+        return response()->json(custom_paginator($schedules, 'schedules'));
     }
 
 

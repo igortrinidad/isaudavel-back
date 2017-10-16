@@ -7,7 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 
-class TrialSchedule extends Model
+class SingleSchedule extends Model
 {
     use Uuids;
 
@@ -16,7 +16,7 @@ class TrialSchedule extends Model
      *
      * @var string
      */
-    protected $table = 'trial_schedules';
+    protected $table = 'single_schedules';
 
     /**
      * Indicates if the IDs are auto-incrementing.
@@ -38,6 +38,7 @@ class TrialSchedule extends Model
         'date',
         'time',
         'observation',
+        'is_trial',
         'is_confirmed',
         'confirmed_by',
         'confirmed_at',
@@ -55,6 +56,7 @@ class TrialSchedule extends Model
      * @var array
      */
     protected $casts = [
+        'is_trial' => 'boolean',
         'is_confirmed' => 'boolean',
         'is_rescheduled' => 'boolean',
         'is_canceled' => 'boolean',
@@ -68,6 +70,20 @@ class TrialSchedule extends Model
      */
     protected $with = [];
 
+    /**
+     * The accessors to append to the model's array.
+     *
+     * @var array
+     */
+    protected $appends = ['is_single'];
+
+    /*
+     * Role attribute used in auth
+     */
+    public function getIsSingleAttribute()
+    {
+        return true;
+    }
 
     /**
      * -------------------------------

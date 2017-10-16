@@ -34,7 +34,7 @@
                     <div class="form-group">
                         <label>Publicado</label><br>
                         <label class="switch">
-                            <input type="checkbox" name="is_published" value="0">
+                            <input type="checkbox" name="is_published" value="true">
                             <div class="slider round"></div>
                         </label>
                     </div>
