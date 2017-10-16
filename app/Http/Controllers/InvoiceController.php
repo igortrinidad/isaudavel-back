@@ -12,7 +12,7 @@ class InvoiceController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param $id
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -27,6 +27,26 @@ class InvoiceController extends Controller
                     $querytow->orWhere('email', $request->get('search'));
                 });
         })->orderBy('expire_at', 'ASC')->paginate(10);
+
+        return response()->json(custom_paginator($invoices, 'invoices'));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function clientList(Request $request)
+    {
+        $invoices = Invoice::where('company_id', $request->get('company_id'))
+            ->where('expire_at', '>=', $request->get('init'))
+            ->where('expire_at', '<=', $request->get('end'))
+            ->whereHas('subscription', function ($query) use ($request) {
+                $query->where('client_id', $request->get('client_id'));
+            })
+            ->with(['subscription.client', 'subscription.plan'])
+            ->orderBy('expire_at', 'ASC')->paginate(10);
 
         return response()->json(custom_paginator($invoices, 'invoices'));
     }

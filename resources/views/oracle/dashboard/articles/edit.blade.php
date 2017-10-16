@@ -42,7 +42,7 @@
                     <div class="form-group">
                         <label>Publicado</label><br>
                         <label class="switch">
-                            <input type="checkbox" name="is_published" value="{{$article->is_published}}">
+                            <input type="checkbox" name="is_published" value="true" {{$article->is_published ? 'checked': ''}}>
                             <div class="slider round"></div>
                         </label>
                     </div>

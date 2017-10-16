@@ -238,7 +238,7 @@ class Client extends Authenticatable implements JWTSubject
      */
     public function trial_schedules()
     {
-        return $this->hasMany(TrialSchedule::class);
+        return $this->hasMany(SingleSchedule::class);
     }
 
     /**

@@ -68,110 +68,112 @@ class ClientSubscriptionController extends Controller
             //get last invoice
             $last_invoice = Invoice::where('subscription_id', $subscription->id)->latest()->first();
 
-            //invoice schedules
-            $schedules = Schedule::where('invoice_id', $last_invoice->id)->orderBy('date')->get();
+           if($last_invoice){
+               //invoice schedules
+               $schedules = Schedule::where('invoice_id', $last_invoice->id)->orderBy('date')->get();
 
-            foreach($schedules as $schedule){
+               foreach($schedules as $schedule){
 
-                $schedule_date = Carbon::createFromFormat('d/m/Y H:i:s', $schedule->date.''.$schedule->time );
+                   $schedule_date = Carbon::createFromFormat('d/m/Y H:i:s', $schedule->date.''.$schedule->time );
 
-                //Update schedule only if is future
-                if($schedule_date->isFuture()){
+                   //Update schedule only if is future
+                   if($schedule_date->isFuture()){
 
-                  $schedule->delete();
+                       $schedule->delete();
 
-                }
-            }
+                   }
+               }
 
-            //generate new schedules
-            $start = Carbon::createFromFormat('d/m/Y', $subscription->start_at);
-            $end = Carbon::createFromFormat('d/m/Y', $subscription->expire_at);
+               //generate new schedules
+               $start = Carbon::createFromFormat('d/m/Y', $subscription->start_at);
+               $end = Carbon::createFromFormat('d/m/Y', $subscription->expire_at);
 
-            $new_schedules = Schedule::where('invoice_id', $last_invoice->id)->orderBy('date')->get();
+               $new_schedules = Schedule::where('invoice_id', $last_invoice->id)->orderBy('date')->get();
 
-            //Limiteded schedules quantity
-            if ($subscription->plan->limit_quantity) {
-                for ($start; count($new_schedules) < $subscription->quantity; $start->addDays(1, 'days')) {
+               //Limiteded schedules quantity
+               if ($subscription->plan->limit_quantity) {
+                   for ($start; count($new_schedules) < $subscription->quantity; $start->addDays(1, 'days')) {
 
-                    // get dow index
-                    $dow_index = null;
-                    foreach($subscription->workdays as $key => $workday) {
+                       // get dow index
+                       $dow_index = null;
+                       foreach($subscription->workdays as $key => $workday) {
 
-                        if($workday['dow'] == $start->dayOfWeek){
-                            $dow_index = $key;
-                        }
-                    }
+                           if($workday['dow'] == $start->dayOfWeek){
+                               $dow_index = $key;
+                           }
+                       }
 
-                    if ($dow_index > -1 && $subscription->workdays[$dow_index]['dow'] == $start->dayOfWeek) {
+                       if ($dow_index > -1 && $subscription->workdays[$dow_index]['dow'] == $start->dayOfWeek) {
 
-                        $schedule_data = [
-                            'subscription_id' => $subscription->id,
-                            'company_id' => $subscription->company_id,
-                            'category_id' => $subscription->plan->category_id,
-                            'date' => $start->format('d/m/Y'),
-                            'time' => $subscription->workdays[$dow_index]['init'],
-                            'professional_id' => $subscription->workdays[$dow_index]['professional_id'],
-                            'invoice_id' => $last_invoice->id
-                        ];
+                           $schedule_data = [
+                               'subscription_id' => $subscription->id,
+                               'company_id' => $subscription->company_id,
+                               'category_id' => $subscription->plan->category_id,
+                               'date' => $start->format('d/m/Y'),
+                               'time' => $subscription->workdays[$dow_index]['init'],
+                               'professional_id' => $subscription->workdays[$dow_index]['professional_id'],
+                               'invoice_id' => $last_invoice->id
+                           ];
 
-                        $new_schedule = Schedule::where([
-                            'subscription_id' => $subscription->id,
-                            'company_id' => $subscription->company_id,
-                            'category_id' => $subscription->plan->category_id,
-                            'date' => $start->format('Y-m-d'),
-                            'time' => $subscription->workdays[$dow_index]['init'] . ':00',
-                            'professional_id' => $subscription->workdays[$dow_index]['professional_id'],
-                            'invoice_id' => $last_invoice->id])->first();
+                           $new_schedule = Schedule::where([
+                               'subscription_id' => $subscription->id,
+                               'company_id' => $subscription->company_id,
+                               'category_id' => $subscription->plan->category_id,
+                               'date' => $start->format('Y-m-d'),
+                               'time' => $subscription->workdays[$dow_index]['init'] . ':00',
+                               'professional_id' => $subscription->workdays[$dow_index]['professional_id'],
+                               'invoice_id' => $last_invoice->id])->first();
 
-                        if (!$new_schedule && !$start->isPast()) {
-                            $new_schedule = Schedule::create($schedule_data);
-                            $new_schedules->push($new_schedule);
-                        }
-                    }
-                }
-            }
+                           if (!$new_schedule && !$start->isPast()) {
+                               $new_schedule = Schedule::create($schedule_data);
+                               $new_schedules->push($new_schedule);
+                           }
+                       }
+                   }
+               }
 
-            //Schedules by period
-            if (!$subscription->plan->limit_quantity) {
-                for ($start; $start <= $end; $start->addDays(1, 'days')) {
+               //Schedules by period
+               if (!$subscription->plan->limit_quantity) {
+                   for ($start; $start <= $end; $start->addDays(1, 'days')) {
 
-                    // get dow index
-                    $dow_index = null;
-                    foreach($subscription->workdays as $key => $workday) {
+                       // get dow index
+                       $dow_index = null;
+                       foreach($subscription->workdays as $key => $workday) {
 
-                        if($workday['dow'] == $start->dayOfWeek){
-                            $dow_index = $key;
-                        }
-                    }
+                           if($workday['dow'] == $start->dayOfWeek){
+                               $dow_index = $key;
+                           }
+                       }
 
-                    if ($dow_index > -1 && $subscription->workdays[$dow_index]['dow'] == $start->dayOfWeek) {
+                       if ($dow_index > -1 && $subscription->workdays[$dow_index]['dow'] == $start->dayOfWeek) {
 
-                        $schedule_data = [
-                            'subscription_id' => $subscription->id,
-                            'company_id' => $subscription->company_id,
-                            'category_id' => $subscription->plan->category_id,
-                            'date' => $start->format('d/m/Y'),
-                            'time' => $subscription->workdays[$dow_index]['init'],
-                            'professional_id' => $subscription->workdays[$dow_index]['professional_id'],
-                            'invoice_id' => $last_invoice->id
-                        ];
+                           $schedule_data = [
+                               'subscription_id' => $subscription->id,
+                               'company_id' => $subscription->company_id,
+                               'category_id' => $subscription->plan->category_id,
+                               'date' => $start->format('d/m/Y'),
+                               'time' => $subscription->workdays[$dow_index]['init'],
+                               'professional_id' => $subscription->workdays[$dow_index]['professional_id'],
+                               'invoice_id' => $last_invoice->id
+                           ];
 
-                        $new_schedule = Schedule::where([
-                            'subscription_id' => $subscription->id,
-                            'company_id' => $subscription->company_id,
-                            'category_id' => $subscription->plan->category_id,
-                            'date' => $start->format('Y-m-d'),
-                            'time' => $subscription->workdays[$dow_index]['init'] . ':00',
-                            'professional_id' => $subscription->workdays[$dow_index]['professional_id'],
-                            'invoice_id' => $last_invoice->id])->first();
+                           $new_schedule = Schedule::where([
+                               'subscription_id' => $subscription->id,
+                               'company_id' => $subscription->company_id,
+                               'category_id' => $subscription->plan->category_id,
+                               'date' => $start->format('Y-m-d'),
+                               'time' => $subscription->workdays[$dow_index]['init'] . ':00',
+                               'professional_id' => $subscription->workdays[$dow_index]['professional_id'],
+                               'invoice_id' => $last_invoice->id])->first();
 
-                        if (!$new_schedule && !$start->isPast()) {
-                            $new_schedule = Schedule::create($schedule_data);
-                            $new_schedules->push($new_schedule);
-                        }
-                    }
-                }
-            }
+                           if (!$new_schedule && !$start->isPast()) {
+                               $new_schedule = Schedule::create($schedule_data);
+                               $new_schedules->push($new_schedule);
+                           }
+                       }
+                   }
+               }
+           }
         }
 
         //Send Mail

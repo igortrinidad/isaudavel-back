@@ -20,6 +20,7 @@
                             <th>Url</th>
                             <th>Visualizações</th>
                             <th>Compartilhamentos</th>
+                            <th>Status</th>
                             <th>Editar</th>
                             <th>Excluir</th>
                         </tr>
@@ -32,6 +33,14 @@
                             <td>{{$article->slug}}</td>
                             <td>{{$article->views}}</td>
                             <td>{{$article->shares}}</td>
+                            <td>
+                                @if($article->is_published)
+                                    <span class="label label-success">Publicado</span>
+                                @else
+                                    <span class="label label-default">Aguardando</span>
+                                @endif
+                            </td>
+
                             <td>
                                 <a class="btn btn-primary btn-sm" href="{{route('oracle.dashboard.articles.edit', $article->id)}}">Editar</a>
                             </td>

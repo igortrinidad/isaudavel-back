@@ -6,7 +6,7 @@ use App\Models\Client;
 use App\Models\Professional;
 use Illuminate\Console\Command;
 
-class SendInviteToClientRateProfessionals extends Command
+class SendInviteToClientRateCompanies extends Command
 {
     /**
      * The name and signature of the console command.

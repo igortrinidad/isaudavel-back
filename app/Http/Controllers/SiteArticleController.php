@@ -108,6 +108,10 @@ class SiteArticleController extends Controller
      */
     public function store(Request $request)
     {
+        //checkbox
+        $is_published = $request->get('is_published') ? true : false;
+        $request->merge(['is_published' => $is_published]);
+
         if($request->hasFile('file')){
             $file = $request->file('file');
 
@@ -155,6 +159,9 @@ class SiteArticleController extends Controller
     {
         $article = SiteArticle::find($request->get('id'));
 
+        //checkbox
+        $is_published = $request->get('is_published') ? true : false;
+        $request->merge(['is_published' => $is_published]);
 
         if($request->hasFile('file')){
 
