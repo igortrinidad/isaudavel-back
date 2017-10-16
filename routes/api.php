@@ -140,7 +140,7 @@ Route::group(['prefix' => 'professional'], function () {
                 Route::group(['prefix' => 'observation'], function(){
                     Route::post('/list', 'CompanyClientObservationController@index');
                     Route::post('/create', 'CompanyClientObservationController@store');
-                    Route::get('/destroy/{$id}', 'CompanyClientObservationController@store');
+                    Route::get('/destroy/{id}', 'CompanyClientObservationController@destroy');
                 });
 
 

@@ -69,16 +69,16 @@ class CompanyClientObservationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy($id)
     {
-        $observation = CompanyClientObservation::find($request->get('id'));
+        $observation = CompanyClientObservation::find($id);
 
         $destroyed = $observation->delete();
 
         if($destroyed){
             return response()->json([
                 'message' => 'Client observation destroyed.',
-                'id' => $request->get('id')
+                'id' => $id
             ]);
         }
 
