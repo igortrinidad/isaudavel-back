@@ -155,7 +155,6 @@ class SiteArticleController extends Controller
     {
         $article = SiteArticle::find($request->get('id'));
 
-
         if($request->hasFile('file')){
 
             \Storage::disk('media')->delete($article->path);
@@ -176,10 +175,7 @@ class SiteArticleController extends Controller
             
         }
 
-
         $article->update($request->all());
-
-
 
         return redirect(route('oracle.dashboard.articles.list'));
     }
