@@ -32,7 +32,7 @@
 	<meta property="og:url" content="https://isaudavel.com">
 	<meta property="og:title" content="iSaudavel">
 	<meta property="og:description" content="iSaudavel é uma ferramenta para conectar você e os melhores profissionais para cuidar da sua saúde.">
-	<meta property="og:image" content="https://s3.amazonaws.com/isaudavel-assets/preview_post.png">
+	<meta property="og:image" content="https://s3.amazonaws.com/isaudavel-assets/preview_post2.png">
 	<meta property="og:image:type" content="image/png">
 
 @endif
@@ -58,7 +58,7 @@
 		<title>iSaudavel - Buscar profissionais de saúde</title> 
 	    <meta name="description" content="No iSaudavel você encontrará profissionais especializados em sua saúde como personal trainer, nutricionista, estúdios de pilates, academia, fisioterapia, crossfit e diversas clínicas de saúde e bem estar - todos unidos em só lugar e você poderá compartilhar as principais informações sobre sua saúde e objetivos com esses profissionais, que juntos irão te ajudar a atingir seus objetivos de saúde, estética e bem estar.">
 
-		<meta property="og:image" content="https://s3.amazonaws.com/isaudavel-assets/preview_post.png">
+		<meta property="og:image" content="https://s3.amazonaws.com/isaudavel-assets/preview_post2.png">
 		<meta property="og:image:type" content="image/png">
 		<meta property="og:title" content="iSaudavel">
 		<meta property="og:url" content="https://isaudavel.com">
