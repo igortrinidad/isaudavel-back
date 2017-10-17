@@ -19,6 +19,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\SendCompanyInvoiceReminder3Days::class,
         \App\Console\Commands\SendCompanyInvoiceReminder1Day::class,
         \App\Console\Commands\AlterRecipesTypes::class,
+        \App\Console\Commands\MarkSchedulesAsConfirmed::class,
     ];
 
     /**
@@ -32,6 +33,7 @@ class Kernel extends ConsoleKernel
         //Verifica as subscriptions, gera e envia as fatura que vencem no dia para os clientes das empresas
         $schedule->command('process:subscriptions')->dailyAt('07:54');
         $schedule->command('invoice:client-reminder-3-days')->dailyAt('07:59');
+        $schedule->command('mark:schedules-as-confirmed-automatically')->everyMinute();
     }
 
     /**
