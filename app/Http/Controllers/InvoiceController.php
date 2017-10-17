@@ -46,7 +46,7 @@ class InvoiceController extends Controller
                 $query->where('client_id', $request->get('client_id'));
             })
             ->with(['subscription.client', 'subscription.plan'])
-            ->orderBy('expire_at', 'ASC')->paginate(10);
+            ->orderBy('expire_at', 'DESC')->paginate(10);
 
         return response()->json(custom_paginator($invoices, 'invoices'));
     }
@@ -100,7 +100,7 @@ class InvoiceController extends Controller
 
         return response()->json([
             'message' => 'Invoice created.',
-            'invoice' => $invoice->fresh(['schedules.professional'])
+            'invoice' => $invoice->fresh(['subscription.client', 'subscription.plan'])
         ]);
     }
 

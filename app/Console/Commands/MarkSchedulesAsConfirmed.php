@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Schedule;
+use App\Models\SingleSchedule;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
@@ -46,10 +47,18 @@ class MarkSchedulesAsConfirmed extends Command
         $this->info('Horário do php: '. $now);
 
         $schedules = Schedule::where('date', $now->format('Y-m-d'))
-            ->where('time', $now->format('h:i'))
+            ->where('time', $now->format('H:i'))
             ->where('is_canceled', false)
             ->where('is_confirmed', false)
             ->get();
+
+        $single_schedules = SingleSchedule::where('date', $now->format('Y-m-d'))
+            ->where('time', $now->format('H:i'))
+            ->where('is_canceled', false)
+            ->where('is_confirmed', false)
+            ->get();
+
+        $schedules = $schedules->merge($single_schedules);
 
         $this->info('Horários localizados: '. $schedules->count());
 

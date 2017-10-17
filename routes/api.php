@@ -450,6 +450,13 @@ Route::group(['prefix' => 'client'], function () {
             Route::post('/schedule/cancel', 'ScheduleController@cancel');
             Route::get('/schedule/show/{id}', 'ScheduleController@show');
 
+            //Single schedule
+            Route::group(['prefix' => 'single_schedule'], function(){
+                Route::post('/reschedule', 'SingleScheduleController@reschedule');
+                Route::post('/cancel', 'SingleScheduleController@cancel');
+                Route::get('/show/{id}', 'SingleScheduleController@show');
+            });
+
         });
 
         //Professional  Resources

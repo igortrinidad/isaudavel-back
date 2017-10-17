@@ -516,12 +516,19 @@ class ScheduleController extends Controller
 
         $single_schedules = SingleSchedule::whereBetween('date', [$request->get('init'), $request->get('end')])
             ->where('company_id', $request->get('company_id'))
+            ->where('client_id', $request->get('client_id'))
             ->with(['professional', 'category'])
             ->get();
 
-        $new_collection = array_merge_recursive($client_schedules->toArray(), $single_schedules->toArray());
 
-        $paged = array_slice($new_collection,($currentPage - 1) * $perPage, $perPage);
+        $new_collection = collect(array_merge($client_schedules->toArray(), $single_schedules->toArray()));
+
+        $new_collection =  $new_collection->sortByDesc(function($schedule)
+        {
+            return Carbon::createFromFormat('d/m/Y H:i:s',$schedule['date'].' '.$schedule['time'])->getTimestamp();
+        });
+
+        $paged = array_slice($new_collection->toArray(),($currentPage - 1) * $perPage, $perPage);
 
         $schedules = new LengthAwarePaginator($paged, count($new_collection), $perPage, $currentPage);
 
