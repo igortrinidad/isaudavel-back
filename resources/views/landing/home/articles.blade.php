@@ -67,6 +67,9 @@
     .bg-pattern{
         background-image: url("/images/pattern-isaudavel-5-300.png");
     }
+    .card-article {
+        min-height: 380px;
+    }
 </style>
  <section id="contact" class="section featured p-t-30 p-b-30">
 
@@ -92,7 +95,7 @@
                         <div class="swiper-wrapper">
                             @foreach($articles as $article)
                                 <div class="swiper-slide text-center">
-                                    <div class="card">
+                                    <div class="card card-article">
                                         <div class="card-header ch-alt card-picture-header" style="background-image:url('{{ $article->avatar }}')">
                                             <a href="{!! route('landing.articles.show', $article->slug) !!}" title="{{ $article->title }}">
                                                 <div class="hover">
@@ -100,13 +103,11 @@
                                                 </div>
                                             </a>
                                         </div>
-                                        <div class="card-body card-padding text-center">
-                                            <h3 class="f-300" style="min-height: 70px;">{{$article->title}}</h3>
+                                        <div class="card-body p-10 text-center">
+                                            <h3 class="f-300 m-t-20 m-b-20">{{$article->title}}</h3>
 
-                                            <a href="{!! route('landing.articles.show', $article->slug) !!}" title="{{ $article->title }}">
-                                                <button class="btn btn-primary f-300 f-16 m-t-20">
-                                                    Continue lendo
-                                                </button>
+                                            <a href="{!! route('landing.articles.show', $article->slug) !!}" class="btn btn-primary f-300 f-16 m-b-20" title="{{ $article->title }}">
+                                                Continue lendo
                                             </a>
                                         </div>
                                     </div>
