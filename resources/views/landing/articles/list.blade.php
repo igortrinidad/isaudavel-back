@@ -166,10 +166,8 @@
                                         <div class="card-body card-padding text-center">
                                             <h3 class="f-300" style="min-height: 70px;">{{$article->title}}</h3>
 
-                                            <a href="{!! route('landing.articles.show', $article->slug) !!}" title="{{ $article->title }}">
-                                                <button class="btn btn-primary f-300 f-16 m-t-20">
-                                                    Continue lendo
-                                                </button>
+                                            <a href="{!! route('landing.articles.show', $article->slug) !!}" class="btn btn-primary f-300 f-16 m-t-20" title="{{ $article->title }}">
+                                                Continue lendo
                                             </a>
                                         </div>
                                     </div>
