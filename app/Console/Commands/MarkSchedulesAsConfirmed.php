@@ -41,7 +41,7 @@ class MarkSchedulesAsConfirmed extends Command
     {
         $this->info('Command started' );
 
-        $now = Carbon::now()->subHours(1);
+        $now = Carbon::now()->subHours(3);
 
         $this->info('Horário do php: '. $now);
 
