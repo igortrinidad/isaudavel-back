@@ -170,6 +170,7 @@ Route::group(['prefix' => 'professional'], function () {
 
             // Category calendar settings
             Route::post('/category/calendar_settings', 'CategoryCalendarSettingController@show');
+            Route::post('/category/calendar_settings/config', 'CategoryCalendarSettingController@index');
             Route::post('/category/calendar_settings/update', 'CategoryCalendarSettingController@update');
 
 

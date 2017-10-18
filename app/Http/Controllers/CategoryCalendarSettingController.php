@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CategoryCalendarSetting;
+use App\Models\ClientSubscription;
 use Illuminate\Http\Request;
 
 class CategoryCalendarSettingController extends Controller
@@ -10,11 +11,52 @@ class CategoryCalendarSettingController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-       //
+        $category_calendar_settings = CategoryCalendarSetting::where('company_id', $request->get('company_id'))
+            ->where('category_id', $request->get('category_id'))->with('category')->first();
+
+        $new_workdays = [];
+
+        foreach ($category_calendar_settings->workdays  as $key => $category_workday) {
+            $category_workday['clients_count'] = 0;
+            $category_workday['is_available'] = true;
+
+            $new_workdays[$key] = $category_workday;
+        }
+
+        $category_calendar_settings->workdays = $new_workdays;
+
+        $category_workdays = $category_calendar_settings->workdays;
+
+        $client_subs = ClientSubscription::where('company_id', $request->get('company_id'))
+            ->whereHas('plan', function($query) use($request){
+                $query ->where('category_id', $request->get('category_id'));
+            })->get();
+
+        foreach ($client_subs as $client_sub){
+            $client_workdays = $client_sub->workdays;
+
+            foreach($client_workdays as $workday){
+                foreach ($category_workdays as  $key2 => $category_workday) {
+
+                    if ($category_workday['dow'] == $workday['dow'] && $category_workday['init'] == $workday['init']) {
+                        $category_workday['clients_count'] = $category_workday['clients_count'] + 1;
+                        $category_workday['is_available'] = !($category_workday['clients_count'] >= $category_workday['quantity']);
+
+                        $category_workdays[$key2] = $category_workday;
+                    }
+
+                }
+            }
+
+        }
+        $category_calendar_settings->workdays  = $category_workdays;
+
+        return response()->json(['category_calendar_settings' => $category_calendar_settings]);
     }
 
 

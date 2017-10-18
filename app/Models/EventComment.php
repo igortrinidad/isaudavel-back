@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
-use App\Models\Traits\Uuids;
+use App\Models\Traits\GenerateUuid;
+use App\Models\Traits\Sanitize;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
 
 class EventComment extends Model
 {
-    use Uuids;
+    use GenerateUuid, Sanitize;
 
     /**
      * The table associated with the model.
@@ -38,6 +39,37 @@ class EventComment extends Model
         'content',
         'created_at',
     ];
+
+    /**
+     * Sanitize this columns.
+     *
+     * @var array
+     */
+    protected $sanitize_columns = ['content'];
+
+
+    protected static function boot()
+    {
+        static::bootTraits();
+    }
+
+    /**
+     * Boot all of the bootable traits on the model.
+     *
+     * @return void
+     */
+    protected static function bootTraits()
+    {
+        $class = static::class;
+
+        foreach (class_uses_recursive($class) as $trait) {
+
+            if (method_exists($class, $method = 'boot' . class_basename($trait))) {
+
+                forward_static_call([$class, $method]);
+            }
+        }
+    }
 
 
     /**
