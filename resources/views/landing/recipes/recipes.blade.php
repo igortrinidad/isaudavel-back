@@ -172,7 +172,7 @@
                                         <h3 class="f-300 m-t-5" style="height: 60px;">{{ $recipe->title }}</h3>
 
                                         @if($recipe->current_rating > 0)
-                                            <div class="wp-rating-div">
+                                            <div class="wp-rating-div m-t-25">
                                                 <h5>Avaliação</h5>
                                                 @php
                                                     $rating_to_loop = $recipe->current_rating;
@@ -181,7 +181,7 @@
                                             </div>
                                         @endif
 
-                                        <div class="row m-t-10">
+                                        <div class="row m-t-25">
                                             <div class="recipe-info time-info">
                                                 <i class="ion-android-alarm-clock fa-lg f-primary"></i> {{$recipe->prep_time}} MIN
                                             </div>
