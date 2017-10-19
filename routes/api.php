@@ -172,6 +172,7 @@ Route::group(['prefix' => 'professional'], function () {
             Route::post('/category/calendar_settings', 'CategoryCalendarSettingController@show');
             Route::post('/category/calendar_settings/config', 'CategoryCalendarSettingController@index');
             Route::post('/category/calendar_settings/update', 'CategoryCalendarSettingController@update');
+            Route::post('/category/calendar_settings/to_reschedule', 'CategoryCalendarSettingController@toReschedule');
 
 
             //Professional calendar settings

@@ -92,7 +92,6 @@ class ScheduleController extends Controller
             }])
             ->first();
 
-
         /*
          * Scheduled by professional
          */
@@ -163,30 +162,36 @@ class ScheduleController extends Controller
                             }
                         }
 
-                        if ($dow_index > -1 && $client_subscription->workdays[$dow_index]['dow'] == $date->dayOfWeek && $date->isFuture() && $client_subscription->workdays[$dow_index]['professional_id'] == $calendar_setting->professional_id) {
+                        $expire_current_month = Carbon::createFromFormat('d/m/Y', $client_subscription->expire_at)->isCurrentMonth();
+                        $expire_next_month = Carbon::createFromFormat('d/m/Y', $client_subscription->expire_at)->isNextMonth();
 
-                            $schedule_data = [
-                                'subscription_id' => $client_subscription->id,
-                                'category_id' => $client_subscription->plan->category_id,
-                                'client' => $client_subscription->client()->select('id', 'name', 'last_name')->first()->toArray(),
-                                'company_id' => $client_subscription->company_id,
-                                'date' => $date->format('d/m/Y'),
-                                'time' => $client_subscription->workdays[$dow_index]['init'].':00',
-                                'professional_id' => $client_subscription->workdays[$dow_index]['professional_id'],
-                                'is_fake' => true
-                            ];
+                        if ($dow_index > -1 && $client_subscription->workdays[$dow_index]['dow'] == $date->dayOfWeek && $date->isFuture() &&  $client_subscription->workdays[$dow_index]['professional_id'] == $calendar_setting->professional_id) {
 
-                            $exists = Schedule::where([
-                                'subscription_id' => $client_subscription->id,
-                                'category_id' => $client_subscription->plan->category_id,
-                                'company_id' => $client_subscription->company_id,
-                                'date' => $date->format('Y-m-d'),
-                                'time' => $client_subscription->workdays[$dow_index]['init'].':00',
-                                'professional_id' => $client_subscription->workdays[$dow_index]['professional_id'],
-                            ])->with(['professional'])->first();
+                            if(!$expire_next_month || $date->isNextMonth() && $expire_next_month || $expire_current_month && $date->isNextMonth() && !$expire_next_month ){
 
-                            if(!$exists){
-                                $fake_schedules->push($schedule_data);
+                                $schedule_data = [
+                                    'subscription_id' => $client_subscription->id,
+                                    'category_id' => $client_subscription->plan->category_id,
+                                    'client' => $client_subscription->client()->select('id', 'name', 'last_name')->first()->toArray(),
+                                    'company_id' => $client_subscription->company_id,
+                                    'date' => $date->format('d/m/Y'),
+                                    'time' => $client_subscription->workdays[$dow_index]['init'].':00',
+                                    'professional_id' => $client_subscription->workdays[$dow_index]['professional_id'],
+                                    'is_fake' => true
+                                ];
+
+                                $exists = Schedule::where([
+                                    'subscription_id' => $client_subscription->id,
+                                    'category_id' => $client_subscription->plan->category_id,
+                                    'company_id' => $client_subscription->company_id,
+                                    'date' => $date->format('Y-m-d'),
+                                    'time' => $client_subscription->workdays[$dow_index]['init'].':00',
+                                    'professional_id' => $client_subscription->workdays[$dow_index]['professional_id'],
+                                ])->with(['professional'])->first();
+
+                                if(!$exists){
+                                    $fake_schedules->push($schedule_data);
+                                }
                             }
 
                         }
@@ -208,6 +213,7 @@ class ScheduleController extends Controller
 
 
                 $calendar_setting->setAttribute('schedules', array_merge_recursive($schedules->toArray(), $fake_schedules->toArray(), $single_schedules->toArray()));
+                $calendar_setting->setAttribute('is_professional_scheduled', true);
             }
 
             return response()->json(['schedules' => $calendar_settings, 'category_calendar_settings'=>  $category_calendar_settings]);
@@ -275,32 +281,36 @@ class ScheduleController extends Controller
                         }
                     }
 
-                    if ($dow_index > -1 && $client_subscription->workdays[$dow_index]['dow'] == $date->dayOfWeek && $date->isFuture() && $client_subscription->workdays[$dow_index]['professional_id'] == $calendar_setting->professional_id) {
+                    $expire_current_month = Carbon::createFromFormat('d/m/Y', $client_subscription->expire_at)->isCurrentMonth();
+                    $expire_next_month = Carbon::createFromFormat('d/m/Y', $client_subscription->expire_at)->isNextMonth();
 
-                        $schedule_data = [
-                            'subscription_id' => $client_subscription->id,
-                            'category_id' => $client_subscription->plan->category_id,
-                            'client' => $client_subscription->client()->select('id', 'name', 'last_name')->first()->toArray(),
-                            'company_id' => $client_subscription->company_id,
-                            'date' => $date->format('d/m/Y'),
-                            'time' => $client_subscription->workdays[$dow_index]['init'].':00',
-                            'professional_id' => $client_subscription->workdays[$dow_index]['professional_id'],
-                            'is_fake' => true
-                        ];
+                    if ($dow_index > -1 && $client_subscription->workdays[$dow_index]['dow'] == $date->dayOfWeek && $date->isFuture()) {
 
-                        $exists = Schedule::where([
-                            'subscription_id' => $client_subscription->id,
-                            'category_id' => $client_subscription->plan->category_id,
-                            'company_id' => $client_subscription->company_id,
-                            'date' => $date->format('Y-m-d'),
-                            'time' => $client_subscription->workdays[$dow_index]['init'].':00',
-                            'professional_id' => $client_subscription->workdays[$dow_index]['professional_id'],
-                        ])->with(['professional'])->first();
+                        if(!$expire_next_month || $date->isNextMonth() && $expire_next_month || $expire_current_month && $date->isNextMonth() && !$expire_next_month ){
+                            $schedule_data = [
+                                'subscription_id' => $client_subscription->id,
+                                'category_id' => $client_subscription->plan->category_id,
+                                'client' => $client_subscription->client()->select('id', 'name', 'last_name')->first()->toArray(),
+                                'company_id' => $client_subscription->company_id,
+                                'date' => $date->format('d/m/Y'),
+                                'time' => $client_subscription->workdays[$dow_index]['init'].':00',
+                                'professional_id' => $client_subscription->workdays[$dow_index]['professional_id'],
+                                'is_fake' => true
+                            ];
 
-                        if(!$exists){
-                            $fake_schedules->push($schedule_data);
+                            $exists = Schedule::where([
+                                'subscription_id' => $client_subscription->id,
+                                'category_id' => $client_subscription->plan->category_id,
+                                'company_id' => $client_subscription->company_id,
+                                'date' => $date->format('Y-m-d'),
+                                'time' => $client_subscription->workdays[$dow_index]['init'].':00',
+                                'professional_id' => $client_subscription->workdays[$dow_index]['professional_id'],
+                            ])->with(['professional'])->first();
+
+                            if(!$exists){
+                                $fake_schedules->push($schedule_data);
+                            }
                         }
-
                     }
                 }
             }
@@ -732,14 +742,15 @@ class ScheduleController extends Controller
 
         $schedule->setAttribute('client', $schedule->subscription->client);
 
-        $calendar_settings = ProfessionalCalendarSetting::where('company_id', $request->get('company_id'))
-            ->where('category_id', $request->get('category_id'))
-            ->first();
+        if($schedule->professional_id){
+            $calendar_settings = ProfessionalCalendarSetting::where('company_id', $request->get('company_id'))
+                ->where('category_id', $request->get('category_id'))
+                ->first();
 
-        $schedule->setAttribute('professional_workdays', $calendar_settings->workdays);
+            $schedule->setAttribute('professional_workdays', $calendar_settings->workdays);
 
-        $schedule->professional->makeHidden(['companies', 'categories', 'blank_password', 'password', 'remember_token']);
-
+            $schedule->professional->makeHidden(['companies', 'categories', 'blank_password', 'password', 'remember_token']);
+        }
 
         //Report email
         $data = [];
@@ -757,7 +768,9 @@ class ScheduleController extends Controller
         \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $schedule){
             $message->from('no-reply@isaudavel.com', 'iSaudavel App');
             $message->to($schedule->client->email, $schedule->client->full_name)->subject($data['messageSubject']);
-            $message->cc($schedule->professional->email, $schedule->professional->full_name)->subject($data['messageSubject']);
+            if($schedule->professional_id) {
+                $message->cc($schedule->professional->email, $schedule->professional->full_name)->subject($data['messageSubject']);
+            }
         });
 
         return response()->json([
@@ -830,13 +843,15 @@ class ScheduleController extends Controller
 
         $schedule->setAttribute('client', $schedule->subscription->client);
 
-        $calendar_settings = ProfessionalCalendarSetting::where('company_id', $request->get('company_id'))
-            ->where('category_id', $request->get('category_id'))
-            ->first();
+        if($schedule->professional_id){
+            $calendar_settings = ProfessionalCalendarSetting::where('company_id', $request->get('company_id'))
+                ->where('category_id', $request->get('category_id'))
+                ->first();
 
-        $schedule->setAttribute('professional_workdays', $calendar_settings->workdays);
+            $schedule->setAttribute('professional_workdays', $calendar_settings->workdays);
 
-        $schedule->professional->makeHidden(['companies', 'categories', 'blank_password', 'password', 'remember_token']);
+            $schedule->professional->makeHidden(['companies', 'categories', 'blank_password', 'password', 'remember_token']);
+        }
 
         //Report email
         $data = [];
@@ -850,7 +865,9 @@ class ScheduleController extends Controller
         \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $schedule){
             $message->from('no-reply@isaudavel.com', 'iSaudavel App');
             $message->to($schedule->client->email, $schedule->client->full_name)->subject($data['messageSubject']);
-            $message->cc($schedule->professional->email, $schedule->professional->full_name)->subject($data['messageSubject']);
+            if($schedule->professional_id){
+                $message->cc($schedule->professional->email, $schedule->professional->full_name)->subject($data['messageSubject']);
+            }
         });
 
         return response()->json([
