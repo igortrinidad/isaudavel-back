@@ -228,10 +228,8 @@
                                     <div class="card-header ch-alt">
                                         <h4 class="m-b-10">{{ $plan->name }}</h4>
                                         <small class="label label-success p-10">R$ {{ $plan->value }}</small>
+
                                         <span class="plan-limit m-t-10 f-300">
-                                            Quantidade de {{ $plan->label }}: <b>{{$plan->limit_quantity ? $plan->quantity : 'ilimitado'}}</b>
-                                        </span>
-                                        <span class="plan-limit f-300">
                                            Período: <b>{{ $plan->expiration }}</b> mês(es)
                                         </span>
                                         <p class="plan-description f-300 m-t-10">{{ $plan->description }}</p>
