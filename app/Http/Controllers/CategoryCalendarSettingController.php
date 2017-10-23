@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CategoryCalendarSetting;
 use App\Models\ClientSubscription;
+use App\Models\ProfessionalCalendarSetting;
 use App\Models\Schedule;
 use App\Models\SingleSchedule;
 use Carbon\Carbon;
@@ -186,6 +187,17 @@ class CategoryCalendarSettingController extends Controller
                 'company_id' => $request->get('company_id'),
                 'category_id' => $request->get('category_id')
             ], ['is_professional_scheduled' => false, 'workdays' => json_decode('[]')]);
+
+        if($calendar_setting->is_professional_scheduled){
+            $professionals_calendar_settings = ProfessionalCalendarSetting::where( 'company_id',$request->get('company_id'))
+                ->where( 'category_id', $request->get('category_id'))
+                ->select('id', 'professional_id', 'is_active')
+                ->get();
+
+            $calendar_setting->setAttribute('professionals_calendar_settings', $professionals_calendar_settings);
+
+            return response()->json(['calendar_setting' => $calendar_setting]);
+        }
 
         return response()->json(['calendar_setting' => $calendar_setting->fresh()]);
     }

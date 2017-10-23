@@ -444,8 +444,11 @@ Route::group(['prefix' => 'client'], function () {
             Route::post('/rating/update', 'CompanyRatingController@update');
             Route::get('/rating/destroy/{id}', 'CompanyRatingController@destroy');
 
-            //calendar settings to reschedule
+            //professional calendar settings to reschedule
             Route::post('/calendar_settings/to_reschedule', 'ProfessionalCalendarSettingController@toReschedule');
+
+            //category calendar settings to reschedule
+            Route::post('/category/calendar_settings/to_reschedule', 'CategoryCalendarSettingController@toReschedule');
 
             //Schedule
             Route::post('/schedule/reschedule', 'ScheduleController@reschedule');
