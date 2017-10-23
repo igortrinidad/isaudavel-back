@@ -186,7 +186,7 @@ class Company extends Model
         return $this->belongsToMany(Professional::class, 'company_professional')
             ->wherePivot('is_public', 1)
             ->wherePivot('is_confirmed', 1)
-            ->withPivot(['is_admin', 'is_public'])
+            ->withPivot(['is_admin', 'is_public', 'is_confirmed'])
             ->with('categories');
     }
 
