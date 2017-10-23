@@ -139,6 +139,10 @@ Route::group(['prefix' => 'oracle', 'as' => 'oracle.'], function () {
             Route::get('/{id}/faturas/{invoice_id}', ['uses' => 'OracleController@invoiceShow', 'as' => 'invoice.show']);
             Route::post('/faturas/atualizar', ['uses' => 'OracleController@invoiceUpdate', 'as' => 'invoice.update']);
 
+            Route::get('{id}/profissionais/lista', ['uses' => 'OracleController@companyProfessionalList', 'as' => 'professional.list']);
+            Route::post('/profissionais/excluir_vinculo', ['uses' => 'OracleController@removeProfessionalFromCompany', 'as' => 'professional.remove_from_company']);
+            Route::post('/profissionais/adicionar_vinculo', ['uses' => 'OracleController@addProfessionalToCompany', 'as' => 'professional.add_to_company']);
+
         });
 
         //clients

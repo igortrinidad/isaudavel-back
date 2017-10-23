@@ -118,6 +118,10 @@
                         </table>
                     </div>
 
+                    <div class="form-group">
+                        <a href="{{route('oracle.dashboard.companies.professional.list', $company->id)}}" class="btn btn-block btn-info">Ir para lista de profissionais</a>
+                    </div>
+
                     <div class="form-group m-t-25 m-b-25">
                         <label>Alterar data de vencimento</label> <br>
 

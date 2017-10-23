@@ -4,6 +4,7 @@
 
     @include('components.seo-opengraph')
 
+    <title>Oracle - iSaudavel</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="icon" href="/icons/icon_p.png" type="image/x-icon"/>
