@@ -120,6 +120,9 @@ class OracleController extends Controller
     }
 
 
+    /**
+     * Mostra a assinatura da empresa
+     */
     public function companySubscription($id)
     {
         $company = Company::with('subscription.histories.user', 'categories', 'professionals')->find($id);
@@ -130,10 +133,92 @@ class OracleController extends Controller
     }
 
     /**
+     * Lista de profissionais da empresa
+     */
+    public function companyProfessionalList($id)
+    {
+        $company = Company::with('professionals')->find($id);
+
+        return view('oracle.dashboard.companies.professional-list', compact('company'));
+    }
+
+    /**
+     * Excluir um usuário da empresa
+     */
+    public function removeProfessionalFromCompany(Request $request)
+    {
+
+        $professional = Professional::find($request->get('professional_id'));
+
+        if($professional){
+
+            $professional->companies()->detach($request->get('company_id'));
+
+            return redirect()->back();
+        }
+
+        return redirect()->back();
+    }
+
+    /**
+     * Adiciona um usuário existente para a empresa
+     */
+    public function addProfessionalToCompany(Request $request)
+    {
+        //dd($request->all());
+
+        $professional = Professional::where('email', $request->get('email'))->first();
+
+        if($request->get('is_confirmed') == 'on'){
+            $request->is_confirmed = true;
+        } else {
+           $request->is_confirmed = false;
+        }
+
+        if($request->get('is_admin') == 'on'){
+            $request->is_admin = true;
+        } else {
+           $request->is_admin = false;
+        }
+
+        if($request->get('is_public') == 'on'){
+            $request->is_public = true;
+        } else {
+           $request->is_public = false;
+        }
+
+        $request->merge([
+            'is_admin' => $request->is_admin,
+            'is_confirmed' => $request->is_confirmed,
+            'is_public' => $request->is_public,
+        ]);
+
+        if($professional){
+
+            $professional->companies()->attach($request->get('company_id'),
+                [
+                    'is_admin' => $request->get('is_admin'),
+                    'is_confirmed' => $request->get('is_confirmed'),
+                    'is_public' => $request->get('is_public'),
+                ]);
+
+            return redirect()->back();
+
+        } else {
+
+           return redirect()->back(); 
+
+        }
+
+        return redirect()->back();
+    }
+
+    /**
      * Atualiza uma subscription da COMPANY na plataforma iSaudavel
      */
     public function subscriptionUpdate(Request $request)
     {
+
         $this->subscriptionServices->updateSubscription($request);
 
         return redirect()->back();

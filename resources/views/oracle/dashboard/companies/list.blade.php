@@ -80,9 +80,10 @@
                                         @endif
                                     </td>
                                     <td>{{$company->created_at->format('d/m/Y H:i:s')}}</td>
-                                    <td>
+                                    <td class="text-center">
                                         <a class="btn btn-default btn-sm" href="{!! route('landing.companies.show', $company->slug) !!}"><i class="ion-search"></i></a>
                                         <a class="btn btn-primary btn-sm" href="{{route('oracle.dashboard.companies.edit', ['id'=> $company->id])}}" title="Editar empresa"><i class="ion-edit"></i></a>
+                                        <a class="btn btn-primary btn-sm" href="{{route('oracle.dashboard.companies.professional.list', $company->id)}}" title="Profissionais"><i class="ion-person fa-lg"></i></a>
                                         @if($company->subscription)
                                             <a class="btn btn-success btn-sm" href="{{route('oracle.dashboard.companies.subscription', ['id'=> $company->id])}}" title="Gerenciar assinatura"><i class="ion-gear-b fa-lg"></i></a>
                                         @endif
@@ -90,6 +91,8 @@
                                             <a class="btn btn-success btn-sm" href="{{route('oracle.dashboard.companies.subscription.create', ['id'=> $company->id])}}" title="Criar assinatura"><i class="ion-document-text fa-lg"></i></a>
                                         @endif
                                         <a class="btn btn-info btn-sm" href="{{route('oracle.dashboard.companies.invoices', ['id'=> $company->id])}}" title="Visualizar faturas"><i class="ion-social-usd fa-lg"></i></a>
+
+
                                     </td>
                                 </tr>
                             @endforeach
