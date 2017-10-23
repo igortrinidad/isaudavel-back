@@ -147,7 +147,7 @@ class SystemController extends Controller
             $cities = \App\Models\Company::select('city', 'lat', 'lng')->groupBy('city', 'lat', 'lng')->get();
 
             foreach($cities as $city){
-                $sitemap->add($root . '/buscar?city=' . $city->city . '&lat=' . $city->lat . '&lng=' . $city->lng, \Carbon\Carbon::now(), '1.0', 'daily');
+                $sitemap->add($root . '/buscar?city=' . str_replace(' ', '+',$city->city) . '&lat=' . $city->lat . '&lng=' . $city->lng, \Carbon\Carbon::now(), '1.0', 'daily');
             }
 
             //Categorias

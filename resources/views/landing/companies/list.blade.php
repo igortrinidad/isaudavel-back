@@ -83,8 +83,10 @@
                             <div class="card">
                                 <div class="card-body card-padding">
                                     <h2 class="f-300">
-                                        Você está pesquisando por <b>@{{ categoryFromParams }}</b>
-                                        <span v-if="city"> em <b>@{{ city }}</b></span>
+                                        Você está pesquisando por <b>{{ $category_fetched->name }}</b>
+                                        @if(isset($city_fetched))
+                                            <span> em <b>{{$city_fetched }}</b></span>
+                                        @endif
                                     </h2>
 
                                     @if(count($companies) == 0)

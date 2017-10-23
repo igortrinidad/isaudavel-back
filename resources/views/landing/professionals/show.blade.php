@@ -182,21 +182,23 @@
                 @foreach($professional_fetched->companies as $company)
                     <div class="col-md-4  col-sm-6 col-xs-12 text-center">
                         <div class="card">
-                            <div class="card-header ch-alt">
-                                <div class="picture-circle picture-circle-p" style="background-image:url({{$company->avatar}})"></div>
-                                <h4 class="m-b-10"><a class="f-400"  href="{!! route('landing.companies.show', $company->slug) !!}"> {{$company->name}}</a></h4>
-                                <?php $rating_to_loop = $company->current_rating; ?>
-                                <h3>{{$company->current_rating}}</h3>
-                                @include('components.rating', ['size' => '24'])
-                                <br>
-                                <span class="f-300 f-18 m-t-10">
-                                    <i class="ion-ios-location-outline m-r-5"></i>
-                                    {{ $company->city }} -  {{ $company->state }}
-                                </span>
-                            </div>
+                                <a class="f-400"  href="{!! route('landing.companies.show', $company->slug) !!}">
+                                    <div class="card-header ch-alt">
+                                        <div class="picture-circle picture-circle-p" style="background-image:url({{$company->avatar}})"></div>
+                                        <h4 class="m-b-10"><a class="f-400"  href="{!! route('landing.companies.show', $company->slug) !!}"> {{$company->name}}</a></h4>
+                                        <?php $rating_to_loop = $company->current_rating; ?>
+                                        <h3>{{$company->current_rating}}</h3>
+                                        @include('components.rating', ['size' => '24'])
+                                        <br>
+                                        <span class="f-300 f-18 m-t-10">
+                                            <i class="ion-ios-location-outline m-r-5"></i>
+                                            {{ $company->city }} -  {{ $company->state }}
+                                        </span>
+                                    </div>
+                                </a>
                             <div class="card-body p-10">
                                 @foreach($company->categories as $category)
-                                    <a href="{!! route('landing.search.index', ['category' => $category->name]) !!}"><button class="btn btn-success btn-sm m-b-5 m-t-5">{{ $category->name }}</button></a>
+                                    <a href="{!! route('landing.search.index', ['category' => $category->slug]) !!}"><button class="btn btn-success btn-sm m-b-5 m-t-5">{{ $category->name }}</button></a>
                                 @endforeach
                             </div>
                         </div>

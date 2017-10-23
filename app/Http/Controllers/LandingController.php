@@ -55,6 +55,21 @@ class LandingController extends Controller
 
         $categories = Category::all();
 
+        if($request->query('category')){
+            $category_fetched = Category::where('slug', $request->query('category'))->first();
+        } else {
+
+            if($request->query('city')){
+                return redirect()->route('landing.search.index', [ 'category'=> $categories[0]->slug, 'city' => $request->query('city')]);  
+            } else {
+                return redirect()->route('landing.search.index', [ 'category'=> $categories[0]->slug ]);  
+            }
+        }
+
+        if($request->query('city')){
+            $city_fetched = $request->query('city');
+        }
+
         //Se não tiver localização em lat e lng
         if( empty($request->query('lat')) && empty($request->query('lng')) ) {
 
@@ -107,7 +122,7 @@ class LandingController extends Controller
 
         }
 
-        return view('landing.companies.list', compact('companies', 'categories'));
+        return view('landing.companies.list', compact('companies', 'categories', 'category_fetched', 'city_fetched'));
     }
 
     /**
@@ -336,7 +351,7 @@ class LandingController extends Controller
         $professional_fetched = Professional::where('slug', $slug)->with(['companies', 'last_ratings', 'certifications', 'categories'])->first();
 
         if($professional_fetched){
-            return view('landing.companies.showprofessional', compact('professional_fetched'));
+            return view('landing.professionals.show', compact('professional_fetched'));
         }
 
         abort(404);
