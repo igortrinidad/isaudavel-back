@@ -21,8 +21,8 @@
                                 <th>É proprietário?</th>
                                 <th>Categorias</th>
                                 <th>Admin?</th>
-                                <th>Público?</th>
                                 <th>Confirmado?</th>
+                                <th>Público?</th>
                                 <th>Excluir</th>
                             </tr>
                         </thead>
