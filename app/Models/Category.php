@@ -80,5 +80,16 @@ class Category extends Model
         return $this->belongsToMany(Plan::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function calendar_settings()
+    {
+        return $this->hasOne(CategoryCalendarSetting::class)
+            ->select('id','company_id', 'category_id', 'is_professional_scheduled');
+    }
+
+
+
 
 }

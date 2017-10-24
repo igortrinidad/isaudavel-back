@@ -54,7 +54,11 @@ class SingleScheduleController extends Controller
         \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $single_schedule){
             $message->from('no-reply@isaudavel.com', 'iSaudavel App');
             $message->to($single_schedule->client->email, $single_schedule->client->full_name)->subject($data['messageSubject']);
-            $message->cc($single_schedule->professional->email, $single_schedule->professional->full_name)->subject($data['messageSubject']);
+
+            if($single_schedule->professional_id){
+                $message->cc($single_schedule->professional->email, $single_schedule->professional->full_name)->subject($data['messageSubject']);
+            }
+
         });
 
         return response()->json([
@@ -145,7 +149,10 @@ class SingleScheduleController extends Controller
         \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $single_schedule){
             $message->from('no-reply@isaudavel.com', 'iSaudavel App');
             $message->to($single_schedule->client->email, $single_schedule->client->full_name)->subject($data['messageSubject']);
-            $message->cc($single_schedule->professional->email, $single_schedule->professional->full_name)->subject($data['messageSubject']);
+            
+            if($single_schedule->professional_id){
+                $message->cc($single_schedule->professional->email, $single_schedule->professional->full_name)->subject($data['messageSubject']);
+            }
         });
 
         return response()->json([
