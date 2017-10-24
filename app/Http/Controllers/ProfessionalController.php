@@ -23,6 +23,34 @@ class ProfessionalController extends Controller
         return response()->json(custom_paginator($professionals));
     }
 
+    /**
+     * List professionals
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function listPublic(Request $request)
+    {
+        $professionals = Professional::whereHas('categories', function ($query) use ($request) {
+            if ($request->has('category') && !empty($request->get('category'))) {
+                $query->where('slug', $request->get('category'));
+            }
+
+        })->where(function ($query) use ($request) {
+            if ($request->has('search') && !empty($request->get('search'))) {
+
+                $search = explode(' ', $request->get('search'));
+
+                $query->orWhereIn('name', $search);
+                $query->orWhere(function ($query) use ($search) {
+                    $query->whereIn('last_name', $search);
+                });
+            }
+        })->with(['categories'])->get();
+
+        return response()->json(['count' => $professionals->count(), 'data' => $professionals]);
+    }
+
 
     /**
      * Display a listing of the resource.
@@ -256,6 +284,20 @@ class ProfessionalController extends Controller
     public function show($id)
     {
         $professional = Professional::with(['photos', 'categories', 'companies', 'certifications', 'last_ratings', 'last_recomendations'])->find($id);
+
+        return response()->json(['professional' => $professional]);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param $slug
+     * @return \Illuminate\Http\Response
+     */
+    public function showPublic($slug)
+    {
+        $professional = Professional::with(['photos', 'categories', 'companies', 'certifications', 'last_ratings', 'last_recomendations'])
+            ->where('slug', $slug)->first();
 
         return response()->json(['professional' => $professional]);
     }

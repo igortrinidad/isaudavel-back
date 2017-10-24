@@ -91,4 +91,29 @@ class ProfessionalRatingController extends Controller
         ], 404);
 
     }
+
+    /**
+     *  Check Rating
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+
+    public function checkRating(Request $request)
+    {
+        $already_rated = false;
+
+        $check_rating = ProfessionalRating::where('client_id', \Auth::user()->id)
+            ->whereHas('professional', function ($query) use ($request){
+                $query->where('slug', $request->get('slug'));
+            })->first();
+
+        if($check_rating){
+            $already_rated = true;
+        }
+
+        return response()->json([
+            'already_rated' => $already_rated,
+        ]);
+    }
 }
