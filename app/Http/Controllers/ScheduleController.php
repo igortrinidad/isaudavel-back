@@ -717,6 +717,7 @@ class ScheduleController extends Controller
 
                 $singleSchedules = SingleSchedule::whereBetween('date', [$request->get('start'), $request->get('end')])
                     ->where('company_id', $key)
+                    ->where('client_id', \Auth::user()->id)
                     ->with(['company', 'professional', 'client', 'category'])
                     ->get();
 
