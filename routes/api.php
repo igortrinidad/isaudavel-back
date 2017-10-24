@@ -314,6 +314,7 @@ Route::group(['prefix' => 'professional'], function () {
     });
 
     Route::get('/show/{id}', 'ProfessionalController@show');
+    Route::get('/public/show/{slug}', 'ProfessionalController@showPublic');
 
     //Open routes
     Route::post('/category/search', 'ProfessionalController@searchByCategory');
@@ -443,6 +444,7 @@ Route::group(['prefix' => 'client'], function () {
             Route::post('/rating/create', 'CompanyRatingController@store');
             Route::post('/rating/update', 'CompanyRatingController@update');
             Route::get('/rating/destroy/{id}', 'CompanyRatingController@destroy');
+            Route::post('/rating/check', 'CompanyRatingController@checkRating');
 
             //professional calendar settings to reschedule
             Route::post('/calendar_settings/to_reschedule', 'ProfessionalCalendarSettingController@toReschedule');
@@ -473,6 +475,7 @@ Route::group(['prefix' => 'client'], function () {
             Route::post('/rating/create', 'ProfessionalRatingController@store');
             Route::post('/rating/update', 'ProfessionalRatingController@update');
             Route::get('/rating/destroy/{id}', 'ProfessionalRatingController@destroy');
+            Route::post('/rating/check', 'ProfessionalRatingController@checkRating');
 
             //Client professional relationship
             Route::post('/solicitation', 'ClientController@professionalSolicitation');

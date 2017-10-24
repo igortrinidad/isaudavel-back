@@ -261,6 +261,20 @@ class ProfessionalController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param $slug
+     * @return \Illuminate\Http\Response
+     */
+    public function showPublic($slug)
+    {
+        $professional = Professional::with(['photos', 'categories', 'companies', 'certifications', 'last_ratings', 'last_recomendations'])
+            ->where('slug', $slug)->first();
+
+        return response()->json(['professional' => $professional]);
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
