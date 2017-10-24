@@ -313,11 +313,11 @@ Route::group(['prefix' => 'professional'], function () {
         Route::post('/profile/update', 'ProfessionalController@update');
     });
 
+    //Open routes
+    Route::post('/list', 'ProfessionalController@listPublic');
+    Route::post('/category/search', 'ProfessionalController@searchByCategory');
     Route::get('/show/{id}', 'ProfessionalController@show');
     Route::get('/public/show/{slug}', 'ProfessionalController@showPublic');
-
-    //Open routes
-    Route::post('/category/search', 'ProfessionalController@searchByCategory');
 });
 
 /*
