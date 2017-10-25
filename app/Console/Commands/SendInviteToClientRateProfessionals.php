@@ -2,9 +2,12 @@
 
 namespace App\Console\Commands;
 
+use Illuminate\Console\Command;
+
 use App\Models\Client;
 use App\Models\Professional;
-use Illuminate\Console\Command;
+use App\Models\Schedule;
+use App\Models\SingleSchedule;
 
 class SendInviteToClientRateProfessionals extends Command
 {
@@ -41,8 +44,46 @@ class SendInviteToClientRateProfessionals extends Command
     {
         
         //Pegar todos os clientes que tiveram aula no ultimo mês e não efetuaram avaliação para os profissionais
+        $this->info(date('d/m/Y H:i:s') . ': Command started' );
 
+        $clients = Client::whereHas('subscriptions')
+        ->with(['subscriptions' => function($query){
+            $query->whereHas('invoices');
+            $query->distinct();
+            $query->with(['invoices' => function($querytwo){
+                $querytwo->whereHas('schedules');
+                $querytwo->distinct();
+                $querytwo->with(['schedules' => function($querythree){
+                    $querythree->select('invoice_id', 'professional_id');
+                    $querythree->with(['professional' => function($queryfour){
+                        $queryfour->distinct();
+                    }]);
+                }]);
+            }]);
+        }])->get();
+        
+        $this->info('Clientes localizados: ' . $clients->count());
 
-        $this->info('Command finished' );
+        foreach($clients as $client){
+            $this->info('Nome: ' . $client->full_name);
+
+            foreach($client->subscriptions as $subscription){
+                
+                foreach($subscription->invoices as $invoice){
+
+                    foreach($invoice->schedules as $schedule){
+
+                        $this->info('Cliente: ' . $client->full_name);
+                        $this->info('Profissional: ' . $schedule->professional->full_name);
+
+                    }
+
+                }
+
+            }
+        }
+
+        //\Mail::queue(new ClientInvoiceReminder($client, $professional));
+
     }
 }

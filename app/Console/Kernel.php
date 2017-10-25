@@ -20,6 +20,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\SendCompanyInvoiceReminder1Day::class,
         \App\Console\Commands\AlterRecipesTypes::class,
         \App\Console\Commands\MarkSchedulesAsConfirmed::class,
+        \App\Console\Commands\SendInviteToClientRateProfessionals::class,
     ];
 
     /**
