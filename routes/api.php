@@ -407,6 +407,15 @@ Route::group(['prefix' => 'client'], function () {
 
         //XP info
         Route::get('/current_xp', 'ClientController@XpInfo');
+        Route::get('/infos', 'ClientController@infos');
+
+        //Notifications
+        Route::group(['prefix' => 'notification'], function() {
+
+            Route::get('/list', 'ClientNotificationController@index');
+            Route::get('/mark_readed/{id}', 'ClientNotificationController@markReaded');
+            Route::get('/mark_all_readed', 'ClientNotificationController@markAllReaded');
+        });
 
         //Activties
         Route::get('/activity/list/{id}', 'ActivityController@client_list');
@@ -417,8 +426,6 @@ Route::group(['prefix' => 'client'], function () {
         Route::post('/profile/update', 'ClientController@update');
         Route::get('/profile/show/{id}', 'ClientController@show');
 
-
-
         //activity resources
         Route::post('/activity/create', 'ActivityController@store');
         Route::post('/activity/update', 'ActivityController@update');
@@ -426,7 +433,6 @@ Route::group(['prefix' => 'client'], function () {
 
         //calendar
         Route::post('/calendar/list', 'ScheduleController@clientCalendar');
-
 
         //Company resources
         Route::group(['prefix' => 'company'], function() {

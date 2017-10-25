@@ -257,6 +257,15 @@ class Client extends Authenticatable implements JWTSubject
         return $this->hasMany(CompanyRating::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function notifications()
+    {
+        return $this->hasMany(ClientNotification::class);
+    }
+
+
     /** Overide some attributes on update
      * @param array $attributes
      * @param array $options

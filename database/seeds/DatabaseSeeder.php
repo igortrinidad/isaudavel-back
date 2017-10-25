@@ -135,6 +135,12 @@ class DatabaseSeeder extends Seeder
              */
             $this->call(ProfessionalSeeder::class);
 
+            /*
+             * Notifications
+             */
+            $this->call(ClientNotificationsTableSeeder::class);
+
+
         }
         $this->command->info('Finished database seeder');
     }

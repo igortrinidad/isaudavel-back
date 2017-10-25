@@ -708,6 +708,19 @@ class ClientController extends Controller
     }
 
     /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function infos()
+    {
+        $unreaded_notifications = \Auth::user()->notifications()->where('is_readed', false)->count();
+
+        return response()->json([
+            'total_xp' => \Auth::user()->total_xp,
+            'unreaded_notifications' => $unreaded_notifications
+        ]);
+    }
+
+    /**
      * Professional
      */
 

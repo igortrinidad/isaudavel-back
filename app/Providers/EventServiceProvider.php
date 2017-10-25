@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Events\ClientActivity;
+use App\Events\ClientNotification;
+use App\Listeners\CreateClientNotification;
 use App\Listeners\IncrementClientTotalXp;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -17,6 +19,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         ClientActivity::class => [
             IncrementClientTotalXp::class
+        ],
+        ClientNotification::class => [
+            CreateClientNotification::class
         ]
 
     ];

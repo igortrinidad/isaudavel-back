@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\ClientActivity;
+use App\Events\ClientNotification;
 use App\Models\Activity;
 use App\Models\Trainning;
 use Illuminate\Http\Request;
@@ -57,6 +58,11 @@ class TrainningController extends Controller
 
         //Xp points
         event(new ClientActivity($trainning->client, 1));
+
+        //Notifies the client only if the training was created by a professional
+        if($trainning->created_by_id != $trainning->client_id){
+            event(new ClientNotification($trainning->client_id, ['type' => 'new_trainning', 'payload' => $trainning->fresh('from')]));
+        }
 
         //Atividade
         if($request->get('share_profile')){
