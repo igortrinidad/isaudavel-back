@@ -54,7 +54,7 @@
         }
     </style>
 
-    <section class="section p-b-0" id="search-professionals">
+    <section class="section p-b-0" id="search-professionals" :class="categoryFromParams">
         <!-- Categories Tabs -->
         <div class="swiper-container tabs fix-tabs" ref="tabs">
             <div class="swiper-wrapper">
@@ -162,26 +162,25 @@
 @section('scripts')
     <script>
 
-        Vue.http.headers.common['X-CSRF-TOKEN'] = $('input[name=_token]').val();
-
         Vue.config.debug = true;
-
-        @php
-            if(\App::environment('production')){
-                echo 'Vue.config.devtools = false;
-                  Vue.config.debug = false;
-                  Vue.config.silent = true;';
-            }
-        @endphp
 
         var vm = new Vue({
                 el: '#search-professionals',
                 components: {
                 },
                 data: {
+                    categoryFromParams: '',
                 },
                 mounted: function () {
                     this.initSwiperTabs()
+
+                    var url = new URL(window.location.href);
+                    var categoryFromParams = url.searchParams.get("category");
+                    var city = url.searchParams.get("city");
+
+                    this.categoryFromParams = categoryFromParams;
+                    this.city = city
+                    console.log('Vue rodando no professional-list');
                 },
                 methods: {
                     initSwiperTabs() {
