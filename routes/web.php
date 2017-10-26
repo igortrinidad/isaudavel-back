@@ -82,6 +82,10 @@ Route::group(['as' => 'landing.'], function () {
 
     });
 
+	Route::group(['prefix' => 'cadastro', 'as' => 'signup'], function() {
+		Route::get('/', ['uses' => 'LandingController@registerUser', 'as' => 'signup']);
+	});
+
 	//Professionals
 	Route::group(['prefix' => 'profissionais', 'as' => 'professionals.'], function () {
 
@@ -122,7 +126,7 @@ Route::group(['prefix' => 'oracle', 'as' => 'oracle.'], function () {
 
     Route::get('/login', ['uses' => 'OracleController@showLogin', 'as' => 'login']);
     Route::post('/login', ['uses' => 'Auth\OracleLoginController@landingLogin', 'as' => 'post.login']);
-    
+
     Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.', 'middleware' => ['auth:oracle_web']], function () {
 
         Route::get('/', ['uses' => 'OracleController@index', 'as' => 'home']);
