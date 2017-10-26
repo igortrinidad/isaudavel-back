@@ -87,7 +87,7 @@
             <span class="is-icon is-icon-recipes"></span>
         </h2>
 
-        <div class="row m-t-30 wow fadeInUp">
+        <div class="row wow fadeInUp">
             @unless($recipes->count())
                 <div class="col-sm-12">
                     <div class="card">
@@ -97,7 +97,7 @@
                     </div>
                 </div>
             @else
-                <div class="col-sm-12">
+                <div class="col-sm-9">
                     <div class="swiper-container swiper-recipe-featureds">
                         <div class="swiper-wrapper">
                             @foreach($recipes as $recipe)
@@ -111,9 +111,9 @@
                                             </a>
                                         </div>
                                         <div class="card-body card-padding text-center">
-                                            <h3 class="f-300" style="min-height: 70px;">{{$recipe->title}}</h3>
+                                            <h3 class="f-300 t-overflow">{{$recipe->title}}</h3>
 
-                                            <h5 class="f-300 m-t-20">Avaliação dos usuários</h5>
+                                            <h4 class="f-300 m-t-20 m-b-0">Avaliação dos usuários</h4>
                                             <div class="wp-rating-div">
                                                 <?php $rating_to_loop = $recipe->current_rating; ?>
                                                 @include('components.rating', ['size' => '22'])
@@ -132,6 +132,20 @@
                         <div class="swiper-button-next is-swiper-button-default arrow-ls"><i class="ion-ios-arrow-forward"></i></div>
                     </div>
                 </div>
+
+                <!-- Call To Professionals -->
+                <div class="col-sm-3 m-t-30">
+                    <div class="card">
+                        <div class="card-body card-padding" style="padding: 88px 14px;">
+                            <div class="text-center">
+                                <h3 class="f-300 m-t-0">Encontre os <strong style="color: #5cb85c">profissionais</strong> certos para você com as avaliações de outros usuários.</h3>
+                                <a href="{!! route('landing.professionals.search', ['category' => 'pilates']) !!}" class="btn btn-success btn-xs f-300 f-16 m-t-20" title="Encontre profissionais">Encontre profissionais</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- / Call To Professionals -->
+
             @endunless
 
             <div class="col-sm-12 m-t-30 text-center">
@@ -149,7 +163,7 @@
         var swiperFeatureds = new Swiper('.swiper-recipe-featureds', {
             initialSlide: 0,
             spaceBetween: 25,
-            slidesPerView: 4,
+            slidesPerView: 3,
             slideToClickedSlide: false,
             prevButton: '.swiper-button-prev',
             nextButton: '.swiper-button-next',
