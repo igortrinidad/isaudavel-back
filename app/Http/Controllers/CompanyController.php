@@ -190,7 +190,7 @@ class CompanyController extends Controller
     }
 
     /**
-     * Search companies by given location
+     * Search companies by given location for the app
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
@@ -212,7 +212,8 @@ class CompanyController extends Controller
                     ->with(['categories' => function($query){
                         $query->select('name');
                     }])->orderBy('name', 'asc');
-            }])->where('name', 'LIKE', '%' . $request->get('search') . '%' )
+            }])
+            ->where('name', 'LIKE', '%' . $request->get('search') . '%' )
                 ->whereHas('categories', function($query) use($request){
 
                     if($request->get('category') === 'all'){
@@ -223,7 +224,9 @@ class CompanyController extends Controller
                         $query->where('slug', $request->get('category'));
                     }
 
-            })->with(['categories' => function($query){
+            })
+            ->where('is_active', 1)
+            ->with(['categories' => function($query){
                 $query->select('name');
             }])->orderBy('distance_m', 'asc')
             ->get();

@@ -48,6 +48,7 @@ class EventController extends Controller
             })
             ->with(['from', 'photos', 'modality', 'submodalities'])
             ->orderBy('distance_m', 'asc')
+            ->orderBy('date', 'asc')
             ->paginate(12);
 
         return response()->json(custom_paginator($events, 'events'));
