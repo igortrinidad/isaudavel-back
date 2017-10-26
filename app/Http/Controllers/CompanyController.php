@@ -301,4 +301,30 @@ class CompanyController extends Controller
             'already_exist' => $already_exist,
         ], 200);
     }
+
+    /**
+     * Display a client company
+     *
+     * @param $company_id
+     * @return \Illuminate\Http\Response
+     */
+    public function showClient($company_id)
+    {
+        $company = \Auth::user()->companies()
+            ->with([
+                'categories',
+                'public_confirmed_professionals.categories',
+                'photos'
+            ])
+            ->wherePivot('company_id', $company_id)
+            ->first();
+
+        if(!$company) {
+            return response()->json([
+                'message' => 'Company not found.',
+            ], 404);
+        }
+
+        return response()->json(['company' => $company]);
+    }
 }

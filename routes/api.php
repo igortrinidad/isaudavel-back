@@ -439,6 +439,7 @@ Route::group(['prefix' => 'client'], function () {
 
             Route::get('/list', 'CompanyController@clientCompanies');
             Route::get('/full_list', 'CompanyController@companiesFullList');
+            Route::get('/show/{id}', 'CompanyController@showClient');
 
             Route::post('/solicitation', 'ClientController@companySolicitation');
             Route::post('/accept_solicitation', 'ClientController@acceptCompanySolicitation');
