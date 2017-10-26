@@ -5,8 +5,16 @@
                 @if (isset($current_view) && $current_view != 'companies')
                     <div class="sidebar-item">
                         <hr class="m-t-30 m-b-30">
-                        <h3 class="f-300 m-t-0">Encontre <strong>empresas e profissionais</strong> certos para você com as avaliações de outros usuários.</h3>
-                        <a href="{!! route('landing.search.index', ['category' => 'pilates']) !!}" class="btn btn-secondary btn-xs f-300 f-16 m-t-20" title="Conferir eventos">empresas e profissionais</a>
+                        <h3 class="f-300 m-t-0">Encontre as <strong>empresas </strong> certos para você com as avaliações de outros usuários.</h3>
+                        <a href="{!! route('landing.search.index', ['category' => 'pilates']) !!}" class="btn btn-secondary btn-xs f-300 f-16 m-t-20" title="Encontre empresas">Encontre empresas</a>
+                    </div>
+                @endif
+
+                @if (isset($current_view) && $current_view != 'professionals')
+                    <div class="sidebar-item">
+                        <hr class="m-t-30 m-b-30">
+                        <h3 class="f-300 m-t-0">Encontre os <strong>profissionais</strong> certos para você com as avaliações de outros usuários.</h3>
+                        <a href="{!! route('landing.professionals.search', ['category' => 'pilates']) !!}" class="btn btn-secondary btn-xs f-300 f-16 m-t-20" title="Encontre profissionais">Encontre profissionais</a>
                     </div>
                 @endif
 
@@ -14,8 +22,8 @@
                     <div class="sidebar-item">
                         <hr class="m-t-30 m-b-30">
                         <h3 class="f-300 m-t-30">Que tal encontrar aquela <strong>receita</strong> saborosa sem sair de forma?</h3>
-                        <a href="{!! route('landing.recipes.list') !!}" class="btn btn-success btn-xs f-300 f-16 m-t-20" title="Conferir eventos">Conferir Receitas</a>
-                        <a href="{!! route('landing.recipes.list') !!}" class="btn btn-secondary btn-xs f-300 f-16 m-t-20" title="Conferir eventos">Conferir Receitas</a>
+                        <a href="{!! route('landing.recipes.list') !!}" class="btn btn-success btn-xs f-300 f-16 m-t-20" title="Conferir receitas">Conferir receitas</a>
+                        <a href="{!! route('landing.recipes.list') !!}" class="btn btn-secondary btn-xs f-300 f-16 m-t-20" title="Conferir receitas">Conferir receitas</a>
                     </div>
                 @endif
 
@@ -32,8 +40,8 @@
                     <div class="sidebar-item">
                         <hr class="m-t-30 m-b-30">
                         <h3 class="f-300 m-t-30">Acompanhe nossos <strong>artigos</strong> e fique por dentro do universo saudável</h3>
-                        <a href="{!! route('landing.articles.list') !!}" class="btn btn-success btn-xs f-300 f-16 m-t-20" title="Conferir eventos">Conferir Artigos</a>
-                        <a href="{!! route('landing.articles.list') !!}" class="btn btn-secondary btn-xs f-300 f-16 m-t-20" title="Conferir eventos">Conferir Artigos</a>
+                        <a href="{!! route('landing.articles.list') !!}" class="btn btn-success btn-xs f-300 f-16 m-t-20" title="Conferir artigos">Conferir artigos</a>
+                        <a href="{!! route('landing.articles.list') !!}" class="btn btn-secondary btn-xs f-300 f-16 m-t-20" title="Conferir artigos">Conferir artigos</a>
                     </div>
                 @endif
 
