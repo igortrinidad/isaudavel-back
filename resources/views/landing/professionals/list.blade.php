@@ -113,7 +113,6 @@
                                     <h4>Avaliação</h4>
                                     <div class="wp-rating-div">
                                         <?php $rating_to_loop = $professional->current_rating; ?>
-                                        <h3>{{$professional->current_rating}}</h3>
                                         @include('components.rating', ['size' => '22'])
                                     </div>
 
@@ -122,21 +121,6 @@
                                             <a href="{!! route('landing.search.index', ['category' => $category->slug]) !!}"><button class="btn btn-success btn-sm m-b-5">{{ $category->name }}</button></a>
                                         @endforeach
                                     </div>
-
-                                    <div class="m-t-20">
-                                        <span class="f-300 f-18 t-overflow">
-                                            <i class="ion-ios-location-outline m-r-5"></i>
-                                            {{ $professional->address['full_address'] }}
-                                        </span>
-                                    </div>
-                                    @if(isset($professional->distance_km) )
-                                    <div class="m-t-20">
-                                        <span class="f-300 f-18 ">
-                                            <i class="ion-ios-location-outline m-r-5"></i>
-                                            {{ $professional->distance_km }}km
-                                        </span>
-                                    </div>
-                                    @endif
                                     <a  href="{!! route('landing.professionals.show', $professional->slug) !!}" title="{{ $professional->name }}">
                                         <button class="btn btn-block btn-primary m-t-20 f-300 f-16">
                                             Mais informações
