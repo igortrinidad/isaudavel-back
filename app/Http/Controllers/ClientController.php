@@ -1090,4 +1090,25 @@ class ClientController extends Controller
 
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function fcmToken(Request $request)
+    {
+        $client = \Auth::user();
+
+        if ($request->get('is_mobile')) {
+            $client->fcm_token_mobile = $request->get('token');
+            $client->save();
+        }
+
+        if (!$request->get('is_mobile')) {
+            $client->fcm_token_browser = $request->get('token');
+            $client->save();
+        }
+
+        return response()->json(['message' => 'success']);
+    }
+
 }

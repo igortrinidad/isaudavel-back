@@ -405,6 +405,8 @@ Route::group(['prefix' => 'client'], function () {
     //Client protected routes 
     Route::group(['middleware' => 'auth:client'], function () {
 
+        Route::post('/fcm_token', 'ClientController@fcmToken');
+
         //XP info
         Route::get('/current_xp', 'ClientController@XpInfo');
         Route::get('/infos', 'ClientController@infos');
@@ -642,3 +644,31 @@ Route::group(['prefix' => 'oracle'], function () {
     });
 });
 
+Route::get('/fcm_test', function(){
+
+
+    $optionBuilder = new \LaravelFCM\Message\OptionsBuilder();
+    $optionBuilder->setTimeToLive(60*20);
+
+    $notificationBuilder = new \LaravelFCM\Message\PayloadNotificationBuilder();
+    $notificationBuilder->setTitle('Novo agendamento')
+        ->setBody('Você tem um novo agendamento')
+        ->setSound('default')
+        ->setClickAction('FCM_PLUGIN_ACTIVITY');
+
+    $dataBuilder = new \LaravelFCM\Message\PayloadDataBuilder();
+    $dataBuilder->addData(['content' => 'Você tem um novo agendamento']);
+
+    $option = $optionBuilder->build();
+    $notification = $notificationBuilder->build();
+    $data = $dataBuilder->build();
+
+    $token = "d2h9okdqyt4:APA91bGnwaCTQL-nMTiJctNgCxeTYyAzzDITKxrodoCpHuAnODZn9x10rguZEvpWRvu4n73ObT3zTLg9qxUWNsrIEgJFJ35fi9cgHEdF7Q_-nr6rQRRYuEYHfDJxzp7tDZ722i6JTSSJ";
+    $downstreamResponse = \FCM::sendTo($token, $option, $notification, $data);
+
+    dd($downstreamResponse);
+
+
+
+
+});

@@ -190,6 +190,7 @@ return [
         Cviebrock\EloquentSluggable\ServiceProvider::class,
         niklasravnsborg\LaravelPdf\PdfServiceProvider::class,
         Mews\Purifier\PurifierServiceProvider::class,
+        LaravelFCM\FCMServiceProvider::class
 
     ],
 
@@ -250,7 +251,8 @@ return [
         'Fractal' => Spatie\Fractal\FractalFacade::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'PDF' => niklasravnsborg\LaravelPdf\Facades\Pdf::class,
-        'Purifier' => Mews\Purifier\Facades\Purifier::class
+        'Purifier' => Mews\Purifier\Facades\Purifier::class,
+        'FCM'      => LaravelFCM\Facades\FCM::class,
     ],
 
 ];
