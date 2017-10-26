@@ -2,7 +2,6 @@
 
 @section('landing-content')
     <style>
-
         .bg-picture {
             display: block;
             box-sizing: border-box;
@@ -185,18 +184,25 @@
                                 <a class="f-400"  href="{!! route('landing.companies.show', $company->slug) !!}">
                                     <div class="card-header ch-alt">
                                         <div class="picture-circle picture-circle-p" style="background-image:url({{$company->avatar}})"></div>
-                                        <h4 class="m-b-10"><a class="f-400"  href="{!! route('landing.companies.show', $company->slug) !!}"> {{$company->name}}</a></h4>
-                                        <?php $rating_to_loop = $company->current_rating; ?>
-                                        <h3>{{$company->current_rating}}</h3>
-                                        @include('components.rating', ['size' => '24'])
-                                        <br>
-                                        <span class="f-300 f-18 m-t-10">
-                                            <i class="ion-ios-location-outline m-r-5"></i>
-                                            {{ $company->city }} -  {{ $company->state }}
-                                        </span>
+                                        <h4 class="m-t-20 m-0">
+                                            <a class="f-300"  href="{!! route('landing.companies.show', $company->slug) !!}"> {{$company->name}}</a>
+                                        </h4>
                                     </div>
                                 </a>
                             <div class="card-body p-10">
+
+                                @unless ($company->current_rating == 0)
+                                    <?php $rating_to_loop = $company->current_rating; ?>
+                                    @include('components.rating', ['size' => '24'])
+                                @else
+                                    <p class="m-t-10 m-b-10 f-300">Essa empresa ainda não foi avaliada</p>
+                                @endunless
+
+                                <p class="f-300 f-18 m-t-10 m-b-20">
+                                    <i class="ion-ios-location-outline m-r-5"></i>
+                                    {{ $company->city }} -  {{ $company->state }}
+                                </p>
+
                                 @foreach($company->categories as $category)
                                     <a href="{!! route('landing.search.index', ['category' => $category->slug]) !!}"><button class="btn btn-success btn-sm m-b-5 m-t-5">{{ $category->name }}</button></a>
                                 @endforeach
