@@ -26,6 +26,8 @@
                             <div class="card-body card-padding">
                                 <form class="" action="index.html" method="post">
 
+                                    <legend class="f-300 p-b-10">Informações básicas</legend>
+
                                     <div class="form-group m-t-0">
                                         <label for="signup-name" class="cursor-pointer">Nome</label>
                                         <input id="signup-name" class="form-control" type="text" name="" value="" placeholder="Nome">
