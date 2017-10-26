@@ -87,6 +87,42 @@
 	@endif
 @endif
 
+@if($routeName == 'landing.professionals.search')
+<!-- LANDING PROFESSIONAL SEARCH -->
+	<script type="application/ld+json">
+		{
+		  "@context": "http://schema.org",
+		  "@type": "WebSite",
+		  "url": "https://isaudavel.com/",
+		  "potentialAction": {
+		    "@type": "SearchAction",
+		    "target": "https://isaudavel.com/buscar?q={search_term_string}",
+		    "query-input": "required name=search_term_string"
+		  }
+		}
+
+	</script>
+
+	<title>Profissionais de {{$category_fetched->name}} no iSaudavel - encontre o profissional ideal para te ajudar.</title> 
+    <meta name="description" content="No iSaudavel você encontrará profissionais de {{$category_fetched->avatar}} e outras especialidades para ajudar você a cuidar de sua saúde, bem estar e estética.">
+
+	<meta property="og:image" content="{{$category_fetched->avatar}}">
+	<meta property="og:image:type" content="image/png">
+	<meta property="og:url" content="{{ $current_url }}">
+	<meta property="og:title" content="Profissional de {{$category_fetched->name}} no iSaudavel - encontre o profissional ideal para te ajudar">
+	<meta property="og:description" content="Profissionais de {{$category_fetched->name}} e outras especialidades para ajudar você a cuidar de sua saúde, bem estar e estética.">
+
+	<script type="application/ld+json">
+		{
+		  	"@context": "http://schema.org",
+		  	"@type": "WebSite",
+		  	"name": "iSaudavel - sua saúde em boas mãos",
+		  	"alternateName": "{{$category_fetched->name}} no iSaudavel - encontre os melhores profissionais",
+		  	"url": "https://isaudavel.com"
+		}
+	</script>
+@endif
+
 @if($routeName == 'landing.companies.show')
 <!-- COMPANIES SHOW -->
 

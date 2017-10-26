@@ -125,6 +125,7 @@ class SystemController extends Controller
             $sitemap->add($root . '/receitas', \Carbon\Carbon::now(), '1.0', 'daily');
             $sitemap->add($root . '/artigos', \Carbon\Carbon::now(), '1.0', 'daily');
             $sitemap->add($root . '/buscar', \Carbon\Carbon::now(), '1.0', 'daily');
+            $sitemap->add($root . '/profissionais', \Carbon\Carbon::now(), '1.0', 'daily');
 
             //Empresas
             $companies = \App\Models\Company::all();
@@ -150,11 +151,15 @@ class SystemController extends Controller
                 $sitemap->add($root . '/buscar?city=' . str_replace(' ', '+',$city->city) . '&lat=' . $city->lat . '&lng=' . $city->lng, \Carbon\Carbon::now(), '1.0', 'daily');
             }
 
-            //Categorias
             $categories = \App\Models\Category::get();
-
+            //Lista de URL de categorias de empresas
             foreach($categories as $category){
                 $sitemap->add($root . '/buscar?category=' . $category->slug, \Carbon\Carbon::now(), '1.0', 'daily');
+            }
+
+            //Lista de URL de categorias de profissionais
+            foreach($categories as $category){
+                $sitemap->add($root . '/profissionais?category=' . $category->slug, \Carbon\Carbon::now(), '1.0', 'daily');
             }
 
             //Profissionais

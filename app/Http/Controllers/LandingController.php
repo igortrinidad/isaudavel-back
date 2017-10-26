@@ -141,9 +141,9 @@ class LandingController extends Controller
         } else {
 
             if($request->query('city')){
-                return redirect()->route('landing.professional.search', [ 'category'=> $categories[0]->slug, 'city' => $request->query('city')]);  
+                return redirect()->route('landing.professionals.search', [ 'category'=> $categories[0]->slug, 'city' => $request->query('city')]);  
             } else {
-                return redirect()->route('landing.professional.search', [ 'category'=> $categories[0]->slug ]);  
+                return redirect()->route('landing.professionals.search', [ 'category'=> $categories[0]->slug ]);  
             }
         }
 
