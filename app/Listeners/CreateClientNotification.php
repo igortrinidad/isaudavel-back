@@ -3,9 +3,13 @@
 namespace App\Listeners;
 
 use App\Events\ClientNotification as ClientNotificationEvent;
+use App\Models\Client;
 use App\Models\ClientNotification;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use LaravelFCM\Message\OptionsBuilder;
+use LaravelFCM\Message\PayloadDataBuilder;
+use LaravelFCM\Message\PayloadNotificationBuilder;
 
 class CreateClientNotification
 {
@@ -27,7 +31,7 @@ class CreateClientNotification
      */
     public function handle(ClientNotificationEvent $event)
     {
-        $client_id = $event->client_id;
+        $client = Client::find( $event->client_id);
 
         $data = $event->notification_data;
 
@@ -40,13 +44,23 @@ class CreateClientNotification
 
             $trainning = $data['payload'];
 
-            ClientNotification::create([
-                'client_id' => $client_id,
+            $notification_data = [
+                'client_id' => $client->id,
                 'title' => 'Treinamento adicionado',
                 'content' => $trainning->from->full_name .' adicionou um novo treinamento para você.',
                 'button_label' => 'Visualizar treinamentos',
-                'button_action' => '/cliente/dashboard/' . $client_id . '?tab=trainnings',
-            ]);
+                'button_action' => '/cliente/dashboard/' . $client->id . '?tab=trainnings'
+            ];
+
+            $notification = ClientNotification::create($notification_data);
+
+            if($client->fcm_token_mobile){
+                $this->sendPushNotification($client->fcm_token_mobile, $notification_data);
+            }
+
+            if($client->fcm_token_browser){
+                $this->sendPushNotification($client->fcm_token_browser, $notification_data);
+            }
         }
 
         if($data['type'] == 'new_diet'){
@@ -64,5 +78,27 @@ class CreateClientNotification
         if($data['type'] == 'new_single_schedule'){
 
         }
+    }
+
+    public function sendPushNotification($token, $payload){
+        $optionBuilder = new OptionsBuilder();
+        $optionBuilder->setTimeToLive(60*20);
+
+        $notificationBuilder = new PayloadNotificationBuilder();
+        $notificationBuilder->setTitle($payload['title'])
+            ->setBody($payload['content'])
+            ->setSound('default')
+            ->setClickAction('FCM_PLUGIN_ACTIVITY');
+
+        $dataBuilder = new PayloadDataBuilder();
+        foreach($payload as $key => $value){
+            $dataBuilder->addData([$key => $value]);
+        }
+
+        $option = $optionBuilder->build();
+        $notification = $notificationBuilder->build();
+        $data = $dataBuilder->build();
+
+        $downstreamResponse = \FCM::sendTo($token, $option, $notification, $data);
     }
 }

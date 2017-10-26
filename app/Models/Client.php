@@ -43,7 +43,9 @@ class Client extends Authenticatable implements JWTSubject
         'target','current_xp', 
         'total_xp', 
         'level', 
-        'remember_token'
+        'remember_token',
+        'fcm_token_mobile',
+        'fcm_token_browser'
     ];
 
     /**

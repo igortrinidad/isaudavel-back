@@ -60,9 +60,9 @@ class LandingController extends Controller
         } else {
 
             if($request->query('city')){
-                return redirect()->route('landing.search.index', [ 'category'=> $categories[0]->slug, 'city' => $request->query('city')]);  
+                return redirect()->route('landing.search.index', [ 'category'=> $categories[0]->slug, 'city' => $request->query('city')]);
             } else {
-                return redirect()->route('landing.search.index', [ 'category'=> $categories[0]->slug ]);  
+                return redirect()->route('landing.search.index', [ 'category'=> $categories[0]->slug ]);
             }
         }
 
@@ -175,12 +175,12 @@ class LandingController extends Controller
         $latitude = isset($filters['latitude']) ? $filters['latitude'] :  null;
         $longitude = isset($filters['longitude']) ? $filters['longitude'] : null;
 
-        $events = Event::select(\DB::raw("*, 
+        $events = Event::select(\DB::raw("*,
                 (ATAN(SQRT(POW(COS(RADIANS(events.lat)) * SIN(RADIANS(events.lng)
-                 - RADIANS('$longitude')), 2) +POW(COS(RADIANS('$latitude')) * 
-                 SIN(RADIANS(events.lat)) - SIN(RADIANS('$latitude')) * cos(RADIANS(events.lat)) * 
-                 cos(RADIANS(events.lng) - RADIANS('$longitude')), 2)),SIN(RADIANS('$latitude')) * 
-                 SIN(RADIANS(events.lat)) + COS(RADIANS('$latitude')) * COS(RADIANS(events.lat)) * 
+                 - RADIANS('$longitude')), 2) +POW(COS(RADIANS('$latitude')) *
+                 SIN(RADIANS(events.lat)) - SIN(RADIANS('$latitude')) * cos(RADIANS(events.lat)) *
+                 cos(RADIANS(events.lng) - RADIANS('$longitude')), 2)),SIN(RADIANS('$latitude')) *
+                 SIN(RADIANS(events.lat)) + COS(RADIANS('$latitude')) * COS(RADIANS(events.lat)) *
                  COS(RADIANS(events.lng) - RADIANS('$longitude'))) * 6371000) as distance_m"))
             ->whereHas('modality', function ($query) use ($filters) {
                 if(!empty($filters['modalities'])) {
@@ -201,7 +201,7 @@ class LandingController extends Controller
             })
             ->orderBy('distance_m', 'asc')
             ->paginate(10);
-        
+
         $events->appends(['filters' => $filters]);
 
         $modalities = Modality::select('id', 'name', 'slug')->with(['submodalities' => function($query){
@@ -448,8 +448,12 @@ class LandingController extends Controller
 
     public function registerProfessional()
     {
-
         return view('landing.signup.company');
+    }
+
+    public function registerUser()
+    {
+        return view('landing.signup.index');
     }
 
     public function sendSignupForm(Request $request)

@@ -15,7 +15,9 @@ class ClientNotificationController extends Controller
      */
     public function index()
     {
-        $notifications = ClientNotification::where('client_id', \Auth::user()->id)->with('from')->paginate(10);
+        $notifications = ClientNotification::where('client_id', \Auth::user()->id)->with('from')
+            ->orderBy('created_at', 'DESC')
+            ->paginate(10);
 
         return response()->json(custom_paginator($notifications, 'notifications'));
     }
