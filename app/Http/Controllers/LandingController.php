@@ -126,6 +126,43 @@ class LandingController extends Controller
     }
 
     /**
+     * Professional search
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function professional_search(Request $request)
+    {
+
+        $categories = Category::all();
+
+        if($request->query('category')){
+            $category_fetched = Category::where('slug', $request->query('category'))->first();
+        } else {
+
+            if($request->query('city')){
+                return redirect()->route('landing.professional.search', [ 'category'=> $categories[0]->slug, 'city' => $request->query('city')]);  
+            } else {
+                return redirect()->route('landing.professional.search', [ 'category'=> $categories[0]->slug ]);  
+            }
+        }
+
+        $professionals = Professional::where('name', 'LIKE', '%' . $request->get('search') . '%' )
+            ->whereHas('categories', function($query) use($request){
+                $query->where('slug', $request->query('category'));
+            })
+            ->with(['categories' => function($query){
+                $query->select('name');
+            }])
+            ->orderBy('name', 'asc')
+            ->paginate(12);
+
+        return view('landing.professionals.list', compact('professionals', 'categories', 'category_fetched'));
+
+    }
+
+
+    /**
      * Index
      *
      * @param Request $request

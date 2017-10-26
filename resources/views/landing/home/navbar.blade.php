@@ -67,6 +67,7 @@
                 <ul class="nav navbar-nav navbar-right" id="top-nav">
                     <li class="{{ getActiveRoute('landing.index') }}"><a href="{!! route('landing.index') !!}">Home</a></li>
                     <li class="{{ getActiveRoute('landing.search.index') }}"><a href="{!! route('landing.search.index', ['category' => 'pilates']) !!}">Buscar empresas</a></li>
+                    <li class="{{ getActiveRoute('landing.professionals.search') }}"><a href="{!! route('landing.professionals.search', ['category' => 'pilates']) !!}">Buscar profissionais</a></li>
                     <li class="{{ getActiveRoute('landing.events.list') }}"><a href="{!! route('landing.events.list') !!}">Eventos</a></li>
                     <li class="{{ getActiveRoute('landing.recipes.list') }}"><a href="{!! route('landing.recipes.list') !!}">Receitas</a></li>
                     <li class="{{ getActiveRoute('landing.articles.list') }}"><a href="{!! route('landing.articles.list') !!}">Artigos</a></li>

@@ -84,6 +84,8 @@ Route::group(['as' => 'landing.'], function () {
 
 	//Professionals
 	Route::group(['prefix' => 'profissionais', 'as' => 'professionals.'], function () {
+
+        Route::get('/', ['uses' => 'LandingController@professional_search', 'as' => 'search']);
     	Route::get('/sobre', ['uses' => 'LandingController@forProfessionalsLanding', 'as' => 'about']);
     	Route::get('/cadastro', ['uses' => 'LandingController@registerProfessional', 'as' => 'signup']);
     	Route::post('/sendSignupForm', ['uses' => 'LandingController@sendSignupForm', 'as' => 'send-signup-form']);
