@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ClientNotification;
 use App\Models\SingleSchedule;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -37,6 +38,9 @@ class SingleScheduleController extends Controller
     {
 
         $single_schedule = tap(SingleSchedule::create($request->all()))->load('company', 'client', 'category', 'professional');
+
+        //Notify the client
+        event(new ClientNotification($single_schedule->client_id, ['type' => 'new_single_schedule', 'payload' => $single_schedule]));
 
         //Report email
         $data = [];
@@ -132,6 +136,11 @@ class SingleScheduleController extends Controller
         $old_schedule = SingleSchedule::find($request->get('id'));
 
         $single_schedule = tap(SingleSchedule::find($request->get('id')))->update($request->all())->fresh()->load('company', 'client', 'category', 'professional');
+
+        //Notify the client
+        if($single_schedule->reschedule_by != $single_schedule->client_id){
+            event(new ClientNotification($single_schedule->client_id, ['type' => 'single_reschedule', 'payload' => ['single_schedule' => $single_schedule, 'old_single_schedule' => $old_schedule]]));
+        }
 
         //Report email
         $data = [];
