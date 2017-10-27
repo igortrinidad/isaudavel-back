@@ -42,7 +42,7 @@
                             </p>
 
                             <p class="f-300 m-t-30 f-18">
-                                Nós enviamos uma mensagem para que você possa confirmar sua conta e todas as informações necessárias para que possamos prosseguir.
+                                Nós enviamos uma mensagem para o seu email para que você possa fazer a confirmação dos seus dados e com as informações necessárias para que possamos prosseguir.
                             </p>
                             <p class="f-700 m-t-30 f-14">
                                 Atenciosamente,
