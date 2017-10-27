@@ -88,9 +88,11 @@ class CreateClientNotification
         $notificationBuilder->setTitle($payload['title'])
             ->setBody($payload['content'])
             ->setSound('default')
+            ->setIcon('https://app.isaudavel.com/static/assets/img/icons/icon_g.png')
             ->setClickAction('FCM_PLUGIN_ACTIVITY');
 
         $dataBuilder = new PayloadDataBuilder();
+        $dataBuilder->addData(['icon' => 'https://app.isaudavel.com/static/assets/img/icons/icon_g.png']);
         foreach($payload as $key => $value){
             $dataBuilder->addData([$key => $value]);
         }
