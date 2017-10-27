@@ -443,6 +443,10 @@ Route::group(['prefix' => 'client'], function () {
             Route::get('/full_list', 'CompanyController@companiesFullList');
             Route::get('/show/{id}', 'CompanyController@showClient');
 
+            Route::post('/show/schedules', 'ScheduleController@clientSchedules');
+            Route::post('/show/invoices', 'InvoiceController@clientList');
+            Route::post('/show/subscriptions', 'ScheduleController@clientSchedules');
+
             Route::post('/solicitation', 'ClientController@companySolicitation');
             Route::post('/accept_solicitation', 'ClientController@acceptCompanySolicitation');
             Route::post('/remove_solicitation', 'ClientController@removeCompanySolicitation');
