@@ -138,6 +138,7 @@ class CompanyController extends Controller
     {
         $company = Company::with(['public_confirmed_professionals.categories', 'photos', 'categories', 'plans' => function($query){
                 $query->where('is_active', 1);
+                $query->where('is_starred', 1);
         }, 'last_ratings'])->where('slug', $slug)->first();
 
         return response()->json(['company' => $company]);

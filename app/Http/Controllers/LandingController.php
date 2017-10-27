@@ -270,6 +270,7 @@ class LandingController extends Controller
     {
         $company_fetched = Company::where('slug', $slug)->with(['public_confirmed_professionals', 'last_ratings', 'photos', 'recomendations', 'plans' => function($query){
                 $query->where('is_active', 1);
+                $query->where('is_starred', 1);
         }])->first();
 
         if($company_fetched){
