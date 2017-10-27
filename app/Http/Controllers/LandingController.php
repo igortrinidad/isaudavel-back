@@ -141,9 +141,9 @@ class LandingController extends Controller
         } else {
 
             if($request->query('city')){
-                return redirect()->route('landing.professionals.search', [ 'category'=> $categories[0]->slug, 'city' => $request->query('city')]);  
+                return redirect()->route('landing.professionals.search', [ 'category'=> $categories[0]->slug, 'city' => $request->query('city')]);
             } else {
-                return redirect()->route('landing.professionals.search', [ 'category'=> $categories[0]->slug ]);  
+                return redirect()->route('landing.professionals.search', [ 'category'=> $categories[0]->slug ]);
             }
         }
 
@@ -451,10 +451,15 @@ class LandingController extends Controller
         return view('landing.signup.company');
     }
 
+    // End New Routes To Signup
     public function registerUser()
     {
         return view('landing.signup.index');
     }
+    public function registerMessageToConfirmAccount() {
+        return view('landing.signup.confirm');
+    }
+    // End New Routes To Signup
 
     public function sendSignupForm(Request $request)
     {

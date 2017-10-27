@@ -16,54 +16,17 @@
 
         <div class="container">
 
-            <h2 class="text-center m-t-30">Cadastre-se</h2>
+            <h2 class="text-center m-t-30">Verifique seu email</h2>
 
             {{-- Form Container --}}
             <div class="form-container m-t-30">
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="card">
-                            <div class="card-body card-padding">
-                                <form class="" action="index.html" method="post">
-
-                                    <legend class="f-300 p-b-10">Informações básicas</legend>
-
-                                    <div class="form-group m-t-0">
-                                        <label for="signup-name" class="cursor-pointer">Nome</label>
-                                        <input id="signup-name" class="form-control" type="text" name="" value="" placeholder="Nome">
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="signup-last-name" class="cursor-pointer">Sobrenome</label>
-                                        <input id="signup-last-name" class="form-control" type="text" name="" value="" placeholder="Sobrenome">
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="signup-email" class="cursor-pointer">Email</label>
-                                        <input id="signup-email" class="form-control" type="text" name="" value="" placeholder="Email">
-                                    </div>
-
-                                    <div class="form-group m-b-0">
-                                        <label for="signup-phone" class="cursor-pointer">Telefone</label>
-                                        <input id="signup-phone" class="form-control" type="text" name="" value="" placeholder="Telefone">
-                                    </div>
-
-                                    <div class="form-group m-b-0">
-                                        <label for="signup-categories" class="cursor-pointer">Especialidade</label>
-                                        <multiselect
-                                            id="signup-categories"
-                                            v-model="category"
-                                            :options="categories"
-                                            :label="'name'"
-                                            :multiple="true"
-                                            placeholder="Selecione ao menos uma especialidade"
-                                        >
-                                        </multiselect>
-                                    </div>
-
-                                    <button type="submit" class="btn btn-sm btn-block btn-success m-t-20 f-16" name="button" title="Cadastrar">Cadastrar</button>
-                                    <a href="submit" class="btn btn-sm btn-block btn-info m-t-20 f-16" title="Ir para login">Ir para login</a>
-                                </form>
+                            <div class="card-body card-padding text-center">
+                                <p class="f-300 m-0">
+                                    Nós enviamos uma mensagem para que você possa confirmar sua conta
+                                </p>
                             </div>
                         </div>
                     </div>

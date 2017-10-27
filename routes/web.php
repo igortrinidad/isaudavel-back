@@ -83,7 +83,8 @@ Route::group(['as' => 'landing.'], function () {
     });
 
 	Route::group(['prefix' => 'cadastro', 'as' => 'signup'], function() {
-		Route::get('/', ['uses' => 'LandingController@registerUser', 'as' => 'signup']);
+        Route::get('/', ['uses' => 'LandingController@registerUser', 'as' => 'signup']);
+		Route::get('/confirme-seu-email', ['uses' => 'LandingController@registerMessageToConfirmAccount', 'as' => 'signup']);
 	});
 
 	//Professionals
