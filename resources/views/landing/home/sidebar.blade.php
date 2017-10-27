@@ -5,7 +5,7 @@
                 @if (isset($current_view) && $current_view != 'companies')
                     <div class="sidebar-item">
                         <hr class="m-t-30 m-b-30">
-                        <h3 class="f-300 m-t-0">Encontre as <strong>empresas </strong> certos para você com as avaliações de outros usuários.</h3>
+                        <h3 class="f-300 m-t-0">Encontre as melhores <strong>empresas </strong>  de saúde e bem estar.</h3>
                         <a href="{!! route('landing.search.index', ['category' => 'pilates']) !!}" class="btn btn-secondary btn-xs f-300 f-16 m-t-20" title="Encontre empresas">Encontre empresas</a>
                     </div>
                 @endif
@@ -13,7 +13,7 @@
                 @if (isset($current_view) && $current_view != 'professionals')
                     <div class="sidebar-item">
                         <hr class="m-t-30 m-b-30">
-                        <h3 class="f-300 m-t-0">Encontre os <strong>profissionais</strong> certos para você com as avaliações de outros usuários.</h3>
+                        <h3 class="f-300 m-t-0">Encontre os <strong>profissionais</strong> certos para te ajudar à atingir seus objetivos.</h3>
                         <a href="{!! route('landing.professionals.search', ['category' => 'pilates']) !!}" class="btn btn-secondary btn-xs f-300 f-16 m-t-20" title="Encontre profissionais">Encontre profissionais</a>
                     </div>
                 @endif
@@ -30,7 +30,7 @@
                 @if (isset($current_view) && $current_view != 'events')
                     <div class="sidebar-item">
                         <hr class="m-t-30 m-b-30">
-                        <h3 class="f-300 m-t-0">Encontre <strong>eventos</strong> próximos à você e garanta sua presença.</h3>
+                        <h3 class="f-300 m-t-0">Encontre <strong>eventos</strong> próximos à você.</h3>
                         <a href="{!! route('landing.events.list') !!}" class="btn btn-success btn-xs f-300 f-16 m-t-20" title="Conferir eventos">Conferir eventos</a>
                         <a href="{!! route('landing.events.list') !!}" class="btn btn-secondary btn-xs f-300 f-16 m-t-20" title="Conferir eventos">Conferir eventos</a>
                     </div>
@@ -47,7 +47,7 @@
 
                 <div class="sidebar-item">
                     <hr class="m-t-30 m-b-30">
-                    <h3 class="f-300 m-t-30">Baixe o <strong>iSaudavel</strong> e faça parte da rede social que cuida da sua saúde.</h3>
+                    <h3 class="f-300 m-t-30">Baixe o app <strong>iSaudavel</strong> e faça parte da rede social que cuida da sua saúde.</h3>
                     <div class="row">
                         <div class="col-sm-12 m-t-30">
                             <a href="https://play.google.com/store/apps/details?id=com.isaudavel" target="_blank" title="Faça o download na PlayStore para Android">

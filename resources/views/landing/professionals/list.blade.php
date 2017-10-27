@@ -106,7 +106,7 @@
                                     <div class="picture-circle  picture-circle-p m-b-10" style="background-image:url({{$professional->avatar}})">
                                     </div>
                                     <h3 class="m-b-0 t-overflow">
-                                        <a  href="{!! route('landing.professionals.show', $professional->slug) !!}" title="{{ $professional->name }}">{{ $professional->name }}</a>
+                                        <a  href="{!! route('landing.professionals.show', $professional->slug) !!}" title="{{ $professional->full_name }}">{{ $professional->full_name }}</a>
                                     </h3>
                                 </div>
                                 <div class="card-body card-padding text-center">
