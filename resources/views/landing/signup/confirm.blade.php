@@ -10,11 +10,16 @@
             box-shadow: 0 0 4px rgba(110, 192, 88, .4);
             border-color: #6ec058;
         }
+        .confirm-image {
+            max-width: 100px;
+            display: block;
+            margin: 0
+        }
     </style>
 
     <section id="signup" class="section gray p-t-30 p-b-0">
 
-        <div class="container">
+        <div class="container" style="min-height: 700px">
 
             <h2 class="text-center m-t-30">Verifique seu email</h2>
 
@@ -23,9 +28,16 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="card">
-                            <div class="card-body card-padding text-center">
-                                <p class="f-300 m-0">
-                                    Nós enviamos uma mensagem para que você possa confirmar sua conta
+                            <div class="card-body card-padding ">
+                                <p class="f-300 m-0 f-18">
+                                    Parabéns, seu cadastro foi efetivado com sucesso!
+                                </p>
+                                <p class="f-300 m-t-30 f-18">
+                                    Nós enviamos uma mensagem para que você possa confirmar sua conta e todas as informações necessárias para que possamos prosseguir.
+                                </p>
+                                <p class="f-700 m-t-30 f-14">
+                                    <img class="confirm-image" src="https://isaudavel.com/logos/LOGO-1-01.png" alt="Isaudavel">
+                                    Atenciosamente, Equipe Isadavel
                                 </p>
                             </div>
                         </div>
@@ -33,6 +45,7 @@
                 </div>
             </div>
             {{-- End Form Container --}}
+
         </div>
 
     </section>
