@@ -461,6 +461,9 @@ class LandingController extends Controller
     public function registerMessageToConfirmAccount() {
         return view('landing.signup.confirm');
     }
+    public function registerSelectType() {
+        return view('landing.signup.select-type');
+    }
     // End New Routes To Signup
 
     public function sendSignupForm(Request $request)
