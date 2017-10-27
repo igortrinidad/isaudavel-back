@@ -422,8 +422,9 @@ class LandingController extends Controller
         $recipes = MealRecipe::with('from')->orderBy('created_at', 'DESC')->limit(8)->get();
         $companies = Company::with('categories')->limit(8)->get();
         $events = Event::with('categories')->limit(8)->paginate(8);
+        $articles = SiteArticle::orderBy('created_at', 'DESC')->limit(8)->get();
 
-        return view('landing.home.for-client', compact('companies', 'events', 'recipes'));
+        return view('landing.home.for-client', compact('companies', 'events', 'recipes', 'articles'));
     }
 
     public function showClient($id)
@@ -442,8 +443,9 @@ class LandingController extends Controller
         $recipes = MealRecipe::with('from')->orderBy('created_at', 'DESC')->limit(8)->get();
         $companies = Company::with('categories')->limit(8)->get();
         $events = Event::with('categories')->limit(8)->paginate(8);
+        $articles = SiteArticle::orderBy('created_at', 'DESC')->limit(8)->get();
 
-        return view('landing.home.for-professional', compact('companies', 'events', 'recipes'));
+        return view('landing.home.for-professional', compact('companies', 'events', 'recipes', 'articles'));
     }
 
     public function registerProfessional()

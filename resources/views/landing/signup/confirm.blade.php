@@ -46,6 +46,10 @@
             </div>
             {{-- End Form Container --}}
 
+            <div class="text-center">
+                <a href="{!! route('landing.index') !!}" class="btn btn-sm btn-info">Voltar para página inicial</a>
+            </div>
+
         </div>
 
     </section>
