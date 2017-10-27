@@ -15,6 +15,9 @@
             display: block;
             margin: 0
         }
+        .card-body.card-custom-padding{
+            padding: 70px 14px;
+        }
     </style>
 
     <section id="signup" class="section gray p-t-30 p-b-0">
@@ -24,31 +27,41 @@
             <h2 class="text-center m-t-30">Verifique seu email</h2>
 
             {{-- Form Container --}}
-            <div class="form-container m-t-30">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="card">
-                            <div class="card-body card-padding ">
-                                <p class="f-300 m-0 f-18">
-                                    Parabéns, seu cadastro foi efetivado com sucesso!
-                                </p>
-                                <p class="f-300 m-t-30 f-18">
-                                    Nós enviamos uma mensagem para que você possa confirmar sua conta e todas as informações necessárias para que possamos prosseguir.
-                                </p>
-                                <p class="f-700 m-t-30 f-14">
-                                    <img class="confirm-image" src="https://isaudavel.com/logos/LOGO-1-01.png" alt="Isaudavel">
-                                    Atenciosamente, Equipe Isadavel
-                                </p>
+            <div class="row m-t-30">
+                <div class="col-sm-8">
+                    <div class="card">
+                        <div class="card-body card-custom-padding">
+                            <p class="f-300 m-0 f-18">
+                                Parabéns, seu cadastro foi efetivado com sucesso!
+                            </p>
+                            <p class="f-300 m-t-30 f-18">
+                                Nós enviamos uma mensagem para que você possa confirmar sua conta e todas as informações necessárias para que possamos prosseguir.
+                            </p>
+                            <p class="f-700 m-t-30 f-14">
+                                <img class="confirm-image" src="https://isaudavel.com/logos/LOGO-1-01.png" alt="Isaudavel">
+                                Atenciosamente, Equipe Isadavel
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="card">
+                        <div class="card-body card-padding">
+                            <p class="f-300 m-0 f-16 text-justify">
+                                O <b style="color: #8cc63f">iSaudavel</b> foi criado para você profissional da área da saúde e seu cliente
+                                economizarem o mais importante da vida: <b style="color: #8cc63f">TEMPO</b>.
+                                Uma rede social dedicada para você divulgar seus serviços e organizar o atendimento a seu cliente de forma
+                                simplificada e objetiva, integrando outros profissionais que assim como você estão comprometidos à promover a
+                                saúde e bem estar de seus clientes.
+                            </p>
+                            <div class="text-center m-t-30">
+                                <a href="{!! route('landing.professionals.about') !!}" class="btn btn-sm btn-secondary f-14">Saiba mais</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             {{-- End Form Container --}}
-
-            <div class="text-center">
-                <a href="{!! route('landing.index') !!}" class="btn btn-sm btn-info">Voltar para página inicial</a>
-            </div>
 
         </div>
 
