@@ -13,10 +13,12 @@
         .confirm-image {
             max-width: 100px;
             display: block;
-            margin: 0
+            margin-left: -5px;
+            position: relative;
+            top: 10px;
         }
         .card-body.card-custom-padding{
-            padding: 70px 14px;
+            padding: 43px 14px;
         }
     </style>
 
@@ -34,12 +36,17 @@
                             <p class="f-300 m-0 f-18">
                                 Parabéns, seu cadastro foi efetivado com sucesso!
                             </p>
+
+                            <p class="f-300 m-t-30 f-18">
+                                Seja muito bem-vindo ao <b style="color: #8cc63f">iSaudavel</b>.
+                            </p>
+
                             <p class="f-300 m-t-30 f-18">
                                 Nós enviamos uma mensagem para que você possa confirmar sua conta e todas as informações necessárias para que possamos prosseguir.
                             </p>
                             <p class="f-700 m-t-30 f-14">
+                                Atenciosamente,
                                 <img class="confirm-image" src="https://isaudavel.com/logos/LOGO-1-01.png" alt="Isaudavel">
-                                Atenciosamente, Equipe Isadavel
                             </p>
                         </div>
                     </div>
