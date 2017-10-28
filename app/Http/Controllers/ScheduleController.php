@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ClientNotification;
 use App\Models\CategoryCalendarSetting;
 use App\Models\ClientSubscription;
 use App\Models\Company;
@@ -851,6 +852,11 @@ class ScheduleController extends Controller
             $schedule->setAttribute('professional_workdays', $calendar_settings->workdays);
 
             $schedule->professional->makeHidden(['companies', 'categories', 'blank_password', 'password', 'remember_token']);
+        }
+
+        //Notify the client
+        if($schedule->reschedule_by != $schedule->client->id){
+            event(new ClientNotification($schedule->client->id, ['type' => 'reschedule', 'payload' => ['schedule' => $schedule, 'old_schedule' => $old_schedule]]));
         }
 
         //Report email
