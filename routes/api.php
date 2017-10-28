@@ -282,17 +282,21 @@ Route::group(['prefix' => 'professional'], function () {
         //Professional Rating
         Route::get('/rating/list/{id}', 'ProfessionalRatingController@index');
 
-        //Recomendations
+        //Professional Recomendations
         Route::get('/recomendation/received/{id}', 'RecomendationController@receivedList');
         Route::get('/recomendation/sent/{id}', 'RecomendationController@sentList');
         Route::post('/recomendation/create', 'RecomendationController@store');
         Route::post('/recomendation/update', 'RecomendationController@update');
         Route::get('/recomendation/destroy/{id}', 'RecomendationController@destroy');
 
-        //calendar
+        //Professional Calendar
         Route::post('/calendar/list', 'ScheduleController@professionalCalendar');
         Route::post('/calendar/list_new', 'ScheduleController@professionalCalendarNew'); //for compatibility
         Route::post('/calendar/reschedule', 'ScheduleController@reschedule');
+        Route::post('/calendar/settings', 'ProfessionalCalendarSettingController@list_professional_dashboard');
+        Route::get('/calendar/settings/{id}', 'ProfessionalCalendarSettingController@show_professional_dashboard');
+        Route::post('/calendar/settings/update', 'ProfessionalCalendarSettingController@update');
+
 
         //Client
         Route::group(['prefix' => 'client'], function(){

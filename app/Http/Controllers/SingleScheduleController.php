@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\SingleSchedule;
+use App\Models\CategoryCalendarSetting;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -76,6 +77,13 @@ class SingleScheduleController extends Controller
     public function show($id)
     {
         $single_schedule = SingleSchedule::with('company', 'client', 'category', 'professional')->find($id);
+
+        $category_calendar_settings = CategoryCalendarSetting::where('company_id', $single_schedule->company_id)
+            ->where('category_id', $single_schedule->category_id)
+            ->select('advance_schedule','advance_reschedule', 'cancel_schedule', 'is_professional_scheduled' )
+            ->first();
+
+        $single_schedule->setAttribute('category_calendar_settings', $category_calendar_settings);
 
         return response()->json(['single_schedule' => $single_schedule]);
     }

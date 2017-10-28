@@ -203,6 +203,34 @@ class ProfessionalCalendarSettingController extends Controller
     }
 
     /**
+     * Lista de horários para o profissional
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function list_professional_dashboard(Request $request)
+    {
+
+        $professional_calendar_settings = ProfessionalCalendarSetting::with(['company', 'category'])->where('professional_id', $request->get('professional_id'))->get();
+
+        return response()->json(['professional_calendar_settings' => $professional_calendar_settings]);
+    }
+
+    /**
+     * Lista de horários para o profissional
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function show_professional_dashboard($id)
+    {
+        //First or create
+        $professional_calendar_setting = ProfessionalCalendarSetting::with(['company', 'category'])->find($id);
+
+        return response()->json(['professional_calendar_setting' => $professional_calendar_setting]);
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

@@ -210,11 +210,9 @@ class CategoryCalendarSettingController extends Controller
      */
     public function update(Request $request)
     {
-        $calendar_setting = tap(CategoryCalendarSetting::find($request->get('id')))->update($request->all())->fresh();
+        $calendar_setting = CategoryCalendarSetting::find($request->get('id'))->update($request->all());
 
-        return response()->json([
-            'message' => 'Calendar setting updated.',
-            'calendar_setting' => $calendar_setting
-        ]);
+        //Chama o método show novamente para não precisar repetir o processo...
+        return $this->show($request);
     }
 }
