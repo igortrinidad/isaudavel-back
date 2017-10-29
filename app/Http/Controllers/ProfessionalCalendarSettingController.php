@@ -203,7 +203,7 @@ class ProfessionalCalendarSettingController extends Controller
     }
 
     /**
-     * Lista de horários para o profissional
+     * Lista as configuracoes de horarios para o dashboard do profissional
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
@@ -228,6 +228,41 @@ class ProfessionalCalendarSettingController extends Controller
         $professional_calendar_setting = ProfessionalCalendarSetting::with(['company', 'category'])->find($id);
 
         return response()->json(['professional_calendar_setting' => $professional_calendar_setting]);
+    }
+
+    /**
+     * Lista as configuracoes de horarios para o dashboard do profissional na company
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function company_professional_workdays(Request $request)
+    {
+
+        $professional_calendar_settings = ProfessionalCalendarSetting::
+            with(['category'])
+            ->where('professional_id', $request->get('professional_id'))
+            ->where('company_id', $request->get('company_id'))
+            ->get();
+
+        return response()->json(['professional_calendar_settings' => $professional_calendar_settings]);
+    }
+
+    /**
+     * Em teste ainda
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function company_workdays_list(Request $request)
+    {
+        $workdays = ProfessionalCalendarSetting::
+        where('company_id', $request->get('company_id'))
+        ->where('category_id', $request->get('category_id'))
+        ->where('professional_id', $request->get('professional_id'))
+        ->first();
+
+        return response()->json(['workdays' => $workdays->workdays]);
     }
 
     /**

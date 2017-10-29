@@ -64,7 +64,7 @@ class MarkSchedulesAsConfirmed extends Command
 
         foreach($schedules as $schedule){
             $schedule->is_confirmed = true;
-            $schedule->confirmed_at = $now;
+            $schedule->confirmed_at = $now->addHours(3);
             $schedule->confirmed_by = 'iSaudavel Auto Confirmation';
             $schedule->save();
         }

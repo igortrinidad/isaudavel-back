@@ -48,6 +48,8 @@ class Schedule extends Model
         'is_canceled',
         'canceled_by',
         'canceled_at',
+        'reschedule_confirmed_by',
+        'reschedule_confirmed_at'
     ];
 
     /**

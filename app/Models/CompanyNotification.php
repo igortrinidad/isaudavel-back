@@ -6,7 +6,7 @@ use App\Models\Traits\Uuids;
 use Illuminate\Database\Eloquent\Model;
 
 
-class CategoryCalendarSetting extends Model
+class CompanyNotification extends Model
 {
     use Uuids;
 
@@ -15,7 +15,7 @@ class CategoryCalendarSetting extends Model
      *
      * @var string
      */
-    protected $table = 'category_calendar_settings';
+    protected $table = 'company_notifications';
 
     /**
      * Indicates if the IDs are auto-incrementing.
@@ -31,16 +31,14 @@ class CategoryCalendarSetting extends Model
      */
     protected $fillable = [
         'company_id',
-        'category_id',
-        'is_professional_scheduled',
-        'calendar_is_public',
-        'calendar_is_active',
-        'advance_schedule',
-        'advance_reschedule',
-        'cancel_schedule',
-        'should_manual_confirm',
-        'points_to_earn_bonus',
-        'workdays'
+        'from_id',
+        'from_type',
+        'title',
+        'content',
+        'button_label',
+        'button_action',
+        'is_readed',
+        'readed_at'
     ];
 
     /**
@@ -48,13 +46,8 @@ class CategoryCalendarSetting extends Model
      *
      * @var array
      */
-    protected $casts = [
-        'is_professional_scheduled' => 'boolean',
-        'calendar_is_public' => 'boolean',
-        'calendar_is_active' => 'boolean',
-        'should_manual_confirm' => 'boolean',
-        'workdays' => 'json'
-    ];
+    protected $casts = ['is_readed' => 'is_readed'];
+
 
     /**
      * -------------------------------
@@ -67,15 +60,14 @@ class CategoryCalendarSetting extends Model
      */
     public function company()
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(Client::class);
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
-    public function category()
+    public function from()
     {
-        return $this->belongsTo(Category::class);
+        return $this->morphTo(null, 'from_type', 'from_id');
     }
-
 }
