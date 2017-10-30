@@ -4,7 +4,11 @@ namespace App\Providers;
 
 use App\Events\ClientActivity;
 use App\Events\ClientNotification;
+use App\Events\CompanyNotification;
+use App\Events\ProfessionalNotification;
 use App\Listeners\CreateClientNotification;
+use App\Listeners\CreateCompanyNotification;
+use App\Listeners\CreateProfissionalNotification;
 use App\Listeners\IncrementClientTotalXp;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -20,9 +24,19 @@ class EventServiceProvider extends ServiceProvider
         ClientActivity::class => [
             IncrementClientTotalXp::class
         ],
+
         ClientNotification::class => [
-            CreateClientNotification::class
-        ]
+            CreateClientNotification::class,
+        ],
+
+        ProfessionalNotification::class => [
+            CreateProfissionalNotification::class
+        ],
+
+        CompanyNotification::class => [
+            CreateCompanyNotification::class
+        ],
+
 
     ];
 

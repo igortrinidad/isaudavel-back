@@ -237,16 +237,18 @@ Route::get('/fcm_test', function(){
     $notificationBuilder->setTitle('Novo agendamento')
         ->setBody('Você tem um novo agendamento')
         ->setSound('default')
+        ->setIcon('https://app.isaudavel.com/static/assets/img/icons/icon_g.png')
         ->setClickAction('FCM_PLUGIN_ACTIVITY');
 
     $dataBuilder = new \LaravelFCM\Message\PayloadDataBuilder();
+    $dataBuilder->addData(['icon' => 'https://app.isaudavel.com/static/assets/img/icons/icon_g.png']);
     $dataBuilder->addData(['content' => 'Você tem um novo agendamento']);
 
     $option = $optionBuilder->build();
     $notification = $notificationBuilder->build();
     $data = $dataBuilder->build();
 
-    $token = "d2h9okdqyt4:APA91bGnwaCTQL-nMTiJctNgCxeTYyAzzDITKxrodoCpHuAnODZn9x10rguZEvpWRvu4n73ObT3zTLg9qxUWNsrIEgJFJ35fi9cgHEdF7Q_-nr6rQRRYuEYHfDJxzp7tDZ722i6JTSSJ";
+    $token = "cFb7nxXWMgM:APA91bG9Y7WeGAJgnW7TsAn42g_FFKv0Qs_EgWmxjM86V4lubT79MTLYZkJahp-x8eBzcti5MdncJa-1Vwuz1Ow__6FWonUFj4--ajNI7XF0xtAC5E4IDIZjDyfme08-GCL2IYVEXbqX";
     $downstreamResponse = \FCM::sendTo($token, $option, $notification, $data);
 
     dd($downstreamResponse);

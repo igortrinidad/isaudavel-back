@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\ClientNotification;
+use App\Events\CompanyNotification;
 use App\Models\CategoryCalendarSetting;
 use App\Models\ClientSubscription;
 use App\Models\Company;
@@ -855,8 +856,13 @@ class ScheduleController extends Controller
         }
 
         //Notify the client
-        if($schedule->reschedule_by != $schedule->client->id){
+        if(\Auth::user()->role == 'professional'){
             event(new ClientNotification($schedule->client->id, ['type' => 'reschedule', 'payload' => ['schedule' => $schedule, 'old_schedule' => $old_schedule]]));
+        }
+
+        //Notify the company
+        if(\Auth::user()->role == 'client'){
+            event(new CompanyNotification($schedule->company_id, ['type' => 'reschedule', 'payload' => ['schedule' => $schedule, 'old_schedule' => $old_schedule]]));
         }
 
         //Report email

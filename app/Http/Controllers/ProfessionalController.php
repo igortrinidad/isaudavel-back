@@ -590,4 +590,38 @@ class ProfessionalController extends Controller
 
         return view('users.show', compact('user'));
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function status(Request $request)
+    {
+        $unreaded_notifications = \Auth::user()->notifications()->where('is_readed', false)->count();
+
+        return response()->json([
+            'unreaded_notifications' => $unreaded_notifications
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function fcmToken(Request $request)
+    {
+        $professional = \Auth::user();
+
+        if ($request->get('is_mobile')) {
+            $professional->fcm_token_mobile = $request->get('token');
+            $professional->save();
+        }
+
+        if (!$request->get('is_mobile')) {
+            $professional->fcm_token_browser = $request->get('token');
+            $professional->save();
+        }
+
+        return response()->json(['message' => 'success']);
+    }
 }

@@ -42,6 +42,8 @@ class Professional extends Authenticatable implements JWTSubject
         'phone',
         'password',
         'remember_token',
+        'fcm_token_mobile',
+        'fcm_token_browser',
         'terms'
     ];
 
@@ -295,6 +297,14 @@ class Professional extends Authenticatable implements JWTSubject
     public function schedules()
     {
         return $this->hasMany(Schedule::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function notifications()
+    {
+        return $this->hasMany(ProfessionalNotification::class);
     }
 
 }

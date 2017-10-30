@@ -8,6 +8,11 @@ Route::group(['prefix' => 'professional'], function () {
     //Professional protected routes
     Route::group(['middleware' => 'auth:professional'], function () {
 
+        //FCM token
+        Route::post('/fcm_token', 'ProfessionalController@fcmToken');
+
+        Route::get('/status', 'ProfessionalController@status');
+
         //Categories
         Route::get('/category/list', 'CategoryController@forSelect');
 
@@ -216,6 +221,14 @@ Route::group(['prefix' => 'professional'], function () {
         Route::get('/calendar/settings/show/{id}', 'ProfessionalCalendarSettingController@show_professional_dashboard');
         Route::post('/calendar/settings/update', 'ProfessionalCalendarSettingController@update');
         Route::post('/calendar/workdays/company/list', 'ProfessionalCalendarSettingController@company_professional_workdays');
+
+        //Notifications
+        Route::group(['prefix' => 'notification'], function() {
+
+            Route::get('/list', 'ProfessionalNotificationController@index');
+            Route::get('/mark_readed/{id}', 'ProfessionalNotificationController@markReaded');
+            Route::get('/mark_all_readed', 'ProfessionalNotificationController@markAllReaded');
+        });
 
 
         //Client

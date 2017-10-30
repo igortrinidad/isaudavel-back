@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\ClientNotification;
+use App\Events\CompanyNotification;
 use App\Models\SingleSchedule;
 use App\Models\CategoryCalendarSetting;
 use Carbon\Carbon;
@@ -146,8 +147,13 @@ class SingleScheduleController extends Controller
         $single_schedule = tap(SingleSchedule::find($request->get('id')))->update($request->all())->fresh()->load('company', 'client', 'category', 'professional');
 
         //Notify the client
-        if($single_schedule->reschedule_by != $single_schedule->client_id){
+        if(\Auth::user()->role == 'professional'){
             event(new ClientNotification($single_schedule->client_id, ['type' => 'single_reschedule', 'payload' => ['single_schedule' => $single_schedule, 'old_single_schedule' => $old_schedule]]));
+        }
+
+        //Notify the company
+        if(\Auth::user()->role == 'client'){
+            event(new CompanyNotification($single_schedule->company_id, ['type' => 'single_reschedule', 'payload' => ['single_schedule' => $single_schedule, 'old_single_schedule' => $old_schedule]]));
         }
 
         //Report email
