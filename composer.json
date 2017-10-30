@@ -21,7 +21,6 @@
         "roumen/sitemap": "^2.6",
         "spatie/laravel-fractal": "^3.5",
         "tinify/tinify": "^1.5",
-        "torann/json-ld": "^0.0.10",
         "tymon/jwt-auth": "1.0.0-beta.3",
         "webpatser/laravel-uuid": "2.*"
     },
