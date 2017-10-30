@@ -862,16 +862,6 @@ class ScheduleController extends Controller
             $schedule->professional->makeHidden(['companies', 'categories', 'blank_password', 'password', 'remember_token']);
         }
 
-        //Notify the client
-        if(\Auth::user()->role == 'professional'){
-            event(new ClientNotification($schedule->client->id, ['type' => 'reschedule', 'payload' => ['schedule' => $schedule, 'old_schedule' => $old_schedule]]));
-        }
-
-        //Notify the company
-        if(\Auth::user()->role == 'client'){
-            event(new CompanyNotification($schedule->company_id, ['type' => 'reschedule', 'payload' => ['schedule' => $schedule, 'old_schedule' => $old_schedule]]));
-        }
-
         //Report email
         $data = [];
         $data['align'] = 'center';
@@ -880,18 +870,35 @@ class ScheduleController extends Controller
         $data['messageOne'] = 'O usuário <b>'. \Auth::user()->full_name . '</b> acabou de alterar seu horário de  <b>' .$schedule->category->name . '</b> marcado anteriormente para ' . $old_schedule->date . ' ' . $old_schedule->time . '.<hr>
         <p><b>Novo horário</b></p>
         <b>' .$schedule->date . ' ' . $schedule->time . '</b>';
-
         $data['messageTwo'] = 'Acesse online em https://app.isaudavel.com ou baixe o aplicativo para Android e iOS (Apple)';
-
         $data['messageSubject'] = 'Alteração de horário';
 
-        \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $schedule){
-            $message->from('no-reply@isaudavel.com', 'iSaudavel App');
-            $message->to($schedule->client->email, $schedule->client->full_name)->subject($data['messageSubject']);
-            if($schedule->professional_id) {
-                $message->cc($schedule->professional->email, $schedule->professional->full_name)->subject($data['messageSubject']);
-            }
-        });
+        //Notify the client
+        if(\Auth::user()->role == 'professional'){
+
+            event(new ClientNotification($schedule->client->id, ['type' => 'reschedule', 'payload' => ['schedule' => $schedule, 'old_schedule' => $old_schedule]]));
+
+            \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $schedule){
+                $message->from('no-reply@isaudavel.com', 'iSaudavel App');
+                $message->to($schedule->client->email, $schedule->client->full_name)->subject($data['messageSubject']);
+            });
+
+
+        }
+
+        //Notify the company
+        if(\Auth::user()->role == 'client'){
+
+            event(new CompanyNotification($schedule->company_id, ['type' => 'reschedule', 'payload' => ['schedule' => $schedule, 'old_schedule' => $old_schedule]]));
+
+            \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $schedule){
+                $message->from('no-reply@isaudavel.com', 'iSaudavel App');
+                $message->to($schedule->professional->email, $schedule->professional->full_name)->subject($data['messageSubject']);
+            });
+
+        }
+
+
 
         return response()->json([
             'message' => 'Rescheduled.',
@@ -970,7 +977,6 @@ class ScheduleController extends Controller
 
         $schedule->setAttribute('category_calendar_settings', $category_calendar_settings);
 
-
         if($schedule->professional_id){
             $calendar_settings = ProfessionalCalendarSetting::where('company_id', $request->get('company_id'))
                 ->where('category_id', $request->get('category_id'))
@@ -981,32 +987,40 @@ class ScheduleController extends Controller
             $schedule->professional->makeHidden(['companies', 'categories', 'blank_password', 'password', 'remember_token']);
         }
 
-        //Notify the client
-        if(\Auth::user()->role == 'professional'){
-            event(new ClientNotification($schedule->client->id, ['type' => 'cancel_schedule', 'payload' => $schedule]));
-        }
-
-        //Notify the company
-        if(\Auth::user()->role == 'client'){
-            event(new CompanyNotification($schedule->company_id, ['type' => 'cancel_schedule', 'payload' => $schedule]));
-        }
-
         //Report email
         $data = [];
         $data['align'] = 'center';
 
         $data['messageTitle'] = '<h4>Cancelamento de horário</h4>';
         $data['messageOne'] = 'O horário de ' .$schedule->category->name .  ' marcado para <strong>' .$old_schedule->date . ' ' . $old_schedule->time . ' </strong> foi cancelado por '. \Auth::user()->full_name.' às '. Carbon::now()->format('d/m/Y H:i:s') .'.';
-
         $data['messageSubject'] = 'Cancelamento de horário';
 
-        \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $schedule){
-            $message->from('no-reply@isaudavel.com', 'iSaudavel App');
-            $message->to($schedule->client->email, $schedule->client->full_name)->subject($data['messageSubject']);
-            if($schedule->professional_id){
-                $message->cc($schedule->professional->email, $schedule->professional->full_name)->subject($data['messageSubject']);
-            }
-        });
+
+        //Notify the client
+        if(\Auth::user()->role == 'professional'){
+
+            event(new ClientNotification($schedule->client->id, ['type' => 'cancel_schedule', 'payload' => $schedule]));
+
+            \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $schedule){
+                $message->from('no-reply@isaudavel.com', 'iSaudavel App');
+                $message->to($schedule->client->email, $schedule->client->full_name)->subject($data['messageSubject']);
+            });
+
+        }
+
+        //Notify the company
+        if(\Auth::user()->role == 'client'){
+
+            event(new CompanyNotification($schedule->company_id, ['type' => 'cancel_schedule', 'payload' => $schedule]));
+
+            \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $schedule){
+                $message->from('no-reply@isaudavel.com', 'iSaudavel App');
+                $message->to($schedule->professional->email, $schedule->professional->full_name)->subject($data['messageSubject']);
+            });
+
+        }
+
+
 
         return response()->json([
             'message' => 'Canceled.',
