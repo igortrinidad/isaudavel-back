@@ -27,7 +27,7 @@ class CreateCompanyNotification
     /**
      * Handle the event.
      *
-     * @param  ClientNotificationEvent  $event
+     * @param CompanyNotificationEvent $event
      * @return void
      */
     public function handle(CompanyNotificationEvent $event)
@@ -36,14 +36,72 @@ class CreateCompanyNotification
 
         $data = $event->notification_data;
 
+        /*
+         * New client
+         */
+        if($data['type'] == 'new_client'){
+            $client = $data['payload']['client'];
+            $company = $data['payload']['company'];
+
+            $notification_data = [
+                'title' => 'Novo cliente',
+                'content' => $client->full_name . ' enviou uma solicitação para ser cliente da empresa '.$company->name.' e está aguardando aprovação.' ,
+                'button_label' => 'Ir para clientes',
+                'button_action' => '/dashboard/empresas/mostrar/' . $company->id . '?tab=clients'
+            ];
+        }
+
+        /*
+         * Client accept solicitation
+         */
+        if($data['type'] == 'client_accept'){
+            $client = $data['payload']['client'];
+            $company = $data['payload']['company'];
+
+            $notification_data = [
+                'title' => 'Solicitação aprovada',
+                'content' => $client->full_name . ' aceitou a solicitação enviada.' ,
+                'button_label' => 'Ir para clientes',
+                'button_action' => '/dashboard/empresas/mostrar/' . $company->id . '?tab=clients'
+            ];
+        }
+
+        /*
+         * Client remove client
+         */
+        if($data['type'] == 'client_remove_company'){
+            $client = $data['payload']['client'];
+            $company = $data['payload']['company'];
+
+            $notification_data = [
+                'title' => 'Cliente removido',
+                'content' => $client->full_name . ' removeu a empresa '.$company->name.' de sua lista de empresas.' ,
+            ];
+        }
+
         /* ON RESCHEDULE */
         if($data['type'] == 'reschedule'){
 
-            $schedule = $data['payload']['schedule'];;
+            $schedule = $data['payload']['schedule'];
 
             $notification_data = [
                 'title' => 'Remarcação de agendamento',
-                'content' => $schedule->client->full_name .' remarcou um agendamento para ' . $schedule->date . ' ' . $schedule->time. '.',
+                'content' => $schedule->client->full_name .' remarcou um agendamento de '. $schedule->category->name.  ' para ' . $schedule->date . ' ' . $schedule->time. '.',
+                'button_label' => 'Visualizar agendamento',
+                'button_action' => '/dashboard/empresas/mostrar/' . $company->id . '/schedule/' . $schedule->id
+            ];
+        }
+
+
+        /*
+         * Cancel schedule
+         */
+        if($data['type'] == 'cancel_schedule'){
+            $schedule = $data['payload'];
+
+            $notification_data = [
+                'title' => 'Cancelamento de horário',
+                'content' => $schedule->client->full_name .' cancelou o agendamento de '. $schedule->category->name. ' marcado para ' . $schedule->date . ' ' . $schedule->time,
                 'button_label' => 'Visualizar agendamento',
                 'button_action' => '/dashboard/empresas/mostrar/' . $company->id . '/schedule/' . $schedule->id
             ];
@@ -57,7 +115,21 @@ class CreateCompanyNotification
 
             $notification_data = [
                 'title' => 'Remarcação de agendamento',
-                'content' => $single_schedule->client->full_name .' remarcou um agendamento para ' . $single_schedule->date . ' ' . $single_schedule->time. '.',
+                'content' => $single_schedule->client->full_name . ' remarcou um agendamento de '. $schedule->category->name.  ' para ' . $single_schedule->date . ' ' . $single_schedule->time. '.',
+                'button_label' => 'Visualizar agendamento',
+                'button_action' => '/dashboard/empresas/mostrar/' . $company->id . '/single-schedule/' . $single_schedule->id
+            ];
+        }
+
+        /*
+         * Cancel single
+         */
+        if($data['type'] == 'cancel_single_schedule'){
+            $single_schedule = $data['payload'];
+
+            $notification_data = [
+                'title' => 'Cancelamento de horário',
+                'content' => $single_schedule->client->full_name .' cancelou o agendamento de '. $single_schedule->category->name. ' marcado para ' . $single_schedule->date . ' ' . $single_schedule->time,
                 'button_label' => 'Visualizar agendamento',
                 'button_action' => '/dashboard/empresas/mostrar/' . $company->id . '/single-schedule/' . $single_schedule->id
             ];

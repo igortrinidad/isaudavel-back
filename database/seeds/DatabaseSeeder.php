@@ -140,6 +140,8 @@ class DatabaseSeeder extends Seeder
              */
             $this->call(ClientNotificationsTableSeeder::class);
 
+            $this->call(ProfessionalNotificationsTableSeeder::class);
+
 
         }
         $this->command->info('Finished database seeder');

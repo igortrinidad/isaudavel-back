@@ -146,6 +146,14 @@ class SingleScheduleController extends Controller
 
         $single_schedule = tap(SingleSchedule::find($request->get('id')))->update($request->all())->fresh()->load('company', 'client', 'category', 'professional');
 
+        $category_calendar_settings = CategoryCalendarSetting::where('company_id', $single_schedule->company_id)
+            ->where('category_id', $single_schedule->category_id)
+            ->select('advance_schedule','advance_reschedule', 'cancel_schedule', 'is_professional_scheduled' )
+            ->first();
+
+        $single_schedule->setAttribute('category_calendar_settings', $category_calendar_settings);
+
+
         //Notify the client
         if(\Auth::user()->role == 'professional'){
             event(new ClientNotification($single_schedule->client_id, ['type' => 'single_reschedule', 'payload' => ['single_schedule' => $single_schedule, 'old_single_schedule' => $old_schedule]]));
@@ -215,6 +223,23 @@ class SingleScheduleController extends Controller
         $old_schedule = SingleSchedule::find($request->get('id'));
         $single_schedule = tap(SingleSchedule::find($request->get('id')))->update($request->all())->fresh()->load('company', 'client', 'category', 'professional');
 
+        $category_calendar_settings = CategoryCalendarSetting::where('company_id', $single_schedule->company_id)
+            ->where('category_id', $single_schedule->category_id)
+            ->select('advance_schedule','advance_reschedule', 'cancel_schedule', 'is_professional_scheduled' )
+            ->first();
+
+        $single_schedule->setAttribute('category_calendar_settings', $category_calendar_settings);
+
+        //Notify the client
+        if(\Auth::user()->role == 'professional'){
+            event(new ClientNotification($single_schedule->client->id, ['type' => 'cancel_single_schedule', 'payload' => $single_schedule]));
+        }
+
+        //Notify the company
+        if(\Auth::user()->role == 'client'){
+            event(new CompanyNotification($single_schedule->company_id, ['type' => 'cancel_single_schedule', 'payload' => $single_schedule]));
+        }
+
         //Report email
         $data = [];
         $data['align'] = 'center';
@@ -227,7 +252,9 @@ class SingleScheduleController extends Controller
         \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $single_schedule){
             $message->from('no-reply@isaudavel.com', 'iSaudavel App');
             $message->to($single_schedule->client->email, $single_schedule->client->full_name)->subject($data['messageSubject']);
-            $message->cc($single_schedule->professional->email, $single_schedule->professional->full_name)->subject($data['messageSubject']);
+            if($single_schedule->professional_id){
+                $message->cc($single_schedule->professional->email, $single_schedule->professional->full_name)->subject($data['messageSubject']);
+            }
         });
 
         return response()->json([

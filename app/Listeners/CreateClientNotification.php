@@ -5,6 +5,7 @@ namespace App\Listeners;
 use App\Events\ClientNotification as ClientNotificationEvent;
 use App\Models\Client;
 use App\Models\ClientNotification;
+use Carbon\Carbon;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use LaravelFCM\Message\OptionsBuilder;
@@ -35,8 +36,50 @@ class CreateClientNotification
 
         $data = $event->notification_data;
 
+        /*
+         * New company
+         */
         if($data['type'] == 'new_company'){
+            $client = $data['payload']['client'];
+            $company = $data['payload']['company'];
 
+            $notification_data = [
+                'client_id' => $client->id,
+                'title' => 'Nova solicitação',
+                'content' => 'A empresa '. $company->name . ' enviou uma solicitação  para adicionar você como cliente e está aguardando aprovação.' ,
+                'button_label' => 'Ir para empresas',
+                'button_action' => '/cliente/dashboard/' . $client->id . '?tab=companies'
+            ];
+        }
+
+        /*
+         * Company accept solicitation
+         */
+        if($data['type'] == 'company_accept'){
+            $client = $data['payload']['client'];
+            $company = $data['payload']['company'];
+
+            $notification_data = [
+                'client_id' => $client->id,
+                'title' => 'Solicitação aprovada',
+                'content' => 'A empresa '. $company->name . ' aceitou sua solicitação.' ,
+                'button_label' => 'Ir para empresas',
+                'button_action' => '/cliente/dashboard/' . $client->id . '?tab=companies'
+            ];
+        }
+
+        /*
+         * Company remove client
+         */
+        if($data['type'] == 'company_remove_client'){
+            $client = $data['payload']['client'];
+            $company = $data['payload']['company'];
+
+            $notification_data = [
+                'client_id' => $client->id,
+                'title' => 'Empresa removida',
+                'content' => 'A empresa '. $company->name . ' removeu você da lista de clientes.' ,
+            ];
         }
 
         /*
@@ -80,6 +123,21 @@ class CreateClientNotification
         }
 
         /*
+         * Cancel schedule
+         */
+        if($data['type'] == 'cancel_schedule'){
+            $schedule = $data['payload'];
+
+            $notification_data = [
+                'client_id' => $client->id,
+                'title' => 'Cancelamento de horário',
+                'content' => 'O horário de ' .$schedule->category->name .  ' marcado para ' .$schedule->date . ' ' . $schedule->time . ' foi cancelado por '. \Auth::user()->full_name.' às '. Carbon::now()->format('d/m/Y H:i:s') .'.',
+                'button_label' => 'Visualizar agendamento',
+                'button_action' => '/cliente/dashboard/calendar/'.urlencode($schedule->date).'/schedule/'.$schedule->id
+            ];
+        }
+
+        /*
          * Reschedule a single schedule
          */
         if($data['type'] == 'single_reschedule'){
@@ -107,6 +165,21 @@ class CreateClientNotification
                 'content' => 'O usuário '. \Auth::user()->full_name . ' adicionou um novo agendamento de ' .$single_schedule->category->name . ' para você. O agendamento foi definido para '. $single_schedule->date . ' ' . $single_schedule->time,
                 'button_label' => ' Visualizar agendamento',
                 'button_action' => '/cliente/dashboard/calendar/'.urlencode($single_schedule->date).'/single-schedule/'.$single_schedule->id,
+            ];
+        }
+
+        /*
+         * Cancel single schedule
+         */
+        if($data['type'] == 'cancel_single_schedule'){
+            $single_schedule = $data['payload'];
+
+            $notification_data = [
+                'client_id' => $client->id,
+                'title' => 'Cancelamento de horário',
+                'content' => 'O horário de ' .$single_schedule->category->name .  ' marcado para ' .$single_schedule->date . ' ' . $single_schedule->time . ' foi cancelado por '. \Auth::user()->full_name.' às '. Carbon::now()->format('d/m/Y H:i:s') .'.',
+                'button_label' => 'Visualizar agendamento',
+                'button_action' => '/cliente/dashboard/calendar/'.urlencode($single_schedule->date).'/single-schedule/'.$single_schedule->id
             ];
         }
 

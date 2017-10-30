@@ -843,7 +843,14 @@ class ScheduleController extends Controller
         $old_schedule = Schedule::find($request->get('id'));
         $schedule = tap(Schedule::find($request->get('id')))->update($request->all())->fresh();
 
+        $category_calendar_settings = CategoryCalendarSetting::where('company_id', $schedule->company_id)
+            ->where('category_id', $schedule->category_id)
+            ->select('advance_schedule','advance_reschedule', 'cancel_schedule', 'is_professional_scheduled' )
+            ->first();
+
         $schedule->setAttribute('client', $schedule->subscription->client);
+
+        $schedule->setAttribute('category_calendar_settings', $category_calendar_settings);
 
         if($schedule->professional_id){
             $calendar_settings = ProfessionalCalendarSetting::where('company_id', $request->get('company_id'))
@@ -954,7 +961,15 @@ class ScheduleController extends Controller
         $old_schedule = Schedule::find($request->get('id'));
         $schedule = tap(Schedule::find($request->get('id')))->update($request->all())->fresh();
 
+        $category_calendar_settings = CategoryCalendarSetting::where('company_id', $schedule->company_id)
+            ->where('category_id', $schedule->category_id)
+            ->select('advance_schedule','advance_reschedule', 'cancel_schedule', 'is_professional_scheduled' )
+            ->first();
+
         $schedule->setAttribute('client', $schedule->subscription->client);
+
+        $schedule->setAttribute('category_calendar_settings', $category_calendar_settings);
+
 
         if($schedule->professional_id){
             $calendar_settings = ProfessionalCalendarSetting::where('company_id', $request->get('company_id'))
@@ -964,6 +979,16 @@ class ScheduleController extends Controller
             $schedule->setAttribute('professional_workdays', $calendar_settings->workdays);
 
             $schedule->professional->makeHidden(['companies', 'categories', 'blank_password', 'password', 'remember_token']);
+        }
+
+        //Notify the client
+        if(\Auth::user()->role == 'professional'){
+            event(new ClientNotification($schedule->client->id, ['type' => 'cancel_schedule', 'payload' => $schedule]));
+        }
+
+        //Notify the company
+        if(\Auth::user()->role == 'client'){
+            event(new CompanyNotification($schedule->company_id, ['type' => 'cancel_schedule', 'payload' => $schedule]));
         }
 
         //Report email

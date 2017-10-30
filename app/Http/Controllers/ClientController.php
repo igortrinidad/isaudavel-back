@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ClientNotification;
+use App\Events\CompanyNotification;
 use App\Models\Client;
 use App\Models\ClientPhoto;
 use App\Models\Company;
@@ -450,22 +452,35 @@ class ClientController extends Controller
 
             $company = Company::find($request->get('company_id'));
 
+            //Notify the client
+            if(\Auth::user()->role == 'professional'){
+                event(new ClientNotification($request->get('client_id'), ['type' => 'new_company', 'payload' => ['company' =>  $client_company, 'client' => $client]]));
+            }
+
+            //Notify the company
+            if(\Auth::user()->role == 'client'){
+                event(new CompanyNotification($request->get('company_id'), ['type' => 'new_client', 'payload' => ['company' =>  $client_company, 'client' => $client]]));
+            }
+
             //Envia email para informar o cliente
-            $data = [];
-            $data['align'] = 'center';
-            $data['messageTitle'] = '<h4>Nova solicitação</h4>';
-            $data['messageOne'] = '
+            if(!$requested_by_client){
+
+                $data = [];
+                $data['align'] = 'center';
+                $data['messageTitle'] = '<h4>Nova solicitação</h4>';
+                $data['messageOne'] = '
             <p>Olá ' . $client->full_name . '  <p>A empresa <b>' . $company->name . '</b> está solicitando acesso ao seu perfil na plataforma iSaudavel, acesse seu perfil e configure as permissões para cada módulo que a empresa terá acesso</p>
             <br>
             <p>Acesse online em <a href="https://app.isaudavel.com">app.isaudavel.com</a> ou baixe o aplicativo 
             para <a href="https://play.google.com/store/apps/details?id=com.isaudavel" target="_blank">Android</a> e <a href="https://itunes.apple.com/us/app/isaudavel/id1277115133?mt=8" target="_blank">iOS (Apple)</a></p>';
 
-            $data['messageSubject'] = 'Nova solicitação iSaudavel';
+                $data['messageSubject'] = 'Nova solicitação iSaudavel';
 
-            \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $client){
-                $message->from('no-reply@isaudavel.com', 'iSaudavel App');
-                $message->to($client->email, $client->full_name)->subject($data['messageSubject']);
-            });
+                \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $client){
+                    $message->from('no-reply@isaudavel.com', 'iSaudavel App');
+                    $message->to($client->email, $client->full_name)->subject($data['messageSubject']);
+                });
+            }
 
             return response()->json(['message' => 'OK', 'company' => $client_company]);
         }
@@ -509,6 +524,17 @@ class ClientController extends Controller
                 ->withPivot('is_confirmed', 'requested_by_client')
                 ->first();
 
+            //Notify the client
+            if(\Auth::user()->role == 'professional'){
+                event(new ClientNotification($request->get('client_id'), ['type' => 'company_accept', 'payload' => ['company' =>  $client_company, 'client' => $client]]));
+            }
+
+            //Notify the company
+            if(\Auth::user()->role == 'client'){
+                event(new CompanyNotification($request->get('company_id'), ['type' => 'client_accept', 'payload' => ['company' =>  $client_company, 'client' => $client]]));
+            }
+
+
             return response()->json(['message' => 'OK', 'company' => $client_company]);
         }
 
@@ -541,8 +567,26 @@ class ClientController extends Controller
                     'deleted_at' => Carbon::now()
                 ]);
 
+
+            //load relation to return
+            $client_company = $client->companies()->select('id', 'name', 'slug')
+                ->wherePivot('company_id', '=',$request->get('company_id'))
+                ->withPivot('is_confirmed', 'requested_by_client')
+                ->first();
+
+            //Notify the client
+            if(\Auth::user()->role == 'professional'){
+                event(new ClientNotification($request->get('client_id'), ['type' => 'company_remove_client', 'payload' => ['company' =>  $client_company, 'client' => $client]]));
+            }
+
+            //Notify the company
+            if(\Auth::user()->role == 'client'){
+                event(new CompanyNotification($request->get('company_id'), ['type' => 'client_remove_company', 'payload' => ['company' =>  $client_company, 'client' => $client]]));
+            }
+
             return response()->json(['message' => 'OK']);
         }
+
 
         if(!$client){
             return response()->json([
