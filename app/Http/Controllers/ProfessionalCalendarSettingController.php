@@ -145,11 +145,13 @@ class ProfessionalCalendarSettingController extends Controller
             }
 
             $schedules = Schedule::where('company_id', $request->get('company_id'))
+                ->where('is_canceled', 0)
                 ->where('category_id', $request->get('category_id'))
                 ->where('professional_id', $professional_calendar_setting->professional->id)
                 ->where('date', $request->get('date'))->orderBy('time')->get();
 
             $single_schedules = SingleSchedule::where('company_id', $request->get('company_id'))
+                ->where('is_canceled', 0)
                 ->where('category_id', $request->get('category_id'))
                 ->where('professional_id', $professional_calendar_setting->professional_id)
                 ->where('date', $request->get('date'))
