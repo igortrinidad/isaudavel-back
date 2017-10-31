@@ -36,6 +36,9 @@ class CreateCompanyNotification
 
         $data = $event->notification_data;
 
+        // Skip these professionals
+        $skip_professionals = [];
+
         /*
          * New client
          */
@@ -67,7 +70,7 @@ class CreateCompanyNotification
         }
 
         /*
-         * Client remove client
+         * Client remove company
          */
         if($data['type'] == 'client_remove_company'){
             $client = $data['payload']['client'];
@@ -78,6 +81,54 @@ class CreateCompanyNotification
                 'content' => $client->full_name . ' removeu a empresa '.$company->name.' de sua lista de empresas.' ,
             ];
         }
+
+
+        /*
+         * Professional accept solicitation
+         */
+        if($data['type'] == 'professional_accept'){
+            $professional = $data['payload']['professional'];
+            $company = $data['payload']['company'];
+
+            $notification_data = [
+                'title' => 'Solicitação aprovada',
+                'content' => $professional->full_name . ' aceitou a solicitação enviada.' ,
+                'button_label' => 'Ir para profissionais',
+                'button_action' => '/dashboard/empresas/mostrar/' . $company->id . '?tab=professionals'
+            ];
+        }
+
+        /*
+        * Professional remove company
+        */
+        if($data['type'] == 'professional_remove_company'){
+            $professional = $data['payload']['professional'];
+            $company = $data['payload']['company'];
+
+            $notification_data = [
+                'title' => 'Profissional removido',
+                'content' => $professional->full_name . ' removeu a empresa '.$company->name.' de sua lista de empresas.' ,
+            ];
+        }
+
+        /*
+        * Professional calendar settings change
+        */
+        if($data['type'] == 'professional_calendar_settings_change'){
+            $payload = $data['payload'];
+
+            $notification_data = [
+                'title' => 'Alteração de agenda',
+                'content' => $payload->professional->full_name . ' alterou as configurações de sua agenda de ' .$payload->category->name .'.',
+                'button_label' => 'Ir para agenda',
+                'button_action' => '/dashboard/empresas/mostrar/' . $company->id . '?tab=calendar'
+            ];
+
+            // Skip these professionals
+            $skip_professionals = [$payload->professional_id];
+        }
+
+
 
         /* ON RESCHEDULE */
         if($data['type'] == 'reschedule'){
@@ -91,7 +142,6 @@ class CreateCompanyNotification
                 'button_action' => '/dashboard/empresas/mostrar/' . $company->id . '/schedule/' . $schedule->id
             ];
         }
-
 
         /*
          * Cancel schedule
@@ -122,7 +172,7 @@ class CreateCompanyNotification
         }
 
         /*
-         * Cancel single
+         * Cancel single schedule
          */
         if($data['type'] == 'cancel_single_schedule'){
             $single_schedule = $data['payload'];
@@ -139,6 +189,11 @@ class CreateCompanyNotification
          * Create and send the push notification
          */
         foreach($company->professionals as $professional){
+
+            //Verify to skip
+            if(in_array($professional->id, $skip_professionals)){
+                continue;
+            }
 
             array_set($notification_data, 'professional_id', $professional->id);
 

@@ -144,4 +144,25 @@ class OracleUserController extends Controller
             return response()->json(['alert' => ['type' => 'error', 'title' => 'Atenção!', 'message' => 'Ocorreu um erro ao enviar o e-mail.', 'status_code' => 500]], 500);
         }
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function fcmToken(Request $request)
+    {
+        $oracle_user = OracleUser::find($request->get('user_id'));
+
+        if ($request->get('is_mobile') == 'true') {
+            $oracle_user->fcm_token_mobile = $request->get('token');
+            $oracle_user->save();
+        }
+
+        if ($request->get('is_mobile') == 'false') {
+            $oracle_user->fcm_token_browser = $request->get('token');
+            $oracle_user->save();
+        }
+
+        return response()->json(['message' => 'success']);
+    }
 }

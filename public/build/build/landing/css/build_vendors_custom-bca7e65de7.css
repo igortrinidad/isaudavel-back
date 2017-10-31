@@ -8998,36 +8998,18 @@ body.swal2-iosfix {
       border: 1px solid #b4dbed;
       -webkit-box-shadow: 0 0 3px #c4e6f5;
               box-shadow: 0 0 3px #c4e6f5; }
-      .swal2-modal .swal2-input:focus::-webkit-input-placeholder,
-      .swal2-modal .swal2-file:focus::-webkit-input-placeholder,
-      .swal2-modal .swal2-textarea:focus::-webkit-input-placeholder {
-        -webkit-transition: opacity .3s .03s ease;
-        transition: opacity .3s .03s ease;
-        opacity: .8; }
-      .swal2-modal .swal2-input:focus:-ms-input-placeholder,
-      .swal2-modal .swal2-file:focus:-ms-input-placeholder,
-      .swal2-modal .swal2-textarea:focus:-ms-input-placeholder {
-        -webkit-transition: opacity .3s .03s ease;
-        transition: opacity .3s .03s ease;
-        opacity: .8; }
-      .swal2-modal .swal2-input:focus::placeholder,
-      .swal2-modal .swal2-file:focus::placeholder,
-      .swal2-modal .swal2-textarea:focus::placeholder {
-        -webkit-transition: opacity .3s .03s ease;
-        transition: opacity .3s .03s ease;
-        opacity: .8; }
     .swal2-modal .swal2-input::-webkit-input-placeholder,
     .swal2-modal .swal2-file::-webkit-input-placeholder,
     .swal2-modal .swal2-textarea::-webkit-input-placeholder {
-      color: #e6e6e6; }
+      color: #cccccc; }
     .swal2-modal .swal2-input:-ms-input-placeholder,
     .swal2-modal .swal2-file:-ms-input-placeholder,
     .swal2-modal .swal2-textarea:-ms-input-placeholder {
-      color: #e6e6e6; }
+      color: #cccccc; }
     .swal2-modal .swal2-input::placeholder,
     .swal2-modal .swal2-file::placeholder,
     .swal2-modal .swal2-textarea::placeholder {
-      color: #e6e6e6; }
+      color: #cccccc; }
   .swal2-modal .swal2-range input {
     float: left;
     width: 80%; }
@@ -9313,15 +9295,15 @@ body.swal2-iosfix {
     opacity: 0; } }
 
 .swal2-show {
-  -webkit-animation: showSweetAlert 0.3s;
-          animation: showSweetAlert 0.3s; }
+  -webkit-animation: showSweetAlert .3s;
+          animation: showSweetAlert .3s; }
   .swal2-show.swal2-noanimation {
     -webkit-animation: none;
             animation: none; }
 
 .swal2-hide {
-  -webkit-animation: hideSweetAlert 0.15s forwards;
-          animation: hideSweetAlert 0.15s forwards; }
+  -webkit-animation: hideSweetAlert .15s forwards;
+          animation: hideSweetAlert .15s forwards; }
   .swal2-hide.swal2-noanimation {
     -webkit-animation: none;
             animation: none; }
@@ -9435,12 +9417,12 @@ body.swal2-iosfix {
             transform: rotate(-405deg); } }
 
 .swal2-animate-success-line-tip {
-  -webkit-animation: animate-success-tip 0.75s;
-          animation: animate-success-tip 0.75s; }
+  -webkit-animation: animate-success-tip .75s;
+          animation: animate-success-tip .75s; }
 
 .swal2-animate-success-line-long {
-  -webkit-animation: animate-success-long 0.75s;
-          animation: animate-success-long 0.75s; }
+  -webkit-animation: animate-success-long .75s;
+          animation: animate-success-long .75s; }
 
 .swal2-success.swal2-animate-success-icon .swal2-success-circular-line-right {
   -webkit-animation: rotatePlaceholder 4.25s ease-in;
@@ -9467,8 +9449,8 @@ body.swal2-iosfix {
     opacity: 1; } }
 
 .swal2-animate-error-icon {
-  -webkit-animation: animate-error-icon 0.5s;
-          animation: animate-error-icon 0.5s; }
+  -webkit-animation: animate-error-icon .5s;
+          animation: animate-error-icon .5s; }
 
 @-webkit-keyframes animate-x-mark {
   0% {
@@ -9513,8 +9495,8 @@ body.swal2-iosfix {
     opacity: 1; } }
 
 .swal2-animate-x-mark {
-  -webkit-animation: animate-x-mark 0.5s;
-          animation: animate-x-mark 0.5s; }
+  -webkit-animation: animate-x-mark .5s;
+          animation: animate-x-mark .5s; }
 
 @-webkit-keyframes rotate-loading {
   0% {

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CompanyNotification;
+use App\Events\ProfessionalNotification;
 use App\Models\ClientSubscription;
 use App\Models\ProfessionalCalendarSetting;
 use App\Models\Schedule;
@@ -276,6 +278,18 @@ class ProfessionalCalendarSettingController extends Controller
     public function update(Request $request)
     {
         $calendar_setting = tap(ProfessionalCalendarSetting::find($request->get('id')))->update($request->all())->fresh();
+
+        //Notify the professional
+        if($request->has('has_changes') && $request->get('has_changes') && \Auth::user()->id != $calendar_setting->professional_id)
+        {
+            event(new ProfessionalNotification($request->get('professional_id'), ['type' => 'professional_calendar_settings_change', 'payload' => $calendar_setting->load('company','category','professional')]));
+        }
+
+        //Notify the company
+        if($request->has('has_changes') && $request->get('has_changes') && \Auth::user()->id == $calendar_setting->professional_id)
+        {
+            event(new CompanyNotification($request->get('company_id'), ['type' => 'professional_calendar_settings_change', 'payload' => $calendar_setting->load('company','category','professional')]));
+        }
 
         return response()->json([
             'message' => 'Calendar setting updated.',

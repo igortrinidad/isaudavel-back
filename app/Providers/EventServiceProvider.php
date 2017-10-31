@@ -5,9 +5,11 @@ namespace App\Providers;
 use App\Events\ClientActivity;
 use App\Events\ClientNotification;
 use App\Events\CompanyNotification;
+use App\Events\OracleNotification;
 use App\Events\ProfessionalNotification;
 use App\Listeners\CreateClientNotification;
 use App\Listeners\CreateCompanyNotification;
+use App\Listeners\CreateOracleNotification;
 use App\Listeners\CreateProfissionalNotification;
 use App\Listeners\IncrementClientTotalXp;
 use Illuminate\Support\Facades\Event;
@@ -37,7 +39,9 @@ class EventServiceProvider extends ServiceProvider
             CreateCompanyNotification::class
         ],
 
-
+        OracleNotification::class => [
+            CreateOracleNotification::class
+        ]
     ];
 
     /**

@@ -73,6 +73,27 @@
             text-align: center;
         }
 
+        .iziToast>.iziToast-cover {
+            background-color: transparent;
+            margin-left: 20px;
+        }
+
+        .btn-notification{
+            background-color: #6EC058 !important;
+            color: #fff !important;
+            font-size: 12px;
+
+        }
+
+        .iziToast>.iziToast-body>.iziToast-buttons {
+            display: table-cell;
+        }
+
+        .iziToast>.iziToast-body>.iziToast-buttons>button {
+            font-size: 14px;
+
+        }
+
 
     </style>
 
@@ -92,6 +113,119 @@
 
 <!-- Js -->
 <script src="{{ elixir('build/landing/js/build_vendors_custom.js') }}"></script>
+
+
+<!-- Firebase notification -->
+<script src="https://www.gstatic.com/firebasejs/3.7.2/firebase.js"></script>
+
+<script>
+    var config = {
+        messagingSenderId: "823793769083"
+    };
+    firebase.initializeApp(config);
+
+    const messaging = firebase.messaging();
+
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/firebase-messaging-sw.js').then((registration) => {
+                // Successfully registers service worker
+                //console.log('ServiceWorker registration successful');
+                messaging.useServiceWorker(registration);
+            })
+                .then(() => {
+                    // Requests user browser permission
+                    return messaging.requestPermission();
+                })
+                .then(() => {
+                    // Gets token
+                    return messaging.getToken();
+                })
+                .then((token) => {
+                    //console.log('token_armazenado: ' + token)
+                    storeFcmToken(token)
+
+                }).then(() => {
+
+                return messaging.onMessage(function (payload) {
+                    notificationHandler(payload.data)
+                });
+            })
+                .catch((err) => {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+
+        });
+    }
+
+    function storeFcmToken(token){
+
+        $.ajax({
+            type:'POST',
+            url:'/api/oracle/fcm_token',
+            data:{token : token, _token: "{{csrf_token()}}", is_mobile: false, user_id: "{{\Auth::user()->id}}"},
+            success:function(data){
+                //console.log('armazenado no db')
+            }
+        });
+    }
+
+    function notificationHandler(payload) {
+
+        //Notification with button
+        if (payload.button_label && payload.button_action) {
+            iziToast.show({
+                icon: 'icon-contacts',
+                title: payload.title ? payload.title : '',
+                message: payload.content,
+                position: 'topCenter',
+                image: payload.icon,
+                imageWidth: 70,
+                color: '#FFF',
+                timeout: 0,
+                layout: 2,
+                buttons: [
+                    [`<button>Ok</button>`, function (instance, toast) {
+                        instance.hide({
+                            transitionOut: 'fadeOutUp',
+                        }, toast, 'close', 'btn2');
+                    }, false],
+                    [`<button class="btn-notification">${payload.button_label}</button>`, function (instance, toast) {
+                        window.location.href= payload.button_action;
+                        instance.hide({
+                            transitionOut: 'fadeOutUp',
+                        }, toast, 'close', 'btn2');
+                    }, true] // true to focus
+                ],
+                drag: false
+            });
+        }
+
+        //Simple notification
+        if (!payload.button_label || !payload.button_action) {
+            iziToast.show({
+                icon: 'icon-contacts',
+                title: payload.title ? payload.title : '',
+                message: payload.content,
+                position: 'topCenter',
+                image: payload.icon,
+                imageWidth: 70,
+                color: '#FFF',
+                timeout: 0,
+                layout: 2,
+                buttons: [
+                    [`<button>Ok</button>`, function (instance, toast) {
+                        instance.hide({
+                            transitionOut: 'fadeOutUp',
+                        }, toast, 'close', 'btn2');
+                    }, true]
+                ],
+                drag: false,
+            });
+        }
+    }
+
+</script>
 
 @section('scripts')
 @show

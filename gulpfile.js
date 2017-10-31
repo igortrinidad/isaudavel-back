@@ -29,6 +29,8 @@ elixir(function(mix) {
         './node_modules/summernote/dist/font',
     ], './public/build/build/landing/css/font');
 
+    mix.copy('./resources/assets/landing/js/firebase-messaging-sw.js', './public/build/build/landing/js');
+
 
     //STYLES LANDING
     mix.styles([

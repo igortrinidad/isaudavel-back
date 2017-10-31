@@ -2,16 +2,17 @@
 
 namespace App\Listeners;
 
-use App\Events\ProfessionalNotification as ProfessionalNotificationEvent;
-use App\Models\Professional;
-use App\Models\ProfessionalNotification;
+
+use App\Events\OracleNotification as OracleNotificationEvent;
+use App\Models\OracleNotification;
+use App\Models\OracleUser;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use LaravelFCM\Message\OptionsBuilder;
 use LaravelFCM\Message\PayloadDataBuilder;
 use LaravelFCM\Message\PayloadNotificationBuilder;
 
-class CreateProfissionalNotification
+class CreateOracleNotification
 {
     /**
      * Create the event listener.
@@ -26,57 +27,57 @@ class CreateProfissionalNotification
     /**
      * Handle the event.
      *
-     * @param  ProfessionalNotificationEvent  $event
+     * @param  OracleNotificationEvent  $event
      * @return void
      */
-    public function handle(ProfessionalNotificationEvent $event)
+    public function handle(OracleNotificationEvent $event)
     {
-        $professional = Professional::find($event->professional_id);
-
         $data = $event->notification_data;
 
-
         /*
-        * New company
+        * New professional
         */
+        if($data['type'] == 'new_professional'){
+            $professional = $data['payload'];
+
+            $notification_data = [
+                'title' => 'Cadastro de profissional',
+                'content' => $professional->full_name .' acabou de se cadastrar no iSaudavel',
+                'button_label' => 'Ver profissional',
+                'button_action' => '/oracle/dashboard/profissionais/exibir/'.$professional->id
+            ];
+        }
+
         if($data['type'] == 'new_company'){
-            $payload = $data['payload'];
+            $company = $data['payload'];
 
             $notification_data = [
-                'professional_id' => $professional->id,
-                'title' => 'Solicitação de empresa',
-                'content' => 'O profissional ' .$payload['user_full_name'] . ' acabou de adicionar você na empresa ' .$payload['company_name'].'.',
-                'button_label' => 'Ir para empresas',
-                'button_action' => '/profissional/dashboard?tab=companies'
+                'title' => 'Cadastro de empresa',
+                'content' => $company->name .' acabou de ser cadastrada pelo usuário '. $company->owner->full_name .'.',
+                'button_label' => 'Ver empresa',
+                'button_action' => '/oracle/dashboard/empresas/editar/'.$company->id
             ];
         }
 
-        /*
-        * Professional calendar settings change
-        */
-        if($data['type'] == 'professional_calendar_settings_change'){
-            $payload = $data['payload'];
-
-            $notification_data = [
-                'professional_id' => $professional->id,
-                'title' => 'Alteração de agenda',
-                'content' => 'A empresa '. $payload->company->name . ' alterou as configurações da sua agenda de ' .$payload->category->name .'.',
-                'button_label' => 'Ir para empresas',
-                'button_action' => '/profissional/dashboard?tab=companies'
-            ];
-        }
 
         /*
-        * Create and send the push notification
-        */
-        $notification = ProfessionalNotification::create($notification_data);
+       * Create and send the push notification
+       */
 
-        if($professional->fcm_token_mobile){
-            $this->sendPushNotification($professional->fcm_token_mobile, $notification_data);
-        }
+        foreach(OracleUser::all() as $oracle_user){
 
-        if($professional->fcm_token_browser){
-            $this->sendPushNotification($professional->fcm_token_browser, $notification_data, false);
+            array_set($notification_data, 'oracle_user_id', $oracle_user->id);
+
+            $notification = OracleNotification::create($notification_data);
+
+            if($oracle_user->fcm_token_mobile){
+                $this->sendPushNotification($oracle_user->fcm_token_mobile, $notification_data);
+            }
+
+            if($oracle_user->fcm_token_browser){
+                $this->sendPushNotification($oracle_user->fcm_token_browser, $notification_data, false);
+            }
+
         }
 
     }
@@ -85,7 +86,7 @@ class CreateProfissionalNotification
         $optionBuilder = new OptionsBuilder();
         $optionBuilder->setTimeToLive(60*20);
 
-        $base_url = \App::environment('local') ? 'http://localhost:38080/#' : 'https://app.isaudavel.com/#';
+        $base_url = \App::environment('local') ? 'http://localhost:8000' : 'https://isaudavel.com/';
 
         $notificationBuilder = new PayloadNotificationBuilder();
         $notificationBuilder->setTitle($payload['title'])

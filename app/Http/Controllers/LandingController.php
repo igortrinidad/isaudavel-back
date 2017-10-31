@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\OracleNotification;
 use App\Models\CompanyInvoice;
 use App\Models\CompanySubscription;
 use App\Models\MealRecipeTag;
@@ -469,155 +470,75 @@ class LandingController extends Controller
 
     public function sendSignupForm(Request $request)
     {
-
-        $address = json_decode($request->get('address'));
-        $categories = json_decode($request->get('categories'));
-        $terms = json_decode($request->get('terms'));
+        $professional_data = json_decode($request->get('professional'), true);
 
         $user_password = rand(101010,999999);
 
-        $professional_exists = Professional::where('email', $request->get('email'))->first();
+        $professional_exists = Professional::where('email', $professional_data['email'])->first();
 
         if($professional_exists){
             flash('<strong>Atenção:</strong> este e-mail já está em uso, por favor escolha outro ou faça o login utilizando o e-mail informado')->error()->important();
-            return redirect()->back()->withInput($request->input());
+            return redirect()->back()->withInput($professional_data);
         }
 
-        $professional_data = [
-            'name' => $request->get('name'),
-            'last_name' => $request->get('last_name'),
-            'email' => $request->get('email'),
-            'slug' => $request->get('slug_professional'),
-            'cpf' => $request->get('cpf'),
-            'phone' => $request->get('phone'),
-            'password' => bcrypt($user_password),
-            'terms' => $terms
-        ];
+        //set user password
+        array_set($professional_data, 'password', bcrypt($user_password));
 
+        $professional = tap(Professional::create($professional_data))->fresh();
 
-        $professional = Professional::create($professional_data);
+        $professional->categories()->attach($professional_data['categories_selected']);
 
-        $professional->categories()->attach($categories);
-
-        $company_data = [
-            'id' => Uuid::generate()->string,
-            'owner_id' => $professional->id,
-            'is_active' => false,
-            'name' => $request->get('company_name'),
-            'slug' => $request->get('slug'),
-            'website' => $request->get('website'),
-            'phone' => $request->get('phone'),
-            'description' => '',
-            'city' => $request->get('city'),
-            'state' => $request->get('state'),
-            'lat' => $request->get('lat'),
-            'lng' => $request->get('lng'),
-            'address' => $address,
-            'terms' => $terms
-        ];
-
-
-        $company = Company::create($company_data);
-
-        $company->categories()->attach($categories);
-
-        $company->professionals()->attach($professional->id, [
-            'is_admin' => true,
-            'is_confirmed' => true,
-            'confirmed_by_id' => $professional->id,
-            'confirmed_by_type' => get_class($professional),
-            'confirmed_at' => Carbon::now()
-        ]);
-
-        $subscription_data = [
-            'company_id' => $company->id,
-            'professionals' => $request->get('professionals'),
-            'categories' => count($categories),
-            'total' => $request->get('total'),
-            'is_active' => false,
-            'start_at' => Carbon::now()->format('d/m/Y'),
-            'expire_at' => Carbon::now()->addMonth(1)->format('d/m/Y')
-        ];
-
-        $company_subscription = CompanySubscription::create($subscription_data);
-
-        // Company Invoice
-        $invoice_items = [
-            [
-                'description' => 'Especialidades da empresa',
-                'item' => 'categories',
-                'quantity' => $company_subscription->categories,
-                'total' => ($company_subscription->categories * 37.90) ,
-                'is_partial' => false,
-                'reference' => 'Referente ao período de '.  Carbon::now()->format('d/m/Y').' à '.Carbon::now()->addMonth(1)->format('d/m/Y')
-            ],
-            [
-                'description' => 'Profissionais da empresa',
-                'item' => 'professionals',
-                'quantity' => $company_subscription->professionals,
-                'total' => (($company_subscription->professionals - 1) * 17.90),
-                'is_partial' => false,
-                'reference' => 'Referente ao período de '.  Carbon::now()->format('d/m/Y').' à '.Carbon::now()->addMonth(1)->format('d/m/Y')
-            ],
-
-        ];
-
-        $invoice_history = [
-            [
-                'full_name' =>'Sistema iSaudavel',
-                'action' => 'invoice-created',
-                'label' => 'Fatura gerada',
-                'date' => Carbon::now()->format('Y-m-d H:i:s')
-            ]
-        ];
-
-        $invoice = CompanyInvoice::create([
-            'company_id' => $company->id,
-            'subscription_id' => $company_subscription->id,
-            'total' => $company_subscription->total,
-            'expire_at' => $company_subscription->expire_at,
-            'items' => $invoice_items,
-            'history' => $invoice_history,
-        ]);
-
-
-        //Email para nós
-        $data = [];
-        $data['align'] = 'left';
-
-        $data['messageTitle'] = 'Novo cadastro iSaudavel';
-        $data['messageOne'] = 'Nome: ' . $request->get('name') .  ' ' . $request->get('last_name');
-        $data['messageTwo'] = 'Email: ' . $request->get('email');
-        $data['messageThree'] = 'Phone: ' . $request->get('phone');
-        $data['messageSubject'] = 'iSaudavel nova empresa: ' . $request->get('company_name');
-
-        \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data){
-            $message->from('no-reply@isaudavel.com', 'Landing iSaudavel');
-            $message->to('contato@maisbartenders.com.br', 'iSaudavel')->subject($data['messageSubject']);
-        });
+        //Notify oracle
+        event(new OracleNotification(['type' => 'new_professional', 'payload' => $professional]));
 
         //Email para cliente
         $data = [];
         $data['align'] = 'center';
-        $data['messageTitle'] = 'Olá, ' . $request->get('name') .  ' ' . $request->get('last_name');
-        $data['messageOne'] = 'Obrigado por se inscrever na plataforma iSaudavel. <br>
-            Vamos processar suas informações e retornamos este email com os próximos passos para habilitar sua empresa na plataforma fitness mais completa do mundo.
-        ';
-        $data['messageTwo'] = 'Confira abaixo os dados para acesso: <br>Usuário:  <strong>'. $request->get('email') .'</strong> | Senha: <strong>'. $user_password .'</strong>';
+        $data['messageTitle'] = 'Olá, ' . $professional->full_name;
+        $data['messageOne'] = 'Obrigado por se inscrever na plataforma iSaudavel. <br>';
+        $data['messageTwo'] = 'Confira abaixo os dados para acesso: <br>Usuário:  <strong>'. $professional->email .'</strong> | Senha: <strong>'. $user_password .'</strong>';
         $data['messageThree'] = 'É muito importante que você altere sua senha no primeiro acesso.';
-        $data['messageFour'] = 'Nos vemos em breve!';
-        $data['messageSubject'] = $request->get('company_name') . ' no iSaudavel';
+        $data['messageFour'] =  '<p>Acesse online em <a href="https://app.isaudavel.com">app.isaudavel.com</a> ou baixe o aplicativo 
+            para <a href="https://play.google.com/store/apps/details?id=com.isaudavel" target="_blank">Android</a> e <a href="https://itunes.apple.com/us/app/isaudavel/id1277115133?mt=8" target="_blank">iOS (Apple)</a></p>';
+        $data['messageSubject'] = $professional->full_name . ' no iSaudavel';
 
-        \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $request){
+        \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $professional){
             $message->from('no-reply@isaudavel.com', 'iSaudavel - sua saúde em boas mãos.');
-            $message->to($request->get('email'), $request->get('name'))->subject($data['messageSubject']);
+            $message->to($professional->email, $professional->full_name)->subject($data['messageSubject']);
         });
 
+        return redirect()->route('landing.signup.success',  ['id' => $professional->id]);
 
-        return redirect('https://app.isaudavel.com/#/login?new=true');
     }
 
+    public function registerCompany()
+    {
+        return view('landing.signup.company-new');
+    }
 
+    public function sendSignupCompany(Request $request)
+    {
+        $company_data = json_decode($request->get('company'), true);
+
+        array_set($company_data, 'id',   Uuid::generate()->string);
+        array_set($company_data, 'is_active', false);
+        array_set($company_data, 'description', '');
+
+        $company = tap(Company::create($company_data))->fresh();
+
+        $company->professionals()->attach($company->owner_id, [
+            'is_admin' => true,
+            'is_confirmed' => true,
+            'confirmed_by_id' => $company->owner_id,
+            'confirmed_by_type' => Professional::class,
+            'confirmed_at' => Carbon::now()
+        ]);
+
+        //Notify oracle
+        event(new OracleNotification(['type' => 'new_company', 'payload' => $company->load('owner')]));
+
+        return redirect()->route('landing.signup.success',  ['company' => 'true']);
+    }
 
     public function terms()
     {

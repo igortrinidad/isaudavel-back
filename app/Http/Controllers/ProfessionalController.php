@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CompanyNotification;
+use App\Events\ProfessionalNotification;
 use App\Models\Category;
 use App\Models\Professional;
 use App\Models\ProfessionalPhoto;
@@ -432,6 +434,9 @@ class ProfessionalController extends Controller
 
             $professional->companies()->attach($request->get('company_id'), ['is_confirmed' => false]);
 
+            //Notify the professional
+            event(new ProfessionalNotification($request->get('professional_id'), ['type' => 'new_company', 'payload' => $request->all()]));
+
             //Envia email para informar usuário da solicitação da empresa
             $data = [];
             $data['align'] = 'center';
@@ -483,6 +488,13 @@ class ProfessionalController extends Controller
                     'confirmed_at' => Carbon::now()
                 ]);
 
+            $professional_company = $professional->companies()->select('id', 'name', 'slug')
+                ->wherePivot('company_id', '=',$request->get('company_id'))
+                ->first();
+
+            //Notify the company
+            event(new CompanyNotification($request->get('company_id'), ['type' => 'professional_accept', 'payload' => ['company' =>  $professional_company, 'professional' => $professional]]));
+
             return response()->json(['message' => 'OK', 'companies' => $professional->companies]);
         }
 
@@ -505,8 +517,14 @@ class ProfessionalController extends Controller
         $professional = Professional::find($request->get('professional_id'));
 
         if($professional){
+            $professional_company = $professional->companies()->select('id', 'name', 'slug')
+                ->wherePivot('company_id', '=',$request->get('company_id'))
+                ->first();
 
             $professional->companies()->detach($request->get('company_id'));
+
+            //Notify the company
+            event(new CompanyNotification($request->get('company_id'), ['type' => 'professional_remove_company', 'payload' => ['company' =>  $professional_company, 'professional' => $professional]]));
 
             return response()->json(['message' => 'OK', 'companies' => $professional->companies]);
         }

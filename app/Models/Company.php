@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Traits\Uuids;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Company extends Model
 {
 
-    use SoftDeletes;
+    use SoftDeletes, Sluggable;
 
     /**
      * The table associated with the model.
@@ -48,9 +49,9 @@ class Company extends Model
         'lng',
         'city',
         'state',
-        'terms'
+        'terms_accepted',
+        'terms_accepted_at'
     ];
-
 
     /**
      * The attributes that should be cast to native types.
@@ -64,9 +65,22 @@ class Company extends Model
         'address' => 'json',
         'lat' => 'float',
         'lng' => 'float',
-        'terms' => 'json',
+        'terms_accepted' => 'boolean',
     ];
 
+    /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => 'name'
+            ]
+        ];
+    }
 
     /**
      * The accessors to append to the model's array.

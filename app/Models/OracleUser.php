@@ -32,7 +32,7 @@ class OracleUser extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'last_name', 'email', 'password'
+        'name', 'last_name', 'email', 'password', 'fcm_token_mobile', 'fcm_token_browser'
     ];
 
     /**

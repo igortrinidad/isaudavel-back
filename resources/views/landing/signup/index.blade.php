@@ -33,7 +33,11 @@
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-body card-padding">
-                                <form class="" action="index.html" method="post">
+
+                                {{--Alert display--}}
+                                @include('flash::message')
+
+                                <form id="signup-form" method="POST" action="{{route('landing.professionals.send-signup-form')}}">
 
                                     {{csrf_field()}}
 
@@ -56,7 +60,7 @@
 
                                     <div class="form-group m-b-0">
                                         <label for="signup-phone" class="cursor-pointer">Telefone*</label>
-                                        <input id="signup-phone" class="form-control" type="text" v-model="professional.phone" placeholder="Telefone">
+                                        <input id="signup-phone" class="form-control" type="text" v-model="professional.phone" placeholder="Telefone" value="{{old('phone')}}">
                                     </div>
 
                                     <div class="form-group m-b-0">
@@ -84,12 +88,9 @@
                                         </label>
                                     </div>
 
-                                    <pre>@{{professional}}</pre>
+                                    <input type="hidden" name="professional" v-model="professional_parsed">
 
-                                    <input type="hidden" name="categories_selected[]" v-model="professional.categories_selected">
-                                    <input type="hidden" name="terms_accepted" v-model="professional.terms_accepted">
-                                    <input type="hidden" name="terms_accepted_at" v-model="professional.terms_accepted_at">                         
-                                    <button type="submit" class="btn btn-sm btn-block btn-success m-t-20 f-16" name="button" title="Cadastrar" :disabled="!professional.name || !professional.last_name || !professional.email || !professional.phone || !professional.categories_selected.length || !professional.terms_accepted">Cadastrar</button>
+                                    <button type="submit" class="btn btn-sm btn-block btn-success m-t-20 f-16" title="Cadastrar" @click.prevent="submit" :disabled="!professional.name || !professional.last_name || !professional.email || !professional.phone || !professional.categories_selected.length || !professional.terms_accepted">Cadastrar</button>
 
                                 </form>
                             </div>
@@ -129,8 +130,9 @@
                             categories_selected: [],
                             terms_accepted: false,
                             terms_accepted_at: '',
-                        }
-                    }                    
+                        },
+                        professional_parsed: ''
+                    }
                 },
                 mounted: function () {
 
@@ -175,6 +177,13 @@
                             
                         },100)
 
+                    },
+
+                    submit (){
+                        this.professional_parsed = JSON.stringify(this.professional)
+                        setTimeout(() =>{
+                            document.getElementById("signup-form").submit();
+                        }, 100)
                     }
                 }
             })

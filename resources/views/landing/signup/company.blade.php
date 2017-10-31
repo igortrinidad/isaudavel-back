@@ -149,7 +149,7 @@
                        </div>
 
                         <div class="entry-field">
-                            <label>Especialidades (R$37,90 / especialidade)</label>
+                            <label>Especialidades (R$57,90 / especialidade)</label>
                             <multiselect
                                 v-model="category"
                                 :options="categories"
@@ -406,7 +406,7 @@
 
                     calcValue: function(ev){
 
-                        var cost_categories = this.category.length * 37.90;
+                        var cost_categories = this.category.length * 57.90;
 
 
                         if(isNaN(this.professionals) || this.professionals == 0){

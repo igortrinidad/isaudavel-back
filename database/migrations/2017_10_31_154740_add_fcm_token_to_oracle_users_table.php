@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddFcmTokenFieldsToProfessionalsTable extends Migration
+class AddFcmTokenToOracleUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class AddFcmTokenFieldsToProfessionalsTable extends Migration
      */
     public function up()
     {
-        Schema::table('professionals', function (Blueprint $table) {
+        Schema::table('oracle_users', function (Blueprint $table) {
             $table->string('fcm_token_mobile')->nullable()->after('remember_token');
             $table->string('fcm_token_browser')->nullable()->after('fcm_token_mobile');
         });
@@ -26,7 +26,7 @@ class AddFcmTokenFieldsToProfessionalsTable extends Migration
      */
     public function down()
     {
-        Schema::table('professionals', function (Blueprint $table) {
+        Schema::table('oracle_users', function (Blueprint $table) {
             $table->dropColumn('fcm_token_mobile');
             $table->dropColumn('fcm_token_browser');
         });

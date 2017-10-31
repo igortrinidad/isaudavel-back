@@ -70,6 +70,36 @@
             </div>
             {{-- End Form Container --}}
 
+
+            @if(request()->query('company') != 'true' )
+                <div class="row m-b-30">
+                    <div class="text-center">
+                        <h2>Possui uma empresa?</h2>
+                        <span class="f-300">Cadastre sua empresa e deixe que os usuários do iSaudavel encontrem você.</span>
+                    </div>
+
+                    <div class="text-center wow m-t-30">
+                        <a class="btn btn-primary btn-lg" href="{{route('landing.signup.company', ['id' => request()->query('id')])}}">Cadastrar minha empresa</a>
+                    </div>
+                </div>
+            @endif
+
+            <div class="row">
+                <div class="card">
+                    <div class="card-body card-padding">
+                        <div class="text-center">
+                            <h2>Download</h2>
+                            <span class="f-300">Faça o download do iSaudavel, disponível para Iphone, Android.</span>
+                        </div>
+
+                        <div class="text-center wow m-t-30">
+                            <a href="https://itunes.apple.com/us/app/isaudavel/id1277115133?mt=8" target="_blank" class="m-r-5" title="Download para Iphone"><img src="/images/app_store_btn.png" alt=""></a>
+                            <a href="https://play.google.com/store/apps/details?id=com.isaudavel" target="_blank" title="Download para Android"><img src="/images/play_store_btn.png" alt=""></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
     </section>

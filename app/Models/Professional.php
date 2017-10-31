@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Traits\Uuids;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject as JWTSubject;
@@ -11,7 +12,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Professional extends Authenticatable implements JWTSubject
 {
-    use Notifiable, Uuids, SoftDeletes;
+    use Notifiable, Uuids, SoftDeletes, Sluggable;
+
 
     /**
      * The table associated with the model.
@@ -44,15 +46,31 @@ class Professional extends Authenticatable implements JWTSubject
         'remember_token',
         'fcm_token_mobile',
         'fcm_token_browser',
-        'terms'
+        'terms_accepted',
+        'terms_accepted_at'
     ];
+
+    /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => ['name', 'last_name'],
+                'separator' => '-'
+            ]
+        ];
+    }
 
     /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
-    protected $casts = ['terms' => 'json'];
+    protected $casts = ['terms_accepted' => 'boolean'];
 
     /**
      * The attributes that should be hidden for arrays.

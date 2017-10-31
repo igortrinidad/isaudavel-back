@@ -179,9 +179,13 @@ Route::group(['prefix' => 'article'], function(){
 /*
  * Oracle
  */
-/*
+
 Route::group(['prefix' => 'oracle'], function () {
-    Route::post('/auth/login', 'Auth\OracleLoginController@login');
+
+    Route::post('/fcm_token', 'OracleUserController@fcmToken');
+
+
+    /*Route::post('/auth/login', 'Auth\OracleLoginController@login');
 
     Route::post('/tools/send_log_erro', 'SystemController@send_log_erro');
 
@@ -223,9 +227,9 @@ Route::group(['prefix' => 'oracle'], function () {
 
         //profile update
         Route::post('/user/update', 'OracleUserController@update');
-    });
+    });*/
 });
-*/
+
 
 Route::get('/fcm_test', function(){
 
@@ -234,21 +238,22 @@ Route::get('/fcm_test', function(){
     $optionBuilder->setTimeToLive(60*20);
 
     $notificationBuilder = new \LaravelFCM\Message\PayloadNotificationBuilder();
-    $notificationBuilder->setTitle('Novo agendamento')
-        ->setBody('Você tem um novo agendamento')
+    $notificationBuilder->setTitle('iSaudavel Oracle')
+        ->setBody('Hello from Firebase')
         ->setSound('default')
         ->setIcon('https://app.isaudavel.com/static/assets/img/icons/icon_g.png')
         ->setClickAction('FCM_PLUGIN_ACTIVITY');
 
     $dataBuilder = new \LaravelFCM\Message\PayloadDataBuilder();
     $dataBuilder->addData(['icon' => 'https://app.isaudavel.com/static/assets/img/icons/icon_g.png']);
-    $dataBuilder->addData(['content' => 'Você tem um novo agendamento']);
+    $dataBuilder->addData(['title' => 'iSaudavel Oracle']);
+    $dataBuilder->addData(['content' => 'Hello from Firebase']);
 
     $option = $optionBuilder->build();
     $notification = $notificationBuilder->build();
     $data = $dataBuilder->build();
 
-    $token = "cFb7nxXWMgM:APA91bG9Y7WeGAJgnW7TsAn42g_FFKv0Qs_EgWmxjM86V4lubT79MTLYZkJahp-x8eBzcti5MdncJa-1Vwuz1Ow__6FWonUFj4--ajNI7XF0xtAC5E4IDIZjDyfme08-GCL2IYVEXbqX";
+    $token = "cb-dQHtp0Hs:APA91bFDfLemmMg3LwJSMR6POsUW1MDWTjRZoWuX9sAN1OtGYEJZzXwZOieVCZoiN0oh_O9PmVDmqlGVpDer2SomFZnIVxiFL6FR6mRC7sDEMhXVs0_gZIlnBooBnmtaYQRolAqRc0ir";
     $downstreamResponse = \FCM::sendTo($token, $option, $notification, $data);
 
     dd($downstreamResponse);

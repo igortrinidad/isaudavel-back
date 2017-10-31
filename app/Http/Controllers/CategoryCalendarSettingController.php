@@ -140,10 +140,12 @@ class CategoryCalendarSettingController extends Controller
 
         $schedules = Schedule::where('company_id', $request->get('company_id'))
             ->where('category_id', $request->get('category_id'))
+            ->where('is_canceled', false)
             ->where('date', $request->get('date'))->orderBy('time')->get();
 
         $single_schedules = SingleSchedule::where('company_id', $request->get('company_id'))
             ->where('category_id', $request->get('category_id'))
+            ->where('is_canceled', false)
             ->where('date', $request->get('date'))
             ->with('professional', 'client')
             ->orderBy('date')
