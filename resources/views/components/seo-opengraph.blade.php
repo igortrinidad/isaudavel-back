@@ -22,21 +22,6 @@
 	<meta name="robots" content="index, follow">
 	<link rel="canonical" href="{{$current_url}}" />
 
-@if($routeName == 'landing.index' || $routeName == 'landing.clients.about' || $routeName == 'landing.professionals.about')
-<!-- LANDING INDEX -->
-	
-	<title>iSaudavel - A sua saúde em boas mãos</title> 
-    <meta name="description" content="No iSaudavel você encontrará profissionais especializados em sua saúde como personal trainer, nutricionista, estúdios de pilates, academia, fisioterapia, crossfit e diversas clínicas de saúde e bem estar - todos unidos em só lugar e você poderá compartilhar as principais informações sobre sua saúde e objetivos com esses profissionais, que juntos irão te ajudar a atingir seus objetivos de saúde, estética e bem estar."> 
- 
-
-	<meta property="og:url" content="https://isaudavel.com">
-	<meta property="og:title" content="iSaudavel">
-	<meta property="og:description" content="iSaudavel é uma ferramenta para conectar você e os melhores profissionais para cuidar da sua saúde.">
-	<meta property="og:image" content="https://s3.amazonaws.com/isaudavel-assets/preview_post2.png">
-	<meta property="og:image:type" content="image/png">
-
-@endif
-
 @if($routeName == 'landing.search.index')
 
 	<script type="application/ld+json">
@@ -85,9 +70,8 @@
 				}
 			</script>
 	@endif
-@endif
 
-@if($routeName == 'landing.professionals.search')
+@elseif($routeName == 'landing.professionals.search')
 <!-- LANDING PROFESSIONAL SEARCH -->
 	<script type="application/ld+json">
 		{
@@ -121,9 +105,8 @@
 		  	"url": "https://isaudavel.com"
 		}
 	</script>
-@endif
 
-@if($routeName == 'landing.companies.show')
+@elseif($routeName == 'landing.companies.show')
 <!-- COMPANIES SHOW -->
 
 	<title>{{$company_fetched->name}} no iSaudavel</title> 
@@ -209,9 +192,8 @@
 
 		?>
 	</script>
-@endif
 
-@if($routeName == 'landing.professionals.show')
+@elseif($routeName == 'landing.professionals.show')
 <!-- PROFESSIONAL SHOW -->
 
 	<title>{{$professional_fetched->full_name}} no iSaudavel</title> 
@@ -295,9 +277,8 @@
 
 		?>
 		</script>
-@endif
 
-@if($routeName == 'landing.events.show')
+@elseif($routeName == 'landing.events.show')
 <!-- EVENT INDEX -->
 
 	<title>{{$event_fetched->name}} no iSaudavel</title> 
@@ -339,9 +320,7 @@
 		?>
 		</script>
 
-@endif
-
-@if($routeName == 'landing.recipes.show')
+@elseif($routeName == 'landing.recipes.show')
 <!-- RECIPE INDEX -->
 
 	<title>{{$recipe_fetched->title}} - iSaudavel</title> 
@@ -394,9 +373,7 @@
      }
    </script>
 
-@endif
-
-@if($routeName == 'landing.articles.show')
+@elseif($routeName == 'landing.articles.show')
 <!-- ARTICLE INDEX -->
 
 	<title>{{$article_fetched->title}} - iSaudavel</title> 
@@ -439,6 +416,31 @@
 	}
 	</script>
 
+@else($routeName == 'landing.index' || $routeName == 'landing.clients.about' || $routeName == 'landing.professionals.about')
+<!-- LANDING INDEX -->
+	
+	<title>iSaudavel - A sua saúde em boas mãos</title> 
+    <meta name="description" content="No iSaudavel você encontrará profissionais especializados em sua saúde como personal trainer, nutricionista, estúdios de pilates, academia, fisioterapia, crossfit e diversas clínicas de saúde e bem estar - todos unidos em só lugar e você poderá compartilhar as principais informações sobre sua saúde e objetivos com esses profissionais, que juntos irão te ajudar a atingir seus objetivos de saúde, estética e bem estar."> 
+ 
+	<meta property="og:url" content="https://isaudavel.com">
+	<meta property="og:title" content="iSaudavel">
+	<meta property="og:description" content="iSaudavel é uma ferramenta para conectar você e os melhores profissionais para cuidar da sua saúde.">
+	<meta property="og:image" content="https://s3.amazonaws.com/isaudavel-assets/preview_post2.png">
+	<meta property="og:image:type" content="image/png">
+
+	<script type="application/ld+json">
+		{
+		  "@context": "http://schema.org",
+		  "@type": "WebSite",
+		  "url": "https://isaudavel.com/",
+		  "potentialAction": {
+		    "@type": "SearchAction",
+		    "target": "https://isaudavel.com/buscar?q={search_term_string}",
+		    "query-input": "required name=search_term_string"
+		  }
+		}
+
+	</script>
 
 @endif
 

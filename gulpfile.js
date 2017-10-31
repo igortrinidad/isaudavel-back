@@ -83,6 +83,7 @@ elixir(function(mix) {
         '../prelaunch/js/plugins.js',
         '../prelaunch/js/wow.min.js',
         '../landing/js/main.js',
+        '../landing/js/prototypes.js',
 
     ], 'public/build/landing/js/build_vendors_custom.js');
 
