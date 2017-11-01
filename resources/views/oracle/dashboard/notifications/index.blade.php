@@ -94,14 +94,6 @@
 @endsection
 
 @section('scripts')
-
-    created() {
-
-    },
-    beforeDestroy() {
-    this.$eventHub.$off('logged-in');
-    },
-
     <script>
         var moment = window.moment
 
