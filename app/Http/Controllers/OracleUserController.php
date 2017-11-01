@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\OracleNotification;
 use App\Models\OracleUser;
 use Illuminate\Http\Request;
 
@@ -164,5 +165,18 @@ class OracleUserController extends Controller
         }
 
         return response()->json(['message' => 'success']);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function status(Request $request)
+    {
+        $unreaded_notifications = OracleNotification::where('oracle_user_id', $request->get('oracle_user_id'))->where('is_readed', false)->count();
+
+        return response()->json([
+            'unreaded_notifications' => $unreaded_notifications
+        ]);
     }
 }

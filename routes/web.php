@@ -84,10 +84,10 @@ Route::group(['as' => 'landing.'], function () {
 
 	Route::group(['prefix' => 'cadastro', 'as' => 'signup'], function() {
         Route::get('/', ['uses' => 'LandingController@registerUser', 'as' => 'signup']);
+        Route::get('/cadastro-ok', ['uses' => 'LandingController@registerSuccess', 'as' => '.success']);
         Route::get('/empresa', ['uses' => 'LandingController@registerCompany', 'as' => '.company']);
         Route::post('/store-company', ['uses' => 'LandingController@sendSignupCompany', 'as' => '.company.store']);
-        Route::get('/confirme-seu-email', ['uses' => 'LandingController@registerMessageToConfirmAccount', 'as' => '.success']);
-		Route::get('/finalizar', ['uses' => 'LandingController@registerSelectType', 'as' => 'signup']);
+		Route::get('/finalizar', ['uses' => 'LandingController@registerSelectType', 'as' => '.plan.chooser']);
 	});
 
 	//Professionals
@@ -112,7 +112,7 @@ Route::group(['as' => 'landing.'], function () {
 //Professionals
 Route::group(['prefix' => 'profissional', 'as' => 'professional.'], function () {
 
-    Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.', 'middleware' => ['auth:professional_web', 'check.owner']], function () {
+    Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.', 'middleware' => ['auth:professional_web']], function () {
         Route::get('/empresas', ['uses' => 'DashboardController@companiesIndex', 'as' => 'companies.list']);
         Route::get('/empresas/{id}', ['uses' => 'DashboardController@companyShow', 'as' => 'company.show']);
         Route::get('/empresas/{id}/faturas', ['uses' => 'DashboardController@invoicesList', 'as' => 'invoices.list']);
@@ -134,6 +134,8 @@ Route::group(['prefix' => 'oracle', 'as' => 'oracle.'], function () {
     Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.', 'middleware' => ['auth:oracle_web']], function () {
 
         Route::get('/', ['uses' => 'OracleController@index', 'as' => 'home']);
+
+        Route::get('/follow-up', ['uses' => 'OracleController@followUp', 'as' => 'follow-up']);
 
         //companies
         Route::group(['prefix' => 'empresas', 'as' => 'companies.'], function () {
@@ -211,6 +213,8 @@ Route::group(['prefix' => 'oracle', 'as' => 'oracle.'], function () {
         //Oracle
         Route::group(['prefix' => 'administradores', 'as' => 'oracles.'], function () {
             Route::get('/', ['uses' => 'OracleController@oraclesList', 'as' => 'list']);
+            Route::get('/criar', ['uses' => 'OracleController@newOracle', 'as' => 'create']);
+            Route::post('store', ['uses' => 'OracleController@StoreNewOracle', 'as' => 'store']);
             Route::get('exibir/{id}', ['uses' => 'OracleController@oracleShow', 'as' => 'show']);
             Route::post('update', ['uses' => 'OracleController@oracleUpdate', 'as' => 'update']);
         });
@@ -233,6 +237,7 @@ Route::group(['prefix' => 'oracle', 'as' => 'oracle.'], function () {
 
 
         Route::get('/meu-perfil', ['uses' => 'OracleController@profileShow', 'as' => 'profile.show']);
+        Route::get('/notificacoes', ['uses' => 'OracleController@notifications', 'as' => 'notifications.show']);
 
         Route::post('/logout', ['uses' => 'Auth\OracleLoginController@logout', 'as' => 'logout']);
     });

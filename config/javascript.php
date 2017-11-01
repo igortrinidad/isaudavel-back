@@ -30,6 +30,7 @@ return [
         'landing.events.list',
         'oracle.dashboard.modalities.list',
         'oracle.dashboard.modalities.edit',
+        'oracle.dashboard.notifications.index'
     ],
 
     /*

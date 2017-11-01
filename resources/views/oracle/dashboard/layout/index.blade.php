@@ -94,6 +94,9 @@
 
         }
 
+        [v-cloak] {
+            display:none;
+        }
 
     </style>
 
@@ -119,6 +122,10 @@
 <script src="https://www.gstatic.com/firebasejs/3.7.2/firebase.js"></script>
 
 <script>
+    Vue.prototype.$eventBus = new Vue(); // Global event bus
+
+    const vueOracle = new Vue()
+
     var config = {
         messagingSenderId: "823793769083"
     };
@@ -149,6 +156,7 @@
 
                 return messaging.onMessage(function (payload) {
                     notificationHandler(payload.data)
+                    vueOracle.$eventBus.$emit('increment-counter', 1)
                 });
             })
                 .catch((err) => {
@@ -226,6 +234,8 @@
     }
 
 </script>
+@section('navbar-scripts')
+@show
 
 @section('scripts')
 @show

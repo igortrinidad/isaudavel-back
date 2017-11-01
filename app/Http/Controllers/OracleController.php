@@ -8,6 +8,7 @@ use App\Models\ClientSubscription;
 use App\Models\CompanyInvoice;
 use App\Models\CompanySubscription;
 use App\Models\Modality;
+use App\Models\OracleNotification;
 use App\Models\OracleUser;
 use App\Models\Event;
 use App\Models\MealRecipe;
@@ -823,5 +824,69 @@ class OracleController extends Controller
 
         return response()->json(['message' => 'modality removed']);
     }
+
+
+    /**
+     * Notificações do usuário
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function notifications()
+    {
+       $notifications = OracleNotification::where('oracle_user_id', \Auth::user()->id)
+       ->orderByDesc('created_at')
+       ->paginate(10);
+
+        \JavaScript::put(['notifications' => $notifications]);
+
+        return view('oracle.dashboard.notifications.index', compact('notifications'));
+    }
+
+    /**
+     * Notificações do usuário
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function followUp()
+    {
+        $latest_professionals = Professional::latest('created_at')->take(10)->get();
+        $latest_companies = Company::latest('created_at')->take(10)->get();
+
+        return view('oracle.dashboard.follow-up.index', compact('latest_professionals', 'latest_companies'));
+    }
+
+    /**
+     * Criar usuário oracle
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function newOracle()
+    {
+        return view('oracle.dashboard.oracles.create');
+    }
+
+    /**
+     * Salva usuário oracle
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function StoreNewOracle(Request $request)
+    {
+        if($request->has('password') && !empty($request->get('password')))
+        {
+            if($request->get('password') != $request->get('confirm_password')){
+                flash('As senhas devem ser iguais.')->error()->important();
+                return redirect()->back()->withInput($request->except(['password', 'confirm_password']));
+            }
+
+            $password = bcrypt($request->get('password'));
+
+            $request->merge(['password' => $password]);
+        }
+
+        $oracle_user = OracleUser::create($request->all());
+
+        flash('Administrador adicionado com sucesso')->success()->important();
+
+        return redirect()->route('oracle.dashboard.oracles.list');
+    }
+
 
 }

@@ -27,6 +27,7 @@
 
                         <form class="contact-form" method="POST" action="{{route('landing.professionals.post-login')}}">
                             {!! csrf_field() !!}
+                            <input type="hidden" name="redirect" value="{{request()->query('redirect')}}">
 
                             <div class="entry-field">
                                 <label>E-mail</label>

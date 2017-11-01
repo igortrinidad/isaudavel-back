@@ -48,6 +48,12 @@ class ProfessionalLoginController extends Controller
 
         if (Auth::guard('professional_web')->attempt($credentials)) {
 
+
+            //Check if has redirect
+            if($request->get('redirect')){
+                return redirect()->intended($request->get('redirect'));
+            }
+
             return redirect()->intended('profissional/dashboard/empresas');
 
         }else{

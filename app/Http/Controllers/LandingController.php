@@ -27,7 +27,6 @@ use Webpatser\Uuid\Uuid;
 class LandingController extends Controller
 {
 
-
     /**
      * Index
      *
@@ -162,9 +161,8 @@ class LandingController extends Controller
 
     }
 
-
     /**
-     * Index
+     * Lista dos eventos
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
@@ -260,11 +258,10 @@ class LandingController extends Controller
 
     }
 
-
     /**
-     * Index teste
+     * Show da empresa
      *
-     * @param Request $request
+     * @param $slug
      * @return \Illuminate\Http\Response
      */
     public function showCompany($slug)
@@ -281,6 +278,10 @@ class LandingController extends Controller
         abort(404);
     }
 
+    /** Show do evento
+     * @param $slug
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function ShowEvent($slug)
     {
         $event_fetched = Event::where('slug', $slug)->with(['participants' => function($query){
@@ -363,7 +364,7 @@ class LandingController extends Controller
     /**
      * Show recipe
      *
-     * @param Request $request
+     * @param $slug
      * @return \Illuminate\Http\Response
      */
     public function ShowRecipe($slug)
@@ -380,9 +381,9 @@ class LandingController extends Controller
     }
 
     /**
-     * Index teste
+     * Show do profissional
      *
-     * @param Request $request
+     * @param $slug
      * @return \Illuminate\Http\Response
      */
     public function showProfessional($slug)
@@ -397,9 +398,8 @@ class LandingController extends Controller
     }
 
     /**
-     * Index teste
+     * Criar empresa
      *
-     * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function createCompany()
@@ -407,10 +407,9 @@ class LandingController extends Controller
         return view('landing.companies.create');
     }
 
-        /**
-     * Index teste
+    /**
+     * Login profissional
      *
-     * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function showProfessionalLogin()
@@ -418,8 +417,12 @@ class LandingController extends Controller
         return view('landing.auth.login');
     }
 
-    // PS: Não sei se é o correto mas assim functionou haha
-    public function forClientLanding(Request $reques)
+    /**
+     * View para clientes
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function forClientLanding()
     {
         $recipes = MealRecipe::with('from')->orderBy('created_at', 'DESC')->limit(8)->get();
         $companies = Company::with('categories')->limit(8)->get();
@@ -429,6 +432,11 @@ class LandingController extends Controller
         return view('landing.home.for-client', compact('companies', 'events', 'recipes', 'articles'));
     }
 
+    /**
+     * Show do client
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function showClient($id)
     {
         $client_fetched = Client::where('id', $id)->with(['companies', 'activities'])->first();
@@ -440,6 +448,11 @@ class LandingController extends Controller
         abort(404);
     }
 
+    /**
+     * View para profissionais
+     * @param Request $reques
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function forProfessionalsLanding(Request $reques)
     {
         $recipes = MealRecipe::with('from')->orderBy('created_at', 'DESC')->limit(8)->get();
@@ -450,24 +463,29 @@ class LandingController extends Controller
         return view('landing.home.for-professional', compact('companies', 'events', 'recipes', 'articles'));
     }
 
+    /** Cadastro profissional (acho que será removido)
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function registerProfessional()
     {
         return view('landing.signup.company');
     }
 
-    // End New Routes To Signup
+    /**
+     * Novo cadastro do profissional (funil)
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function registerUser()
     {
         return view('landing.signup.index');
     }
-    public function registerMessageToConfirmAccount() {
-        return view('landing.signup.confirm');
-    }
-    public function registerSelectType() {
-        return view('landing.signup.select-type');
-    }
-    // End New Routes To Signup
 
+    /**
+     * Store do profissional
+     *
+     * @param Request $request
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
     public function sendSignupForm(Request $request)
     {
         $professional_data = json_decode($request->get('professional'), true);
@@ -496,7 +514,39 @@ class LandingController extends Controller
         $data['align'] = 'center';
         $data['messageTitle'] = 'Olá, ' . $professional->full_name;
         $data['messageOne'] = 'Obrigado por se inscrever na plataforma iSaudavel. <br>';
-        $data['messageTwo'] = 'Confira abaixo os dados para acesso: <br>Usuário:  <strong>'. $professional->email .'</strong> | Senha: <strong>'. $user_password .'</strong>';
+        $data['messageTwo'] = 'Confira abaixo os dados para acesso: <br>Usuário:  <strong>'. $professional->email .'</strong> | Senha: <strong>'. $user_password .'</strong> <br>
+        <tr>
+            <td style="padding: 20px; text-align: center; max-width: 80% !important; background-color: rgb(255, 255, 255);"
+                align="center">
+                <center>
+                    <h3>Escolha um plano</h3>
+                    <p>Selecione um plano e gerencie seus clientes de maneira rápida e inteligente.</p><br>
+                    <a style="transition: all 100ms ease-in; display: block; font-weight: bold; text-align: center; margin: 10px 10px 10px; text-decoration: none; max-width: 80% !important; background-color: rgb(255, 255, 255);"
+                       class="button-a" align="center"
+                       href="'.env('APP_URL').'/cadastro/finalizar?professional='.$professional->id.'">
+                        <span style="color: rgb(255, 255, 255); border-color: #69A7BE; background-color: #69A7BE; width: 200px; height: 70px; border-radius: 5px; border-width: 5px; font-size: 20px; padding: 15px 30px 15px 30px; margin: 30px 10px;">
+                            Escolher um plano
+                        </span>
+                    </a>
+                </center>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 20px; text-align: center; max-width: 80% !important; background-color: rgb(255, 255, 255);"
+                align="center">
+                <center>
+                    <h3>Possui uma empresa?</h3>
+                    <p>Cadastre sua empresa e deixe que os usuários do iSaudavel encontrem você.</p><br>
+                    <a style="transition: all 100ms ease-in; display: block; font-weight: bold; text-align: center; margin: 10px 10px 10px; text-decoration: none; max-width: 80% !important; background-color: rgb(255, 255, 255);"
+                       class="button-a" align="center"
+                       href="'.env('APP_URL').'/cadastro/empresa?id='.$professional->id.'">
+                        <span style="color: #fff; border-color: #88C657; background-color: #88C657; width: 200px; height: 70px; border-radius: 5px; border-width: 5px; font-size: 20px; padding: 15px 30px 15px 30px; margin: 30px 10px;">
+                            Cadastre sua empresa agora
+                        </span>
+                    </a>
+                </center>
+            </td>
+        </tr>';
         $data['messageThree'] = 'É muito importante que você altere sua senha no primeiro acesso.';
         $data['messageFour'] =  '<p>Acesse online em <a href="https://app.isaudavel.com">app.isaudavel.com</a> ou baixe o aplicativo 
             para <a href="https://play.google.com/store/apps/details?id=com.isaudavel" target="_blank">Android</a> e <a href="https://itunes.apple.com/us/app/isaudavel/id1277115133?mt=8" target="_blank">iOS (Apple)</a></p>';
@@ -511,11 +561,28 @@ class LandingController extends Controller
 
     }
 
+    /** View de agradecimento / sucesso (fase 2 funil)
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function registerSuccess()
+    {
+        return view('landing.signup.confirm');
+    }
+
+    /** View adicionar empresa
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function registerCompany()
     {
         return view('landing.signup.company-new');
     }
 
+    /**
+     * Store da company
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function sendSignupCompany(Request $request)
     {
         $company_data = json_decode($request->get('company'), true);
@@ -525,6 +592,10 @@ class LandingController extends Controller
         array_set($company_data, 'description', '');
 
         $company = tap(Company::create($company_data))->fresh();
+
+        $professional = Professional::find($company->owner_id);
+
+        $company->categories()->attach($professional->categories);
 
         $company->professionals()->attach($company->owner_id, [
             'is_admin' => true,
@@ -537,36 +608,76 @@ class LandingController extends Controller
         //Notify oracle
         event(new OracleNotification(['type' => 'new_company', 'payload' => $company->load('owner')]));
 
-        return redirect()->route('landing.signup.success',  ['company' => 'true']);
+        return redirect()->route('landing.signup.plan.chooser',  ['professional' => $professional->id, 'company' => $company->id]);
     }
 
+    /**
+     * View seleção do tipo do plano (fase 3 funil)
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function registerSelectType()
+    {
+        return view('landing.signup.select-type');
+    }
+
+    /**
+     * Termos de uso
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function terms()
     {
         return view('landing.home.terms');
     }
 
+    /**
+     * Privacidade
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function privacy()
     {
         return view('landing.home.privacy');
     }
 
+    /**
+     * Mensagem de sucesso cadastro (acho que será removido)
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function signupSuccess()
     {
         return view('landing.signup.success');
     }
 
-    public function invitedChoice(Request $reques)
+    /**
+     * Escolha tipo de convite
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function invitedChoice()
     {
         $companies = Company::with('categories')->limit()->get();
 
         return view('landing.invite.index', compact('companies'));
     }
 
+    /**
+     * View cliente convidado
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function invitedClient()
     {
         return view('landing.signup.invited-client');
     }
 
+    /**
+     * Store cliente
+     *
+     * @param Request $request
+     * @return $this|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function signupClient(Request $request)
     {
         $terms = json_decode($request->get('terms'));
@@ -601,11 +712,22 @@ class LandingController extends Controller
         return redirect('https://app.isaudavel.com/#/cliente/login?new=true');
     }
 
+    /**
+     * View profissional convidado
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function invitedProfessional()
     {
         return view('landing.signup.invited-professional');
     }
 
+
+    /**
+     * Store profissional
+     * @param Request $request
+     * @return $this|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function signupProfessional(Request $request)
     {
         $categories = json_decode($request->get('categories'));
@@ -645,9 +767,13 @@ class LandingController extends Controller
     }
 
 
+    /**
+     * Envio do formulario de contato
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function sendContactForm(Request $request)
     {
-
         //Email
         $data = [];
         $data['align'] = 'left';
@@ -681,7 +807,5 @@ class LandingController extends Controller
 
         return redirect()->back();
     }
-
-
 
 }

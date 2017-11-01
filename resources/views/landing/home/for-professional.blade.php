@@ -166,7 +166,7 @@
                     <div class="card wow fadeInUp">
                         <div class="card-header ch-alt text-center">
                             <h4 class="f-300">Assinatura</h4>
-                            <span class="price"><span class="currency-symbol">R$</span><span class="best">37,90</span> <span class="duration">/mês</span></span>
+                            <span class="price"><span class="currency-symbol">R$</span><span class="best">57,90</span> <span class="duration">/mês</span></span>
                             <br>
                             a partir
                         </div>
@@ -176,7 +176,7 @@
                                     <i class="ion-ios-checkmark-empty m-r-5 f-18"></i>
                                         1 especialidade
                                         <br>
-                                        <span class="f-12">R$37,90 / especialidade adicional / mês</span>
+                                        <span class="f-12">R$57,90 / especialidade adicional / mês</span>
                                 </li>
                                 <li class="plan-item f-300">
                                     <i class="ion-ios-checkmark-empty m-r-5 f-18"></i>

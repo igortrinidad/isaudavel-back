@@ -98,12 +98,13 @@ class OracleNotificationController extends Controller
     /**
      * Mark all notifications as readed.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function markAllReaded()
+    public function markAllReaded(Request $request)
     {
 
-        $notifications = OracleNotification::where('oracle_user_id', \Auth::user()->id)
+        $notifications = OracleNotification::where('oracle_user_id', $request->get('id'))
             ->where('is_readed', false)
             ->get();
 

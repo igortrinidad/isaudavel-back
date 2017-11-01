@@ -17,7 +17,10 @@
         <nav class="collapse navbar-collapse" id="navbar">
             <ul class="nav navbar-nav navbar-right">
                 <li class="{{ getActiveRoute('landing.index') }}"><a href="{!! route('landing.index') !!}">Home</a></li>
+
                 <li class="{{ getActiveRoute('oracle.dashboard.companies.list') }}"><a href="{!! route('oracle.dashboard.companies.list') !!}">Empresas</a></li>
+
+                <li class="{{ getActiveRoute('oracle.dashboard.follow-up') }}"><a href="{!! route('oracle.dashboard.follow-up') !!}">Follow-up</a></li>
 
                 <li class="{{ getActiveRoute('oracle.dashboard.events.list') }}"><a href="{!! route('oracle.dashboard.events.list') !!}">Eventos</a></li>
 
@@ -50,11 +53,15 @@
 
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                        {{ Auth::guard('oracle_web')->user()->full_name }} <span class="caret"></span>
+                        {{ Auth::guard('oracle_web')->user()->full_name }}
+                            <small class="label label-success" v-if="unreaded_notifications" v-cloak>@{{unreaded_notifications}}</small>
+                        <span class="caret"></span>
                     </a>
 
                     <ul class="dropdown-menu" role="menu">
+                        <li class="{{ getActiveRoute('oracle.dashboard.notifications.show') }}" ><a href="{!! route('oracle.dashboard.notifications.show') !!}">Notificações</a></li>
                         <li class="{{ getActiveRoute('oracle.dashboard.profile.show') }}" ><a href="{!! route('oracle.dashboard.profile.show') !!}">Meu perfil</a></li>
+                        <li class="divider"></li>
                         <li>
                             <a href="{{ route('oracle.dashboard.logout') }}"
                                onclick="event.preventDefault();
@@ -73,3 +80,59 @@
         </nav><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </div>
+
+@section('navbar-scripts')
+
+    <script>
+
+        Vue.config.debug = true;
+
+        @php
+            if(\App::environment('production')){
+                echo 'Vue.config.devtools = false;
+                  Vue.config.debug = false;
+                  Vue.config.silent = true;';
+            }
+        @endphp
+
+        var vm = new Vue({
+                el: '#navigation',
+                name: 'navbar',
+                data: () =>{
+                    return {
+                        unreaded_notifications: 0
+                    }
+                },
+                mounted: function () {
+                    let that = this
+                    this.getUserStatus()
+
+                    this.$eventBus.$on('update-counter', function (readed_notifications) {
+                        that.unreaded_notifications = that.unreaded_notifications - readed_notifications
+                    })
+
+                    this.$eventBus.$on('increment-counter', function (unreaded_notifications) {
+                        that.unreaded_notifications = that.unreaded_notifications + unreaded_notifications
+                    })
+                },
+                beforeDestroy() {
+                    this.$eventBus.$off('update-counter')
+                    this.$eventBus.$off('increment-counter')
+                },
+                methods: {
+                    getUserStatus: function(){
+                        let that = this
+
+                        this.$http.post('/api/oracle/status', {oracle_user_id: '{{\Auth::user()->id}}'}).then(response => {
+                            that.unreaded_notifications = response.body.unreaded_notifications
+                        }, response => {
+                            // error callback
+                        });
+                    },
+                }
+
+            })
+
+    </script>
+@endsection
+

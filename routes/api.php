@@ -183,6 +183,14 @@ Route::group(['prefix' => 'article'], function(){
 Route::group(['prefix' => 'oracle'], function () {
 
     Route::post('/fcm_token', 'OracleUserController@fcmToken');
+    Route::post('/status', 'OracleUserController@status');
+
+
+    //Notifications
+    Route::group(['prefix' => 'notification'], function() {
+        Route::get('/mark_readed/{id}', 'OracleNotificationController@markReaded');
+        Route::post('/mark_all_readed', 'OracleNotificationController@markAllReaded');
+    });
 
 
     /*Route::post('/auth/login', 'Auth\OracleLoginController@login');

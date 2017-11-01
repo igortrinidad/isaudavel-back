@@ -23,6 +23,15 @@
                     </form>
                 </div>
 
+
+                <div class="row">
+                    <div class="col-md-12 col-xs-12 text-right">
+                        <div class="form-group">
+                            <a href="{{route('oracle.dashboard.oracles.create')}}" class="btn btn-primary">Adicionar administrador</a>
+                        </div>
+                    </div>
+                </div>
+
                 @unless($oracles->count())
                     <div class="alert alert-info">
                         Nenhum cliente localizado.

@@ -71,7 +71,8 @@
                     <li class="{{ getActiveRoute('landing.events.list') }}"><a href="{!! route('landing.events.list') !!}">Eventos</a></li>
                     <li class="{{ getActiveRoute('landing.recipes.list') }}"><a href="{!! route('landing.recipes.list') !!}">Receitas</a></li>
                     <li class="{{ getActiveRoute('landing.articles.list') }}"><a href="{!! route('landing.articles.list') !!}">Artigos</a></li>
-                    <li class="{{ getActiveRoute('landing.professionals.signup') }}"><a href="{!! route('landing.professionals.signup') !!}">Cadastrar empresa</a></li>
+                    {{--<li class="{{ getActiveRoute('landing.professionals.signup') }}"><a href="{!! route('landing.professionals.signup') !!}">Cadastrar empresa</a></li>--}}
+                    <li class="{{ getActiveRoute('landing.signup.company') }}"><a href="{!! route('landing.signup.company') !!}">Cadastrar empresa</a></li>
                 </ul>
             </nav><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
