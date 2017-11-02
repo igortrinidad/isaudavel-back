@@ -275,7 +275,7 @@ class CreateCompanyNotification
 
             $notification_data = [
                 'title' => 'Cancelamento de horário',
-                'content' => \Auth::user()->full_name .' remarcou um agendamento do cliente '. $single_schedule->client->full_name .' de '. $single_schedule->category->name. ' marcado para ' . $single_schedule->date . ' ' . $single_schedule->time . ' na sua agenda.',
+                'content' => \Auth::user()->full_name .' cancelou um agendamento do cliente '. $single_schedule->client->full_name .' de '. $single_schedule->category->name. ' marcado para ' . $single_schedule->date . ' ' . $single_schedule->time . ' na sua agenda.',
                 'button_label' => 'Visualizar agendamento',
                 'button_action' => '/dashboard/empresas/mostrar/' . $company->id . '/single-schedule/' . $single_schedule->id
             ];
