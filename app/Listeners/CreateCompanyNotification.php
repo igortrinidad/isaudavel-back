@@ -287,7 +287,7 @@ class CreateCompanyNotification
         foreach($company->professionals as $professional){
 
             //Verify to skip
-            if(in_array($professional->id, $skip_professionals)){
+            if( in_array($professional->id, $skip_professionals) ){
                 continue;
             }
 
