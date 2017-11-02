@@ -196,6 +196,24 @@ class CreateCompanyNotification
             ];
         }
 
+         /*
+         * New single schedule
+         */
+        if($data['type'] == 'new_single_schedule'){
+            $single_schedule = $data['payload'];
+
+            $only = true;
+            $professional_selected_id = $single_schedule->professional->id;
+
+            $notification_data = [
+                'client_id' => $client->id,
+                'title' => 'Novo agendamento',
+                'content' => 'O usuário '. \Auth::user()->full_name . ' adicionou um novo agendamento de ' .$single_schedule->category->name . ' para você do cliente '. $single_schedule->client->full_name .' para '. $single_schedule->date . ' ' . $single_schedule->time,
+                'button_label' => ' Visualizar agendamento',
+                'button_action' => '/cliente/dashboard/calendar/'.urlencode($single_schedule->date).'/single-schedule/'.$single_schedule->id,
+            ];
+        }
+
         /*
         * Reschedule a single schedule
         */

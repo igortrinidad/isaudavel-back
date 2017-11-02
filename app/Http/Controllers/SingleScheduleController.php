@@ -41,6 +41,15 @@ class SingleScheduleController extends Controller
 
         $single_schedule = tap(SingleSchedule::create($request->all()))->load('company', 'client', 'category', 'professional');
 
+
+                //Notify the client
+        if(\Auth::user()->role == 'professional'){
+            event(new ClientNotification($single_schedule->client_id, ['type' => 'new_single_schedule', 'payload' => $single_schedule]));
+
+            event(new CompanyNotification($single_schedule->company_id, ['type' => 'single_reschedule_by_professional', 'payload' => ['single_schedule' => $single_schedule, 'old_single_schedule' => $old_schedule]]));
+        }
+        
+
         //Notify the client
         event(new ClientNotification($single_schedule->client_id, ['type' => 'new_single_schedule', 'payload' => $single_schedule]));
 
@@ -157,6 +166,8 @@ class SingleScheduleController extends Controller
         //Notify the client
         if(\Auth::user()->role == 'professional'){
             event(new ClientNotification($single_schedule->client_id, ['type' => 'single_reschedule', 'payload' => ['single_schedule' => $single_schedule, 'old_single_schedule' => $old_schedule]]));
+
+            event(new CompanyNotification($single_schedule->company_id, ['type' => 'single_reschedule_by_professional', 'payload' => ['single_schedule' => $single_schedule, 'old_single_schedule' => $old_schedule]]));
         }
 
         //Notify the company
@@ -233,6 +244,8 @@ class SingleScheduleController extends Controller
         //Notify the client
         if(\Auth::user()->role == 'professional'){
             event(new ClientNotification($single_schedule->client->id, ['type' => 'cancel_single_schedule', 'payload' => $single_schedule]));
+
+            event(new CompanyNotification($single_schedule->company_id, ['type' => 'cancel_single_schedule_by_professional', 'payload' => $single_schedule]));
         }
 
         //Notify the company
