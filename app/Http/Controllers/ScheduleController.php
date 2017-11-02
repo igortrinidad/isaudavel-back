@@ -883,7 +883,7 @@ class ScheduleController extends Controller
                 $message->to($schedule->client->email, $schedule->client->full_name)->subject($data['messageSubject']);
             });
 
-            event(new CompanyNotification($schedule->company_id, ['type' => 'reschedule', 'payload' => ['schedule' => $schedule, 'old_schedule' => $old_schedule]]));
+            event(new CompanyNotification($schedule->company_id, ['type' => 'reschedule_by_professional', 'payload' => ['schedule' => $schedule, 'old_schedule' => $old_schedule]]));
 
 
         }
@@ -1002,6 +1002,8 @@ class ScheduleController extends Controller
         if(\Auth::user()->role == 'professional'){
 
             event(new ClientNotification($schedule->client->id, ['type' => 'cancel_schedule', 'payload' => $schedule]));
+
+            event(new CompanyNotification($schedule->company_id, ['type' => 'cancel_schedule_by_professional', 'payload' => $schedule]));
 
             \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $schedule){
                 $message->from('no-reply@isaudavel.com', 'iSaudavel App');

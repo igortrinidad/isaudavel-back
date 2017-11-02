@@ -140,7 +140,23 @@ class CreateCompanyNotification
 
             $notification_data = [
                 'title' => 'Remarcação de agendamento',
-                'content' => $schedule->client->full_name .' remarcou um agendamento de '. $schedule->category->name.  ' para ' . $schedule->date . ' ' . $schedule->time. '.',
+                'content' => $schedule->client->full_name .' remarcou um agendamento de '. $schedule->category->name.  ' para ' . $schedule->date . ' ' . $schedule->time. ' na sua agenda.',
+                'button_label' => 'Visualizar agendamento',
+                'button_action' => '/dashboard/empresas/mostrar/' . $company->id . '/schedule/' . $schedule->id
+            ];
+        }
+
+        /* ON RESCHEDULE */
+        if($data['type'] == 'reschedule_by_professional'){
+
+            $schedule = $data['payload']['schedule'];
+
+            $only = true;
+            $professional_selected_id = $schedule->professional->id;
+
+            $notification_data = [
+                'title' => 'Remarcação de agendamento',
+                'content' => \Auth::user()->full_name .' remarcou um agendamento do cliente '. $schedule->client->full_name .' de '. $schedule->category->name.  ' para ' . $schedule->date . ' ' . $schedule->time. ' na sua agenda.',
                 'button_label' => 'Visualizar agendamento',
                 'button_action' => '/dashboard/empresas/mostrar/' . $company->id . '/schedule/' . $schedule->id
             ];
@@ -157,7 +173,24 @@ class CreateCompanyNotification
 
             $notification_data = [
                 'title' => 'Cancelamento de horário',
-                'content' => $schedule->client->full_name .' cancelou o agendamento de '. $schedule->category->name. ' marcado para ' . $schedule->date . ' ' . $schedule->time,
+                'content' => $schedule->client->full_name .' cancelou o agendamento de '. $schedule->category->name. ' marcado para ' . $schedule->date . ' ' . $schedule->time . ' na sua agenda.',
+                'button_label' => 'Visualizar agendamento',
+                'button_action' => '/dashboard/empresas/mostrar/' . $company->id . '/schedule/' . $schedule->id
+            ];
+        }
+
+        /*
+         * Cancel schedule
+         */
+        if($data['type'] == 'cancel_schedule_by_professional'){
+            $schedule = $data['payload'];
+
+            $only = true;
+            $professional_selected_id = $schedule->professional->id;
+
+            $notification_data = [
+                'title' => 'Cancelamento de horário',
+                'content' => \Auth::user()->full_name .' remarcou um agendamento do cliente '. $schedule->client->full_name .' de '. $schedule->category->name. ' marcado para ' . $schedule->date . ' ' . $schedule->time . ' na sua agenda.',
                 'button_label' => 'Visualizar agendamento',
                 'button_action' => '/dashboard/empresas/mostrar/' . $company->id . '/schedule/' . $schedule->id
             ];
@@ -174,7 +207,24 @@ class CreateCompanyNotification
 
             $notification_data = [
                 'title' => 'Remarcação de agendamento',
-                'content' => $single_schedule->client->full_name . ' remarcou um agendamento de '. $schedule->category->name.  ' para ' . $single_schedule->date . ' ' . $single_schedule->time. '.',
+                'content' => $single_schedule->client->full_name . ' remarcou um agendamento de '. $schedule->category->name.  ' para ' . $single_schedule->date . ' ' . $single_schedule->time. ' na sua agenda.',
+                'button_label' => 'Visualizar agendamento',
+                'button_action' => '/dashboard/empresas/mostrar/' . $company->id . '/single-schedule/' . $single_schedule->id
+            ];
+        }
+
+        /*
+        * Reschedule a single schedule
+        */
+        if($data['type'] == 'single_reschedule_by_professional'){
+            $single_schedule = $data['payload']['single_schedule'];
+
+            $only = true;
+            $professional_selected_id = $schedule->professional->id;
+
+            $notification_data = [
+                'title' => 'Remarcação de agendamento',
+                'content' => \Auth::user()->full_name .' remarcou um agendamento do cliente '. $single_schedule->client->full_name .' de '. $schedule->category->name.  ' para ' . $single_schedule->date . ' ' . $single_schedule->time. ' na sua agenda.',
                 'button_label' => 'Visualizar agendamento',
                 'button_action' => '/dashboard/empresas/mostrar/' . $company->id . '/single-schedule/' . $single_schedule->id
             ];
@@ -191,7 +241,24 @@ class CreateCompanyNotification
 
             $notification_data = [
                 'title' => 'Cancelamento de horário',
-                'content' => $single_schedule->client->full_name .' cancelou o agendamento de '. $single_schedule->category->name. ' marcado para ' . $single_schedule->date . ' ' . $single_schedule->time,
+                'content' => $single_schedule->client->full_name .' cancelou o agendamento de '. $single_schedule->category->name. ' marcado para ' . $single_schedule->date . ' ' . $single_schedule->time . ' na sua agenda.',
+                'button_label' => 'Visualizar agendamento',
+                'button_action' => '/dashboard/empresas/mostrar/' . $company->id . '/single-schedule/' . $single_schedule->id
+            ];
+        }
+
+        /*
+         * Cancel single schedule
+         */
+        if($data['type'] == 'cancel_single_schedule_by_professional'){
+            $single_schedule = $data['payload'];
+
+            $only = true;
+            $professional_selected_id = $schedule->professional->id;
+
+            $notification_data = [
+                'title' => 'Cancelamento de horário',
+                'content' => \Auth::user()->full_name .' remarcou um agendamento do cliente '. $single_schedule->client->full_name .' de '. $single_schedule->category->name. ' marcado para ' . $single_schedule->date . ' ' . $single_schedule->time . ' na sua agenda.',
                 'button_label' => 'Visualizar agendamento',
                 'button_action' => '/dashboard/empresas/mostrar/' . $company->id . '/single-schedule/' . $single_schedule->id
             ];
