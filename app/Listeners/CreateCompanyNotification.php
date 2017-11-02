@@ -207,7 +207,7 @@ class CreateCompanyNotification
 
             $notification_data = [
                 'title' => 'Novo agendamento',
-                'content' => 'O usuário '. \Auth::user()->full_name . ' adicionou um novo agendamento de ' .$single_schedule->category->name . ' para você do cliente '. $single_schedule->client->full_name .' para '. $single_schedule->date . ' ' . $single_schedule->time,
+                'content' => 'O usuário '. \Auth::user()->full_name . ' adicionou um novo agendamento de ' .$single_schedule->category->name . ' do cliente '. $single_schedule->client->full_name .' para '. $single_schedule->date . ' ' . $single_schedule->time . ' na sua agenda.',
                 'button_label' => ' Visualizar agendamento',
                 'button_action' => '/cliente/dashboard/calendar/'.urlencode($single_schedule->date).'/single-schedule/'.$single_schedule->id,
             ];
@@ -220,7 +220,7 @@ class CreateCompanyNotification
             $single_schedule = $data['payload']['single_schedule'];
 
             $only = true;
-            $professional_selected_id = $schedule->professional->id;
+            $professional_selected_id = $single_schedule->professional->id;
 
             $notification_data = [
                 'title' => 'Remarcação de agendamento',
@@ -237,7 +237,7 @@ class CreateCompanyNotification
             $single_schedule = $data['payload']['single_schedule'];
 
             $only = true;
-            $professional_selected_id = $schedule->professional->id;
+            $professional_selected_id = $single_schedule->professional->id;
 
             $notification_data = [
                 'title' => 'Remarcação de agendamento',
@@ -254,7 +254,7 @@ class CreateCompanyNotification
             $single_schedule = $data['payload'];
 
             $only = true;
-            $professional_selected_id = $schedule->professional->id;
+            $professional_selected_id = $single_schedule->professional->id;
 
             $notification_data = [
                 'title' => 'Cancelamento de horário',
@@ -271,7 +271,7 @@ class CreateCompanyNotification
             $single_schedule = $data['payload'];
 
             $only = true;
-            $professional_selected_id = $schedule->professional->id;
+            $professional_selected_id = $single_schedule->professional->id;
 
             $notification_data = [
                 'title' => 'Cancelamento de horário',
