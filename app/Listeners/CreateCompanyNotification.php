@@ -135,6 +135,9 @@ class CreateCompanyNotification
 
             $schedule = $data['payload']['schedule'];
 
+            $only = true;
+            $professional_selected_id = $schedule->professional->id;
+
             $notification_data = [
                 'title' => 'Remarcação de agendamento',
                 'content' => $schedule->client->full_name .' remarcou um agendamento de '. $schedule->category->name.  ' para ' . $schedule->date . ' ' . $schedule->time. '.',
@@ -148,6 +151,9 @@ class CreateCompanyNotification
          */
         if($data['type'] == 'cancel_schedule'){
             $schedule = $data['payload'];
+
+            $only = true;
+            $professional_selected_id = $schedule->professional->id;
 
             $notification_data = [
                 'title' => 'Cancelamento de horário',
@@ -163,6 +169,9 @@ class CreateCompanyNotification
         if($data['type'] == 'single_reschedule'){
             $single_schedule = $data['payload']['single_schedule'];
 
+            $only = true;
+            $professional_selected_id = $schedule->professional->id;
+
             $notification_data = [
                 'title' => 'Remarcação de agendamento',
                 'content' => $single_schedule->client->full_name . ' remarcou um agendamento de '. $schedule->category->name.  ' para ' . $single_schedule->date . ' ' . $single_schedule->time. '.',
@@ -176,6 +185,9 @@ class CreateCompanyNotification
          */
         if($data['type'] == 'cancel_single_schedule'){
             $single_schedule = $data['payload'];
+
+            $only = true;
+            $professional_selected_id = $schedule->professional->id;
 
             $notification_data = [
                 'title' => 'Cancelamento de horário',
@@ -192,6 +204,10 @@ class CreateCompanyNotification
 
             //Verify to skip
             if(in_array($professional->id, $skip_professionals)){
+                continue;
+            }
+
+            if(isset($only) && $professional->id != $professional_selected_id){
                 continue;
             }
 
