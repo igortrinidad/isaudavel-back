@@ -61,8 +61,8 @@ class CreateProfissionalNotification
                 'professional_id' => $professional->id,
                 'title' => 'Alteração de agenda',
                 'content' => 'A empresa '. $payload->company->name . ' alterou as configurações da sua agenda de ' .$payload->category->name .'.',
-                'button_label' => 'Ir para empresas',
-                'button_action' => '/profissional/dashboard?tab=companies'
+                'button_label' => 'Ir para agenda',
+                'button_action' => '/profissional/dashboard?tab=workdays'
             ];
         }
 
