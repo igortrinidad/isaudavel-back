@@ -42,16 +42,11 @@ class SingleScheduleController extends Controller
         $single_schedule = tap(SingleSchedule::create($request->all()))->load('company', 'client', 'category', 'professional');
 
 
-                //Notify the client
-        if(\Auth::user()->role == 'professional'){
-            event(new ClientNotification($single_schedule->client_id, ['type' => 'new_single_schedule', 'payload' => $single_schedule]));
-
-            event(new CompanyNotification($single_schedule->company_id, ['type' => 'single_reschedule_by_professional', 'payload' => $single_schedule]));
-        }
-        
-
         //Notify the client
         event(new ClientNotification($single_schedule->client_id, ['type' => 'new_single_schedule', 'payload' => $single_schedule]));
+
+        //Notify the professional
+        event(new CompanyNotification($single_schedule->company_id, ['type' => 'new_single_schedule', 'payload' => $single_schedule]));
 
         //Report email
         $data = [];
