@@ -206,7 +206,6 @@ class CreateCompanyNotification
             $professional_selected_id = $single_schedule->professional->id;
 
             $notification_data = [
-                'client_id' => $client->id,
                 'title' => 'Novo agendamento',
                 'content' => 'O usuário '. \Auth::user()->full_name . ' adicionou um novo agendamento de ' .$single_schedule->category->name . ' para você do cliente '. $single_schedule->client->full_name .' para '. $single_schedule->date . ' ' . $single_schedule->time,
                 'button_label' => ' Visualizar agendamento',
