@@ -142,6 +142,9 @@ Route::group(['prefix' => 'tools'], function(){
     //Last production version of the app
     Route::get('system/get_last_production_version', 'SystemController@get_last_production_version');
 
+    //Tracking
+    Route::post('information/collect', 'LeadTrackingController@store');
+
 });
 
 /*
