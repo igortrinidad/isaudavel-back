@@ -96,6 +96,9 @@ class CreateCompanyNotification
                 'button_label' => 'Ir para profissionais',
                 'button_action' => '/dashboard/empresas/mostrar/' . $company->id . '?tab=professionals'
             ];
+
+            // Skip these professionals
+            $skip_professionals = [$professional->id];
         }
 
         /*
@@ -279,6 +282,38 @@ class CreateCompanyNotification
                 'button_label' => 'Visualizar agendamento',
                 'button_action' => '/dashboard/empresas/mostrar/' . $company->id . '/single-schedule/' . $single_schedule->id
             ];
+        }
+
+       /*
+       * New rating
+       */
+        if($data['type'] == 'new_rating'){
+            $rating = $data['payload'];
+
+            $notification_data = [
+                'title' => 'Nova avaliação',
+                'content' => $rating->client->full_name . ' avaliou a empresa ' .$company->name .' com ' . $rating->rating . ($rating->rating > 1 ? ' estrelas' : ' estrela'). ', veja o que ele escreveu em sua avaliação.',
+                'button_label' => 'Ver avaliações',
+                'button_action' => '/dashboard/empresas/mostrar/' . $company->id . '?tab=ratings'
+            ];
+
+        }
+
+        /*
+       * New rating
+       */
+        if($data['type'] == 'new_professional'){
+            $payload = $data['payload'];
+
+            $notification_data = [
+                'title' => 'Novo profissional',
+                'content' => $payload['user_full_name'] . ' adicionou a empresa ' .$company->name .' à sua lista de empresas.',
+                'button_label' => 'Ver profissionais',
+                'button_action' => '/dashboard/empresas/mostrar/' . $company->id . '?tab=professionals'
+            ];
+
+            // Skip these professionals
+            $skip_professionals = [$payload['professional_id']];
         }
 
         /*

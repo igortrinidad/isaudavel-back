@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ProfessionalNotification;
 use App\Models\ProfessionalRating;
 use Illuminate\Http\Request;
 
@@ -31,12 +32,15 @@ class ProfessionalRatingController extends Controller
      */
     public function store(Request $request)
     {
-        $rating = ProfessionalRating::create($request->all());
+        $rating = tap(ProfessionalRating::create($request->all()))->fresh(['professional','client']);
+
+        //Notify the professional
+        event( new ProfessionalNotification($rating->professional_id, ['type' => 'new_rating', 'payload' => $rating]));
 
         return response()->json([
             'message' => 'Professional rating created.',
-            'rating' => $rating->fresh(['client']),
-            'professional' => $rating->professional->makeHidden(['companies','categories','blank_password'])
+            'rating' => $rating,
+            'professional' => $rating->professional
         ]);
     }
 
