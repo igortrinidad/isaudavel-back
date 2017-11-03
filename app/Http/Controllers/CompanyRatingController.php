@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CompanyNotification;
 use App\Models\CompanyRating;
 use Illuminate\Http\Request;
 
@@ -31,11 +32,14 @@ class CompanyRatingController extends Controller
      */
     public function store(Request $request)
     {
-        $rating = CompanyRating::create($request->all());
+        $rating = tap( CompanyRating::create($request->all()))->fresh(['client', 'company']);
+
+        //Notify the company
+        event( new CompanyNotification($rating->company_id, ['type' => 'new_rating', 'payload' => $rating]));
 
         return response()->json([
             'message' => 'Company rating created.',
-            'rating' => $rating->fresh(['client']),
+            'rating' => $rating,
             'company' => $rating->company
         ]);
     }

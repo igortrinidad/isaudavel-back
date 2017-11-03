@@ -67,6 +67,36 @@ class CreateProfissionalNotification
         }
 
         /*
+        * New rating
+        */
+        if($data['type'] == 'new_rating'){
+            $rating = $data['payload'];
+
+            $notification_data = [
+                'professional_id' => $professional->id,
+                'title' => 'Nova avaliação',
+                'content' => $rating->client->full_name . ' avaliou você com ' . $rating->rating . ($rating->rating > 1 ? ' estrelas' : ' estrela'). ', veja o que ele escreveu em sua avaliação.',
+                'button_label' => 'Ver avaliações',
+                'button_action' => '/profissional/dashboard?tab=ratings'
+            ];
+        }
+
+        /*
+         * Company accept solicitation
+         */
+        if($data['type'] == 'company_accept'){
+            $company = $data['payload'];
+
+            $notification_data = [
+                'professional_id' => $professional->id,
+                'title' => 'Solicitação aprovada',
+                'content' => $company->name . ' aceitou a solicitação enviada.' ,
+                'button_label' => 'Ir para empresas',
+                'button_action' => '/profissional/dashboard?tab=companies'
+            ];
+        }
+
+        /*
         * Create and send the push notification
         */
         $notification = ProfessionalNotification::create($notification_data);

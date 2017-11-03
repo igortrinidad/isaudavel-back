@@ -89,10 +89,15 @@ class ProfessionalController extends Controller
                 ->wherePivot('company_id', '=',$request->get('company_id'))
                 ->wherePivot('is_admin', '=', true)->count();
 
+            $requested_by_professional = $professional->companies()
+                ->wherePivot('company_id', '=',$request->get('company_id'))
+                ->wherePivot('requested_by_professional', '=', true)->count();
+
             $professional['is_professional'] = $is_professional;
             $professional['is_confirmed'] = $is_confirmed ? true : false;
             $professional['is_public'] = $is_public ? true : false;
             $professional['is_admin'] = $is_admin ? true : false;
+            $professional['requested_by_professional'] = $requested_by_professional ? true : false;
             $verified_professionals[] = $professional->makeHidden(['companies']);
         }
 
@@ -430,34 +435,53 @@ class ProfessionalController extends Controller
     {
         $professional = Professional::find($request->get('professional_id'));
 
+        $requested_by_professional = $request->get('requested_by_professional')? $request->get('requested_by_professional') : false;
+
         if($professional){
 
-            $professional->companies()->attach($request->get('company_id'), ['is_confirmed' => false]);
+            $professional->companies()->attach($request->get('company_id'),
+                [
+                    'is_confirmed' => false,
+                    'requested_by_professional' => $requested_by_professional
+                ]);
 
-            //Notify the professional
-            event(new ProfessionalNotification($request->get('professional_id'), ['type' => 'new_company', 'payload' => $request->all()]));
+            if(!$requested_by_professional){
+                //Notify the professional
+                event(new ProfessionalNotification($request->get('professional_id'), ['type' => 'new_company', 'payload' => $request->all()]));
 
-            //Envia email para informar usuário da solicitação da empresa
-            $data = [];
-            $data['align'] = 'center';
-            $data['messageTitle'] = '<h4>Solicitação de empresa</h4>';
-            $data['messageOne'] = '
-            <p>Olá ' . $professional->full_name . ',</p>
-            <p>O profissional <b>' . $request->get('user_full_name') . '</b> acabou de adicionar você na empresa <b> ' .$request->get('company_name') .'</b>.
-            </p>
-            <p>Acesse seu Dashboard profissional para aceitar ou excluir a solicitação desta empresa.</p>
-            <br>
-            <p>Acesse online em <a href="https://app.isaudavel.com">app.isaudavel.com</a> ou baixe o aplicativo 
-            para <a href="https://play.google.com/store/apps/details?id=com.isaudavel" target="_blank">Android</a> e <a href="https://itunes.apple.com/us/app/isaudavel/id1277115133?mt=8" target="_blank">iOS (Apple)</a></p>.';
+                //Envia email para informar usuário da solicitação da empresa
+                $data = [];
+                $data['align'] = 'center';
+                $data['messageTitle'] = '<h4>Solicitação de empresa</h4>';
+                $data['messageOne'] = '
+                <p>Olá ' . $professional->full_name . ',</p>
+                <p>O profissional <b>' . $request->get('user_full_name') . '</b> acabou de adicionar você na empresa <b> ' .$request->get('company_name') .'</b>.
+                </p>
+                <p>Acesse seu Dashboard profissional para aceitar ou excluir a solicitação desta empresa.</p>
+                <br>
+                <p>Acesse online em <a href="https://app.isaudavel.com">app.isaudavel.com</a> ou baixe o aplicativo 
+                para <a href="https://play.google.com/store/apps/details?id=com.isaudavel" target="_blank">Android</a> e <a href="https://itunes.apple.com/us/app/isaudavel/id1277115133?mt=8" target="_blank">iOS (Apple)</a></p>.';
 
-            $data['messageSubject'] = $professional->full_name . ' a empresa ' . $request->get('company_name') . ' adicionou você.';
+                $data['messageSubject'] = $professional->full_name . ' a empresa ' . $request->get('company_name') . ' adicionou você.';
 
-            \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $professional){
-                $message->from('no-reply@isaudavel.com', 'iSaudavel App');
-                $message->to($professional->email, $professional->full_name)->subject($data['messageSubject']);
-            });
+                \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $professional){
+                    $message->from('no-reply@isaudavel.com', 'iSaudavel App');
+                    $message->to($professional->email, $professional->full_name)->subject($data['messageSubject']);
+                });
+            }
 
-            return response()->json(['message' => 'OK']);
+            if($requested_by_professional){
+                //Notify the company
+                event(new CompanyNotification($request->get('company_id'), ['type' => 'new_professional', 'payload' => $request->all()]));
+            }
+
+            //load relation to return
+            $professional_company = $professional->companies()->select('id', 'name', 'slug')
+                ->wherePivot('company_id', '=',$request->get('company_id'))
+                ->withPivot('is_confirmed', 'requested_by_professional')
+                ->first();
+
+            return response()->json(['message' => 'OK', 'company' => $professional_company]);
         }
 
         if(!$professional){
@@ -488,14 +512,33 @@ class ProfessionalController extends Controller
                     'confirmed_at' => Carbon::now()
                 ]);
 
+            $requested_by_professional = $professional->companies()->select('id', 'name', 'slug')
+                ->wherePivot('company_id', '=',$request->get('company_id'))
+                ->wherePivot('requested_by_professional', '=', true)
+                ->first();
+
             $professional_company = $professional->companies()->select('id', 'name', 'slug')
                 ->wherePivot('company_id', '=',$request->get('company_id'))
                 ->first();
 
-            //Notify the company
-            event(new CompanyNotification($request->get('company_id'), ['type' => 'professional_accept', 'payload' => ['company' =>  $professional_company, 'professional' => $professional]]));
+            if(!$requested_by_professional){
+                //Notify the company
+                event(new CompanyNotification($request->get('company_id'), ['type' => 'professional_accept', 'payload' => ['company' =>  $professional_company, 'professional' => $professional]]));
+                return response()->json(['message' => 'OK', 'companies' => $professional->companies]);
+            }
 
-            return response()->json(['message' => 'OK', 'companies' => $professional->companies]);
+            if($requested_by_professional){
+
+                //load relation to return
+                $professional_company = $professional->companies()->select('id', 'name', 'slug')
+                    ->wherePivot('company_id', '=',$request->get('company_id'))
+                    ->withPivot('is_confirmed', 'requested_by_professional')
+                    ->first();
+
+                //Notify the company
+                event(new ProfessionalNotification($professional->id, ['type' => 'company_accept', 'payload' => $professional_company]));
+                return response()->json(['message' => 'OK', 'companies' => $professional->companies]);
+            }
         }
 
         if(!$professional){

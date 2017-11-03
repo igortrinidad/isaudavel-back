@@ -515,6 +515,7 @@ class LandingController extends Controller
         $data['messageTitle'] = 'Olá, ' . $professional->full_name;
         $data['messageOne'] = 'Obrigado por se inscrever na plataforma iSaudavel. <br>';
         $data['messageTwo'] = 'Confira abaixo os dados para acesso: <br>Usuário:  <strong>'. $professional->email .'</strong> | Senha: <strong>'. $user_password .'</strong> <br>
+        <p>É muito importante que você altere sua senha no primeiro acesso.</p>
         <tr>
             <td style="padding: 20px; text-align: center; max-width: 80% !important; background-color: rgb(255, 255, 255);"
                 align="center">
@@ -547,7 +548,6 @@ class LandingController extends Controller
                 </center>
             </td>
         </tr>';
-        $data['messageThree'] = 'É muito importante que você altere sua senha no primeiro acesso.';
         $data['messageFour'] =  '<p>Acesse online em <a href="https://app.isaudavel.com">app.isaudavel.com</a> ou baixe o aplicativo 
             para <a href="https://play.google.com/store/apps/details?id=com.isaudavel" target="_blank">Android</a> e <a href="https://itunes.apple.com/us/app/isaudavel/id1277115133?mt=8" target="_blank">iOS (Apple)</a></p>';
         $data['messageSubject'] = $professional->full_name . ' no iSaudavel';

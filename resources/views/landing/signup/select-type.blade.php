@@ -51,9 +51,13 @@
             text-decoration: line-through;
             color: #E14A45;
         }
+
+        .text-primary{
+            color: #8cc63f;
+        }
     </style>
 
-    <section id="signup" class="section gray p-t-30 p-b-0">
+    <section id="plan-chooser" class="section white p-t-30 p-b-0">
 
         <div class="container" style="min-height: 700px">
 
@@ -61,7 +65,9 @@
 
             {{-- Form Container --}}
             <div class="row m-t-30">
-                <div class="col-sm-6">
+
+                <!--Free -->
+                <div class="col-sm-4">
                     <div class="card">
                         <div class="card-header ch-alt text-center">
                             <h3 class="f-300 m-0 m-b-10">Perfil profissional</h3>
@@ -85,31 +91,71 @@
                             </span>
                         </div>
                         <div class="card-body p-0">
-                            <ul class="list-group text-center">
-                                <li class="list-group-item">First item <i class="f-20 ion-ios-checkmark-empty"></i></li>
-                                <li class="list-group-item">Second item <i class="f-20 ion-ios-checkmark-empty"></i></li>
-                                <li class="list-group-item">Third item <i class="f-20 ion-ios-checkmark-empty"></i></li>
-                                <li class="list-group-item">First item <i class="f-20 ion-ios-checkmark-empty"></i></li>
-                                <li class="list-group-item">Second item <i class="f-20 ion-ios-checkmark-empty"></i></li>
-                                <li class="list-group-item not-supported">Third item <i class="f-20 ion-ios-close-empty"></i></li>
-                                <li class="list-group-item not-supported">First item <i class="f-20 ion-ios-close-empty"></i></li>
-                                <li class="list-group-item not-supported">Second item <i class="f-20 ion-ios-close-empty"></i></li>
-                                <li class="list-group-item not-supported">Third item <i class="f-20 ion-ios-close-empty"></i></li>
+                            <ul class="list-group m-0 text-center">
+                                <li class="list-group-item">
+                                    <i class="ion-ios-checkmark-empty m-r-5 f-18"></i>
+                                    Perfil profissional básico na plataforma
+                                    <br>
+                                    <span class="f-12">*Os usuários poderão visualizar seu perfil</span>
+                                </li>
+                                <li class="list-group-item ">
+                                    <i class="ion-ios-checkmark-empty m-r-5 f-18"></i>
+                                    Ser profissional de empresas
+                                    <br>
+                                    <span class="f-12">*Atuar como profissional de empresas cadastadas</span>
+                                </li>
+                                <li class="list-group-item not-supported">
+                                    <i class="ion-ios-checkmark-empty m-r-5 f-18"></i>
+                                    Acesso aos Dashboard's dos clientes
+                                    <br>
+                                    <span class="f-12">*Sujeito à permissões do cliente</span>
+                                </li>
+                                <li class="list-group-item not-supported">
+                                    <i class="ion-ios-close-empty m-r-5 f-18"></i>
+                                    Perfil da empresa na plataforma
+                                </li>
+                                <li class="list-group-item not-supported">
+                                    <i class="ion-ios-close-empty m-r-5 f-18"></i>
+                                    Agenda online
+                                </li>
+                                <li class="list-group-item not-supported">
+                                    <i class="ion-ios-close-empty m-r-5 f-18"></i>
+                                    Planos e preços online
+                                </li>
+                                <li class="list-group-item not-supported">
+                                    <i class="ion-ios-close-empty m-r-5 f-18"></i>
+                                    Controle de planos e aulas de clientes
+                                </li>
+                                <li class="list-group-item not-supported">
+                                    <i class="ion-ios-close-empty m-r-5 f-18"></i>
+                                    Galeria de fotos
+                                </li>
                             </ul>
-                            <a href="#" class="btn btn-xs btn-block btn-secondary p-10 f-16" title="Escolhi o perfil profissional">Escolhi o perfil profissional</a>
+
+                            @if(!empty(request()->query('professional')) || !empty(request()->query('company')) || !\Auth::guard('professional_web')->guest())
+                                <button class="btn btn-xs btn-block btn-success p-10 f-16" title="Quero este!" @click.prevent="planChooser('free')">Quero este!</button>
+                            @else
+                                <p class="text-center m-t-10 m-b-10">Faça login para selecionar um plano</p>
+                                <a class="btn btn-xs btn-block btn-primary p-10 f-16" @click.prevent="goToLogin()">Fazer login</a>
+                            @endif
+
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6">
+                <!--Free -->
+
+                <!--Plus-->
+                <div class="col-sm-4">
                     <div class="card">
                         <div class="card-header ch-alt text-center">
-                            <h3 class="f-300 m-0 m-b-10">Perfil empresarial</h3>
+                            <h3 class="f-300 m-0 m-b-10">Plano profissional plus</h3>
                             <p class="f-300 m-0"><small>Vale a pena conferir as vantagens!</small></p>
                             <span class="payment">
+                                  a partir de
                                 <strong class="payment-currency">R$</strong>
                                 <span class="payment-value">
-                                    <strong>99</strong>
-                                    <small>,99</small>
+                                    <strong>29</strong>
+                                    <small>,90</small>
                                 </span>
 
                                 {{-- Isso aqui é só um exemplo --}}
@@ -122,26 +168,146 @@
                         </div>
                         <div class="card-body p-0">
                             <ul class="list-group m-0 text-center">
-                                <li class="list-group-item">First item <i class="f-20 ion-ios-checkmark-empty"></i></li>
-                                <li class="list-group-item">Second item <i class="f-20 ion-ios-checkmark-empty"></i></li>
-                                <li class="list-group-item">Third item <i class="f-20 ion-ios-checkmark-empty"></i></li>
-                                <li class="list-group-item">First item <i class="f-20 ion-ios-checkmark-empty"></i></li>
-                                <li class="list-group-item">Second item <i class="f-20 ion-ios-checkmark-empty"></i></li>
-                                <li class="list-group-item">Third item <i class="f-20 ion-ios-checkmark-empty"></i></li>
-                                <li class="list-group-item">First item <i class="f-20 ion-ios-checkmark-empty"></i></li>
-                                <li class="list-group-item">Second item <i class="f-20 ion-ios-checkmark-empty"></i></li>
-                                <li class="list-group-item">Third item <i class="f-20 ion-ios-checkmark-empty"></i></li>
+                                <li class="list-group-item">
+                                    <i class="ion-ios-checkmark-empty m-r-5 f-18"></i>
+                                    Perfil profissional completo na plataforma
+                                    <br>
+                                    <span class="f-12">*Os usuários terão acesso a todos os seus contatos</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="ion-ios-checkmark-empty m-r-5 f-18"></i>
+                                    Gerenciamento de clientes
+                                    <br>
+                                    <span class="f-12">Cadastre e gerencie seus cliente de forma eficiente</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="ion-ios-checkmark-empty m-r-5 f-18"></i>
+                                    Acesso aos Dashboard's dos clientes
+                                    <br>
+                                    <span class="f-12">*Sujeito à permissões do cliente</span>
+                                </li>
+                                <li class="list-group-item not-supported">
+                                    <i class="ion-ios-close-empty m-r-5 f-18"></i>
+                                    Perfil da empresa na plataforma
+                                </li>
+                                <li class="list-group-item not-supported">
+                                    <i class="ion-ios-close-empty m-r-5 f-18"></i>
+                                    Agenda online
+                                </li>
+                                <li class="list-group-item not-supported">
+                                    <i class="ion-ios-close-empty m-r-5 f-18"></i>
+                                    Planos e preços online
+                                </li>
+                                <li class="list-group-item not-supported">
+                                    <i class="ion-ios-close-empty m-r-5 f-18"></i>
+                                    Controle de planos e aulas de clientes
+                                </li>
+                                <li class="list-group-item not-supported">
+                                    <i class="ion-ios-close-empty m-r-5 f-18"></i>
+                                    Galeria de fotos
+                                </li>
                             </ul>
 
-                            <a href="#" class="btn btn-xs btn-block btn-success p-10 f-16" title="Escolhi o perfil empresarial">Escolhi o perfil empresarial</a>
+                            @if(!empty(request()->query('professional')) || !empty(request()->query('company')) || !\Auth::guard('professional_web')->guest())
+                                <button class="btn btn-xs btn-block btn-success p-10 f-16" title="Quero este!" @click.prevent="planChooser('professional')">Quero este!</button>
+                            @else
+                                <p class="text-center m-t-10 m-b-10">Faça login para selecionar um plano</p>
+                                <a class="btn btn-xs btn-block btn-primary p-10 f-16" @click.prevent="goToLogin()">Fazer login</a>
+                            @endif
 
                         </div>
                     </div>
                 </div>
+                <!--Plus-->
+
+                <!-- Company -->
+                <div class="col-sm-4">
+                    <div class="card">
+                        <div class="card-header ch-alt text-center">
+                            <h3 class="f-300 m-0 m-b-10">Plano empresarial</h3>
+                            <p class="f-300 m-0"><small>Uma ferramenta completa para sua empresa!</small></p>
+                            <span class="payment">
+                                a partir de
+                                <strong class="payment-currency">R$</strong>
+                                <span class="payment-value">
+                                    <strong>57</strong>
+                                    <small>,90</small>
+                                </span>
+
+                                {{-- Isso aqui é só um exemplo --}}
+                                <span class="payment-duration">
+                                    Mensal
+                                </span>
+
+                                <button type="button" class="btn btn-info m-t-20" data-target="#company-profile" data-toggle="modal">Saiba mais sobre o perfil empresarial</button>
+                            </span>
+                        </div>
+                        <div class="card-body p-0">
+                            <ul class="list-group m-0 text-center">
+                                <li class="list-group-item">
+                                    <i class="ion-ios-checkmark-empty m-r-5 f-18"></i>
+                                    1 especialidade
+                                    <br>
+                                    <span class="f-12">R$57,90 / especialidade adicional / mês</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="ion-ios-checkmark-empty m-r-5 f-18"></i>
+                                    1 profissional
+                                    <br>
+                                    <span class="f-12">R$17,90 / profissional adicional / mês</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="ion-ios-checkmark-empty m-r-5 f-18"></i>
+                                    Acesso aos Dashboard's dos clientes
+                                    <br>
+                                    <span class="f-12">*Sujeito à permissões do cliente</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="ion-ios-checkmark-empty m-r-5 f-18"></i>
+                                    Perfil da empresa na plataforma
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="ion-ios-checkmark-empty m-r-5 f-18"></i>
+                                    Agenda online
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="ion-ios-checkmark-empty m-r-5 f-18"></i>
+                                    Planos e preços online
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="ion-ios-checkmark-empty m-r-5 f-18"></i>
+                                    Controle de planos e aulas de clientes
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="ion-ios-checkmark-empty m-r-5 f-18"></i>
+                                    Galeria de fotos
+                                </li>
+                            </ul>
+
+                           @if(!empty(request()->query('professional')) || !empty(request()->query('company')) || !\Auth::guard('professional_web')->guest())
+                                <button class="btn btn-xs btn-block btn-success p-10 f-16" title="Quero este!" @click.prevent="planChooser('company')">Quero este!</button>
+                               @else
+                                <p class="text-center m-t-10 m-b-10">Faça login para selecionar um plano</p>
+                                <a class="btn btn-xs btn-block btn-primary p-10 f-16" @click.prevent="goToLogin()">Fazer login</a>
+                           @endif
+                        </div>
+                    </div>
+                </div>
+                <!-- Company -->
             </div>
             {{-- End Form Container --}}
 
         </div>
+
+
+        <div>
+            <div class="container text-center m-t-30 m-b-30">
+                <h2 class="f-300">Ficou com alguma dúvida?</h2>
+                <p>Se você tem alguma dúvida entre em contato conosco através do e-mail <a class="text-primary" href="mailto:contato@isaudavel.com">contato@isaudavel.com</a> ou através do formulário abaixo.</p>
+                <p>Estamos sempre prontos para te atender.</p>
+            </div>
+        </div>
+
 
         {{-- Modal Professional Profile --}}
         <div class="modal" id="professional-profile" tabindex="-1" role="dialog">
@@ -181,6 +347,8 @@
 
     </section>
 
+    @include('landing.home.contact')
+
 @stop
 
 @section('scripts')
@@ -189,32 +357,79 @@
         Vue.config.debug = true;
 
         var vm = new Vue({
-                el: '#signup',
-                components: {
-                    Multiselect: window.VueMultiselect.default
-                },
+                el: '#plan-chooser',
                 data: {
-                    categoryFromParams: '',
-                    categories: [],
-                    category: null
+                    tracking: {
+                        professional_id: null,
+                        action: '',
+                        description: ''
+                    },
                 },
                 mounted: function () {
+                    @if(Auth::guard('professional_web')->check())
+                        this.tracking.professional_id = '@php echo  Auth::guard('professional_web')->user()->id @endphp'
+                    @endif
 
-                    this.getCategories();
-                    console.log('Vue rodando no signup');
+                    @if(Auth::guard('professional_web')->guest())
+                       this.handleUnauthenticated()
+                    @endif
                 },
                 methods: {
-                    getCategories: function(){
+
+                    planChooser(plan){
+                        this.tracking.action = 'click'
+                        this.tracking.description = `Clicou para selecionar o plano ${plan}`
+
+                        this.submitTracking()
+                    },
+
+                    submitTracking: function(){
                         let that = this
 
-                        this.$http.get('/api/company/category/list').then(response => {
+                        this.$http.post('/api/tools/information/collect', that.tracking).then(response => {
 
-                            that.categories = response.body;
+                            that.tracking.action = ''
+                            that.tracking.description = ''
+
+                            sessionStorage.setItem('is_tracking_id', that.tracking.professional_id);
 
                         }, response => {
                             // error callback
                         });
                     },
+
+                    handleUnauthenticated(){
+                        let that = this
+
+                        let hasTracking = sessionStorage.getItem('is_tracking_id')
+
+                        if(!_.isEmpty(hasTracking)){
+                            that.tracking.professional_id = hasTracking,
+                            that.tracking.action = 'view'
+                            that.tracking.description = `Visitou a página de plano deslogado`
+
+                            that.submitTracking()
+                        }
+                    },
+
+                    goToLogin() {
+                        let that = this
+                        let hasTracking = sessionStorage.getItem('is_tracking_id')
+
+                        if (!_.isEmpty(hasTracking)) {
+                            that.tracking.professional_id = hasTracking,
+                            that.tracking.action = 'click'
+                            that.tracking.description = `Clicou para fazer login na página de planos`
+                            that.submitTracking()
+                        }
+
+
+                        setTimeout(() => {
+                            window.location = '/profissionais/login?redirect=/cadastro/finalizar'
+                        }, 100)
+
+                    }
+
                 }
             })
 
