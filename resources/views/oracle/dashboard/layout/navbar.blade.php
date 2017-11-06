@@ -1,4 +1,4 @@
-<div class="navbar-default navbar-fixed-top animated" id="navigation">
+<div class="navbar-default navbar-fixed-top animated" id="navigation" v-if="!isFullscreen">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -17,6 +17,8 @@
         <nav class="collapse navbar-collapse" id="navbar">
             <ul class="nav navbar-nav navbar-right">
                 <li class="{{ getActiveRoute('landing.index') }}"><a href="{!! route('landing.index') !!}">Home</a></li>
+
+                <li class="{{ getActiveRoute('oracle.dashboard.sales.dashboard') }}"><a href="{!! route('oracle.dashboard.sales.dashboard') !!}"><strong>Vendas</strong></a></li>
 
                 <li class="{{ getActiveRoute('oracle.dashboard.companies.list') }}"><a href="{!! route('oracle.dashboard.companies.list') !!}">Empresas</a></li>
 
@@ -100,9 +102,11 @@
                 name: 'navbar',
                 data: () =>{
                     return {
-                        unreaded_notifications: 0
+                        unreaded_notifications: 0,
+                        isFullscreen: false
                     }
                 },
+
                 mounted: function () {
                     let that = this
                     this.getUserStatus()
@@ -114,10 +118,15 @@
                     this.$eventBus.$on('increment-counter', function (unreaded_notifications) {
                         that.unreaded_notifications = that.unreaded_notifications + unreaded_notifications
                     })
+
+                    this.$eventBus.$on('fullscreen', function (state) {
+                        that.isFullscreen = state
+                    })
                 },
                 beforeDestroy() {
                     this.$eventBus.$off('update-counter')
                     this.$eventBus.$off('increment-counter')
+                    this.$eventBus.$off('fullscreen')
                 },
                 methods: {
                     getUserStatus: function(){

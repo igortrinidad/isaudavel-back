@@ -235,6 +235,14 @@ Route::group(['prefix' => 'oracle', 'as' => 'oracle.'], function () {
             Route::post('remover', ['uses' => 'SubModalityController@destroy', 'as' => 'destroy']);
         });
 
+        // Sales (Hubspot)
+        Route::group(['prefix' => 'vendas', 'as' => 'sales.'], function () {
+            Route::get('/', ['uses' => 'SalesController@index', 'as' => 'dashboard']);
+        });
+
+
+
+
 
         Route::get('/meu-perfil', ['uses' => 'OracleController@profileShow', 'as' => 'profile.show']);
         Route::get('/notificacoes', ['uses' => 'OracleController@notifications', 'as' => 'notifications.show']);

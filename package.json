@@ -33,6 +33,7 @@
     "jquery-mask-plugin": "^1.14.11",
     "laravel-elixir": "^6.0.0-15",
     "moment": "^2.18.1",
+    "screenfull": "^3.3.2",
     "slug": "^0.9.1",
     "summernote": "^0.8.8",
     "sweetalert2": "^6.6.9",

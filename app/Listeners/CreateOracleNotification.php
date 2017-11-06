@@ -44,10 +44,14 @@ class CreateOracleNotification
                 'title' => 'Cadastro de profissional',
                 'content' => $professional->full_name .' acabou de se cadastrar no iSaudavel',
                 'button_label' => 'Ver profissional',
-                'button_action' => '/oracle/dashboard/profissionais/exibir/'.$professional->id
+                'button_action' => '/oracle/dashboard/profissionais/exibir/'.$professional->id,
+                'type' => $data['type']
             ];
         }
 
+        /*
+        * New Company
+        */
         if($data['type'] == 'new_company'){
             $company = $data['payload'];
 
@@ -55,10 +59,10 @@ class CreateOracleNotification
                 'title' => 'Cadastro de empresa',
                 'content' => $company->name .' acabou de ser cadastrada pelo usuário '. $company->owner->full_name .'.',
                 'button_label' => 'Ver empresa',
-                'button_action' => '/oracle/dashboard/empresas/editar/'.$company->id
+                'button_action' => '/oracle/dashboard/empresas/editar/'.$company->id,
+                'type' => $data['type']
             ];
         }
-
 
         /*
        * Create and send the push notification

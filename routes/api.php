@@ -196,6 +196,12 @@ Route::group(['prefix' => 'oracle'], function () {
     });
 
 
+    //Notifications
+    Route::group(['prefix' => '/sales/dashboard'], function() {
+        Route::get('/data', 'SalesController@dashboardData');
+    });
+
+
     /*Route::post('/auth/login', 'Auth\OracleLoginController@login');
 
     Route::post('/tools/send_log_erro', 'SystemController@send_log_erro');
@@ -273,3 +279,19 @@ Route::get('/fcm_test', function(){
 
 
 });
+
+Route::get('/hubspot/test', function(){
+
+
+   /* $engagementsEndpoint = 'https://api.hubapi.com/engagements/v1/engagements/recent/modified';
+
+    $contacs = hubspot_support($engagementsEndpoint, ['count' =>  5]);
+
+    return response()->json($contacs->data->results);*/
+
+   $owners = HubSpot::owners()->all();
+
+    return response()->json($owners);
+
+});
+
