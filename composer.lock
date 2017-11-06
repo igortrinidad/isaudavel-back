@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "5e2a342a2a0da47b4a5502614ceaef20",
+    "content-hash": "916a13278a1b85d492d0f206ed7cd931",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -2614,6 +2614,41 @@
             "time": "2017-08-04T13:39:04+00:00"
         },
         {
+            "name": "rossjcooper/laravel-hubspot",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rossjcooper/laravel-hubspot.git",
+                "reference": "eb9928ae261ad5fd02083976bd013f55789448ea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rossjcooper/laravel-hubspot/zipball/eb9928ae261ad5fd02083976bd013f55789448ea",
+                "reference": "eb9928ae261ad5fd02083976bd013f55789448ea",
+                "shasum": ""
+            },
+            "require": {
+                "ryanwinchester/hubspot-php": "1.0.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Rossjcooper\\LaravelHubSpot\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ross Cooper",
+                    "email": "therossjcooper@gmail.com"
+                }
+            ],
+            "time": "2017-05-06T22:54:15+00:00"
+        },
+        {
             "name": "roumen/sitemap",
             "version": "v2.6.5",
             "source": {
@@ -2660,6 +2695,56 @@
                 "laravel"
             ],
             "time": "2016-10-06T06:13:52+00:00"
+        },
+        {
+            "name": "ryanwinchester/hubspot-php",
+            "version": "v1.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ryanwinchester/hubspot-php.git",
+                "reference": "f620bac70bde7143d55823ad93ddf6aebc36dff4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ryanwinchester/hubspot-php/zipball/f620bac70bde7143d55823ad93ddf6aebc36dff4",
+                "reference": "f620bac70bde7143d55823ad93ddf6aebc36dff4",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "~6.0",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": " dev-master@dev",
+                "phpspec/phpspec": "~2.0",
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SevenShores\\Hubspot\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Ryan Winchester",
+                    "email": "fungku@gmail.com",
+                    "homepage": "http://ryanwinchester.ca"
+                }
+            ],
+            "description": "HubSpot PHP API client",
+            "keywords": [
+                "api",
+                "hubspot"
+            ],
+            "time": "2017-05-16T16:51:53+00:00"
         },
         {
             "name": "setasign/fpdi",
@@ -3830,57 +3915,6 @@
                 "tinypng"
             ],
             "time": "2017-07-19T12:26:04+00:00"
-        },
-        {
-            "name": "torann/json-ld",
-            "version": "0.0.10",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Torann/json-ld.git",
-                "reference": "dbf7249b4ea0951c22cc11717ce2fb08810a3c1e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Torann/json-ld/zipball/dbf7249b4ea0951c22cc11717ce2fb08810a3c1e",
-                "reference": "dbf7249b4ea0951c22cc11717ce2fb08810a3c1e",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.5"
-            },
-            "require-dev": {
-                "mockery/mockery": "^0.9.4",
-                "phpunit/phpunit": "~5.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.1-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "JsonLd\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD 2-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Daniel Stainback",
-                    "email": "daniel@lyften.com"
-                }
-            ],
-            "description": "Extremely simple JSON-LD markup generator.",
-            "keywords": [
-                "JSON-LD",
-                "generator",
-                "schema",
-                "structured-data"
-            ],
-            "time": "2017-08-18T15:22:08+00:00"
         },
         {
             "name": "tymon/jwt-auth",
@@ -5475,6 +5509,57 @@
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
             "time": "2017-07-29T21:54:42+00:00"
+        },
+        {
+            "name": "torann/json-ld",
+            "version": "0.0.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Torann/json-ld.git",
+                "reference": "dbf7249b4ea0951c22cc11717ce2fb08810a3c1e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Torann/json-ld/zipball/dbf7249b4ea0951c22cc11717ce2fb08810a3c1e",
+                "reference": "dbf7249b4ea0951c22cc11717ce2fb08810a3c1e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "mockery/mockery": "^0.9.4",
+                "phpunit/phpunit": "~5.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "JsonLd\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD 2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel Stainback",
+                    "email": "daniel@lyften.com"
+                }
+            ],
+            "description": "Extremely simple JSON-LD markup generator.",
+            "keywords": [
+                "JSON-LD",
+                "generator",
+                "schema",
+                "structured-data"
+            ],
+            "time": "2017-08-18T15:22:08+00:00"
         },
         {
             "name": "webmozart/assert",

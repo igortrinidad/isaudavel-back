@@ -190,7 +190,8 @@ return [
         Cviebrock\EloquentSluggable\ServiceProvider::class,
         niklasravnsborg\LaravelPdf\PdfServiceProvider::class,
         Mews\Purifier\PurifierServiceProvider::class,
-        LaravelFCM\FCMServiceProvider::class
+        LaravelFCM\FCMServiceProvider::class,
+        Rossjcooper\LaravelHubSpot\HubSpotServiceProvider::class
 
     ],
 
@@ -253,6 +254,7 @@ return [
         'PDF' => niklasravnsborg\LaravelPdf\Facades\Pdf::class,
         'Purifier' => Mews\Purifier\Facades\Purifier::class,
         'FCM'      => LaravelFCM\Facades\FCM::class,
+        'HubSpot' => Rossjcooper\LaravelHubSpot\Facades\HubSpot::class
     ],
 
 ];
