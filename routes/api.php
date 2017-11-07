@@ -205,14 +205,14 @@ Route::group(['prefix' => 'oracle'], function () {
 
     //Hubspot Webhook
     Route::group(['prefix' => 'hubspot'], function() {
-        Route::post('/contact_created', function(Request $request){
+        Route::get('/contact_created', function(Request $request){
             
 
             //Envia email para informar o cliente do cadastro
             $data = [];
             $data['align'] = 'center';
             $data['messageTitle'] = '<h4>TESTE WEBHOOK</h4>';
-            $data['messageOne'] = $request->all();
+            $data['messageOne'] = $request->get('portalId');
 
             $data['messageSubject'] = 'Cadastro iSaudavel';
 
