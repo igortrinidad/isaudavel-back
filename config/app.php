@@ -191,7 +191,8 @@ return [
         niklasravnsborg\LaravelPdf\PdfServiceProvider::class,
         Mews\Purifier\PurifierServiceProvider::class,
         LaravelFCM\FCMServiceProvider::class,
-        Rossjcooper\LaravelHubSpot\HubSpotServiceProvider::class
+        Rossjcooper\LaravelHubSpot\HubSpotServiceProvider::class,
+        Spatie\Newsletter\NewsletterServiceProvider::class,
 
     ],
 
@@ -254,7 +255,8 @@ return [
         'PDF' => niklasravnsborg\LaravelPdf\Facades\Pdf::class,
         'Purifier' => Mews\Purifier\Facades\Purifier::class,
         'FCM'      => LaravelFCM\Facades\FCM::class,
-        'HubSpot' => Rossjcooper\LaravelHubSpot\Facades\HubSpot::class
+        'HubSpot' => Rossjcooper\LaravelHubSpot\Facades\HubSpot::class,
+        'Newsletter' => Spatie\Newsletter\NewsletterFacade::class
     ],
 
 ];

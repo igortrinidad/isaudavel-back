@@ -23,6 +23,7 @@ use App\Models\Professional;
 use App\Models\MealRecipe;
 use Illuminate\Support\Str;
 use Rossjcooper\LaravelHubSpot\HubSpot;
+use Newsletter;
 use Webpatser\Uuid\Uuid;
 
 class LandingController extends Controller
@@ -500,10 +501,14 @@ class LandingController extends Controller
             return redirect()->back()->withInput($professional_data);
         }
 
+
         //set user password
         array_set($professional_data, 'password', bcrypt($user_password));
 
         $professional = tap(Professional::create($professional_data))->fresh();
+
+        //Adiciona o usuário à lista do Mail Chimp
+        Newsletter::subscribe($professional->email, ['firstName'=>$professional->name, 'lastName'=>$professional->last_name], 'isaudavel_professionals');
 
         $professional->categories()->attach($professional_data['categories_selected']);
 

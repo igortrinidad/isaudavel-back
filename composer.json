@@ -21,6 +21,7 @@
         "rossjcooper/laravel-hubspot": "^1.0",
         "roumen/sitemap": "^2.6",
         "spatie/laravel-fractal": "^3.5",
+        "spatie/laravel-newsletter": "3.7.0",
         "tinify/tinify": "^1.5",
         "tymon/jwt-auth": "1.0.0-beta.3",
         "webpatser/laravel-uuid": "2.*"

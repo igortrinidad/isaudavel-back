@@ -202,49 +202,14 @@ Route::group(['prefix' => 'oracle'], function () {
     });
 
 
-    /*Route::post('/auth/login', 'Auth\OracleLoginController@login');
 
-    Route::post('/tools/send_log_erro', 'SystemController@send_log_erro');
+    //Hubspot Webhook
+    Route::group(['prefix' => 'hubspot'], function() {
+        Route::get('/contact_created', function(){
+            return 'ok';
+        });
+    });
 
-    //Oracle protected routes
-    Route::group(['middleware' => 'auth:oracle'], function () {
-
-        //Users
-        Route::group(['prefix' => 'users'], function(){
-            //List
-            Route::get('/professional', 'ProfessionalController@index');
-            Route::get('/client', 'ClientController@index');
-            Route::get('/oracle', 'OracleUserController@index');
-
-            //Show
-            Route::get('/show/professional/{id}', 'ProfessionalController@show');
-            Route::get('/show/client/{id}', 'ClientController@show');
-            Route::get('/show/oracle/{id}', 'OracleUserController@show');
-
-            //Store
-            Route::post('/store/professional', 'ProfessionalController@store');
-            Route::post('/store/client', 'ClientController@store');
-            Route::post('/store/oracle', 'OracleUserController@store');
-
-            //Update
-            Route::post('/update/professional', 'ProfessionalController@update');
-            Route::post('/update/client', 'ClientController@update');
-            Route::post('/update/oracle', 'OracleUserController@update');
-
-            //Destroy
-            Route::get('/destroy/professional/{id}', 'ProfessionalController@destroy');
-            Route::get('/destroy/client/{id}', 'ClientController@destroy');
-            Route::get('/destroy/oracle/{id}', 'OracleUserController@destroy');
-
-            //Generate new Pass
-            Route::get('/generateNewPass/professional/{email}', 'ProfessionalController@generateNewPass');
-            Route::get('/generateNewPass/client/{email}', 'ClientController@generateNewPass');
-            Route::get('/generateNewPass/oracle/{email}', 'OracleUserController@generateNewPass');
-        });            
-
-        //profile update
-        Route::post('/user/update', 'OracleUserController@update');
-    });*/
 });
 
 
