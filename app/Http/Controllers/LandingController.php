@@ -22,6 +22,7 @@ use App\Models\Client;
 use App\Models\Professional;
 use App\Models\MealRecipe;
 use Illuminate\Support\Str;
+use Rossjcooper\LaravelHubSpot\HubSpot;
 use Webpatser\Uuid\Uuid;
 
 class LandingController extends Controller
@@ -505,6 +506,29 @@ class LandingController extends Controller
         $professional = tap(Professional::create($professional_data))->fresh();
 
         $professional->categories()->attach($professional_data['categories_selected']);
+
+
+        $properties = [
+            [
+                'property' => 'email',
+                'value' => $professional->email
+            ],
+            [
+                'property' => 'firstname',
+                'value' => $professional->name
+            ],
+            [
+                'property' => 'lastname',
+                'value' => $professional->last_name
+            ],
+            [
+                'property' => 'phone',
+                'value' => $professional->phone
+            ]
+        ];
+
+        //Create a new contact on Hubspot
+        \HubSpot::contacts()->create($properties);
 
         //Notify oracle
         event(new OracleNotification(['type' => 'new_professional', 'payload' => $professional]));

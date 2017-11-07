@@ -99,8 +99,8 @@
     <!-- CLIENT FEATURES -->
     <div class="container p-b-30">
         <div class="text-center">
-            <h2 class="f-300">Para empresa e profissionais</h2>
-            <span class="f-300">Um canal exclusivo para profissionais da área da saúde, fitness e estética</span>
+            <h2 class="f-300 m-b-20">Para empresa e profissionais</h2>
+            <h4 class="f-300 m-t-20">Uma ferramenta exclusiva para empresas e profissionais da área da saúde divulgarem seus serviços e atenderem seus clientes com muito mais comodidade tanto para o cliente quanto para você.</h4>
         </div>
         <div class="row" style="margin-top: 60px">
             <div class="col-sm-12">
@@ -113,14 +113,38 @@
                             <div class="col-sm-6 wow fadeInUp">
                                 <div class="card">
                                     <div class="card-header ch-alt text-center">
+                                        <i class="ion-ios-calendar-outline f-30"></i>
+                                        <h4 class="f-300">Agenda online</h4>
+                                    </div>
+                                    <div class="card-body card-padding" style="min-height: 200px;">
+                                        <span class="f-300">Cansado de responder mensagens no seu telefone pessoal tarde da noite? Com a agenda online iSaudavel você não precisa mais se preocupar em estar online o tempo inteiro, isso mesmo! Seus clientes poderão remarcar, cancelar ou confirmar as aulas agendadas com você diretamente do aplicativo e o melhor, você recebe as notificações push na hora de qualquer alteração em sua agenda.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 wow fadeInUp">
+                                <div class="card">
+                                    <div class="card-header ch-alt text-center">
                                         <i class="ion-star f-30"></i>
                                         <h4 class="f-300">Apareça</h4>
                                     </div>
                                     <div class="card-body card-padding" style="min-height: 200px;">
-                                        <span class="f-300">O iSaudavel é a primeira plataforma fitness onde você poderá mostrar seu perfil profissional completo com cursos, certificados e especialidades de sua carreira. </span>
+                                        <span class="f-300">O iSaudavel é a primeira plataforma fitness onde você poderá mostrar seu perfil profissional completo com cursos, certificados e especialidades de sua carreira, mostrando todo o seu potencial para o mundo.</span>
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-sm-6 wow fadeInUp">
+                                <div class="card">
+                                    <div class="card-header ch-alt text-center">
+                                        <i class="ion-social-usd f-30"></i>
+                                        <h4 class="f-300">Seus clientes em dia</h4>
+                                    </div>
+                                    <div class="card-body card-padding" style="min-height: 200px;">
+                                        <span class="f-300">Provavelmente você já precisou fazer a desagradável tarefa de lembrar seus clientes de vez em quando sobre pagamentos em atraso,  não é mesmo? O aplicativo possui um sistema dedicado para gerar e enviar as faturas automaticamente para o email de seus clientes 3 dias antes do vencimento e renovação, assim seus clientes serão informados antes da data de vencimento. E você receberá notificações push toda vez que o sistema gerar faturas automaticamente para seus clientes, tudo para seu controle e acompanhamento.</span>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="col-sm-6 wow fadeInUp">
                                 <div class="card">
                                     <div class="card-header ch-alt text-center">
@@ -128,7 +152,7 @@
                                         <h4 class="f-300">Sigam me os bons</h4>
                                     </div>
                                     <div class="card-body card-padding" style="min-height: 200px;">
-                                        <span class="f-300">Você que se preocupa com seu atendimento e a satisfação de seu cliente, agora você terá uma plataforma para seu cliente demonstrar o reconhecimento por seu trabalho. Seus clientes poderão avaliar seu trabalho ou de sua empresa separadamente, incentivando sempre o melhor de cada profissional.</span>
+                                        <span class="f-300">Você que se preocupa com seu atendimento e a satisfação de seu cliente, agora você terá uma plataforma para seu cliente demonstrar o reconhecimento por seu trabalho. Seus clientes poderão avaliar seu trabalho ou de sua empresa separadamente, incentivando sempre o melhor de cada profissional que atua no atendimento junto com você.</span>
                                     </div>
                                 </div>
                             </div>
@@ -143,11 +167,12 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="col-sm-6 wow fadeInUp">
                                 <div class="card">
                                     <div class="card-header ch-alt text-center">
                                         <i class="ion-clipboard f-30"></i>
-                                        <h4 class="f-300">Dados pra quem quer dados</h4>
+                                        <h4 class="f-300">Dados importantes</h4>
                                     </div>
                                     <div class="card-body card-padding" style="min-height: 200px;">
                                         <span class="f-300">Acesse e gerencie informações sobre seu cliente que antes era difíceis de se ter como o histórico de avaliações, histórico de lesões, restrições alimentares, fichas de treinamentos, dietas alimentares, histórico de indicadores de saúde e muitas outras. Informações que você poderá usar para ajudar seu cliente à atingir os objetivos com muito mais eficácia.</span>
@@ -167,7 +192,7 @@
         <!-- Screen Shots -->
         <div class="container text-center m-t-30">
             <h2 class="f-300">Conheça</h2>
-            <span class="f-300">Confira as telas do aplicativo!</span>
+            <span class="f-300">Confira algumas telas do aplicativo!</span>
             <div class="swiper-container swiper-screenshots">
                 <div class="swiper-wrapper" style="padding-top: 60px;">
                     <div class="swiper-slide">
@@ -195,7 +220,8 @@
     <!-- Actions -->
     <div  style="padding-top: 50px;">
         <div class="container text-center m-t-30 m-b-30">
-            <h2 class="f-300">Cadastre-se grátis agora</h2>
+            <h2 class="f-300">Cadastre-se agora</h2>
+            <h2 class="f-300 m-t-10">É grátis!</h2>
             <div class="row m-t-30">
                 <div class="col-sm-6">
                     <p>Ainda não tenho uma conta de profissional</p>
@@ -217,7 +243,6 @@
 
 
 @include('landing.home.download')
-@include('landing.home.contact')
 @include('landing.home.footer')
 
 <!-- Js -->

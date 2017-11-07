@@ -13,7 +13,7 @@
     <div class="container">
         <div class="text-center">
             <h2>Download</h2>
-            <span class="f-300">Isaudavel, disponível para Iphone, Android.</span>
+            <span class="f-300"><b>iSaudavel</b>, disponível para iPhone, Android.</span>
         </div>
 
         <div class="text-center wow fadeInUp m-t-30">

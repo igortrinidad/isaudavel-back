@@ -99,6 +99,9 @@
         }
 
     </style>
+    @section('styles')
+
+    @show
 
     <!-- Hotjar Tracking Code for https://isaudavel.com -->
    @include('components.hotjar')
@@ -107,12 +110,19 @@
 
 <body id="body">
 
+@php
+$show_footer = isset($show_footer)? $show_footer : true
+@endphp
+
 @include('oracle.dashboard.layout.navbar')
 
 @section('content')
 @show
 
-@include('landing.home.footer')
+@if(isset($show_footer) && $show_footer)
+    @include('landing.home.footer')
+@endif
+
 
 <!-- Js -->
 <script src="{{ elixir('build/landing/js/build_vendors_custom.js') }}"></script>
@@ -122,6 +132,9 @@
 <script src="https://www.gstatic.com/firebasejs/3.7.2/firebase.js"></script>
 
 <script>
+
+    var onSalesDashboard = "{{\Route::currentRouteName()}}"  == 'oracle.dashboard.sales.dashboard' ?true : false
+
     Vue.prototype.$eventBus = new Vue(); // Global event bus
 
     const vueOracle = new Vue()
@@ -129,6 +142,7 @@
     var config = {
         messagingSenderId: "823793769083"
     };
+
     firebase.initializeApp(config);
 
     const messaging = firebase.messaging();
@@ -179,6 +193,14 @@
     }
 
     function notificationHandler(payload) {
+
+        console.log(payload)
+
+        if(!_.isEmpty(payload.type) && onSalesDashboard){
+            vueOracle.$eventBus.$emit(payload.type)
+            return false;
+        }
+
 
         //Notification with button
         if (payload.button_label && payload.button_action) {

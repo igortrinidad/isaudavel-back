@@ -1,4 +1,4 @@
-<div class="navbar-default navbar-fixed-top animated" id="navigation">
+<div class="navbar-default navbar-fixed-top animated" id="navigation" v-if="!isFullscreen">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -9,22 +9,23 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="#">
-                <img class="logo-1" src="/logos/LOGO-1-04.png" alt="LOGO" width="120px">
                 <img class="logo-2" src="/logos/LOGO-1-01.png" alt="LOGO" width="120px">
             </a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <nav class="collapse navbar-collapse" id="navbar">
             <ul class="nav navbar-nav navbar-right">
-                <li class="{{ getActiveRoute('landing.index') }}"><a href="{!! route('landing.index') !!}">Voltar para site</a></li>
+                <li class="{{ getActiveRoute('landing.index') }}"><a href="{!! route('landing.index') !!}">Ir para site</a></li>
 
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                         Dashboard <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
-                        <li class="{{ getActiveRoute('oracle.dashboard.follow-up') }}"><a href="{!! route('oracle.dashboard.follow-up') !!}">Vendas e atendimento</a></li>
+                        <li class="{{ getActiveRoute('oracle.dashboard.sales.dashboard') }}"><a href="{!! route('oracle.dashboard.sales.dashboard') !!}">Vendas e atendimento</a></li>
                         <li ><a href="#">Aplicativo</a></li>
+
+                        <li class="{{ getActiveRoute('oracle.dashboard.follow-up') }}"><a href="{!! route('oracle.dashboard.follow-up') !!}">Follow-up</a></li>
                     </ul>
                 </li>
 
@@ -111,9 +112,11 @@
                 name: 'navbar',
                 data: () =>{
                     return {
-                        unreaded_notifications: 0
+                        unreaded_notifications: 0,
+                        isFullscreen: false
                     }
                 },
+
                 mounted: function () {
                     let that = this
                     this.getUserStatus()
@@ -125,10 +128,15 @@
                     this.$eventBus.$on('increment-counter', function (unreaded_notifications) {
                         that.unreaded_notifications = that.unreaded_notifications + unreaded_notifications
                     })
+
+                    this.$eventBus.$on('fullscreen', function (state) {
+                        that.isFullscreen = state
+                    })
                 },
                 beforeDestroy() {
                     this.$eventBus.$off('update-counter')
                     this.$eventBus.$off('increment-counter')
+                    this.$eventBus.$off('fullscreen')
                 },
                 methods: {
                     getUserStatus: function(){

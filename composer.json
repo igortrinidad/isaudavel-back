@@ -38,7 +38,8 @@
             "App\\": "app/"
         },
         "files": [
-            "app/Helpers/CustomHelpers.php"
+            "app/Helpers/CustomHelpers.php",
+            "app/Helpers/HubspotSupport.php"
         ]
     },
     "autoload-dev": {

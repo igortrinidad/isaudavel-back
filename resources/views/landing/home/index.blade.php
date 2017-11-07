@@ -24,16 +24,15 @@
 
         @include('landing.home.video')
         @include('landing.home.navbar')
-        @include('landing.companies.header-with-search', ['is_view_company' => false])
 
         @section('content')
         @show
 
         @include('landing.home.featured')
+        @include('landing.home.articles')
         @include('landing.home.recipes')
         @include('landing.home.events')
         @include('landing.home.download')
-        @include('landing.home.articles')
         @include('landing.home.contact')
         @include('landing.home.footer')
 
@@ -42,20 +41,6 @@
 
         @section('scripts')
         @show
-
-        <script type="text/javascript">
-
-            $(document).ready(function(){
-                //animated header class
-                // $(window).scroll(function () {
-                //     if ($(window).scrollTop() > 100) {
-                //         $(".navbar-default").addClass("animated");
-                //     } else {
-                //         $(".navbar-default").removeClass('animated');
-                //     }
-                // });
-            });
-        </script>
 
     </body>
 </html>
