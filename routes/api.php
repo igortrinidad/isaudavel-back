@@ -205,7 +205,7 @@ Route::group(['prefix' => 'oracle'], function () {
 
     //Hubspot Webhook
     Route::group(['prefix' => 'hubspot'], function() {
-        Route::get('/contact_created', function(Request $request){
+        Route::post('/contact_created', function(Request $request){
             
 
             //Envia email para informar o cliente do cadastro
