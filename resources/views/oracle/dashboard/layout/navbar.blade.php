@@ -16,19 +16,19 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <nav class="collapse navbar-collapse" id="navbar">
             <ul class="nav navbar-nav navbar-right">
-                <li class="{{ getActiveRoute('landing.index') }}"><a href="{!! route('landing.index') !!}">Home</a></li>
+                <li class="{{ getActiveRoute('landing.index') }}"><a href="{!! route('landing.index') !!}">Voltar para site</a></li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                        Dashboard <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li class="{{ getActiveRoute('oracle.dashboard.follow-up') }}"><a href="{!! route('oracle.dashboard.follow-up') !!}">Vendas e atendimento</a></li>
+                        <li ><a href="#">Aplicativo</a></li>
+                    </ul>
+                </li>
 
                 <li class="{{ getActiveRoute('oracle.dashboard.companies.list') }}"><a href="{!! route('oracle.dashboard.companies.list') !!}">Empresas</a></li>
-
-                <li class="{{ getActiveRoute('oracle.dashboard.follow-up') }}"><a href="{!! route('oracle.dashboard.follow-up') !!}">Follow-up</a></li>
-
-                <li class="{{ getActiveRoute('oracle.dashboard.events.list') }}"><a href="{!! route('oracle.dashboard.events.list') !!}">Eventos</a></li>
-
-                <li class="{{ getActiveRoute('oracle.dashboard.recipes.list') }}"><a href="{!! route('oracle.dashboard.recipes.list') !!}">Receitas</a></li>
-
-                <li class="{{ getActiveRoute('oracle.dashboard.articles.list') }}"><a href="{!! route('oracle.dashboard.articles.list') !!}">Artigos</a></li>
-
-                <li class="{{ getActiveRoute('oracle.dashboard.modalities.list') }}"><a href="{!! route('oracle.dashboard.modalities.list') !!}">Modalidades</a></li>
 
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -43,11 +43,22 @@
 
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                        Sistema <span class="caret"></span>
+                        Plataforma iSaudável <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
-                        <li class="{{ getActiveRoute('oracle.dashboard.system.edit-version') }}" ><a href="{!! route('oracle.dashboard.system.edit-version') !!}">Editar versão</a></li>
-                        <li class="{{ getActiveRoute('oracle.dashboard.eval-index.list') }}" ><a href="{!! route('oracle.dashboard.eval-index.list') !!}">Índices de avaliações</a></li>
+
+                        <li class="{{ getActiveRoute('oracle.dashboard.articles.list') }}"><a href="{!! route('oracle.dashboard.articles.list') !!}">Artigos da plataforma</a></li>
+
+                        <li class="{{ getActiveRoute('oracle.dashboard.recipes.list') }}"><a href="{!! route('oracle.dashboard.recipes.list') !!}">Receitas</a></li>
+
+                        <li class="{{ getActiveRoute('oracle.dashboard.events.list') }}"><a href="{!! route('oracle.dashboard.events.list') !!}">Eventos</a></li>
+
+                        <ul class="dropdown-menu" role="menu">
+                            <li class="{{ getActiveRoute('oracle.dashboard.modalities.list') }}"><a href="{!! route('oracle.dashboard.modalities.list') !!}">Modalidades</a></li>
+                        </ul>
+
+                        <li class="{{ getActiveRoute('oracle.dashboard.eval-index.list') }}" ><a href="{!! route('oracle.dashboard.eval-index.list') !!}">Índices de avaliações físicas</a></li>
+
                     </ul>
                 </li>
 
