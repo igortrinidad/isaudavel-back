@@ -205,8 +205,22 @@ Route::group(['prefix' => 'oracle'], function () {
 
     //Hubspot Webhook
     Route::group(['prefix' => 'hubspot'], function() {
-        Route::post('/contact_created', function(){
-            return 'ok';
+        Route::post('/contact_created', function(Request $request){
+            
+
+            //Envia email para informar o cliente do cadastro
+            $data = [];
+            $data['align'] = 'center';
+            $data['messageTitle'] = '<h4>TESTE WEBHOOK</h4>';
+            $data['messageOne'] = $request->all();
+
+            $data['messageSubject'] = 'Cadastro iSaudavel';
+
+            \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data){
+                $message->from('no-reply@isaudavel.com', 'iSaudavel App');
+                $message->to('contato@maisbartenders.com.br', 'Igor')->subject($data['messageSubject']);
+            });
+
         });
     });
 
