@@ -111,10 +111,15 @@
 <body id="body">
 
 @php
-$show_footer = isset($show_footer)? $show_footer : true
+$show_footer = isset($show_footer)? $show_footer : true;
+$show_header = isset($show_header)? $show_header : true;
 @endphp
 
-@include('oracle.dashboard.layout.navbar')
+@if(isset($show_header) && $show_header)
+    @include('oracle.dashboard.layout.navbar')
+@endif
+
+
 
 @section('content')
 @show

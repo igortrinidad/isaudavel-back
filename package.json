@@ -26,6 +26,7 @@
     "accounting": "^0.4.1",
     "animate": "^1.0.0",
     "bootstrap": "^3.3.7",
+    "fullpage.js": "^2.9.5",
     "gulp": "^3.9.1",
     "gulp-htmlmin": "^3.0.0",
     "ionicons": "^2.0.1",
