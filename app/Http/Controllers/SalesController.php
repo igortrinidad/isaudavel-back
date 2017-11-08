@@ -36,6 +36,7 @@ class SalesController extends Controller
         $emails = 0;
         $calls = 0;
         $notes = 0;
+        $meetings = 0;
 
         /**
          * Hubspot uses epoch timestamp so we need convert those dates
@@ -48,15 +49,12 @@ class SalesController extends Controller
         if($period == 'week'){
             $start = Carbon::now()->startOfWeek()->startOfDay()->getTimestamp() * 1000;
             $end = Carbon::now()->endOfWeek()->endOfDay()->getTimestamp() * 1000;
-
-
         }
 
         if($period == 'month'){
             $start = Carbon::now()->startOfMonth()->startOfDay()->getTimestamp() * 1000;
             $end = Carbon::now()->endOfMonth()->endOfDay()->getTimestamp() * 1000;
         }
-
 
         $owners = \HubSpot::owners()->all()->data;
 
@@ -72,10 +70,38 @@ class SalesController extends Controller
         $last_engagements = $this->getAllEngagements($start);
 
         $engagements = [];
+
+        $chartsData = [];
         foreach ($last_engagements as $engagement) {
 
             if($engagement->engagement->createdAt >= $start && $engagement->engagement->createdAt <= $end )
             {
+                $owner_name = '';
+
+                foreach ($owners as $owner) {
+
+                    if ($owner->ownerId == $engagement->engagement->ownerId) {
+                        $owner_name = $owner->firstName . ' ' . $owner->lastName;
+
+                        $chartsData[$engagement->engagement->ownerId]['label'] = $owner_name;
+                        if (!array_key_exists($engagement->engagement->type, $chartsData[$engagement->engagement->ownerId])) {
+                            $chartsData[$engagement->engagement->ownerId][$engagement->engagement->type] = 1;
+                        } else {
+                            $chartsData[$engagement->engagement->ownerId][$engagement->engagement->type]++;
+                        }
+
+                    }
+
+                    $engagement->metadata->username = $owner_name;
+
+                    $engagement->engagement->created_at = date('d/m/Y H:i:s', $engagement->engagement->createdAt / 1000);
+
+                    if(isset($engagement->metadata->body)){
+                        $engagement->metadata->body = str_limit(strip_tags($engagement->metadata->body), 100);
+                    }
+
+                }
+
                 if($engagement->engagement->type == 'TASK'){
                     $tasks++;
                 }
@@ -92,26 +118,39 @@ class SalesController extends Controller
                     $notes++;
                 }
 
-                $owner_name = '';
-
-                foreach ($owners as $owner) {
-                    if ($owner->ownerId == $engagement->engagement->ownerId) {
-                        $owner_name = $owner->firstName . ' ' . $owner->lastName;
-
-                    }
-
-                    $engagement->metadata->username = $owner_name;
-
-                    $engagement->engagement->created_at = date('d/m/Y H:i:s', $engagement->engagement->createdAt / 1000);
-
-                    if(isset($engagement->metadata->body)){
-                        $engagement->metadata->body = str_limit(strip_tags($engagement->metadata->body), 100);
-                    }
-
+                if($engagement->engagement->type == 'MEETING'){
+                    $meetings++;
                 }
 
                 $engagements[] = $engagement;
             }
+
+        }
+
+        //standardize the chart data
+
+        $newChartsData = [];
+        foreach($chartsData as $key => $data){
+
+            if(!array_key_exists('TASK', $data)){
+               array_set($data, 'TASK', 0);
+            }
+
+            if(!array_key_exists('EMAIL', $data)){
+                array_set($data, 'EMAIL', 0);
+            }
+
+            if(!array_key_exists('CALL', $data)){
+                array_set($data, 'CALL', 0);
+            }
+            if(!array_key_exists('NOTE', $data)){
+                array_set($data, 'NOTE', 0);
+            }
+            if(!array_key_exists('MEETING', $data)){
+                array_set($data, 'MEETING', 0);
+            }
+
+            $newChartsData[] = $data;
 
         }
 
@@ -129,9 +168,10 @@ class SalesController extends Controller
         $widgets_data->tasks = $tasks;
         $widgets_data->emails = $emails;
         $widgets_data->calls = $calls;
+        $widgets_data->meetings = $meetings;
         $widgets_data->contacts_created = $contacts_created;
 
-        return response()->json(['widgets_data' => $widgets_data, 'last_engagements' => $engagements]);
+        return response()->json(['widgets_data' => $widgets_data, 'last_engagements' => $engagements, 'charts_data' => $newChartsData]);
     }
 
     /**

@@ -205,14 +205,50 @@ Route::group(['prefix' => 'oracle'], function () {
 
     //Hubspot Webhook
     Route::group(['prefix' => 'hubspot'], function() {
-        Route::post('/contact_created', function(Request $request){
-            
 
-            //Envia email para informar o cliente do cadastro
+        //Get the APP auth code from hubspot
+        Route::get('/webhook/get_code', function(Request $request){
+
+            $code  = $request->get('code');
+
+            if(!$code){
+                return response()->json(['message' => 'Integration error: No authorization code provided.'], 500);
+            }
+
+            \Redis::set('hubspot_app_auth_code', $code);
+
+            //Get the access and refresh tokens via CURL
+            $service_url = 'https://api.hubapi.com/oauth/v1/token';
+            $curl = curl_init($service_url);
+            $curl_post_data = array(
+                'grant_type' => 'authorization_code',
+                'client_id' => env('HUBSPOT_APP_CLIENT_ID'),
+                'client_secret' => env('HUBSPOT_APP_CLIENT_SECRET'),
+                'redirect_uri' => env('HUBSPOT_APP_REDIRECT_URI'),
+                'code' => $code
+            );
+
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_POST, true);
+            curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded;charset=utf-8'));
+            curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($curl_post_data));
+
+            $curl_response = json_decode(curl_exec($curl), true);
+
+            \Redis::set('hubspot_app_access_token', $curl_response['access_token']);
+            \Redis::set('hubspot_app_refresh_token', $curl_response['refresh_token']);
+
+            return response()->json(['message' => 'Successfully integrated with HubSpot']);
+        });
+
+
+        //Receive subscription events from Hubspot
+        Route::post('/webhook/receive', function(Request $request){
+            
             $data = [];
             $data['align'] = 'center';
             $data['messageTitle'] = '<h4>TESTE WEBHOOK</h4>';
-            $data['messageOne'] = $request->get('portalId');
+            $data['messageOne'] = $request->all();
 
             $data['messageSubject'] = 'Cadastro iSaudavel';
 
@@ -221,7 +257,10 @@ Route::group(['prefix' => 'oracle'], function () {
                 $message->to('contato@maisbartenders.com.br', 'Igor')->subject($data['messageSubject']);
             });
 
+            return response()->json(['message' => 'success']);
+
         });
+
     });
 
 });
@@ -262,9 +301,9 @@ Route::get('/fcm_test', function(){
 Route::get('/hubspot/test', function(){
 
 
-    $engagementsEndpoint = 'https://api.hubapi.com/engagements/v1/engagements/paged';
 
-    $contacs = hubspot_support($engagementsEndpoint, []);
+
+    $contacs = \HubSpot::contacts()->statistics();
 
     return response()->json($contacs);
 

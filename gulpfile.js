@@ -78,6 +78,7 @@ elixir(function(mix) {
         '../../../node_modules/summernote/dist/summernote.js',
         '../../../node_modules/screenfull/dist/screenfull.js',
         '../../../node_modules/fullpage.js/dist/jquery.fullpage.extensions.min.js',
+        '../../../node_modules/chart.js/dist/Chart.js',
         '../prelaunch/js/vendor/modernizr-2.6.2.min.js',
         '../prelaunch/js/jquery.lwtCountdown-1.0.js',
         '../prelaunch/js/owl.carousel.min.js',
