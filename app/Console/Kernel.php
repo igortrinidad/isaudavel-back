@@ -21,6 +21,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\AlterRecipesTypes::class,
         \App\Console\Commands\MarkSchedulesAsConfirmed::class,
         \App\Console\Commands\SendInviteToClientRateProfessionals::class,
+        \App\Console\Commands\RefreshHubspotToken::class,
     ];
 
     /**
@@ -35,6 +36,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('process:subscriptions')->dailyAt('07:54');
         $schedule->command('invoice:client-reminder-3-days')->dailyAt('07:59');
         $schedule->command('mark:schedules-as-confirmed-automatically')->everyMinute();
+        $schedule->command('hubspot:refresh_token')->hourly();
     }
 
     /**
