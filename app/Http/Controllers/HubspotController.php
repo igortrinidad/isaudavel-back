@@ -60,16 +60,20 @@ class HubspotController extends Controller
 
             if($event['subscriptionType'] == 'contact.creation')
             {
-                $contact = \HubSpot::contacts()->getById($event['objectId']);
+               //Load the contact from hubspot
+               $contact = \HubSpot::contacts()->getById($event['objectId'])->data;
 
-                $name = isset($contact->properties->firstname) ?  $contact->properties->firstname->value : '';
-                $last_name = isset($contact->properties->lastname) ? $contact->properties->lastname->value : '';
-                $email = isset($contact->properties->email) ? $contact->properties->email->value : null;
+               if(isset($contact->vid)){
+                   //Contact data
+                   $name = isset($contact->properties->firstname) ?  $contact->properties->firstname->value : '';
+                   $last_name = isset($contact->properties->lastname) ? $contact->properties->lastname->value : '';
+                   $email = isset($contact->properties->email) ? $contact->properties->email->value : null;
 
-                //Subscribe the contact on mailchimp
-                if($email){
-                    \Newsletter::subscribe($email, ['firstName' => $name, 'lastName'=> $last_name], 'isaudavel_professionals');
-                }
+                   //Subscribe the contact on mailchimp
+                   if($email){
+                       \Newsletter::subscribe($email, ['firstName' => $name, 'lastName' => $last_name], 'isaudavel_professionals');
+                   }
+               }
 
                 event( new OracleNotification(['type' => 'hubspot_contact_creation', 'payload' => ['name' => $name, 'last_name' => $last_name] ]));
             }

@@ -244,12 +244,11 @@ Route::get('/fcm_test', function(){
 
 Route::get('/hubspot/test', function(){
 
+    $contact = \HubSpot::contacts()->getById(5651)->data;
 
 
 
-    $contacs = \HubSpot::contacts()->statistics();
-
-    return response()->json($contacs);
+    return response()->json($contact);
 
 });
 
