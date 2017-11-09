@@ -33,6 +33,7 @@ class CreateOracleNotification
     public function handle(OracleNotificationEvent $event)
     {
         $data = $event->notification_data;
+        $only_toast = false;
 
         /*
         * New professional
@@ -65,6 +66,39 @@ class CreateOracleNotification
         }
 
         /*
+        * New contact added on Hubspot
+        */
+        if($data['type'] == 'hubspot_contact_creation'){
+            $contact = $data['payload'];
+
+
+            $notification_data = [
+                'title' => 'HubSpot',
+                'content' => $contact['name'].' '.$contact['last_name']. ' foi adicionado no HubSpot.',
+                'type' => $data['type'],
+                'only_sales_dashboard' => true
+            ];
+
+            $only_toast = true;
+        }
+
+       /*
+       * Contact removed on Hubspot
+       */
+        if($data['type'] == 'hubspot_contact_deletion'){
+            $event = $data['payload'];
+
+            $notification_data = [
+                'title' => 'HubSpot',
+                'content' => 'Um contato foi removido do HubSpot.',
+                'type' => $data['type'],
+                'only_sales_dashboard' => true
+            ];
+
+            $only_toast = true;
+        }
+
+        /*
        * Create and send the push notification
        */
 
@@ -72,7 +106,10 @@ class CreateOracleNotification
 
             array_set($notification_data, 'oracle_user_id', $oracle_user->id);
 
-            $notification = OracleNotification::create($notification_data);
+            //Create the notification on database only if required
+            if(!$only_toast){
+                $notification = OracleNotification::create($notification_data);
+            }
 
             if($oracle_user->fcm_token_mobile){
                 $this->sendPushNotification($oracle_user->fcm_token_mobile, $notification_data);
