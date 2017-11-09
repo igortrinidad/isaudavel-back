@@ -22,6 +22,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\MarkSchedulesAsConfirmed::class,
         \App\Console\Commands\SendInviteToClientRateProfessionals::class,
         \App\Console\Commands\RefreshHubspotToken::class,
+        \App\Console\Commands\HubspotMailchimp::class,
     ];
 
     /**
