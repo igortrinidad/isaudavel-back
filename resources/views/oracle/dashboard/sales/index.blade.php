@@ -365,6 +365,7 @@
         @endphp
 
         const newProfessionalAudio = new Audio('/audio/coins.mp3');
+        const default_notificationAudio = new Audio('/audio/default_notification.mp3');
 
         var vm = new Vue({
                 el: '#sales-dashboard',
@@ -407,12 +408,12 @@
 
                     this.initSliders()
                     this.getDashboardData()
-                    this.$eventBus.$on('new_professional', this.newProfessional)
+                    this.$eventBus.$on('sales_dashboard_notification', this.handleNotifications)
 
                 },
 
                 beforeDestroy(){
-                    this.$eventBus.$off('new_professional')
+                    this.$eventBus.$off('sales_dashboard_notification')
 
                     clearInterval(updateTimer);
                     clearInterval(transitionTimer);
@@ -491,16 +492,6 @@
 
                     },
 
-                    newProfessional(){
-
-                        this.widgets.professionals++
-
-                        this.notification('', 'Novo profissional adicionado')
-
-                        newProfessionalAudio.play()
-
-                    },
-
                     initSliders(){
                         let that = this
                         $('#fullpage').fullpage({
@@ -515,9 +506,33 @@
                         });
                     },
 
+                    handleNotifications(payload){
+                        let that = this
+
+                        if(payload.type == 'new_professional'){
+                            that.widgets.professionals++
+                            that.notification('', 'Novo profissional adicionado')
+                            newProfessionalAudio.play()
+                            return true
+                        }
+
+                        if(payload.type == 'hubspot_contact_creation'){
+                            that.widgets.contacts_created++
+                            that.notification(payload.title, payload.content)
+                            default_notificationAudio.play()
+                            return true
+                        }
+
+                        if(payload.type == 'hubspot_contact_deletion'){
+                            that.notification(payload.title, payload.content)
+                            default_notificationAudio.play()
+                            return true
+                        }
+                    },
+
                     notification(title, message, position){
                         iziToast.show({
-                            position:  position? position : 'topRight',
+                            position:  position ? position : 'topRight',
                             title: title,
                             message: message,
                             color: '#488FEE',

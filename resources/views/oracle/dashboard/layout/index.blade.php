@@ -199,13 +199,15 @@ $show_header = isset($show_header)? $show_header : true;
 
     function notificationHandler(payload) {
 
-        console.log(payload)
-
-        if(!_.isEmpty(payload.type) && onSalesDashboard){
-            vueOracle.$eventBus.$emit(payload.type)
+        // Only sales dashboard notifications
+        if(!_.isEmpty(payload.type) && onSalesDashboard || payload.only_sales_dashboard){
+            vueOracle.$eventBus.$emit('sales_dashboard_notification', payload)
             return false;
         }
 
+        /*
+        * General notifications
+        */
 
         //Notification with button
         if (payload.button_label && payload.button_action) {
