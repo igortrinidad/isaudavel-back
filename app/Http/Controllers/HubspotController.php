@@ -68,10 +68,10 @@ class HubspotController extends Controller
 
                 //Subscribe the contact on mailchimp
                 if($email){
-                    \Newsletter::subscribe($email, ['firstName' => $name, 'lastName '=> $last_name], 'isaudavel_professionals');
+                    \Newsletter::subscribe($email, ['firstName' => $name, 'lastName'=> $last_name], 'isaudavel_professionals');
                 }
 
-                event( new OracleNotification(['type' => 'hubspot_contact_creation', 'payload' => ['name' => $name, 'last_name '=> $last_name] ]));
+                event( new OracleNotification(['type' => 'hubspot_contact_creation', 'payload' => ['name' => $name, 'last_name' => $last_name] ]));
             }
 
             if($event['subscriptionType']  == 'contact.deletion')
