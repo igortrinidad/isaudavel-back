@@ -783,7 +783,7 @@ class ScheduleController extends Controller
     {
 
         $schedule = Schedule::with(['professional', 'company', 'category', 'subscription' => function($query){
-            $query->select('id','client_id', 'plan_id', 'start_at', 'expire_at');
+            $query->select('id','client_id', 'plan_id', 'start_at', 'expire_at', 'is_active', 'auto_renew');
         }, 'subscription.client', 'subscription.plan', 'professional', 'company' ])->find($id);
 
         $category_calendar_settings = CategoryCalendarSetting::where('company_id', $schedule->company_id)

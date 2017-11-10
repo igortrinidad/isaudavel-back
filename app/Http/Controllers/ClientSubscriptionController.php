@@ -176,6 +176,8 @@ class ClientSubscriptionController extends Controller
            }
         }
 
+        /*
+        DESABILITADO POR ENQUANTO
         //Send Mail
         $data = [];
         $data['align'] = 'center';
@@ -189,6 +191,7 @@ class ClientSubscriptionController extends Controller
             $message->from('no-reply@isaudavel.com', 'iSaudavel App');
             $message->to($subscription->client->email, $subscription->client->full_name)->subject($data['messageSubject']);
         });
+        */
 
         return response()->json([
             'message' => 'Subscription updated.',
