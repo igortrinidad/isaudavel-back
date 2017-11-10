@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\ClientNotification;
 use App\Events\CompanyNotification;
+use App\Mail\DefaultEmail;
 use App\Models\SingleSchedule;
 use App\Models\CategoryCalendarSetting;
 use Carbon\Carbon;
@@ -61,15 +62,13 @@ class SingleScheduleController extends Controller
 
         $data['messageSubject'] = 'Novo agendamento';
 
-        \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $single_schedule){
-            $message->from('no-reply@isaudavel.com', 'iSaudavel App');
-            $message->to($single_schedule->client->email, $single_schedule->client->full_name)->subject($data['messageSubject']);
+        //Mail to client
+        \Mail::to($single_schedule->client->email, $single_schedule->client->full_name)->queue(new DefaultEmail($data));
 
-            if($single_schedule->professional_id){
-                $message->cc($single_schedule->professional->email, $single_schedule->professional->full_name)->subject($data['messageSubject']);
-            }
-
-        });
+        //Mail to professional
+        if($single_schedule->professional_id){
+            \Mail::to($single_schedule->professional->email, $single_schedule->professional->full_name)->queue(new DefaultEmail($data));
+        }
 
         return response()->json([
             'message' => 'Single schedule created.',
@@ -183,14 +182,13 @@ class SingleScheduleController extends Controller
 
         $data['messageSubject'] = 'Alteração de horário';
 
-        \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $single_schedule){
-            $message->from('no-reply@isaudavel.com', 'iSaudavel App');
-            $message->to($single_schedule->client->email, $single_schedule->client->full_name)->subject($data['messageSubject']);
-            
-            if($single_schedule->professional_id){
-                $message->cc($single_schedule->professional->email, $single_schedule->professional->full_name)->subject($data['messageSubject']);
-            }
-        });
+        //Mail to client
+        \Mail::to($single_schedule->client->email, $single_schedule->client->full_name)->queue(new DefaultEmail($data));
+
+        //Mail to professional
+        if($single_schedule->professional_id){
+            \Mail::to($single_schedule->professional->email, $single_schedule->professional->full_name)->queue(new DefaultEmail($data));
+        }
 
         return response()->json([
             'message' => 'Rescheduled.',
@@ -257,13 +255,13 @@ class SingleScheduleController extends Controller
 
         $data['messageSubject'] = 'Cancelamento de horário';
 
-        \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $single_schedule){
-            $message->from('no-reply@isaudavel.com', 'iSaudavel App');
-            $message->to($single_schedule->client->email, $single_schedule->client->full_name)->subject($data['messageSubject']);
-            if($single_schedule->professional_id){
-                $message->cc($single_schedule->professional->email, $single_schedule->professional->full_name)->subject($data['messageSubject']);
-            }
-        });
+        //Mail to client
+        \Mail::to($single_schedule->client->email, $single_schedule->client->full_name)->queue(new DefaultEmail($data));
+
+        //Mail to professional
+        if($single_schedule->professional_id){
+            \Mail::to($single_schedule->professional->email, $single_schedule->professional->full_name)->queue(new DefaultEmail($data));
+        }
 
         return response()->json([
             'message' => 'Canceled.',

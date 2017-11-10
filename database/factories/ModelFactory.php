@@ -23,7 +23,7 @@ $faker = \Faker\Factory::create('pt_BR');
 
 $factory->define(App\Models\Professional::class, function (Faker\Generator $faker) {
     static $password;
-    $terms = ['accepted' => true, 'accepted_at' => Carbon::now()->format('d/m/Y H:i:s')];
+    $terms = ['accepted' => true, 'accepted_at' => Carbon::now()];
     return [
         'name' => $faker->firstName,
         'last_name' => $faker->lastName,
@@ -31,7 +31,8 @@ $factory->define(App\Models\Professional::class, function (Faker\Generator $fake
         'slug' => str_random(10),
         'password' => $password ?: $password = bcrypt('password'),
         'remember_token' => str_random(10),
-        'terms' => $terms
+        'terms_accepted' => $terms['accepted'],
+        'terms_accepted_at' => $terms['accepted_at']
     ];
 });
 

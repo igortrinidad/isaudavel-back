@@ -16,7 +16,7 @@ class ProfessionalsTableSeeder extends Seeder
 
         $categories = \App\Models\Category::where('slug', '<>', 'all')->get()->pluck('id')->flatten()->toArray();
 
-        $terms = ['accepted' => true, 'accepted_at' => Carbon::now()->format('d/m/Y H:i:s')];
+        $terms = ['accepted' => true, 'accepted_at' => Carbon::now()];
 
         factory(App\Models\Professional::class)->create([
             'name' => 'Matheus',
@@ -25,7 +25,8 @@ class ProfessionalsTableSeeder extends Seeder
             'slug' => str_random(10),
             'password' => bcrypt('password'),
             'remember_token' => str_random(10),
-            'terms' => $terms
+            'terms_accepted' => $terms['accepted'],
+            'terms_accepted_at' => $terms['accepted_at']
         ]);
 
         factory(App\Models\Professional::class)->create([
@@ -35,7 +36,8 @@ class ProfessionalsTableSeeder extends Seeder
             'slug' => str_random(10),
             'password' => bcrypt('password'),
             'remember_token' => str_random(10),
-            'terms' => $terms
+            'terms_accepted' => $terms['accepted'],
+            'terms_accepted_at' => $terms['accepted_at']
         ]);
 
         factory(App\Models\Professional::class)->create([
@@ -45,7 +47,8 @@ class ProfessionalsTableSeeder extends Seeder
             'slug' => str_random(10),
             'password' => bcrypt('password'),
             'remember_token' => str_random(10),
-            'terms' => $terms
+            'terms_accepted' => $terms['accepted'],
+            'terms_accepted_at' => $terms['accepted_at']
         ]);
 
         factory(App\Models\Professional::class, 30)->create();
