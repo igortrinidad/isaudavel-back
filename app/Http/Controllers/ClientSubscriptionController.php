@@ -37,6 +37,23 @@ class ClientSubscriptionController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @param $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show_client_company_subscription(Request $request)
+    {
+        $subscriptions = ClientSubscription::
+        where('company_id', $request->get('company_id'))
+        ->where('client_id', $request->get('client_id'))
+        ->with(['plan.category'])
+        ->get();
+
+        return response()->json(['client_subscriptions' => $subscriptions]);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
