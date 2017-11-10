@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Mail\DefaultEmail;
 use App\Models\ClientSubscription;
 use App\Models\Invoice;
 use App\Models\Schedule;
@@ -43,7 +44,8 @@ class ProccessSubscriptions extends Command
     {
         $this->info('Command started' );
 
-        $date = Carbon::now()->format('Y-m-d');
+        //Get all subscriptions 3 days before expire
+        $date = Carbon::now()->addDays(3)->format('Y-m-d');
 
         $client_subscriptions = ClientSubscription::where('expire_at', $date)
             ->where('is_active', true)
@@ -63,14 +65,14 @@ class ProccessSubscriptions extends Command
             $old_start = Carbon::createFromFormat('d/m/Y', $client_subscription->start_at);
             $old_expire = Carbon::createFromFormat('d/m/Y', $client_subscription->expire_at);
 
-            $new_start = $old_expire->copy()->addDay(1);
+            $new_start = $old_expire->copy();
             $new_expire = $new_start->copy()->addMonths($client_subscription->plan->expiration);
 
             $new_invoice = Invoice::create([
                 'subscription_id' => $client_subscription->id,
                 'company_id' => $client_subscription->company_id,
                 'value' => $client_subscription->plan->value,
-                'expire_at' => $new_expire->format('d/m/Y'),
+                'expire_at' => $new_start->format('d/m/Y'),
                 'is_confirmed' => false,
                 'is_canceled' => false,
                 'history' => json_decode('[]')
@@ -145,8 +147,12 @@ class ProccessSubscriptions extends Command
 
                 }
 
-
             }
+
+            $client_subscription->start_at = $old_start->addMonths($client_subscription->plan->expiration)->format('d/m/Y');
+            $client_subscription->expire_at = $old_expire->addMonths($client_subscription->plan->expiration)->format('d/m/Y');
+
+            $client_subscription->save();
 
             //New invoice Mail
             $data = [];
@@ -163,22 +169,13 @@ class ProccessSubscriptions extends Command
             $data['messageTwo'] = 'Confira abaixo os novos agendamentos.<br/>
             <p>Agendamentos</p>
             <b>' . $schedules . '</b>';
-
             $data['messageThree'] = 'Acesse online em https://isaudavel.com ou baixe o aplicativo para Android e iOS (Apple)';
-
             $data['messageSubject'] = 'iSaudavel: Nova fatura';
 
-            \Mail::send('emails.standart-with-btn', ['data' => $data], function ($message) use ($data, $new_invoice) {
-                $message->from('no-reply@isaudavel.com', 'iSaudavel App');
-                $message->to($new_invoice->subscription->client->email, $new_invoice->subscription->client->full_name)->subject($data['messageSubject']);
-            });
+            //Send the email through the queuee
+            \Mail::to($new_invoice->subscription->client->email,  $new_invoice->subscription->client->full_name)->queue(new DefaultEmail($data));
 
-            $client_subscription->start_at = $old_start->addMonths($client_subscription->plan->expiration)->format('d/m/Y');
-            $client_subscription->expire_at = $old_expire->addMonths($client_subscription->plan->expiration)->format('d/m/Y');
-
-            $client_subscription->save();
         }
-
 
         $this->info('Finished' );
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\ClientNotification;
 use App\Events\CompanyNotification;
+use App\Mail\DefaultEmail;
 use App\Models\CategoryCalendarSetting;
 use App\Models\ClientSubscription;
 use App\Models\Company;
@@ -783,7 +784,7 @@ class ScheduleController extends Controller
     {
 
         $schedule = Schedule::with(['professional', 'company', 'category', 'subscription' => function($query){
-            $query->select('id','client_id', 'plan_id', 'start_at', 'expire_at', 'is_active', 'auto_renew');
+            $query->select('id','client_id', 'plan_id', 'start_at', 'expire_at');
         }, 'subscription.client', 'subscription.plan', 'professional', 'company' ])->find($id);
 
         $category_calendar_settings = CategoryCalendarSetting::where('company_id', $schedule->company_id)
@@ -878,14 +879,9 @@ class ScheduleController extends Controller
 
             event(new ClientNotification($schedule->client->id, ['type' => 'reschedule', 'payload' => ['schedule' => $schedule, 'old_schedule' => $old_schedule]]));
 
-            \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $schedule){
-                $message->from('no-reply@isaudavel.com', 'iSaudavel App');
-                $message->to($schedule->client->email, $schedule->client->full_name)->subject($data['messageSubject']);
-            });
+            \Mail::to($schedule->client->email, $schedule->client->full_name)->queue(new DefaultEmail($data));
 
             event(new CompanyNotification($schedule->company_id, ['type' => 'reschedule_by_professional', 'payload' => ['schedule' => $schedule, 'old_schedule' => $old_schedule]]));
-
-
         }
 
         //Notify the company
@@ -893,14 +889,9 @@ class ScheduleController extends Controller
 
             event(new CompanyNotification($schedule->company_id, ['type' => 'reschedule', 'payload' => ['schedule' => $schedule, 'old_schedule' => $old_schedule]]));
 
-            \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $schedule){
-                $message->from('no-reply@isaudavel.com', 'iSaudavel App');
-                $message->to($schedule->professional->$email, $schedule->professional->full_name)->subject($data['messageSubject']);
-            });
+            \Mail::to($schedule->professional->email, $schedule->professional->full_name)->queue(new DefaultEmail($data));
 
         }
-
-
 
         return response()->json([
             'message' => 'Rescheduled.',
@@ -1005,11 +996,7 @@ class ScheduleController extends Controller
 
             event(new CompanyNotification($schedule->company_id, ['type' => 'cancel_schedule_by_professional', 'payload' => $schedule]));
 
-            \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $schedule){
-                $message->from('no-reply@isaudavel.com', 'iSaudavel App');
-                $message->to($schedule->client->email, $schedule->client->full_name)->subject($data['messageSubject']);
-            });
-
+            \Mail::to($schedule->client->email, $schedule->client->full_name)->queue(new DefaultEmail($data));
         }
 
         //Notify the company
@@ -1017,11 +1004,7 @@ class ScheduleController extends Controller
 
             event(new CompanyNotification($schedule->company_id, ['type' => 'cancel_schedule', 'payload' => $schedule]));
 
-            \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $schedule){
-                $message->from('no-reply@isaudavel.com', 'iSaudavel App');
-                $message->to($schedule->professional->email, $schedule->professional->full_name)->subject($data['messageSubject']);
-            });
-
+            \Mail::to($schedule->professional->email, $schedule->professional->full_name)->queue(new DefaultEmail($data));
         }
 
 

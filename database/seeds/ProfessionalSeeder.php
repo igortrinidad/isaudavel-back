@@ -15,7 +15,7 @@ class ProfessionalSeeder extends Seeder
          * Professional without company
          */
 
-        $terms = ['accepted' => true, 'accepted_at' => \Carbon\Carbon::now()->format('d/m/Y H:i:s')];
+        $terms = ['accepted' => true, 'accepted_at' => \Carbon\Carbon::now()];
 
         $professional = factory(App\Models\Professional::class)->create([
             'name' => 'Manolo',
@@ -24,7 +24,8 @@ class ProfessionalSeeder extends Seeder
             'slug' => str_random(10),
             'password' => bcrypt('password'),
             'remember_token' => str_random(10),
-            'terms' => $terms
+            'terms_accepted' => $terms['accepted'],
+            'terms_accepted_at' => $terms['accepted_at']
         ]);
 
         $professional->subscription()->create([

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\DefaultEmail;
 use App\Models\ClientSubscription;
 use App\Models\Invoice;
 use App\Models\Schedule;
@@ -187,10 +188,7 @@ class ClientSubscriptionController extends Controller
         $data['messageTwo'] = 'Acesse online em https://isaudavel.com ou baixe o aplicativo para Android e iOS (Apple)';
         $data['messageSubject'] = 'Alteração de assinatura';
 
-        \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $subscription){
-            $message->from('no-reply@isaudavel.com', 'iSaudavel App');
-            $message->to($subscription->client->email, $subscription->client->full_name)->subject($data['messageSubject']);
-        });
+         \Mail::to($subscription->client->email, $subscription->client->full_name)->queue(new DefaultEmail($data));
         */
 
         return response()->json([

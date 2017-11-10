@@ -146,7 +146,7 @@ class ClientCompanySeeder extends Seeder
                         'subscription_id' => $subs->id,
                         'company_id' => $subs->company_id,
                         'value' => $plan->value,
-                        'expire_at' => $subs->expire_at,
+                        'expire_at' => $subs->start_at,
                         'is_confirmed' => false,
                         'is_canceled' => false,
                         'history' => json_decode('[]')

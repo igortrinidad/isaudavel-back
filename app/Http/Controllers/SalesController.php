@@ -33,10 +33,12 @@ class SalesController extends Controller
 
         $contacts_created = 0;
         $tasks = 0;
+        $incoming_emails = 0;
         $emails = 0;
         $calls = 0;
         $notes = 0;
         $meetings = 0;
+        $companies = 0;
 
         /**
          * Hubspot uses epoch timestamp so we need convert those dates
@@ -69,6 +71,10 @@ class SalesController extends Controller
 
         $last_engagements = $this->getAllEngagements($start);
 
+        $companies_data  = $this->getAllCompanies($owners);
+
+        $companies_chart_data = $companies_data['companies_created'];
+
         $engagements = [];
 
         $chartsData = [];
@@ -77,29 +83,28 @@ class SalesController extends Controller
             if($engagement->engagement->createdAt >= $start && $engagement->engagement->createdAt <= $end )
             {
                 $owner_name = '';
+                //get owner
 
-                foreach ($owners as $owner) {
+                $owner = $this->searchInArray($owners, ['ownerId' => $engagement->engagement->ownerId]);
 
-                    if ($owner->ownerId == $engagement->engagement->ownerId) {
-                        $owner_name = $owner->firstName . ' ' . $owner->lastName;
+                if ($owner->ownerId == $engagement->engagement->ownerId) {
+                    $owner_name = $owner->firstName . ' ' . $owner->lastName;
 
-                        $chartsData[$engagement->engagement->ownerId]['label'] = $owner_name;
-                        if (!array_key_exists($engagement->engagement->type, $chartsData[$engagement->engagement->ownerId])) {
-                            $chartsData[$engagement->engagement->ownerId][$engagement->engagement->type] = 1;
-                        } else {
-                            $chartsData[$engagement->engagement->ownerId][$engagement->engagement->type]++;
-                        }
-
+                    $chartsData[$engagement->engagement->ownerId]['label'] = $owner_name;
+                    if (!array_key_exists($engagement->engagement->type, $chartsData[$engagement->engagement->ownerId])) {
+                        $chartsData[$engagement->engagement->ownerId][$engagement->engagement->type] = 1;
+                    } else {
+                        $chartsData[$engagement->engagement->ownerId][$engagement->engagement->type]++;
                     }
 
-                    $engagement->metadata->username = $owner_name;
+                }
 
-                    $engagement->engagement->created_at = date('d/m/Y H:i:s', $engagement->engagement->createdAt / 1000);
+                $engagement->metadata->username = $owner_name;
 
-                    if(isset($engagement->metadata->body)){
-                        $engagement->metadata->body = str_limit(strip_tags($engagement->metadata->body), 100);
-                    }
+                $engagement->engagement->created_at = date('d/m/Y H:i:s', $engagement->engagement->createdAt / 1000);
 
+                if(isset($engagement->metadata->body)){
+                    $engagement->metadata->body = str_limit(strip_tags($engagement->metadata->body), 100);
                 }
 
                 if($engagement->engagement->type == 'TASK'){
@@ -108,6 +113,10 @@ class SalesController extends Controller
 
                 if($engagement->engagement->type == 'EMAIL'){
                     $emails++;
+                }
+
+                if($engagement->engagement->type == 'INCOMING_EMAIL'){
+                    $incoming_emails++;
                 }
 
                 if($engagement->engagement->type == 'CALL'){
@@ -140,15 +149,22 @@ class SalesController extends Controller
                 array_set($data, 'EMAIL', 0);
             }
 
+            if(!array_key_exists('INCOMING_EMAIL', $data)){
+                array_set($data, 'INCOMING_EMAIL', 0);
+            }
+
             if(!array_key_exists('CALL', $data)){
                 array_set($data, 'CALL', 0);
             }
+
             if(!array_key_exists('NOTE', $data)){
                 array_set($data, 'NOTE', 0);
             }
+
             if(!array_key_exists('MEETING', $data)){
                 array_set($data, 'MEETING', 0);
             }
+
 
             $newChartsData[] = $data;
 
@@ -167,69 +183,20 @@ class SalesController extends Controller
         $widgets_data->notes = $notes;
         $widgets_data->tasks = $tasks;
         $widgets_data->emails = $emails;
+        $widgets_data->incoming_emails = $incoming_emails;
         $widgets_data->calls = $calls;
         $widgets_data->meetings = $meetings;
+        $widgets_data->companies = count($companies_data['companies']);
         $widgets_data->contacts_created = $contacts_created;
 
         return response()->json(['widgets_data' => $widgets_data, 'last_engagements' => $engagements, 'charts_data' => $newChartsData]);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Fetch and accumulate all engagements
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return array
      */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
     function getAllEngagements($start, $offset = 0){
 
         $engagements = [];
@@ -254,9 +221,116 @@ class SalesController extends Controller
         return $engagements;
     }
 
+    /**
+     * Call the hubspot engagements endpoint
+     *
+     * @param $start
+     * @param int $offset
+     * @return mixed
+     */
     function callEngagements($start, $offset = 0){
         $engagementsEndpoint = 'https://api.hubapi.com/engagements/v1/engagements/recent/modified';
 
         return hubspot_support($engagementsEndpoint, ['since' => $start, 'offset' => $offset, 'count' => 100])->data;
+    }
+
+    /**
+     * Fetch and accumulate all companies
+     *
+     * @param $owners
+     * @return array
+     */
+    function getAllCompanies($owners){
+        $response = $this->callCompanies();
+
+        $companies_created = [];
+
+        while ($response->{'has-more'}) {
+
+            foreach ($response->companies as $company) {
+
+                $companies [] = $company;
+            }
+
+            $response = $this->callCompanies($response->{'offset'});
+        }
+
+        if(!$response->{'has-more'}){
+            foreach ($response->companies as $company) {
+                //get creator status
+                if (!array_key_exists($company->properties->name->sourceId, $companies_created)) {
+                    //get owner
+                    $owner = $this->searchInArray($owners, ['email' => $company->properties->name->sourceId]);
+
+                    if($owner){
+                        $companies_created[$company->properties->name->sourceId]['label'] = $owner->firstName.' '. $owner->lastName;
+                    }
+                    $companies_created[$company->properties->name->sourceId]['total'] = 1;
+                } else {
+                    $companies_created[$company->properties->name->sourceId]['total']++;
+                }
+
+              $companies [] = $company;
+            }
+        }
+
+        //unset data created by hubspot crawlers
+        unset($companies_created['BidenPropertyMappings']);
+
+        return ['companies' => $companies, 'companies_created' => $companies_created];
+    }
+
+    /**
+     * Call the hubspot companies endpoint
+     *
+     * @param int $offset
+     * @return mixed
+     */
+    function callCompanies($offset = 0){
+        return  \HubSpot::companies()->all(['limit' => 250, 'offset' => $offset, 'properties' => ['name', 'website', 'createdate']])->data;
+    }
+
+    /**
+     * @param $array
+     * @param $condition
+     * @return string
+     */
+    function searchInArray($array, $condition){
+
+        foreach ($array as $arrItem) {
+
+            //item is a object (stdClass)
+            if(is_object($arrItem)){
+
+                foreach ($condition as $key => $value) {
+
+                    if (isset($arrItem->{$key}) && $arrItem->{$key} !== $value) {
+                        continue 2;
+                    }
+
+                    if (isset($arrItem->{$key}) && $arrItem->{$key} == $value) {
+
+                        return $arrItem;
+                    }
+                }
+            }
+
+
+            if(is_array($arrItem)){
+                foreach ($condition as $key => $value) {
+
+                    if (isset($arrItem[$key]) && $arrItem[$key] !== $value) {
+                        continue 2;
+                    }
+
+                    if (isset($arrItem[$key]) && $arrItem[$key] === $value) {
+                        return $arrItem;
+                    }
+
+
+                }
+            }
+            return null;
+        }
     }
 }

@@ -252,3 +252,16 @@ Route::get('/hubspot/test', function(){
 
 });
 
+Route::get('/mail/test', function(){
+
+    $data = [];
+    $data['align'] = 'center';
+    $data['messageTitle'] = '<h4>Teste Queue</h4>';
+    $data['messageOne'] = 'Testando o envio via fila';
+    $data['messageSubject'] = 'Teste Queue';
+
+    \Mail::to('me@matheuslima.com.br', 'Matheus Lima')->queue(new \App\Mail\DefaultEmail($data));
+
+    return response()->json('Enviado');
+
+});
