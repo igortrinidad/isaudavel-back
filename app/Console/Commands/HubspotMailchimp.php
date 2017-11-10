@@ -117,7 +117,7 @@ class HubspotMailchimp extends Command
                 //Subscribe
                 if($contact['email']){
 
-                   \Newsletter::subscribe($contact['email'], ['firstName' => $contact['firstName'], 'lastName' => $contact['lastName']], 'isaudavel_professionals');
+                   \Newsletter::subscribe($contact['email'], ['FNAME' => $contact['firstName'], 'LNAME' => $contact['lastName']], 'isaudavel_professionals');
                 }
 
                 $subscribed[] = $contact;

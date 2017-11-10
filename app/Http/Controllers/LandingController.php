@@ -508,7 +508,7 @@ class LandingController extends Controller
         $professional = tap(Professional::create($professional_data))->fresh();
 
         //Adiciona o usuário à lista do Mail Chimp
-        Newsletter::subscribe($professional->email, ['firstName'=>$professional->name, 'lastName'=>$professional->last_name], 'isaudavel_professionals');
+        Newsletter::subscribe($professional->email, ['FNAME'=>$professional->name, 'LNAME'=>$professional->last_name], 'isaudavel_professionals');
 
         $professional->categories()->attach($professional_data['categories_selected']);
 

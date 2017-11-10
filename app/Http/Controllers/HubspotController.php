@@ -71,7 +71,7 @@ class HubspotController extends Controller
 
                    //Subscribe the contact on mailchimp
                    if($email){
-                       \Newsletter::subscribe($email, ['firstName' => $name, 'lastName' => $last_name], 'isaudavel_professionals');
+                       \Newsletter::subscribe($email, ['FNAME' => $name, 'LNAME' => $last_name], 'isaudavel_professionals');
                    }
                }
 

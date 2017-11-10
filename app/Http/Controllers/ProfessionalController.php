@@ -229,7 +229,7 @@ class ProfessionalController extends Controller
         $professional = Professional::create($request->all());
 
         //Adiciona o usuário à lista do Mail Chimp
-        Newsletter::subscribe($professional->email, ['firstName'=>$professional->name, 'lastName'=>$professional->last_name], 'isaudavel_professionals');
+        Newsletter::subscribe($professional->email, ['FNAME'=>$professional->name, 'LNAME'=>$professional->last_name], 'isaudavel_professionals');
 
         //Attach professional categories
         $professional->categories()->attach($request->get('categories'));
