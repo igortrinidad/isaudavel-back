@@ -106,7 +106,7 @@ class HubspotMailchimp extends Command
         $already_subscribed = [];
         $subscribed = [];
         foreach ($contacts as $contact) {
-            $is_subscribed = \Newsletter::isSubscribed($contact['email']);
+            //$is_subscribed = \Newsletter::isSubscribed($contact['email']);
 
             if($is_subscribed){
                 $already_subscribed[] = $contact;
