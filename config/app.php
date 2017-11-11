@@ -193,7 +193,6 @@ return [
         LaravelFCM\FCMServiceProvider::class,
         Rossjcooper\LaravelHubSpot\HubSpotServiceProvider::class,
         Spatie\Newsletter\NewsletterServiceProvider::class,
-        RenatoMarinho\LaravelPageSpeed\ServiceProvider::class,
 
     ],
 
