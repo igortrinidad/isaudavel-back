@@ -4,7 +4,7 @@ var elixir  = require('laravel-elixir'),
 
 elixir.extend('compress', function() {
     new elixir.Task('compress', function() {
-        return gulp.src('./storage/framework/views/*')
+        return gulp.src('./storage/framework/views/**/*')
             .pipe(htmlmin({
                 collapseWhitespace:    true,
                 removeAttributeQuotes: true,
