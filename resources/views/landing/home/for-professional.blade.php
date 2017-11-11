@@ -223,14 +223,14 @@
             <h2 class="f-300">Cadastre-se agora</h2>
             <h2 class="f-300 m-t-10">É grátis!</h2>
             <div class="row m-t-30">
-                <div class="col-sm-6">
+                <div class="col-sm-6 m-b-20">
                     <p>Ainda não tenho uma conta de profissional</p>
-                    <a class="btn btn-primary btn-lg btn-block" href="/cadastro">Quero me cadastrar</a>
+                    <a class="btn btn-primary btn-lg btn-block p-10" href="/cadastro">Quero me cadastrar</a>
                 </div>
 
                 <div class="col-sm-6">
                     <p>Já sou cadastrado no iSaudavel</p>
-                    <a class="btn btn-success btn-lg btn-block" href="/profissionais/login?redirect=/cadastro/empresa">Fazer login</a>
+                    <a class="btn btn-success btn-lg btn-block p-10 " href="/profissionais/login?redirect=/cadastro/empresa">Fazer login</a>
                 </div>
             </div>
         </div>

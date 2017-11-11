@@ -2,7 +2,7 @@
     a, a:hover{ color: #383939; text-decoration: none; }
 </style>
 
-<section id="contact" class="section default contact-section p-t-30 p-b-30 bg-pattern shadow">
+<section id="contact" class="section default contact-section p-t-30 p-b-30 shadow" style="background-color: rgba(244, 244, 245, 1);">
     <div class="container">
         <h2 class="is-title secondary">
             Contato
@@ -39,7 +39,7 @@
                     </div>
                 </div>
                 <div class="col-sm-12 text-center">
-                    <button id="contact-submit" type="submit" class="btn btn-primary f-300" name="button">
+                    <button id="contact-submit" type="submit" class="btn btn-primary" name="button">
                         <span style="text-transform: uppercase">Enviar</span>
                     </button>
                 </div>

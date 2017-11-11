@@ -368,7 +368,7 @@
                                                         @endforeach
                                                     </div>
                                                     <a href="{!! route('landing.professionals.show', $professional->slug) !!}" title="{{ $professional->full_name }}">
-                                                        <button class="btn btn-block btn-primary f-300 f-16">
+                                                        <button class="btn btn-block btn-primary f-16">
                                                             Ver perfil
                                                         </button>
                                                     </a>
@@ -413,25 +413,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
-                    <div class="card">
-                        <div class="card-body card-padding">
-                            <!-- Call To Download -->
-                            <div class="text-center">
-                                <h3 class="f-300">Baixe o <strong style="color: #72c157">iSaudavel</strong> e interaja com empresas e outros usuários</h3>
-                                <div class="row">
-                                    <div class="col-sm-12 m-t-20">
-                                        <a style="display: inline-block;" href="https://play.google.com/store/apps/details?id=com.isaudavel" target="_blank" title="Faça o download na PlayStore para Android">
-                                            <img class="store-badge img-responsive" src="/images/play_store_btn.png" alt="Faça o download na PlayStore para Android">
-                                        </a>
-                                        <a style="display: inline-block;" href="https://itunes.apple.com/us/app/isaudavel/id1277115133?mt=8" target="_blank" title="Faça o download na APP Store para IOS">
-                                            <img class="store-badge img-responsive" src="/images/app_store_btn.png" alt="Faça o download na APP Store para IOS">
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- / Call To Download -->
-                        </div>
-                    </div>
+                    
+                    @include('landing.components.card-to-download')
                 </div>
             </div>
         </div>

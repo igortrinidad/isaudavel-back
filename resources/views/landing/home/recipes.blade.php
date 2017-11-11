@@ -119,7 +119,7 @@
                                                 @include('components.rating', ['size' => '22'])
                                             </div>
                                             <a href="{!! route('landing.recipes.show', $recipe->slug) !!}" title="{{ $recipe->title }}">
-                                                <button class="btn btn-primary f-300 f-16 m-t-20">
+                                                <button class="btn btn-primary f-16 m-t-20">
                                                     Ver receita completa
                                                 </button>
                                             </a>
@@ -138,8 +138,8 @@
                     <div class="card">
                         <div class="card-body card-padding" style="padding: 88px 14px;">
                             <div class="text-center">
-                                <h3 class="f-300 m-t-0">Encontre os <strong style="color: #5cb85c">profissionais</strong> certos para você com as avaliações de outros usuários.</h3>
-                                <a href="{!! route('landing.professionals.search', ['category' => 'pilates']) !!}" class="btn btn-success btn-xs f-300 f-16 m-t-20" title="Encontre profissionais">Encontre profissionais</a>
+                                <h3 class="m-t-0">Encontre os <strong style="color: #5cb85c">profissionais</strong> certos para você com as avaliações de outros usuários.</h3>
+                                <a href="{!! route('landing.professionals.search', ['category' => 'pilates']) !!}" class="btn btn-success btn-xs f-16 m-t-20" title="Encontre profissionais">Encontre profissionais</a>
                             </div>
                         </div>
                     </div>
@@ -149,7 +149,7 @@
             @endunless
 
             <div class="col-sm-12 m-t-30 text-center">
-                <a href="/receitas" class="btn btn-info f-300">Veja todas as receitas</a>
+                <a href="/receitas" class="btn btn-info">Veja todas as receitas</a>
             </div>
         </div>
     </div>

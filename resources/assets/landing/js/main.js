@@ -8,11 +8,6 @@ $(document).ready(function(){
     )
     wow.init();
 
-     $('#top-nav').onePageNav({
-        currentClass: 'current',
-        changeHash: true,
-        scrollSpeed: 1200
-    });
 
     $('.init-slider').owlCarousel({
         items:1,
@@ -92,7 +87,7 @@ $(document).ready(function(){
         });
     }
 
-    window.infoNotify = function(ti = functiontle, message, position) {
+    window.infoNotify = function(title, message, position) {
 
         iziToast.show({
             position:  position? position : 'topRight',

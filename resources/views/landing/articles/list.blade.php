@@ -162,7 +162,7 @@
                                     <div class="card-body p-10 text-center">
                                         <h3 class="f-300 m-t-10 m-b-30">{{$article->title}}</h3>
 
-                                        <a href="{!! route('landing.articles.show', $article->slug) !!}" class="btn btn-primary f-300 f-16 m-b-20" title="{{ $article->title }}">
+                                        <a href="{!! route('landing.articles.show', $article->slug) !!}" class="btn btn-primary f-16 m-b-20" title="{{ $article->title }}">
                                             Continue lendo
                                         </a>
                                     </div>

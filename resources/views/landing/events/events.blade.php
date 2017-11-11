@@ -174,7 +174,7 @@
                                             <!-- / location -->
 
                                             <div class="text-center">
-                                                <button class="btn btn-primary f-300 f-16 m-t-15">
+                                                <button class="btn btn-primary f-16 m-t-15">
                                                     Mais informações
                                                 </button>
                                             </div>

@@ -416,7 +416,7 @@
 	}
 	</script>
 
-@else($routeName == 'landing.index' || $routeName == 'landing.clients.about' || $routeName == 'landing.professionals.about')
+@else
 <!-- LANDING INDEX -->
 	
 	<title>iSaudavel - A sua saúde em boas mãos</title> 
