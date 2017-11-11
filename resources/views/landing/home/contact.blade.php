@@ -53,23 +53,28 @@
 
     <script>
         $("#contact-submit").on("click", function(event){
-            var errors = []
+            var errors = [];
+
             if ($("#contact-name").val() === "") {
-                errors.push("Nome")
+                errors.push("Nome");
             }
+
             if ($("#contact-email").val() === "") {
-                errors.push("E-mail")
+                errors.push("E-mail");
             }
+
             if ($("#contact-subject").val() === "") {
-                errors.push("Assunto")
+                errors.push("Assunto");
             }
+
             if ($("#contact-msg").val() === "") {
-                errors.push("Mensagem")
+                errors.push("Mensagem");
             }
+            
             if (errors.length) {
-                var startMessage = errors.length > 1 ? "Os campos: " : "O campo: "
-                var errorFields =  errors.join(", ")
-                var endMessage = errors.length > 1 ? " são obrigatórios" : " é obrigatório"
+                var startMessage = errors.length > 1 ? "Os campos: " : "O campo: ";
+                var errorFields =  errors.join(", ");
+                var endMessage = errors.length > 1 ? " são obrigatórios" : " é obrigatório";
 
 
                 swal({
@@ -80,7 +85,8 @@
                     confirmButtonColor: "#E14A45",
                     confirmButtonText: "Voltar para o formulário",
                     closeOnConfirm: false
-                })
+                });
+                
                 event.preventDefault()
             }
         })

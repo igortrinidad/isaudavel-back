@@ -159,7 +159,8 @@
                     slidesPerView: 1
                 }
             }
-        })
+        });
+
         var swiperHomeActivities = new Swiper('.swiper-professional-activities', {
             initialSlide: 0,
             spaceBetween: 0,
@@ -172,6 +173,7 @@
                     slidesPerView: 1
                 }
             }
-        })
+        });
+        
     </script>
 @stop
