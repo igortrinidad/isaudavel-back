@@ -318,7 +318,7 @@
                                             </div>
                                             <hr class="m-t-20">
                                             <a  href="{!! route('landing.companies.show', $company->slug) !!}" title="{{ $company->name }}">
-                                                <button class="btn btn-primary f-300 f-16">
+                                                <button class="btn btn-primary f-16">
                                                     Mais informações
                                                 </button>
                                             </a>

@@ -71,7 +71,7 @@
         min-height: 380px;
     }
 </style>
- <section id="contact" class="section featured p-t-30 p-b-30">
+ <section id="contact" class="section shadow p-t-30 p-b-30">
 
     <div class="container">
 
@@ -106,7 +106,7 @@
                                         <div class="card-body p-10 text-center">
                                             <h3 class="f-300 m-t-20 m-b-20">{{$article->title}}</h3>
 
-                                            <a href="{!! route('landing.articles.show', $article->slug) !!}" class="btn btn-primary f-300 f-16 m-b-20" title="{{ $article->title }}">
+                                            <a href="{!! route('landing.articles.show', $article->slug) !!}" class="btn btn-primary f-16 m-b-20" title="{{ $article->title }}">
                                                 Continue lendo
                                             </a>
                                         </div>
@@ -123,7 +123,7 @@
             @endunless
 
             <div class="col-sm-12 m-t-30 text-center">
-                <a href="{{route('landing.articles.list')}}" class="btn btn-info f-300">Veja todos os artigos</a>
+                <a href="{{route('landing.articles.list')}}" class="btn btn-info">Veja todos os artigos</a>
             </div>
         </div>
     </div>

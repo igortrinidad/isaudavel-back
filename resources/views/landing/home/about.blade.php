@@ -18,7 +18,7 @@
         <div class="container">
 
             <h2 class="is-title secondary m-t-30">
-                Para você e profissionais de saúde
+                Sobre
             </h2>
 
 

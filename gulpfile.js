@@ -44,15 +44,18 @@ elixir(function(mix) {
         '../../../node_modules/vue-multiselect/dist/vue-multiselect.min.css',
         '../../../node_modules/izitoast/dist/css/iziToast.css',
         '../../../node_modules/summernote/dist/summernote.css',
-        '../../../node_modules/fullpage.js/dist/jquery.fullpage.css',
-        '../prelaunch/css/owl.carousel.css',
-        '../prelaunch/css/font-awesome.min.css',
-        '../prelaunch/css/animate.css',
-        '../prelaunch/css/main.css',
-        '../prelaunch/css/responsive.css',
-        '../helpers.css',
+        '../../../node_modules/font-awesome/css/font-awesome.css',
+        '../../../node_modules/owl.carousel/dist/assets/owl.carousel.css',
+        '../landing/css/animate.css',
         '../landing/css/general.css',
         '../landing/css/fonts.css',
+        '../landing/css/main.css',
+        '../landing/css/buttons.css',
+        '../helpers.css',
+
+        //Oracle only
+        '../../../node_modules/fullpage.js/dist/jquery.fullpage.css',
+
     ], 'public/build/landing/css/build_vendors_custom.css');
 
 
@@ -75,21 +78,16 @@ elixir(function(mix) {
         '../../../node_modules/lodash/lodash.js',
         '../../../node_modules/vue-slider-component/dist/index.js',
         '../../../node_modules/vue2-google-maps/dist/vue-google-maps.js',
+        '../../../node_modules/owl.carousel/dist/owl.carousel.js',
+        '../landing/js/wow.min.js',
+        '../landing/js/main.js',
+        '../landing/js/prototypes.js',
+
+        //Oracle only
         '../../../node_modules/summernote/dist/summernote.js',
         '../../../node_modules/screenfull/dist/screenfull.js',
         '../../../node_modules/fullpage.js/dist/jquery.fullpage.extensions.min.js',
         '../../../node_modules/chart.js/dist/Chart.js',
-        '../prelaunch/js/vendor/modernizr-2.6.2.min.js',
-        '../prelaunch/js/jquery.lwtCountdown-1.0.js',
-        '../prelaunch/js/owl.carousel.min.js',
-        '../prelaunch/js/jquery.validate.min.js',
-        '../prelaunch/js/jquery.form.js',
-        '../prelaunch/js/jquery.nav.js',
-        '../prelaunch/js/jquery.sticky.js',
-        '../prelaunch/js/plugins.js',
-        '../prelaunch/js/wow.min.js',
-        '../landing/js/main.js',
-        '../landing/js/prototypes.js',
 
     ], 'public/build/landing/js/build_vendors_custom.js');
 
@@ -98,5 +96,9 @@ elixir(function(mix) {
         'public/build/landing/css/build_vendors_custom.css',
         'public/build/landing/js/build_vendors_custom.js',
     ]);
+
+        mix.copy([
+        '/node_modules/font-awesome/fonts',
+    ], 'public/build/landing/fonts');
 
 });

@@ -41,27 +41,27 @@
 
     /* Event Date */
     .event-date {
-    height: 78px; width: 100%;
-    border: 2px solid #383938;
-    border-radius: 4px;
+        height: 78px; width: 100%;
+        border: 2px solid #383938;
+        border-radius: 4px;
     }
 
     .event-date-header,
     .event-date-body {
-    width: 100%;
-    position: relative;
+        width: 100%;
+        position: relative;
     }
 
     .event-date-header {
-    background-color: #383938;
-    display: block;
-    color: #F4F5F5;
-    padding: 2px 0;
+        background-color: #383938;
+        display: block;
+        color: #F4F5F5;
+        padding: 2px 0;
     }
 
     .event-date-body {
-    text-transform: uppercase;
-    padding: 4px;
+        text-transform: uppercase;
+        padding: 4px;
     }
     .event-date-body span { display: block; }
     .event-date-body span:first-child { border-bottom: 1px solid rgba(56, 57, 56, .6); }
@@ -158,7 +158,7 @@
                                                 <!-- / location -->
 
                                                 <div class="text-center">
-                                                    <button class="btn btn-primary f-300 f-16 m-t-15">
+                                                    <button class="btn btn-primary f-16 m-t-15">
                                                         Mais informações
                                                     </button>
                                                 </div>
@@ -195,7 +195,7 @@
                 <!-- / Call To Download -->
 
                 <div class="col-sm-12 m-t-30 text-center">
-                    <a href="/eventos" class="btn btn-success f-300">Veja todos os eventos</a>
+                    <a href="/eventos" class="btn btn-success">Veja todos os eventos</a>
                 </div>
             @endunless
         </div>

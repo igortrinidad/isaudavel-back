@@ -47,15 +47,15 @@
 
                 <div class="sidebar-item">
                     <hr class="m-t-30 m-b-30">
-                    <h3 class="f-300 m-t-30">Baixe o app <strong>iSaudavel</strong> e faça parte da rede social que cuida da sua saúde.</h3>
+                    <h3 class="f-300 m-t-30">Baixe o app <strong>iSaudavel</strong> agora.</h3>
                     <div class="row">
                         <div class="col-sm-12 m-t-30">
-                            <a href="https://play.google.com/store/apps/details?id=com.isaudavel" target="_blank" title="Faça o download na PlayStore para Android">
+                            <a href="https://play.google.com/store/apps/details?id=com.isaudavel" class="shadow" target="_blank" title="Faça o download na PlayStore para Android">
                                 <img class="store-badge img-responsive" src="/images/play_store_btn.png" alt="Faça o download na PlayStore para Android">
                             </a>
                         </div>
                         <div class="col-sm-12 m-t-30">
-                            <a href="https://itunes.apple.com/us/app/isaudavel/id1277115133?mt=8" target="_blank" title="Faça o download na APP Store para IOS">
+                            <a href="https://itunes.apple.com/us/app/isaudavel/id1277115133?mt=8" class="shadow" target="_blank" title="Faça o download na APP Store para IOS">
                                 <img class="store-badge img-responsive" src="/images/app_store_btn.png" alt="Faça o download na APP Store para IOS">
                             </a>
                         </div>
