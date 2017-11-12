@@ -12,7 +12,7 @@
 .picture-all-bg{
 	background-position: center center;
 	background-repeat: no-repeat;
-    background-size: cover; height: 300px;
+    background-size: cover; height: 200px;
     text-align: center;
 }
 

@@ -1,9 +1,16 @@
 
+
 <div class="card">
     <div class="card-body card-padding bg-pattern">
         <!-- Call To Download -->
         <div class="text-center">
-            <h3 class="f-300">Baixe o app <strong style="color: #72c157">iSaudavel</strong> e cuide da sua saúde com o auxílio dos melhores profissionais.</h3>
+            <h3 class="f-300">
+                @if(isset($card_message))
+                    {!! $card_message !!}
+                @else
+                    Baixe o app <strong style="color: #72c157">iSaudavel</strong> e cuide da sua saúde com o auxílio dos melhores profissionais.
+                @endif
+            </h3>
             <div class="row">
                 <div class="col-sm-12 m-t-20">
                     <a href="https://play.google.com/store/apps/details?id=com.isaudavel" target="_blank" title="Faça o download na PlayStore para Android">
