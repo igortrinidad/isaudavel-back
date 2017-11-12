@@ -42,8 +42,18 @@ class Professional extends Authenticatable implements JWTSubject
         'email',
         'slug',
         'phone',
+        'whatsapp',
         'password',
         'remember_token',
+        'is_active',
+        'email_confirmed',
+        'is_delivery',
+        'address_is_available',
+        'address',
+        'lat',
+        'lng',
+        'city',
+        'state',
         'fcm_token_mobile',
         'fcm_token_browser',
         'terms_accepted',
@@ -70,7 +80,16 @@ class Professional extends Authenticatable implements JWTSubject
      *
      * @var array
      */
-    protected $casts = ['terms_accepted' => 'boolean'];
+    protected $casts = [
+        'terms_accepted' => 'boolean',
+        'is_active' => 'boolean',
+        'email_confirmed' => 'boolean',
+        'address_is_available' => 'boolean',
+        'is_delivery' => 'boolean',
+        'address' => 'json',
+        'lat' => 'float',
+        'lng' => 'float',
+    ];
 
     /**
      * The attributes that should be hidden for arrays.

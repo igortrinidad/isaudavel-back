@@ -115,15 +115,15 @@
                         <div class="col-sm-12">
                             <div class="card">
                                 <div class="card-body card-padding ">
-                                    <p>É necessário possuir um cadastro de profissional para cadastar uma empresa no iSaudavel.</p>
+                                    <p>É necessário possuir um cadastro de profissional para cadastar uma empresa no <b>iSaudavel</b>.</p>
 
                                     <div class="row m-t-20">
                                         <div class="col-sm-12">
-                                            <p>Ainda não tenho uma conta de profissional</p>
-                                            <a class="btn btn-primary btn-lg btn-block" href="/cadastro">Quero me cadastrar</a>
+                                            <p>Ainda não tem cadastro?</p>
+                                            <a class="btn btn-primary btn-lg btn-block p-10" href="/cadastro">Cadastre-se aqui!</a>
                                             <br>
-                                            <p>Já sou cadastrado no iSaudavel</p>
-                                            <a class="btn btn-success btn-lg btn-block" href="/profissionais/login?redirect=/cadastro/empresa">Fazer login</a>
+                                            <p class="m-t-10">Já tenho cadastro no iSaudavel</p>
+                                            <a class="btn btn-success btn-lg btn-block p-10" href="/profissionais/login?redirect=/cadastro/empresa">Fazer login</a>
                                         </div>
                                     </div>
                                 </div>
@@ -144,8 +144,7 @@
     <script>
 
         function initAutocomplete() {
-
-            @if(!empty(request()->query('id')) || !\Auth::guard('professional_web')->guest())
+            
             //prevent form submit on enter
             document.getElementById('signup-form').onkeypress = function (e) {
                 var key = e.charCode || e.keyCode || 0;
@@ -153,7 +152,6 @@
                     e.preventDefault();
                 }
             }
-            @endif
 
             var autocomplete = new google.maps.places.Autocomplete(
                 (

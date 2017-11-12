@@ -195,7 +195,7 @@
                 <!-- / Call To Download -->
 
                 <div class="col-sm-12 m-t-30 text-center">
-                    <a href="/eventos" class="btn btn-success">Veja todos os eventos</a>
+                    <a href="/eventos" class="btn btn-info">Veja todos os eventos</a>
                 </div>
             @endunless
         </div>

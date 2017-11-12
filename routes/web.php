@@ -83,10 +83,12 @@ Route::group(['as' => 'landing.'], function () {
     });
 
 	Route::group(['prefix' => 'cadastro', 'as' => 'signup'], function() {
-        Route::get('/', ['uses' => 'LandingController@registerUser', 'as' => 'signup']);
-        Route::get('/cadastro-ok', ['uses' => 'LandingController@registerSuccess', 'as' => '.success']);
+        Route::get('/', ['uses' => 'LandingController@formSignupProfessionalUser', 'as' => 'signup']);
+
+        Route::get('/confirmar-email', ['uses' => 'LandingController@signupProfessionalEmailConfirmationWarning', 'as' => '.email-confirmation']);
+        Route::get('/confirmar-email/{id}', ['uses' => 'LandingController@signupProfessionalEmailConfirmationSuccess', 'as' => '.email-confirmation-success']);
         Route::get('/empresa', ['uses' => 'LandingController@registerCompany', 'as' => '.company']);
-        Route::post('/store-company', ['uses' => 'LandingController@sendSignupCompany', 'as' => '.company.store']);
+        Route::post('/store-company', ['uses' => 'LandingController@signupCompanyStore', 'as' => '.company.store']);
 		Route::get('/finalizar', ['uses' => 'LandingController@registerSelectType', 'as' => '.plan.chooser']);
 	});
 
@@ -96,7 +98,7 @@ Route::group(['as' => 'landing.'], function () {
         Route::get('/', ['uses' => 'LandingController@professional_search', 'as' => 'search']);
     	Route::get('/sobre', ['uses' => 'LandingController@forProfessionalsLanding', 'as' => 'about']);
     	Route::get('/cadastro', ['uses' => 'LandingController@registerProfessional', 'as' => 'signup']);
-    	Route::post('/sendSignupForm', ['uses' => 'LandingController@sendSignupForm', 'as' => 'send-signup-form']);
+    	Route::post('/storeSignupProfessionalUser', ['uses' => 'LandingController@storeSignupProfessionalUser', 'as' => 'send-signup-form']);
     	Route::get('/cadastro/sucesso', ['uses' => 'LandingController@signupSuccess', 'as' => 'signup-success']);
 		Route::get('/login', ['uses' => 'LandingController@showProfessionalLogin', 'as' => 'login']);
 		Route::post('/login', ['uses' => 'Auth\ProfessionalLoginController@landingLogin', 'as' => 'post-login']);
