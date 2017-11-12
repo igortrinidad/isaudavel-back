@@ -104,7 +104,7 @@
                                             </a>
                                         </div>
                                         <div class="card-body p-10 text-center">
-                                            <h3 class="f-300 m-t-20 m-b-20">{{$article->title}}</h3>
+                                            <h3 class="f-300 m-t-20 m-b-20" style="height: 100px;">{{$article->title}}</h3>
 
                                             <a href="{!! route('landing.articles.show', $article->slug) !!}" class="btn btn-primary f-16 m-b-20" title="{{ $article->title }}">
                                                 Continue lendo

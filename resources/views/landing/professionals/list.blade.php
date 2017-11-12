@@ -116,7 +116,7 @@
                                         @include('components.rating', ['size' => '22'])
                                     </div>
 
-                                    <div class="m-t-20">
+                                    <div class="m-t-20" style="height: 60px;">
                                         @foreach($professional->categories as $index_category => $category)
                                             <a href="{!! route('landing.search.index', ['category' => $category->slug]) !!}"><button class="btn btn-success btn-sm m-b-5">{{ $category->name }}</button></a>
                                         @endforeach
@@ -124,7 +124,7 @@
 
                                     <a href="{!! route('landing.professionals.show', $professional->slug) !!}" title="{{ $professional->name }}">
                                         <button class="btn btn-block btn-primary m-t-20 f-16">
-                                            Mais informações
+                                            Ver perfil
                                         </button>
                                     </a>
                                 </div>

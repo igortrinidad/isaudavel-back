@@ -131,7 +131,7 @@
                 </h2>
 
                 <div class="row m-t-30">
-                    <!-- CENTER COL "ABOUT" -->
+                    <!-- CENTER COL "ARTICLE SHOW" -->
                     <div class="col-sm-9">
 
                         <!-- Card Recipe Content -->
@@ -159,9 +159,12 @@
                             </div>
                         </div>
                         <!-- / Card Recipe Content -->
+                    </div>
 
+                    <div class="col-sm-3">
+                        @include('landing.components.card-to-download', ['card_message' => 'Baixe o app <strong style="color: #72c157">iSaudavel</strong> e divulgue seus serviços para toda plataforma.'])
+                    </div>
 
-                </div>
             </div>
         </section>
 

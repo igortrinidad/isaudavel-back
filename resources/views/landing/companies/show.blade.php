@@ -292,43 +292,6 @@
                         @endif
                     </div>
 
-                    <!-- Recomendations -->
-                    <div class="card">
-                        <div class="card-header ch-alt">
-                            <h2 class="f-300">Recomendações</h2>
-                            <span class="f-14 f-300">Total de {{ count($company_fetched->recomendations) }}
-                                {{ count($company_fetched->recomendations) > 1 ? 'recomendações' : 'recomendação' }}
-                            </span>
-                        </div>
-                        <div class="card-body p-t-5 p-b-5">
-                            @if(count($company_fetched->recomendations) == 0)
-                                <span class="f-300 m-t-30 m-b-30 d-block">Esta empresa ainda não possui indicações</span>
-                            @endif
-                            @if(count($company_fetched->recomendations) > 0)
-                                <div class="swiper-container swiper-default-recomendations">
-                                    <div class="swiper-wrapper">
-                                        @foreach($company_fetched->recomendations as $recomendation)
-                                            <div class="swiper-slide text-center">
-                                                <div class="p-10" style="background-color: #f4f5f5; border-radius: 4px;">
-                                                    <div class="picture-circle picture-circle-p" style="background-image:url({{$rating->client->avatar}})"></div>
-                                                    <h4 class="m-t-10">{{ $recomendation->from->full_name }}</h4>
-                                                    <p class="f-300 m-t-10">{{ $recomendation->created_at->format('d/m/Y') }}</p>
-                                                    <p class="f-300 m-t-10">{{ $recomendation->content }}</p>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                    @if(count($company_fetched->recomendations) > 1)
-                                        <div class="swiper-button-prev"><i class="ion-ios-arrow-back"></i></div>
-                                        <div class="swiper-button-next"><i class="ion-ios-arrow-forward"></i></div>
-                                        <div style="height: 50px;"></div>
-                                        <div class="swiper-pagination"></div>
-                                    @endif
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-
                     <!-- Professional list -->
                     <div class="card">
                         <div class="card-header ch-alt">
@@ -387,6 +350,43 @@
                         </div>
                     </div>
 
+                    <!-- Recomendations -->
+                    <div class="card">
+                        <div class="card-header ch-alt">
+                            <h2 class="f-300">Recomendações</h2>
+                            <span class="f-14 f-300">Total de {{ count($company_fetched->recomendations) }}
+                                {{ count($company_fetched->recomendations) > 1 ? 'recomendações' : 'recomendação' }}
+                            </span>
+                        </div>
+                        <div class="card-body p-t-5 p-b-5">
+                            @if(count($company_fetched->recomendations) == 0)
+                                <span class="f-300 m-t-30 m-b-30 d-block">Esta empresa ainda não possui indicações</span>
+                            @endif
+                            @if(count($company_fetched->recomendations) > 0)
+                                <div class="swiper-container swiper-default-recomendations">
+                                    <div class="swiper-wrapper">
+                                        @foreach($company_fetched->recomendations as $recomendation)
+                                            <div class="swiper-slide text-center">
+                                                <div class="p-10" style="background-color: #f4f5f5; border-radius: 4px;">
+                                                    <div class="picture-circle picture-circle-p" style="background-image:url({{$rating->client->avatar}})"></div>
+                                                    <h4 class="m-t-10">{{ $recomendation->from->full_name }}</h4>
+                                                    <p class="f-300 m-t-10">{{ $recomendation->created_at->format('d/m/Y') }}</p>
+                                                    <p class="f-300 m-t-10">{{ $recomendation->content }}</p>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    @if(count($company_fetched->recomendations) > 1)
+                                        <div class="swiper-button-prev"><i class="ion-ios-arrow-back"></i></div>
+                                        <div class="swiper-button-next"><i class="ion-ios-arrow-forward"></i></div>
+                                        <div style="height: 50px;"></div>
+                                        <div class="swiper-pagination"></div>
+                                    @endif
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+
                 </div>
                 <!-- / CENTER COL -->
 
@@ -413,7 +413,6 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
-                    
                     @include('landing.components.card-to-download')
                 </div>
             </div>

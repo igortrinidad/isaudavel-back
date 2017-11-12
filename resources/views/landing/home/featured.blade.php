@@ -96,7 +96,7 @@
                                             @include('components.rating', ['size' => '22'])
                                         </div>
 
-                                        <div class="m-t-20">
+                                        <div class="m-t-20" style="height: 60px;">
                                             @foreach($company->categories as $index_category => $category)
                                                 <a href="{!! route('landing.search.index', ['category' => $category->slug]) !!}"><button class="btn btn-success btn-xs m-b-5">{{ $category->name }}</button></a>
                                             @endforeach

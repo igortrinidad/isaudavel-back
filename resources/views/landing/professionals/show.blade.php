@@ -93,7 +93,7 @@
                     <h2 class="">Avaliações</h2>
                     <p class="f-14 m-t-10">{{$professional_fetched->current_rating}} de {{$professional_fetched->total_rating}} avaliações</p>
                     <?php $rating_to_loop = $professional_fetched->current_rating; ?>
-                    <h2 class="m-b-30">{{$professional_fetched->current_rating}}</h2>
+                    <h2 class="m-b-0">{{$professional_fetched->current_rating}}</h2>
                     @include('components.rating', ['size' => '35'])
                 </div>
             </div>
@@ -118,7 +118,7 @@
                 @endforeach
 
                 @if(!$professional_fetched->last_ratings->count())
-                <p class="text-center">Este profissional ainda não possui avaliações</p>
+                <p class="text-center">Nenhuma avaliação recebida</p>
                 @endif
             </div>
         </div>
@@ -160,7 +160,7 @@
                 @endforeach
 
                 @if(!$professional_fetched->certifications->count())
-                    <p class="text-center">Este profissional ainda não possui cursos e certificados cadastrados</p>
+                    <p class="text-center">Nenhuma certificação cadastrada</p>
                 @endif
             </div>
         </div>
@@ -171,7 +171,7 @@
         </div>
 
         <!-- Companies -->
-        <div class="container">
+        <div class="container m-b-30">
             <div class="row">
                 <div class="col-md-12 col-xs-12 text-center">
                     <h2 class="m-b-30">Empresas</h2>
@@ -211,7 +211,7 @@
                     </div>
                 @endforeach
                 @if(!$professional_fetched->companies->count())
-                    <p class="text-center">Este profissional ainda não possui empresas que atua</p>
+                    <p class="text-center">Nenhuma empresa cadastrada</p>
                 @endif
             </div>
         </div>

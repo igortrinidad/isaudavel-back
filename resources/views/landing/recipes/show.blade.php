@@ -358,7 +358,7 @@
 
                         </div>
                         <!-- /Card Ratings -->
-                        @include('landing.components.card-to-download')
+                        @include('landing.components.card-to-download', ['card_message' => 'Baixe o app <strong style="color: #72c157">iSaudavel</strong> para divulgar suas receitas para toda a comunidade.'])
                     </div>
                     <!-- / RIGHT COL "RATINGS" -->
 
