@@ -59,6 +59,9 @@
             </div>
             {{-- End Form Container --}}
 
+            {{--Alert display--}}
+            @include('flash::message')
+
             <div class="row">
                 <div class="col-md-12 col-xs-12">
                     <h2 class="text-center">Turbine seu perfil profissional</h2>
@@ -90,7 +93,7 @@
                             <div class="row text-center m-t-30">
 
                                 @include('landing.professionals.plans-for-companies')
-                                
+
                             </div>
 
                         </div>

@@ -98,6 +98,22 @@ class CreateOracleNotification
             $only_toast = true;
         }
 
+       /*
+       * Plan update
+       */
+        if($data['type'] == 'plan_update'){
+            $professional = $data['payload'];
+
+            $notification_data = [
+                'title' => 'Atualização de plano',
+                'content' => ($professional->full_name) .' atualizou seu plano para '.( $professional->is_paid ? 'PLUS' : 'FREE'),
+                'button_label' => 'Ver profissional',
+                'button_action' => '/oracle/dashboard/profissionais/exibir/'.$professional->id,
+                'type' => $data['type']
+            ];
+        }
+
+
         /*
        * Create and send the push notification
        */

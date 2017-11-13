@@ -227,6 +227,7 @@ class CompanyController extends Controller
 
             })
             ->where('is_active', 1)
+            ->orderBy('is_paid', 'DESC')
             ->with(['categories' => function($query){
                 $query->select('name');
             }])->orderBy('distance_m', 'asc')

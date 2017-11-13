@@ -19,6 +19,18 @@
             color: #247CAE !important;
         }
 
+        .has-error .form-control{
+            border-color: #e74c3c !important;
+        }
+
+        .has-error .help-block{
+           color: #e74c3c !important;
+        }
+
+        .has-error .control-label{
+           color: #e74c3c !important;
+        }
+
     </style>
 
     <section id="signup" class="section gray p-t-30 p-b-0 bg-pattern">
@@ -47,32 +59,33 @@
 
                                     <div class="form-group m-t-0">
                                         <label for="signup-name" class="cursor-pointer">Nome*</label>
-                                        <input id="signup-name" class="form-control" type="text" v-model="professional.name" placeholder="Nome">
+                                        <input id="signup-name" class="form-control" type="text" name="name" placeholder="Nome" value="{{old('name')}}" required>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="signup-last-name" class="cursor-pointer">Sobrenome*</label>
-                                        <input id="signup-last-name" class="form-control" type="text" v-model="professional.last_name" placeholder="Sobrenome">
+                                        <input id="signup-last-name" class="form-control" type="text" name="last_name" placeholder="Sobrenome" value="{{old('last_name')}}" required>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="signup-email" class="cursor-pointer">Email*</label>
-                                        <input id="signup-email" class="form-control" type="email" v-model="professional.email" placeholder="Email">
+                                        <input id="signup-email" class="form-control" type="email" name="email" placeholder="E-mail" value="{{old('email')}}" required>
                                     </div>
 
                                     <div class="form-group m-b-0">
                                         <label for="signup-phone" class="cursor-pointer">Telefone*</label>
-                                        <input id="signup-phone" class="form-control" type="text" v-model="professional.phone" placeholder="Telefone" value="{{old('phone')}}">
+                                        <input id="signup-phone" class="form-control" type="phone" name="phone" placeholder="Telefone" value="{{old('phone')}}" required>
                                     </div>
 
-                                    <div class="form-group m-b-0">
-                                        <label class="cursor-pointer">Senha*</label>
-                                        <input class="form-control" type="password" v-model="professional.password" placeholder="Senha" value="{{old('password')}}">
+                                    <div class="form-group m-b-0" :class="{'has-error has-feedback': password_error}">
+                                        <label for="signup-password" class="cursor-pointer control-label">Senha*</label>
+                                        <input id="signup-password" class="form-control" type="password" name="password" placeholder="Senha" v-model="password" required>
                                     </div>
 
-                                    <div class="form-group m-b-0">
-                                        <label class="cursor-pointer">Confirmação de senha*</label>
-                                        <input class="form-control" type="password" v-model="professional.password_confirmation" placeholder="Digite a senha novamente" value="{{old('password')}}">
+                                    <div class="form-group m-b-0" :class="{'has-error': password_error}">
+                                        <label for="signup-password_confirmation" class="cursor-pointer control-label">Confirmação de senha*</label>
+                                        <input id="signup-password_confirmation" class="form-control" type="password" name="password_confirmation" placeholder="Digite a senha novamente" v-model="password_confirmation" @blur="handlePassword" required>
+                                        <span class="help-block" v-if="password_error">As senhas devem ser iguais.</span>
                                     </div>
 
                                     <div class="form-group m-b-0">
@@ -100,9 +113,11 @@
                                         </label>
                                     </div>
 
-                                    <input type="hidden" name="professional" v-model="professional_parsed">
+                                    <input type="hidden" name="categories" v-model="categories_parsed">
+                                    <input type="hidden" name="terms_accepted" v-model="terms_accepted">
+                                    <input type="hidden" name="terms_accepted_at" v-model="terms_accepted_at">
 
-                                    <button type="submit" class="btn btn-sm btn-block btn-success m-t-20 f-16" title="Cadastrar" @click.prevent="submit" :disabled="!professional.name || !professional.last_name || !professional.email || !professional.phone || !professional.categories_selected.length || !professional.terms_accepted || professional.password != professional.password_confirmation">Cadastrar</button>
+                                    <button type="submit" class="btn btn-sm btn-block btn-success m-t-20 f-16" title="Cadastrar" :disabled="!categories_selected.length || !terms_accepted">Cadastrar</button>
 
                                 </form>
                             </div>
@@ -132,20 +147,14 @@
                         categoryFromParams: '',
                         categories: [],
                         categories_selected: [],
-                        category: null,
                         terms_checkbox: false,
-                        professional: {
-                            name: '',
-                            last_name: '',
-                            email: '',
-                            phone: '',
-                            categories_selected: [],
-                            terms_accepted: false,
-                            terms_accepted_at: '',
-                            password: '',
-                            password_confirmation: ''
-                        },
-                        professional_parsed: ''
+                        terms_accepted: false,
+                        terms_accepted_at: '',
+                        categories_parsed: null,
+                        password: '',
+                        password_confirmation: '',
+                        password_error: false,
+                        has_error: true
                     }
                 },
                 mounted: function () {
@@ -157,13 +166,15 @@
 
                     toggleCategories: function(){
                         let that = this
-                    
-                        that.professional.categories_selected = [];
+
+                        let categories_selected = [];
 
                         that.categories_selected.map((category) => {
-                            that.professional.categories_selected.push(category.id)
+                            categories_selected.push(category.id)
                         })
-                        
+
+                        that.categories_parsed = JSON.stringify(categories_selected)
+
                     },
                     getCategories: function(){
                         let that = this
@@ -182,22 +193,26 @@
 
                         setTimeout( function(){
                             if (that.terms_checkbox == true) {
-                                that.professional.terms_accepted = true;
-                                that.professional.terms_accepted_at = moment().format('YYYY-MM-DD HH:mm:ss');
+                                that.terms_accepted = true;
+                                that.terms_accepted_at = moment().format('YYYY-MM-DD HH:mm:ss');
                             } else {
-                                that.professional.terms_accepted = false;
-                                that.professional.terms_accepted_at = '';
+                                that.terms_accepted = false;
+                                that.terms_accepted_at = '';
                             }
-                            
+
                         },100)
 
                     },
 
-                    submit (){
-                        this.professional_parsed = JSON.stringify(this.professional)
-                        setTimeout(() =>{
-                            document.getElementById("signup-form").submit();
-                        }, 100)
+                    handlePassword(){
+                        let that = this
+                        if(that.password != that.password_confirmation){
+                            that.password_error = true
+                        }
+
+                        if(that.password == that.password_confirmation){
+                            that.password_error = false
+                        }
                     }
                 }
             })

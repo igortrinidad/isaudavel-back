@@ -46,6 +46,7 @@ class Professional extends Authenticatable implements JWTSubject
         'password',
         'remember_token',
         'is_active',
+        'is_paid',
         'email_confirmed',
         'is_delivery',
         'address_is_available',
@@ -89,6 +90,7 @@ class Professional extends Authenticatable implements JWTSubject
         'address' => 'json',
         'lat' => 'float',
         'lng' => 'float',
+        'is_paid' => 'boolean',
     ];
 
     /**
@@ -106,7 +108,7 @@ class Professional extends Authenticatable implements JWTSubject
      *
      * @var array
      */
-    protected $appends = ['full_name', 'blank_password', 'role', 'avatar', 'current_rating', 'total_rating'];
+    protected $appends = ['full_name', 'blank_password', 'role', 'avatar', 'current_rating', 'total_rating', 'plan'];
 
 
 
@@ -203,6 +205,21 @@ class Professional extends Authenticatable implements JWTSubject
         // Round up or down Eg: ratings >= x.5 are rounded up and < x.5 are rounded down
 
         return $ratings;
+    }
+
+    /**
+     * Plan attribute
+     * @return string
+     */
+    public function getPlanAttribute()
+    {
+        if($this->is_paid){
+            return 'paid';
+        }
+
+        if(!$this->is_paid){
+            return 'free';
+        }
     }
 
     /**

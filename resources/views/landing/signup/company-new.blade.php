@@ -211,6 +211,7 @@
                     category: null,
                     terms_checkbox: false,
                     company: {
+                        plan: '',
                         owner_id: '',
                         name: '',
                         website: '',
@@ -231,6 +232,7 @@
 
                 @if(Auth::guard('professional_web')->check())
                     this.company.owner_id = '@php echo  Auth::guard('professional_web')->user()->id @endphp'
+                    this.company.plan = '@php echo request()->query('plan') @endphp'
                 @endif
 
                 this.getCategories();

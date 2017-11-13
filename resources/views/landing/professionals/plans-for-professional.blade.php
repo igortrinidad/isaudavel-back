@@ -58,10 +58,13 @@
                     </li>
                 </ul>
 
-                <button class="btn btn-xs btn-block btn-success p-10 f-16 m-t-10" title="Plano atual" disabled>
-                    Plano atual
-                </button>
-
+                @if(!$professional->is_paid)
+                    <button class="btn btn-xs btn-block btn-success p-10 f-16 m-t-10" title="Plano atual" disabled>
+                        Plano atual
+                    </button>
+                @else
+                    <a class="btn btn-xs btn-block btn-success p-10 f-16" title="Quero este!" href="{{route('landing.signup.update-plan', ['id' => $professional->id, 'plan' => 'free'])}}">Quero este!</a>
+                @endif
         </div>
     </div>
 </div>
@@ -122,11 +125,17 @@
                     </li>
                 </ul>
 
-            @if(!empty(request()->query('professional')) || !empty(request()->query('company')) || !\Auth::guard('professional_web')->guest())
-                <button class="btn btn-xs btn-block btn-success p-10 f-16" title="Quero este!" @click.prevent="planChooser('free')">Quero este!</button>
+            @if(!\Auth::guard('professional_web')->guest())
+                @if($professional->is_paid)
+                    <button class="btn btn-xs btn-block btn-success p-10 f-16 m-t-10" title="Plano atual" disabled>
+                        Plano atual
+                    </button>
+                @else
+                    <a class="btn btn-xs btn-block btn-success p-10 f-16" title="Quero este!" href="{{route('landing.signup.update-plan', ['id' => $professional->id, 'plan' => 'plus'])}}">Quero este!</a>
+                @endif
             @else
                 <p class="text-center m-t-10 m-b-10">Faça login para selecionar um plano</p>
-                <a class="btn btn-xs btn-block btn-primary p-10 f-16" @click.prevent="goToLogin()">Fazer login</a>
+                <a class="btn btn-xs btn-block btn-primary p-10 f-16" href="{{route('landing.professionals.login', ['redirect' =>  Request::path()])}}">Fazer login</a>
             @endif
 
         </div>

@@ -63,8 +63,8 @@
                     </li>
                 </ul>
 
-                @if(!empty(request()->query('professional')) || !empty(request()->query('company')) || !\Auth::guard('professional_web')->guest())
-                    <a href="/cadastro/empresa" class="btn btn-xs btn-block btn-success p-10 f-16 m-t-10" title="Quero este!">Cadastrar empresa</a>
+                @if(!\Auth::guard('professional_web')->guest())
+                    <a href="{{route('landing.signup.company', ['plan' => 'free'])}}"class="btn btn-xs btn-block btn-success p-10 f-16 m-t-10" title="Quero este!">Cadastrar empresa</a>
                 @else
                     <p class="text-center m-t-20 m-b-10">Faça login para cadastrar sua empresa</p>
                     <a class="btn btn-xs btn-block btn-primary p-10 f-16" @click.prevent="goToLogin()">Fazer login</a>
@@ -135,11 +135,11 @@
                     </li>
                 </ul>
 
-                @if(!empty(request()->query('professional')) || !empty(request()->query('company')) || !\Auth::guard('professional_web')->guest())
-                    <a href="/cadastro/empresa" class="btn btn-xs btn-block btn-success p-10 f-16 m-t-10" title="Quero este!">Cadastrar empresa</a>
+                @if(!\Auth::guard('professional_web')->guest())
+                    <a href="{{route('landing.signup.company', ['plan' => 'plus'])}}" class="btn btn-xs btn-block btn-success p-10 f-16 m-t-10" title="Quero este!">Cadastrar empresa</a>
                 @else
                     <p class="text-center m-t-20 m-b-10">Faça login para cadastrar sua empresa</p>
-                    <a class="btn btn-xs btn-block btn-primary p-10 f-16" @click.prevent="goToLogin()">Fazer login</a>
+                    <a class="btn btn-xs btn-block btn-primary p-10 f-16" href="{{route('landing.professionals.login', ['redirect' =>  Request::path()])}}">Fazer login</a>
                 @endif
 
             </div>

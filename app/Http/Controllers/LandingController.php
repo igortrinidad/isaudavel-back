@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\OracleNotification;
+use App\Mail\DefaultEmail;
 use App\Models\CompanyInvoice;
 use App\Models\CompanySubscription;
 use App\Models\MealRecipeTag;
@@ -79,7 +80,8 @@ class LandingController extends Controller
                 ->where('is_active', 1)
                 ->whereHas('categories', function($query) use($request){
                     $query->where('slug', 'LIKE', '%'.$request->query('category') . '%');
-            })->paginate(30);
+            })->orderBy('is_paid', 'DESC')->orderBy('name', 'asc')->paginate(30);
+
 
         }
 
@@ -101,7 +103,7 @@ class LandingController extends Controller
                         ->with(['categories' => function($query){
                             $query->select('name');
                         }])->orderBy('name', 'asc');
-                }])->where('is_active', 1)
+                }])->where('is_active', 1)->orderBy('is_paid', 'DESC')
                 ->where('name', 'LIKE', '%' . $request->get('search') . '%' )
                     ->whereHas('categories', function($query) use($request){
 
@@ -490,25 +492,30 @@ class LandingController extends Controller
      */
     public function storeSignupProfessionalUser(Request $request)
     {
-        $professional_data = json_decode($request->get('professional'), true);
+        $categories = json_decode($request->get('categories'), true);
+        $terms_accepted = $request->get('terms_accepted') == "true" ? true : false ;
 
-        $professional_exists = Professional::where('email', $professional_data['email'])->first();
+        if(!count($request->get('categories'))){
+            flash('Você deve selecionar ao menos uma categoria.')->info()->important();
+            return redirect()->back()->withInput($request->except(['password', 'password_confirmation']));
+        }
+
+        $professional_exists = Professional::where('email', $request->get('email'))->first();
 
         if($professional_exists){
             flash('<strong>Atenção:</strong> este e-mail já está em uso, por favor escolha outro ou faça o login utilizando o e-mail informado ou <b>clique aqui</b> para gerar uma nova senha para este email.')->error()->important();
-            return redirect()->back()->withInput($professional_data);
+            return redirect()->back()->withInput($request->except(['password', 'password_confirmation']));
         }
 
-        $professional_data['password'] = bcrypt($professional_data['password' ]);
+        $request->merge(['password' => bcrypt($request->get('password')), 'terms_accepted' => $terms_accepted]);
 
-        $professional = tap(Professional::create($professional_data))->fresh();
+        $professional = tap(Professional::create($request->all()))->fresh();
 
         //Adiciona o usuário à lista do Mail Chimp
         Newsletter::subscribe($professional->email, ['FNAME'=>$professional->name, 'LNAME'=>$professional->last_name], 'isaudavel_professionals');
 
-        $professional->categories()->attach($professional_data['categories_selected']);
-
-
+        $professional->categories()->attach($categories);
+        
         $properties = [
             [
                 'property' => 'email',
@@ -528,25 +535,20 @@ class LandingController extends Controller
             ]
         ];
 
-        $check_if_already_added_on_hubspot = \HubSpot::contacts()->getByEmail($professional->email);
-
-        if(!$check_if_already_added_on_hubspot){
-            //Create a new contact on Hubspot
-            \HubSpot::contacts()->create($properties);  
-        }
+        //Create a new contact on Hubspot
+        \HubSpot::contacts()->create($properties);
 
         $this->sendConfirmationEmailToProfessional($professional);
 
         //Notify oracle
         event(new OracleNotification(['type' => 'new_professional', 'payload' => $professional]));
 
-        return view('landing.professionals.signup-email-confirmation-warning', compact('professional'));
-
+        return redirect()->route('landing.signup.email-confirmation');
     }
 
 
     /** Eenvia email de confirmação
-     * @return
+     * @param $professional
      */
     public function sendConfirmationEmailToProfessional($professional)
     {
@@ -563,10 +565,7 @@ class LandingController extends Controller
 
         $data['messageSubject'] = 'Confirme seu cadastro no iSaudavel';
 
-        \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $professional){
-            $message->from('no-reply@isaudavel.com', 'iSaudavel - sua saúde em boas mãos.');
-            $message->to($professional->email, $professional->full_name)->subject($data['messageSubject']);
-        });
+        \Mail::to($professional->email, $professional->full_name)->queue(new DefaultEmail($data, ['new-professional']));
 
     }
 
@@ -596,7 +595,23 @@ class LandingController extends Controller
             return view('landing.components.page-blank', compact('page_blank_header', 'page_blank_message'));
         }
 
-        return view('landing.professionals.email-confirmated');
+        return view('landing.professionals.email-confirmated', compact('professional'));
+    }
+
+    /** View para informar o profissional que o plano foi atualizado
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function updateProfessionalPlan(Request $request)
+    {
+        $plan = $request->get('plan') == 'plus' ? true : false;
+
+        $professional = tap(Professional::find($request->get('id')))->update(['is_paid' => $plan])->fresh();
+
+        //Notify oracle
+        event(new OracleNotification(['type' => 'plan_update', 'payload' => $professional]));
+
+        return view('landing.professionals.signup-plan-updated', compact('professional'));
     }
 
     /** View adicionar empresa
@@ -618,6 +633,7 @@ class LandingController extends Controller
         $company_data = json_decode($request->get('company'), true);
 
         array_set($company_data, 'id',   Uuid::generate()->string);
+        array_set($company_data, 'is_paid',   $company_data['plan'] == 'plus' ? true: false);
         array_set($company_data, 'is_active', false);
         array_set($company_data, 'description', '');
 
@@ -638,7 +654,7 @@ class LandingController extends Controller
         //Notify oracle
         event(new OracleNotification(['type' => 'new_company', 'payload' => $company->load('owner')]));
 
-        return redirect()->route('landing.signup.plan.chooser',  ['professional' => $professional->id, 'company' => $company->id]);
+        return view('landing.professionals.signup-company-confirmation');
     }
 
     /**
@@ -668,16 +684,6 @@ class LandingController extends Controller
     public function privacy()
     {
         return view('landing.home.privacy');
-    }
-
-    /**
-     * Mensagem de sucesso cadastro (acho que será removido)
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function signupSuccess()
-    {
-        return view('landing.signup.success');
     }
 
     /**
