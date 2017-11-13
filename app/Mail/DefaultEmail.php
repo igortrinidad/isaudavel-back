@@ -15,15 +15,26 @@ class DefaultEmail extends Mailable
      * @var
      */
     private $data;
+    /**
+     * @var
+     */
+    private $horizon_tags;
 
     /**
      * Create a new message instance.
      *
      * @param $data
+     * @param $horizon_tags
      */
-    public function __construct( $data)
+    public function __construct($data, $horizon_tags = [])
     {
         $this->data = $data;
+        $this->horizon_tags = $horizon_tags;
+    }
+
+    public function tags()
+    {
+        return $this->horizon_tags;
     }
 
     /**

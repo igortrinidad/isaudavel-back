@@ -63,11 +63,11 @@ class SingleScheduleController extends Controller
         $data['messageSubject'] = 'Novo agendamento';
 
         //Mail to client
-        \Mail::to($single_schedule->client->email, $single_schedule->client->full_name)->queue(new DefaultEmail($data));
+        \Mail::to($single_schedule->client->email, $single_schedule->client->full_name)->queue(new DefaultEmail($data, ['new-single_schedule-client']));
 
         //Mail to professional
         if($single_schedule->professional_id){
-            \Mail::to($single_schedule->professional->email, $single_schedule->professional->full_name)->queue(new DefaultEmail($data));
+            \Mail::to($single_schedule->professional->email, $single_schedule->professional->full_name)->queue(new DefaultEmail($data, ['new-single_schedule-professional']));
         }
 
         return response()->json([
@@ -183,11 +183,11 @@ class SingleScheduleController extends Controller
         $data['messageSubject'] = 'Alteração de horário';
 
         //Mail to client
-        \Mail::to($single_schedule->client->email, $single_schedule->client->full_name)->queue(new DefaultEmail($data));
+        \Mail::to($single_schedule->client->email, $single_schedule->client->full_name)->queue(new DefaultEmail($data, ['client-single_reschedule']));
 
         //Mail to professional
         if($single_schedule->professional_id){
-            \Mail::to($single_schedule->professional->email, $single_schedule->professional->full_name)->queue(new DefaultEmail($data));
+            \Mail::to($single_schedule->professional->email, $single_schedule->professional->full_name)->queue(new DefaultEmail($data, ['professional-single_reschedule']));
         }
 
         return response()->json([
@@ -256,11 +256,11 @@ class SingleScheduleController extends Controller
         $data['messageSubject'] = 'Cancelamento de horário';
 
         //Mail to client
-        \Mail::to($single_schedule->client->email, $single_schedule->client->full_name)->queue(new DefaultEmail($data));
+        \Mail::to($single_schedule->client->email, $single_schedule->client->full_name)->queue(new DefaultEmail($data, ['client-single_schedule-cancel']));
 
         //Mail to professional
         if($single_schedule->professional_id){
-            \Mail::to($single_schedule->professional->email, $single_schedule->professional->full_name)->queue(new DefaultEmail($data));
+            \Mail::to($single_schedule->professional->email, $single_schedule->professional->full_name)->queue(new DefaultEmail($data, ['professional-single_schedule-cancel']));
         }
 
         return response()->json([

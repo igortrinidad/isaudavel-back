@@ -71,7 +71,7 @@ class ProccessSubscriptions extends Command
             $new_invoice = Invoice::create([
                 'subscription_id' => $client_subscription->id,
                 'company_id' => $client_subscription->company_id,
-                'value' => $client_subscription->plan->value,
+                'value' => $client_subscription->value,
                 'expire_at' => $new_start->format('d/m/Y'),
                 'is_confirmed' => false,
                 'is_canceled' => false,
@@ -173,7 +173,7 @@ class ProccessSubscriptions extends Command
             $data['messageSubject'] = 'iSaudavel: Nova fatura';
 
             //Send the email through the queuee
-            \Mail::to($new_invoice->subscription->client->email,  $new_invoice->subscription->client->full_name)->queue(new DefaultEmail($data));
+            \Mail::to($new_invoice->subscription->client->email,  $new_invoice->subscription->client->full_name)->queue(new DefaultEmail($data, ['new-invoice']));
 
         }
 

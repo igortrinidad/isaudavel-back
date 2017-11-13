@@ -23,13 +23,17 @@ elixir(function(mix) {
 
     mix.copy([
         '/node_modules/ionicons/fonts'
-    ], './public/build/landing/fonts');
+    ], 'public/build/landing/fonts');
 
     mix.copy([
         './node_modules/summernote/dist/font',
-    ], './public/build/build/landing/css/font');
+    ], 'public/build/build/landing/css/font');
 
-    mix.copy('./resources/assets/landing/js/firebase-messaging-sw.js', './public/build/build/landing/js');
+    mix.copy([
+        './node_modules/font-awesome/fonts',
+    ], 'public/build/build/landing/fonts');
+
+    mix.copy('./resources/assets/landing/js/firebase-messaging-sw.js', 'public/build/build/landing/js');
 
 
     //STYLES LANDING

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\DefaultEmail;
 use App\Models\Invoice;
 use App\Models\Schedule;
 use Illuminate\Http\Request;
@@ -93,10 +94,8 @@ class InvoiceController extends Controller
 
         $data['messageSubject'] = 'iSaudavel: Fatura recebida';
 
-        \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $invoice){
-            $message->from('no-reply@isaudavel.com', 'iSaudavel App');
-            $message->to($invoice->subscription->client->email, $invoice->subscription->client->full_name)->subject($data['messageSubject']);
-        });
+        //Send mail
+        \Mail::to($invoice->subscription->client->email, $invoice->subscription->client->full_name)->queue(new DefaultEmail($data, ['new-invoice']));
 
         return response()->json([
             'message' => 'Invoice created.',
@@ -150,11 +149,9 @@ class InvoiceController extends Controller
         $data['messageTwo'] = 'Acesse online em https://app.isaudavel.com ou baixe o aplicativo para Android e iOS (Apple)';
 
         $data['messageSubject'] = 'Alteração de fatura';
-
-        \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $invoice){
-            $message->from('no-reply@isaudavel.com', 'iSaudavel App');
-            $message->to($invoice->subscription->client->email, $invoice->subscription->client->full_name)->subject($data['messageSubject']);
-        });
+        
+        //Send mail
+        \Mail::to($invoice->subscription->client->email, $invoice->subscription->client->full_name)->queue(new DefaultEmail($data, ['invoice-update']));
 
         return response()->json([
             'message' => 'Invoice updated.',
