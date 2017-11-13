@@ -540,7 +540,7 @@ class LandingController extends Controller
         //Notify oracle
         event(new OracleNotification(['type' => 'new_professional', 'payload' => $professional]));
 
-        return view('landing.professional.signup-email-confirmation-warning', compact('professional'));
+        return view('landing.professionals.signup-email-confirmation-warning', compact('professional'));
 
     }
 
