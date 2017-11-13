@@ -1,12 +1,4 @@
     
-
-    <style>
-
-        .plan-check-close-icon{
-            font-size: 30px !important;
-        }
-
-    </style>
     <!--Free -->
     <div class="col-sm-4 col-sm-offset-2">
         <div class="card">

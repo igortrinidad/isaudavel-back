@@ -20,7 +20,18 @@
         .card-body.card-custom-padding{
             padding: 43px 14px;
         }
+
+        .plan-check-close-icon{
+            font-size: 30px !important;
+        }
+
+        .list-group{
+            font-size: 16px;
+        }
+
     </style>
+
+
 
     <section id="signup" class="section gray p-t-30 p-b-0">
 
@@ -52,7 +63,7 @@
                 <div class="col-md-12 col-xs-12">
                     <h2 class="text-center">Turbine seu perfil profissional</h2>
 
-                    <div class="card text-center m-t-20">
+                    <div class="card text-center m-t-20 bg-pattern">
                         <div class="card-body card-custom-padding">
                             <p class="f-18">Você pode turbinar seu perfil profissional divulgando para muito mais pessoas através da plataforma e gerenciar seus clientes com ajuda do aplicativo iSaudavel:</p>
 
@@ -72,9 +83,9 @@
                 <div class="col-md-12 col-xs-12">
                     <h2 class="text-center">Cadastre suas empresas</h2>
 
-                    <div class="card text-center m-t-20">
+                    <div class="card text-center m-t-20 bg-pattern">
                         <div class="card-body card-custom-padding">
-                            <p class="f-18">Você também pode cadastrar as empresas que você trabalha</p>
+                            <p class="f-18">Você também pode cadastrar e divulgar através da plataforma iSaudavel as empresas que você trabalha.</p>
 
                             <div class="row text-center m-t-30">
 
