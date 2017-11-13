@@ -120,7 +120,7 @@
                                     <a style="transition: all 100ms ease-in; display: block; font-weight: bold; text-align: {{ $data['align'] }}; margin: 10px 10px 10px; text-decoration: none; max-width: 80% !important; background-color: rgb(255, 255, 255);"
                                        class="button-a" align="center"
                                        href="{{$data['button_link']}}">
-                                        <span style="color: rgb(255, 255, 255); border-color: #69A7BE; background-color: #69A7BE; width: 200px; height: 70px; border-radius: 5px; border-width: 5px; font-size: 20px; padding: 15px 30px 15px 30px; margin: 30px 10px;">
+                                        <span style="color: rgb(255, 255, 255); border-color: #2389EA; background-color: #2389EA; width: 200px; height: 70px; border-radius: 5px; border-width: 5px; font-size: 20px; padding: 15px 30px 15px 30px; margin: 30px 10px;">
                                             {{{$data['button_name']}}}
                                         </span>
                                     </a>

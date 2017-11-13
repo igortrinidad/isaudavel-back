@@ -57,7 +57,7 @@
 
                                     <div class="form-group">
                                         <label for="signup-email" class="cursor-pointer">Email*</label>
-                                        <input id="signup-email" class="form-control" type="text" v-model="professional.email" placeholder="Email">
+                                        <input id="signup-email" class="form-control" type="email" v-model="professional.email" placeholder="Email">
                                     </div>
 
                                     <div class="form-group m-b-0">
@@ -66,13 +66,13 @@
                                     </div>
 
                                     <div class="form-group m-b-0">
-                                        <label for="signup-phone" class="cursor-pointer">Senha*</label>
-                                        <input id="signup-phone" class="form-control" type="password" v-model="professional.password" placeholder="Senha" value="{{old('password')}}">
+                                        <label class="cursor-pointer">Senha*</label>
+                                        <input class="form-control" type="password" v-model="professional.password" placeholder="Senha" value="{{old('password')}}">
                                     </div>
 
                                     <div class="form-group m-b-0">
-                                        <label for="signup-phone" class="cursor-pointer">Confirmação de senha*</label>
-                                        <input id="signup-phone" class="form-control" type="password" v-model="professional.password_confirmation" placeholder="Digite a senha novamente" value="{{old('password')}}">
+                                        <label class="cursor-pointer">Confirmação de senha*</label>
+                                        <input class="form-control" type="password" v-model="professional.password_confirmation" placeholder="Digite a senha novamente" value="{{old('password')}}">
                                     </div>
 
                                     <div class="form-group m-b-0">
