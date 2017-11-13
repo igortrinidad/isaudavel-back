@@ -25,7 +25,7 @@
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ route('professional.dashboard.companies.list') }}">Dashboard</a></li>
+                                <li><a href="{{ route('professional.dashboard.companies.list') }}">Minhas empresas</a></li>
                                 <li>
                                     <a href="{{ route('professional.logout') }}"
                                        onclick="event.preventDefault();

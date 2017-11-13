@@ -227,7 +227,7 @@ class CreateCompanyNotification
 
             $notification_data = [
                 'title' => 'Remarcação de agendamento',
-                'content' => $single_schedule->client->full_name . ' remarcou um agendamento de '. $schedule->category->name.  ' para ' . $single_schedule->date . ' ' . $single_schedule->time. ' na sua agenda.',
+                'content' => $single_schedule->client->full_name . ' remarcou um agendamento de '. $single_schedule->category->name.  ' para ' . $single_schedule->date . ' ' . $single_schedule->time. ' na sua agenda.',
                 'button_label' => 'Visualizar agendamento',
                 'button_action' => '/dashboard/empresas/mostrar/' . $company->id . '/single-schedule/' . $single_schedule->id
             ];

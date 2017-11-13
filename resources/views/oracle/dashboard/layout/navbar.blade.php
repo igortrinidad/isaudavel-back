@@ -26,6 +26,8 @@
                         <li ><a href="#">Aplicativo</a></li>
 
                         <li class="{{ getActiveRoute('oracle.dashboard.follow-up') }}"><a href="{!! route('oracle.dashboard.follow-up') !!}">Follow-up</a></li>
+
+                        <li><a href="/horizon">Laravel Horizon</a></li>
                     </ul>
                 </li>
 

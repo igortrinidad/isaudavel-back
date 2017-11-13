@@ -63,6 +63,9 @@
     .section {
         padding: 65px 0;
     }
+    .shadow {
+        box-shadow: 0 2px 6px 0 rgba(0, 0, 0, .4);
+    }
     </style>
 @endsection
 
@@ -113,7 +116,7 @@
                             <hr>
                         </div>
                         <div class="col-md-3 col-sm-12">
-                            <div class="panel widget-panel">
+                            <div class="panel widget-panel shadow shadow">
                                 <div class="panel-body">
                                     <div class="row">
                                         <div class="col-xs-3">
@@ -130,7 +133,7 @@
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-12">
-                            <div class="panel widget-panel">
+                            <div class="panel widget-panel shadow">
                                 <div class="panel-body">
                                     <div class="row">
                                         <div class="col-xs-3">
@@ -147,7 +150,7 @@
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-12">
-                            <div class="panel widget-panel">
+                            <div class="panel widget-panel shadow">
                                 <div class="panel-body">
                                     <div class="row">
                                         <div class="col-xs-3">
@@ -164,7 +167,7 @@
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-12">
-                            <div class="panel widget-panel">
+                            <div class="panel widget-panel shadow">
                                 <div class="panel-body">
                                     <div class="row">
                                         <div class="col-xs-3">
@@ -182,7 +185,7 @@
                         </div>
 
                         <div class="col-md-3 col-sm-12">
-                            <div class="panel widget-panel">
+                            <div class="panel widget-panel shadow">
                                 <div class="panel-body">
                                     <div class="row">
                                         <div class="col-xs-3">
@@ -199,7 +202,7 @@
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-12">
-                            <div class="panel widget-panel">
+                            <div class="panel widget-panel shadow">
                                 <div class="panel-body">
                                     <div class="row">
                                         <div class="col-xs-3">
@@ -216,7 +219,7 @@
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-12">
-                            <div class="panel widget-panel">
+                            <div class="panel widget-panel shadow">
                                 <div class="panel-body">
                                     <div class="row">
                                         <div class="col-xs-3">
@@ -348,16 +351,17 @@
 
         Vue.config.debug = true;
 
-        var updateTimer = null
-        var transitionTimer = null
+        var updateTimer = null;
+        var transitionTimer = null;
 
         Vue.filter('truncate', (value)=>{
 
             return _.truncate(value, {'length': 100, 'omission': '...'});
-        })
+        });
 
         @php
             if(\App::environment('production')){
+                echo '';
                 echo 'Vue.config.devtools = false;
                   Vue.config.debug = false;
                   Vue.config.silent = true;';

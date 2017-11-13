@@ -27,6 +27,8 @@
 
             <h2 class="text-center m-t-30">Cadastre-se</h2>
 
+            <h4 class="text-center f-300">Cadastre-se e comece a divulgar seu perfil profissional e serviços agora mesmo! <b>É gratuíto!</b></h4>
+
             {{-- Form Container --}}
             <div class="form-container m-t-30">
                 <div class="row">
@@ -41,7 +43,7 @@
 
                                     {{csrf_field()}}
 
-                                    <legend class="f-300 p-b-10">Seu cadastro</legend>
+                                    <legend class="f-300 p-b-10">Seus dados</legend>
 
                                     <div class="form-group m-t-0">
                                         <label for="signup-name" class="cursor-pointer">Nome*</label>
@@ -64,7 +66,17 @@
                                     </div>
 
                                     <div class="form-group m-b-0">
-                                        <label for="signup-categories" class="cursor-pointer">Especialidade</label>
+                                        <label for="signup-phone" class="cursor-pointer">Senha*</label>
+                                        <input id="signup-phone" class="form-control" type="password" v-model="professional.password" placeholder="Senha" value="{{old('password')}}">
+                                    </div>
+
+                                    <div class="form-group m-b-0">
+                                        <label for="signup-phone" class="cursor-pointer">Confirmação de senha*</label>
+                                        <input id="signup-phone" class="form-control" type="password" v-model="professional.password_confirmation" placeholder="Digite a senha novamente" value="{{old('password')}}">
+                                    </div>
+
+                                    <div class="form-group m-b-0">
+                                        <label for="signup-categories" class="cursor-pointer">Especialidades</label>
                                         <multiselect
                                             id="signup-categories"
                                             v-model="categories_selected"
@@ -90,7 +102,7 @@
 
                                     <input type="hidden" name="professional" v-model="professional_parsed">
 
-                                    <button type="submit" class="btn btn-sm btn-block btn-success m-t-20 f-16" title="Cadastrar" @click.prevent="submit" :disabled="!professional.name || !professional.last_name || !professional.email || !professional.phone || !professional.categories_selected.length || !professional.terms_accepted">Cadastrar</button>
+                                    <button type="submit" class="btn btn-sm btn-block btn-success m-t-20 f-16" title="Cadastrar" @click.prevent="submit" :disabled="!professional.name || !professional.last_name || !professional.email || !professional.phone || !professional.categories_selected.length || !professional.terms_accepted || professional.password != professional.password_confirmation">Cadastrar</button>
 
                                 </form>
                             </div>
@@ -130,6 +142,8 @@
                             categories_selected: [],
                             terms_accepted: false,
                             terms_accepted_at: '',
+                            password: '',
+                            password_confirmation: ''
                         },
                         professional_parsed: ''
                     }

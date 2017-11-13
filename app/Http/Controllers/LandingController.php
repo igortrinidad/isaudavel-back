@@ -474,12 +474,12 @@ class LandingController extends Controller
     }
 
     /**
-     * Novo cadastro do profissional (funil)
+     * Novo form de cadastro do profissional (funil)
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function registerUser()
+    public function formSignupProfessionalUser()
     {
-        return view('landing.signup.index');
+        return view('landing.professionals.signup');
     }
 
     /**
@@ -488,22 +488,18 @@ class LandingController extends Controller
      * @param Request $request
      * @return $this|\Illuminate\Http\RedirectResponse
      */
-    public function sendSignupForm(Request $request)
+    public function storeSignupProfessionalUser(Request $request)
     {
         $professional_data = json_decode($request->get('professional'), true);
-
-        $user_password = rand(101010,999999);
 
         $professional_exists = Professional::where('email', $professional_data['email'])->first();
 
         if($professional_exists){
-            flash('<strong>Atenção:</strong> este e-mail já está em uso, por favor escolha outro ou faça o login utilizando o e-mail informado')->error()->important();
+            flash('<strong>Atenção:</strong> este e-mail já está em uso, por favor escolha outro ou faça o login utilizando o e-mail informado ou <b>clique aqui</b> para gerar uma nova senha para este email.')->error()->important();
             return redirect()->back()->withInput($professional_data);
         }
 
-
-        //set user password
-        array_set($professional_data, 'password', bcrypt($user_password));
+        $professional_data['password'] = bcrypt($professional_data['password' ]);
 
         $professional = tap(Professional::create($professional_data))->fresh();
 
@@ -532,70 +528,75 @@ class LandingController extends Controller
             ]
         ];
 
-        //Create a new contact on Hubspot
-        \HubSpot::contacts()->create($properties);
+        $check_if_already_added_on_hubspot = \HubSpot::contacts()->getByEmail($professional->email);
+
+        if(!$check_if_already_added_on_hubspot){
+            //Create a new contact on Hubspot
+            \HubSpot::contacts()->create($properties);  
+        }
+
+        $this->sendConfirmationEmailToProfessional($professional);
 
         //Notify oracle
         event(new OracleNotification(['type' => 'new_professional', 'payload' => $professional]));
+
+        return view('landing.professional.signup-email-confirmation-warning', compact('professional'));
+
+    }
+
+
+    /** Eenvia email de confirmação
+     * @return
+     */
+    public function sendConfirmationEmailToProfessional($professional)
+    {
 
         //Email para cliente
         $data = [];
         $data['align'] = 'center';
         $data['messageTitle'] = 'Olá, ' . $professional->full_name;
-        $data['messageOne'] = 'Obrigado por se inscrever na plataforma iSaudavel. <br>';
-        $data['messageTwo'] = 'Confira abaixo os dados para acesso: <br>Usuário:  <strong>'. $professional->email .'</strong> | Senha: <strong>'. $user_password .'</strong> <br>
-        <p>É muito importante que você altere sua senha no primeiro acesso.</p>
-        <tr>
-            <td style="padding: 20px; text-align: center; max-width: 80% !important; background-color: rgb(255, 255, 255);"
-                align="center">
-                <center>
-                    <h3>Escolha um plano</h3>
-                    <p>Selecione um plano e gerencie seus clientes de maneira rápida e inteligente.</p><br>
-                    <a style="transition: all 100ms ease-in; display: block; font-weight: bold; text-align: center; margin: 10px 10px 10px; text-decoration: none; max-width: 80% !important; background-color: rgb(255, 255, 255);"
-                       class="button-a" align="center"
-                       href="'.env('APP_URL').'/cadastro/finalizar?professional='.$professional->id.'">
-                        <span style="color: rgb(255, 255, 255); border-color: #69A7BE; background-color: #69A7BE; width: 200px; height: 70px; border-radius: 5px; border-width: 5px; font-size: 20px; padding: 15px 30px 15px 30px; margin: 30px 10px;">
-                            Escolher um plano
-                        </span>
-                    </a>
-                </center>
-            </td>
-        </tr>
-        <tr>
-            <td style="padding: 20px; text-align: center; max-width: 80% !important; background-color: rgb(255, 255, 255);"
-                align="center">
-                <center>
-                    <h3>Possui uma empresa?</h3>
-                    <p>Cadastre sua empresa e deixe que os usuários do iSaudavel encontrem você.</p><br>
-                    <a style="transition: all 100ms ease-in; display: block; font-weight: bold; text-align: center; margin: 10px 10px 10px; text-decoration: none; max-width: 80% !important; background-color: rgb(255, 255, 255);"
-                       class="button-a" align="center"
-                       href="'.env('APP_URL').'/cadastro/empresa?id='.$professional->id.'">
-                        <span style="color: #fff; border-color: #88C657; background-color: #88C657; width: 200px; height: 70px; border-radius: 5px; border-width: 5px; font-size: 20px; padding: 15px 30px 15px 30px; margin: 30px 10px;">
-                            Cadastre sua empresa agora
-                        </span>
-                    </a>
-                </center>
-            </td>
-        </tr>';
-        $data['messageFour'] =  '<p>Acesse online em <a href="https://app.isaudavel.com">app.isaudavel.com</a> ou baixe o aplicativo 
-            para <a href="https://play.google.com/store/apps/details?id=com.isaudavel" target="_blank">Android</a> e <a href="https://itunes.apple.com/us/app/isaudavel/id1277115133?mt=8" target="_blank">iOS (Apple)</a></p>';
-        $data['messageSubject'] = $professional->full_name . ' no iSaudavel';
+        $data['messageOne'] = 'Parabéns, seu cadastro na plataforma mais fitness do mundo está quase pronto!
+        <br>
+        Clique no botão abaixo e confirme seu email para acessar todas as funcionalidades do aplicativo iSaudavel.';
+        $data['button_link'] = 'https://isaudavel.com/cadastro/confirmar-email/' . $professional->id;
+        $data['button_name'] = 'Confirmar email';
+
+        $data['messageSubject'] = 'Confirme seu cadastro no iSaudavel';
 
         \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data, $professional){
             $message->from('no-reply@isaudavel.com', 'iSaudavel - sua saúde em boas mãos.');
             $message->to($professional->email, $professional->full_name)->subject($data['messageSubject']);
         });
 
-        return redirect()->route('landing.signup.success',  ['id' => $professional->id]);
-
     }
 
-    /** View de agradecimento / sucesso (fase 2 funil)
+
+    /** View para informar o usuário para confirmar de email
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function registerSuccess()
+    public function signupProfessionalEmailConfirmationWarning()
     {
-        return view('landing.signup.confirm');
+        return view('landing.professionals.signup-email-confirmation-warning');
+    }
+
+    /** View para informar o usuário para confirmar de email
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function signupProfessionalEmailConfirmationSuccess($id)
+    {
+        $professional = Professional::find($id);
+
+        if($professional){
+            $professional->update(['email_confirmed' => true]);
+
+        } else {
+            $page_blank_header = 'Ops!';
+            $page_blank_message = 'Não localizamos seu cadastro.';
+
+            return view('landing.components.page-blank', compact('page_blank_header', 'page_blank_message'));
+        }
+
+        return view('landing.professionals.email-confirmated');
     }
 
     /** View adicionar empresa
@@ -607,12 +608,12 @@ class LandingController extends Controller
     }
 
     /**
-     * Store da company
+     * Store Company form landing
      *
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function sendSignupCompany(Request $request)
+    public function signupCompanyStore(Request $request)
     {
         $company_data = json_decode($request->get('company'), true);
 

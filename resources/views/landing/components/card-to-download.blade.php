@@ -12,12 +12,12 @@
                 @endif
             </h3>
             <div class="row">
-                <div class="col-sm-12 m-t-20">
+                <div class="col-sm-12 col-xs-12 m-t-20">
                     <a href="https://play.google.com/store/apps/details?id=com.isaudavel" target="_blank" title="Faça o download na PlayStore para Android">
                         <img class="store-badge img-responsive" src="/images/play_store_btn.png" alt="Faça o download na PlayStore para Android">
                     </a>
                 </div>
-                <div class="col-sm-12 m-t-10">
+                <div class="col-sm-12 col-xs-12 m-t-10">
                     <a href="https://itunes.apple.com/us/app/isaudavel/id1277115133?mt=8" target="_blank" title="Faça o download na APP Store para IOS">
                         <img class="istore-badge mg-responsive" src="/images/app_store_btn.png" alt="Faça o download na APP Store para IOS">
                     </a>

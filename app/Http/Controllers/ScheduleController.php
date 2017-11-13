@@ -879,7 +879,7 @@ class ScheduleController extends Controller
 
             event(new ClientNotification($schedule->client->id, ['type' => 'reschedule', 'payload' => ['schedule' => $schedule, 'old_schedule' => $old_schedule]]));
 
-            \Mail::to($schedule->client->email, $schedule->client->full_name)->queue(new DefaultEmail($data));
+            \Mail::to($schedule->client->email, $schedule->client->full_name)->queue(new DefaultEmail($data, ['client-reschedule']));
 
             event(new CompanyNotification($schedule->company_id, ['type' => 'reschedule_by_professional', 'payload' => ['schedule' => $schedule, 'old_schedule' => $old_schedule]]));
         }
@@ -889,7 +889,7 @@ class ScheduleController extends Controller
 
             event(new CompanyNotification($schedule->company_id, ['type' => 'reschedule', 'payload' => ['schedule' => $schedule, 'old_schedule' => $old_schedule]]));
 
-            \Mail::to($schedule->professional->email, $schedule->professional->full_name)->queue(new DefaultEmail($data));
+            \Mail::to($schedule->professional->email, $schedule->professional->full_name)->queue(new DefaultEmail($data, ['professional-reschedule']));
 
         }
 
@@ -996,7 +996,7 @@ class ScheduleController extends Controller
 
             event(new CompanyNotification($schedule->company_id, ['type' => 'cancel_schedule_by_professional', 'payload' => $schedule]));
 
-            \Mail::to($schedule->client->email, $schedule->client->full_name)->queue(new DefaultEmail($data));
+            \Mail::to($schedule->client->email, $schedule->client->full_name)->queue(new DefaultEmail($data, ['client-schedule-cancel']));
         }
 
         //Notify the company
