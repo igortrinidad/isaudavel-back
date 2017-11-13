@@ -118,6 +118,7 @@ Route::group(['prefix' => 'client'], function () {
         //calendar
         Route::post('/calendar/list', 'ScheduleController@clientCalendar');
 
+
         //Company resources
         Route::group(['prefix' => 'company'], function() {
 
@@ -128,6 +129,9 @@ Route::group(['prefix' => 'client'], function () {
             Route::post('/show/schedules', 'ScheduleController@clientSchedules');
             Route::post('/show/invoices', 'InvoiceController@clientList');
             Route::post('/show/subscriptions', 'ScheduleController@clientSchedules');
+
+            //Show subscription
+            Route::post('/subscriptions/list', 'ClientSubscriptionController@show_client_company_subscription');
 
             Route::post('/solicitation', 'ClientController@companySolicitation');
             Route::post('/accept_solicitation', 'ClientController@acceptCompanySolicitation');
