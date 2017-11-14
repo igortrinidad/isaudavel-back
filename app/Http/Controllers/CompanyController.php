@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\OracleNotification;
 use App\Models\Company;
 use App\Models\CompanyCalendarSettings;
 use App\Models\CompanyPhoto;
@@ -109,9 +110,13 @@ class CompanyController extends Controller
             }
         }
 
+        //Notify oracle
+        event(new OracleNotification(['type' => 'new_company', 'payload' => $company->load('owner')]));
+
         return response()->json([
             'message' => 'Company created.',
-            'company' => $company->fresh(['photos', 'professionals', 'categories'])
+            'company' => $company->fresh(['photos', 'professionals', 'categories']),
+            'company_user' => \Auth::user()->companies->where('id', $company->id)->first()
         ]);
     }
 

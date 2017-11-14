@@ -535,8 +535,12 @@ class LandingController extends Controller
             ]
         ];
 
-        //Create a new contact on Hubspot
-        \HubSpot::contacts()->create($properties);
+        $check_if_already_added_on_hubspot = \HubSpot::contacts()->search(['q' => $professional->email]);
+
+        if($check_if_already_added_on_hubspot->total == 0){
+            //Create a new contact on Hubspot
+            \HubSpot::contacts()->create($properties);
+        }
 
         $this->sendConfirmationEmailToProfessional($professional);
 
