@@ -235,6 +235,23 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-3 col-sm-12">
+                            <div class="panel widget-panel shadow">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-xs-3">
+                                            <div class="icon-big text-center"><i class="fa fa-building-o"></i></div>
+                                        </div>
+                                        <div class="col-xs-9">
+                                            <div class="numbers"><p>Empresas criadas @{{handlePeriod}}</p>
+                                                <span v-if="!is_loading">@{{ widgets.companies }}</span>
+                                                <span v-if="is_loading"><i class="fa ion-load-c fa-spin fa-lg fa-fw text-primary" aria-hidden="true"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 {{-- Statistics --}}
@@ -316,6 +333,156 @@
                     </div>
                 </div>
                 {{--Classification--}}
+
+                {{--Activities by attendant--}}
+                <div class="slide" id="slide4">
+                    <div class="col-sm-12">
+                        <div class="col-sm-12">
+                            <h3 class="text-info "><strong>Atividades por atendente</strong></h3>
+                            <hr>
+                        </div>
+                        <div class="col-sm-12">
+                            <h4 v-if="is_loading"><span><i class="fa ion-load-c fa-spin fa-lg fa-fw text-primary" aria-hidden="true"></i></span> Carregando dados.</h4>
+                            <div v-for="(data, dataIndex) in charts_data">
+                                <div class="col-sm-12">
+                                    <h3 class="text-info text-center"><strong>@{{data.label}}</strong></h3>
+                                    <div class="col-sm-12 m-t-30">
+                                        <div class="col-md-3 col-sm-12">
+                                            <div class="panel widget-panel shadow">
+                                                <div class="panel-body">
+                                                    <div class="row">
+                                                        <div class="col-xs-3">
+                                                            <div class="icon-big text-center"><i class="ion-ios-telephone"></i></div>
+                                                        </div>
+                                                        <div class="col-xs-9">
+                                                            <div class="numbers"><p>Ligações @{{handlePeriod}}</p>
+                                                                <span v-if="!is_loading">@{{ data.CALL }}</span>
+                                                                <span v-if="is_loading"><i class="fa ion-load-c fa-spin fa-lg fa-fw text-primary" aria-hidden="true"></i></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-sm-12">
+                                            <div class="panel widget-panel shadow">
+                                                <div class="panel-body">
+                                                    <div class="row">
+                                                        <div class="col-xs-3">
+                                                            <div class="icon-big text-center"><i class="ion-ios-email"></i></div>
+                                                        </div>
+                                                        <div class="col-xs-9">
+                                                            <div class="numbers"><p>E-mails @{{handlePeriod}}</p>
+                                                                <span v-if="!is_loading">@{{ data.EMAIL }}</span>
+                                                                <span v-if="is_loading"><i class="fa ion-load-c fa-spin fa-lg fa-fw text-primary" aria-hidden="true"></i></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-sm-12">
+                                            <div class="panel widget-panel shadow">
+                                                <div class="panel-body">
+                                                    <div class="row">
+                                                        <div class="col-xs-3">
+                                                            <div class="icon-big text-center"><i class="ion-flag"></i></div>
+                                                        </div>
+                                                        <div class="col-xs-9">
+                                                            <div class="numbers"><p>Notas @{{handlePeriod}}</p>
+                                                                <span v-if="!is_loading">@{{ data.NOTE }}</span>
+                                                                <span v-if="is_loading"><i class="fa ion-load-c fa-spin fa-lg fa-fw text-primary" aria-hidden="true"></i></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-sm-12">
+                                            <div class="panel widget-panel shadow">
+                                                <div class="panel-body">
+                                                    <div class="row">
+                                                        <div class="col-xs-3">
+                                                            <div class="icon-big text-center"><i class="ion-flash"></i></div>
+                                                        </div>
+                                                        <div class="col-xs-9">
+                                                            <div class="numbers"><p>Tarefas @{{handlePeriod}}</p>
+                                                                <span v-if="!is_loading">@{{ data.TASK }}</span>
+                                                                <span v-if="is_loading"><i class="fa ion-load-c fa-spin fa-lg fa-fw text-primary" aria-hidden="true"></i></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{--Activities by attendant--}}
+
+                {{-- Last prospections --}}
+                <div class="slide" id="slide4">
+                    <div class="col-sm-12">
+                        <div class="col-sm-12">
+                            <h3 class="text-info "><strong>Prospecção</strong></h3>
+                            <hr>
+                        </div>
+                        <div class="col-sm-12">
+                            <h4 v-if="is_loading"><span><i class="fa ion-load-c fa-spin fa-lg fa-fw text-primary" aria-hidden="true"></i></span> Carregando dados.</h4>
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Últimas empresas cadastadas no <strong>HubSpot</strong></div>
+                                <div class="panel-body">
+                                    <table class="table table-striped table-hover table-vmiddle">
+                                        <thead>
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th>Criado por:</th>
+                                            <th>Criado em:</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="company in last_companies_hubspot">
+                                                <td>@{{ company.name }}</td>
+                                                <td>@{{ company.owner }}</td>
+                                                <td>@{{ company.created_at }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Últimas empresas cadastadas no <strong>iSaudavel</strong></div>
+                                <div class="panel-body">
+                                    <table class="table table-striped table-hover table-vmiddle">
+                                        <thead>
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th>Criado por:</th>
+                                            <th>Criado em:</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr v-for="company in last_companies_isaudavel">
+                                            <td>@{{ company.name }}</td>
+                                            <td>@{{ company.owner.full_name }}</td>
+                                            <td>@{{ company.created_at | date}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{-- Last prospections --}}
+
+
+
             </div>
         </div>
        {{-- Content --}}
@@ -359,6 +526,11 @@
             return _.truncate(value, {'length': 100, 'omission': '...'});
         });
 
+        Vue.filter('date', (value)=>{
+
+            return moment(value, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY HH:mm:ss');
+        });
+
         @php
             if(\App::environment('production')){
                 echo '';
@@ -370,6 +542,8 @@
 
         const newProfessionalAudio = new Audio('/audio/coins.mp3');
         const default_notificationAudio = new Audio('/audio/default_notification.mp3');
+
+        var classificationChart = null
 
         var vm = new Vue({
                 el: '#sales-dashboard',
@@ -389,9 +563,14 @@
                             calls: 0,
                             notes: 0,
                             contacts_created: 0,
+                            meetings: 0,
+                            companies: 0,
                         },
                         last_engagements: [],
-                        charts_data: []
+                        charts_data: [],
+                        last_companies_hubspot: [],
+                        last_companies_isaudavel:[],
+                        last_contacts: []
                     }
                 },
                 computed:{
@@ -432,9 +611,17 @@
                         this.$http.post('/api/oracle/sales/dashboard/data', {period: that.viewMode},
                         ).then(response => {
                             that.last_engagements = response.body.last_engagements;
+
                             that.widgets = response.body.widgets_data
-                            that.charts_data = response.body.charts_data
+
+                            that.charts_data = _.orderBy(response.body.charts_data, ['label'])
+                            that.last_companies_hubspot =  _.orderBy(response.body.last_companies_hubspot, ['created_at'], ['desc'])
+                            that.last_companies_isaudavel = response.body.last_companies_isaudavel
+
                             that.classificationChart()
+
+                            that.handleUpdateTimer()
+
                             that.is_loading = false
                         }, error => {
                             // error callback
@@ -453,6 +640,7 @@
                         let that = this;
 
                         clearInterval(updateTimer);
+
                         updateTimer = setInterval(function(){ that.getDashboardData() }, that.updateTime * 1000);
                     },
 
@@ -461,7 +649,7 @@
                         clearInterval(transitionTimer);
 
                         transitionTimer = setInterval(function () {
-                            $.fn.fullpage.moveSlideLeft();
+                            $.fn.fullpage.moveSlideRight();
                         }, that.transitionTime * 1000);
 
                         that.enableTransition = true
@@ -477,7 +665,7 @@
 
                         if(that.enableTransition){
                             transitionTimer = setInterval(function () {
-                                $.fn.fullpage.moveSlideLeft();
+                                $.fn.fullpage.moveSlideRight();
                             }, that.transitionTime * 1000);
                         }
                     },
@@ -507,6 +695,9 @@
                                 that.handleTransitionTimer()
                             },
                             normalScrollElements: '.table-responsive',
+                            onSlideLeave: function(anchorLink, index, slideIndex, direction, nextSlideIndex) {
+                                console.log(slideIndex, nextSlideIndex)
+                            }
                         });
                     },
 
@@ -584,8 +775,13 @@
                             },
                         };
 
-                        var ctx = document.getElementById("classification-chart");
-                        var myChart = new Chart(ctx, {
+                        var classification_chart = document.getElementById("classification-chart");
+
+                        if(classificationChart){
+                            classificationChart.destroy()
+                        }
+
+                        classificationChart = new Chart(classification_chart, {
                             type: 'horizontalBar',
                             data: {
                                 labels: that.handleClassificationChartData().data_labels,
@@ -654,6 +850,16 @@
 
                                     if(keyIndex < 0){
                                         chart_data.push({label: 'Notas', data:[data[key]], fill: false, backgroundColor: "rgba(201, 203, 207, 0.2)", borderColor: "rgb(201, 203, 207)", borderWidth: 1})
+                                    }else{
+                                        chart_data[keyIndex].data.push(data[key])
+                                    }
+                                }
+
+                                if(key == 'INCOMING_EMAIL'){
+                                    let keyIndex = _.findIndex(chart_data, {label:'Emails recebidos'})
+
+                                    if(keyIndex < 0){
+                                        chart_data.push({label: 'Emails recebidos', data:[data[key]], fill: false, backgroundColor: "rgba(154, 208, 245, 0.2)", borderColor: "rgb(30, 159, 245)", borderWidth: 1})
                                     }else{
                                         chart_data[keyIndex].data.push(data[key])
                                     }
