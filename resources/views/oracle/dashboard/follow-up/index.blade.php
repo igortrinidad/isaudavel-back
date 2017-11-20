@@ -15,8 +15,8 @@
                 </div>
 
                 <div class="panel panel-default">
-                    <div class="panel-heading cursor-pointer" data-toggle="collapse" data-target="#companies">Últimas empresas cadastadas</div>
-                    <div class="panel-body collapse in" id="companies">
+                    <div class="panel-heading cursor-pointer">Últimas empresas cadastadas</div>
+                    <div class="panel-body">
                         @unless($latest_companies->count())
                             <div class="alert alert-info">
                                 Nenhuma empresa cadastada.
@@ -87,8 +87,8 @@
                 </div>
 
                 <div class="panel panel-default">
-                    <div class="panel-heading cursor-pointer" data-toggle="collapse" data-target="#professionals">Últimos profissionais cadastrados</div>
-                    <div class="panel-body collapse" id="professionals">
+                    <div class="panel-heading cursor-pointer">Últimos profissionais cadastrados</div>
+                    <div class="panel-body" id="professionals">
                         @unless($latest_professionals->count())
                             <div class="alert alert-info">
                                 Nenhuma profissional cadastado.
