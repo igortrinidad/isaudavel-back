@@ -37,6 +37,7 @@ class Company extends Model
         'id',
         'owner_id',
         'is_active',
+        'is_paid',
         'name',
         'slug',
         'website',
@@ -66,6 +67,7 @@ class Company extends Model
         'lat' => 'float',
         'lng' => 'float',
         'terms_accepted' => 'boolean',
+        'is_paid' => 'boolean'
     ];
 
     /**
@@ -87,7 +89,7 @@ class Company extends Model
      *
      * @var array
      */
-    protected $appends = ['avatar', 'current_rating', 'total_rating'];
+    protected $appends = ['avatar', 'current_rating', 'total_rating', 'plan'];
 
     /**
      * -------------------------------
@@ -144,6 +146,21 @@ class Company extends Model
 
         return 'http://' . $website;
 
+    }
+
+    /**
+     * Plan attribute
+     * @return string
+     */
+    public function getPlanAttribute()
+    {
+        if($this->is_paid){
+            return 'paid';
+        }
+
+        if(!$this->is_paid){
+            return 'free';
+        }
     }
 
     /**

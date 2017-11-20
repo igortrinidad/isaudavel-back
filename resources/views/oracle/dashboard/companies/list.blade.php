@@ -38,6 +38,7 @@
                                 <th>Avaliação</th>
                                 <th>Status</th>
                                 <th>Assinatura</th>
+                                <th>Plan</th>
                                 <th>Criado em:</th>
                                 <th>Ações:</th>
                             </tr>
@@ -56,6 +57,8 @@
                                                 @endphp
                                                 @include('components.rating', ['size' => '16'])
                                             </div>
+                                            @else
+                                            <span>Sem avaliação</span>
                                         @endif
                                     </td>
                                     <td>
@@ -77,6 +80,14 @@
 
                                         @if($company->subscription && !$company->subscription->is_active)
                                             <span class="label label-default">Inativa</span>
+                                        @endif
+                                    </td>
+
+                                    <td>
+                                        @if($company->is_paid)
+                                            <span class="label label-info">PLUS</span>
+                                        @else
+                                            <span class="label label-default">FREE</span>
                                         @endif
                                     </td>
                                     <td>{{$company->created_at->format('d/m/Y H:i:s')}}</td>

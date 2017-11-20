@@ -106,8 +106,9 @@ class OracleController extends Controller
         $address_is_available = $request->get('address_is_available') ? true : false;
         $is_delivery = $request->get('is_delivery') ? true : false;
         $is_active = $request->get('is_active') ? true : false;
+        $is_paid = $request->get('is_paid') ? true : false;
 
-        $request->merge(['is_delivery' => $is_delivery, 'address_is_available' => $address_is_available, 'address' => $address, 'is_active' => $is_active]);
+        $request->merge(['is_delivery' => $is_delivery, 'address_is_available' => $address_is_available, 'address' => $address, 'is_active' => $is_active, 'is_paid' => $is_paid]);
 
         $company = tap(Company::find($request->get('id')))->update($request->all())->fresh();
 

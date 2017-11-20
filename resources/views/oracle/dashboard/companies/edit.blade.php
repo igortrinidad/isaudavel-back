@@ -37,6 +37,16 @@
                     </div>
 
                     <div class="form-group">
+                        <label>Plano</label><br>
+                        <p class="text">
+                            @{{company.is_paid ? 'Plus' : 'Free'}}</p>
+                        <label class="switch">
+                            <input type="checkbox" v-model="company.is_paid" name="is_paid" id="is_paid">
+                            <div class="slider round"></div>
+                        </label>
+                    </div>
+
+                    <div class="form-group">
                         <label>Nome</label>
                         <input type="text" class="form-control" name="name" placeholder="Nome" value="{{$company->name}}" required>
                     </div>

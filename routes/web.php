@@ -90,6 +90,7 @@ Route::group(['as' => 'landing.'], function () {
         Route::get('/empresa', ['uses' => 'LandingController@registerCompany', 'as' => '.company']);
         Route::post('/store-company', ['uses' => 'LandingController@signupCompanyStore', 'as' => '.company.store']);
 		Route::get('/finalizar', ['uses' => 'LandingController@registerSelectType', 'as' => '.plan.chooser']);
+        Route::get('/plano-atualizado', ['uses' => 'LandingController@updateProfessionalPlan', 'as' => '.update-plan']);
 	});
 
 	//Professionals

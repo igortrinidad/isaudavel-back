@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
 use App\Models\Professional;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -72,6 +73,13 @@ class SalesController extends Controller
         $last_engagements = $this->getAllEngagements($start);
 
         $companies_data  = $this->getAllCompanies($owners);
+
+        foreach($companies_data['companies'] as $company){
+            if( $company->properties->createdate->value >= $start && $company->properties->createdate->value <= $end)
+            {
+                $companies++;
+            }
+        }
 
         $companies_chart_data = $companies_data['companies_created'];
 
@@ -177,6 +185,10 @@ class SalesController extends Controller
 
         $professionals = Professional::whereBetween('created_at', [$start, $end])->get()->count();
 
+        $last_companies_isudavel = Company::orderBy('created_at', 'desc')->with('owner')->take(6)->get();
+
+        $last_companies_hubspot = array_reverse(array_slice($companies_data['companies'], -6, 6));
+
         $widgets_data = new \stdClass();
 
         $widgets_data->professionals = $professionals;
@@ -186,10 +198,18 @@ class SalesController extends Controller
         $widgets_data->incoming_emails = $incoming_emails;
         $widgets_data->calls = $calls;
         $widgets_data->meetings = $meetings;
-        $widgets_data->companies = count($companies_data['companies']);
+        $widgets_data->companies = $companies;
         $widgets_data->contacts_created = $contacts_created;
 
-        return response()->json(['widgets_data' => $widgets_data, 'last_engagements' => $engagements, 'charts_data' => $newChartsData]);
+        $engagements = array_slice($engagements, 0, 30);
+
+        return response()->json([
+            'widgets_data' => $widgets_data,
+            'last_engagements' => $engagements,
+            'charts_data' => $newChartsData,
+            'last_companies_hubspot' => $last_companies_hubspot,
+            'last_companies_isaudavel' => $last_companies_isudavel
+        ]);
     }
 
     /**
@@ -257,17 +277,26 @@ class SalesController extends Controller
 
         if(!$response->{'has-more'}){
             foreach ($response->companies as $company) {
+
+                $company->name = $company->properties->name->value;
+                $company->created_at = date('d/m/Y H:i:s', $company->properties->createdate->value / 1000);
+
                 //get creator status
                 if (!array_key_exists($company->properties->name->sourceId, $companies_created)) {
                     //get owner
                     $owner = $this->searchInArray($owners, ['email' => $company->properties->name->sourceId]);
 
                     if($owner){
+                        $company->owner = $owner->firstName.' '. $owner->lastName;
                         $companies_created[$company->properties->name->sourceId]['label'] = $owner->firstName.' '. $owner->lastName;
                     }
                     $companies_created[$company->properties->name->sourceId]['total'] = 1;
                 } else {
                     $companies_created[$company->properties->name->sourceId]['total']++;
+                }
+
+                if($owner){
+                    $company->owner = $owner->firstName.' '. $owner->lastName;
                 }
 
               $companies [] = $company;

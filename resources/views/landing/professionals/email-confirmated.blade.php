@@ -20,7 +20,18 @@
         .card-body.card-custom-padding{
             padding: 43px 14px;
         }
+
+        .plan-check-close-icon{
+            font-size: 30px !important;
+        }
+
+        .list-group{
+            font-size: 16px;
+        }
+
     </style>
+
+
 
     <section id="signup" class="section gray p-t-30 p-b-0">
 
@@ -48,124 +59,21 @@
             </div>
             {{-- End Form Container --}}
 
+            {{--Alert display--}}
+            @include('flash::message')
+
             <div class="row">
                 <div class="col-md-12 col-xs-12">
                     <h2 class="text-center">Turbine seu perfil profissional</h2>
 
-                    <div class="card text-center m-t-20">
+                    <div class="card text-center m-t-20 bg-pattern">
                         <div class="card-body card-custom-padding">
                             <p class="f-18">Você pode turbinar seu perfil profissional divulgando para muito mais pessoas através da plataforma e gerenciar seus clientes com ajuda do aplicativo iSaudavel:</p>
 
                             <div class="row text-center m-t-30">
 
-                                <!--Free -->
-                                <div class="col-sm-4 col-sm-offset-2">
-                                    <div class="card">
-                                        <div class="card-header ch-alt text-center">
-                                            <h1 class="m-0 m-b-10">FREE</h1>
-                                            <p class="f-300 m-0"><small>Isso mesmo, é de graça!</small></p>
+                                @include('landing.professionals.plans-for-professional')
 
-                                            <span class="f-20 payment">
-                                                <strong class="payment-currency">R$</strong>
-                                                <span class="payment-value">
-                                                    <strong class="m-r-0">0</strong>
-                                                    <small style="margin-left: -3px;">,00</small>
-                                                </span>
-
-                                                {{-- Isso aqui é só um exemplo --}}
-                                                <span class="payment-duration">
-                                                    para sempre!
-                                                </span>
-
-                                            </span>
-                                        </div>
-                                        <div class="card-body p-0">
-                                            <ul class="list-group m-0 text-center">
-                                                <li class="list-group-item">
-                                                    <i class="ion-ios-checkmark-empty m-r-5 f-18 c-green"></i>
-                                                    Divulgar perfil profissional
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <i class="ion-ios-checkmark-empty m-r-5 f-18 c-green"></i>
-                                                    Vincular à empresas que você trabalha
-                                                </li>
-                                                <li class="list-group-item not-supported">
-                                                    <i class="ion-ios-close-empty m-r-5 f-18 c-red"></i>
-                                                    Acesso aos Dashboard's dos clientes
-                                                </li>
-                                                <li class="list-group-item not-supported">
-                                                    <i class="ion-ios-close-empty m-r-5 f-18 c-red"></i>
-                                                    Agenda online para clientes
-                                                </li>
-                                                <li class="list-group-item not-supported">
-                                                    <i class="ion-ios-close-empty m-r-5 f-18 c-red"></i>
-                                                    Gerencie seus clientes
-                                                </li>
-                                            </ul>
-
-                                                <button class="btn btn-xs btn-block btn-success p-10 f-16 m-t-10" title="Plano atual" disabled>
-                                                    Plano atual
-                                                </button>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--Free -->
-
-
-                                <!--Free -->
-                                <div class="col-sm-4">
-                                    <div class="card">
-                                        <div class="card-header ch-alt text-center">
-                                            <h1 class="m-0 m-b-10">PLUS</h1>
-                                            <p class="f-300 m-0"><small>Apenas</small></p>
-
-                                            <span class="f-20 payment">
-                                                <strong class="payment-currency">R$</strong>
-                                                <span class="payment-value">
-                                                    <strong class="m-r-0">27</strong>
-                                                    <small style="margin-left: -3px;">,90 / mês</small>
-                                                </span>
-
-                                            </span>
-                                        </div>
-                                        <div class="card-body p-0">
-                                            <ul class="list-group m-0 text-center">
-                                                <li class="list-group-item">
-                                                    <i class="ion-ios-checkmark-empty m-r-5 f-18 c-green"></i>
-                                                    Divulgar perfil profissional
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <i class="ion-ios-checkmark-empty m-r-5 f-18 c-green"></i>
-                                                    Vincular à empresas que você trabalha
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <i class="ion-ios-checkmark-empty m-r-5 f-18 c-green"></i>
-                                                    Acesso aos Dashboard's dos clientes
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <i class="ion-ios-checkmark-empty m-r-5 f-18 c-green"></i>
-                                                    Agenda online para clientes
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <i class="ion-ios-checkmark-empty m-r-5 f-18 c-green"></i>
-                                                    Gerencie seus clientes
-                                                </li>
-                                            </ul>
-
-                                            @if(!empty(request()->query('professional')) || !empty(request()->query('company')) || !\Auth::guard('professional_web')->guest())
-                                                <button class="btn btn-xs btn-block btn-success p-10 f-16" title="Quero este!" @click.prevent="planChooser('free')">Quero este!</button>
-                                            @else
-                                                <p class="text-center m-t-10 m-b-10">Faça login para selecionar um plano</p>
-                                                <a class="btn btn-xs btn-block btn-primary p-10 f-16" @click.prevent="goToLogin()">Fazer login</a>
-                                            @endif
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--Free -->
-
-                                
                             </div>
 
                         </div>
@@ -178,67 +86,14 @@
                 <div class="col-md-12 col-xs-12">
                     <h2 class="text-center">Cadastre suas empresas</h2>
 
-                    <div class="card text-center m-t-20">
+                    <div class="card text-center m-t-20 bg-pattern">
                         <div class="card-body card-custom-padding">
-                            <p class="f-18">Você também pode cadastrar as empresas que você trabalha</p>
+                            <p class="f-18">Você também pode cadastrar e divulgar através da plataforma iSaudavel as empresas que você trabalha.</p>
 
                             <div class="row text-center m-t-30">
 
+                                @include('landing.professionals.plans-for-companies')
 
-                                <!--Free -->
-                                <div class="col-sm-4 col-sm-offset-4">
-                                    <div class="card">
-                                        <div class="card-header ch-alt text-center">
-                                            <h1 class="m-0 m-b-10">PARA EMPRESAS</h1>
-                                            <p class="f-300 m-0"><small>Apenas</small></p>
-
-                                            <span class="f-20 payment">
-                                                <strong class="payment-currency">R$</strong>
-                                                <span class="payment-value">
-                                                    <strong class="m-r-0">57</strong>
-                                                    <small style="margin-left: -3px;">,90 / mês</small>
-                                                </span>
-
-                                            </span>
-                                        </div>
-                                        <div class="card-body p-0">
-                                            <ul class="list-group m-0 text-center">
-                                                <li class="list-group-item">
-                                                    <i class="ion-ios-checkmark-empty m-r-5 f-18 c-green"></i>
-                                                    Divulgar perfil da empresa
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <i class="ion-ios-checkmark-empty m-r-5 f-18 c-green"></i>
-                                                    Vincular profissionais
-                                                    <p class="f-12">incluso 2 profissionais (R$19,90 / profissional extra)</p>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <i class="ion-ios-checkmark-empty m-r-5 f-18 c-green"></i>
-                                                    Acesso aos Dashboard's dos clientes
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <i class="ion-ios-checkmark-empty m-r-5 f-18 c-green"></i>
-                                                    Agenda online para clientes
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <i class="ion-ios-checkmark-empty m-r-5 f-18 c-green"></i>
-                                                    Gerencie seus clientes
-                                                </li>
-                                            </ul>
-
-                                            @if(!empty(request()->query('professional')) || !empty(request()->query('company')) || !\Auth::guard('professional_web')->guest())
-                                                <a href="/cadastro/empresa" class="btn btn-xs btn-block btn-success p-10 f-16 m-t-10" title="Quero este!">Cadastrar empresa</a>
-                                            @else
-                                                <p class="text-center m-t-20 m-b-10">Faça login para cadastrar sua empresa</p>
-                                                <a class="btn btn-xs btn-block btn-primary p-10 f-16" @click.prevent="goToLogin()">Fazer login</a>
-                                            @endif
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--Free -->
-
-                                
                             </div>
 
                         </div>
