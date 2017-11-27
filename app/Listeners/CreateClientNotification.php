@@ -116,7 +116,7 @@ class CreateClientNotification
             $notification_data = [
                 'client_id' => $client->id,
                 'title' => 'Alteração de horário',
-                'content' => 'O usuário '. $schedule->reschedule_by . ' acabou de alterar seu horário de ' .$schedule->category->name . ' marcado anteriormente para ' . $old_schedule->date . ' ' . $old_schedule->time . '. O novo horário foi definido para ' .$schedule->date . ' ' . $schedule->time,
+                'content' => 'O usuário '. $schedule->reschedule_by . ' acabou de alterar seu horário de ' .$schedule->category->name . ' marcado anteriormente para ' . $old_schedule->date . ' ' . $old_schedule->time . ' o novo horário foi definido para ' .$schedule->date . ' ' . $schedule->time,
                 'button_label' => 'Visualizar agendamento',
                 'button_action' => '/cliente/dashboard/calendar/'.urlencode($schedule->date).'/schedule/'.$schedule->id
             ];
