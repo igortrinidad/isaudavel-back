@@ -137,13 +137,14 @@ class CreateCompanyNotification
         if($data['type'] == 'reschedule'){
 
             $schedule = $data['payload']['schedule'];
+            $old_schedule = $data['payload']['old_schedule'];
 
             $only = true;
             $professional_selected_id = $schedule->professional->id;
 
             $notification_data = [
                 'title' => 'Remarcação de agendamento',
-                'content' => $schedule->client->full_name .' remarcou um agendamento de '. $schedule->category->name.  ' para ' . $schedule->date . ' ' . $schedule->time. ' na sua agenda.',
+                'content' => 'O cliente ' . $schedule->client->full_name .' remarcou um agendamento de '. $schedule->category->name.  ' no horário (antigo => novo) ' . $old_schedule->date . ' ' . $old_schedule->time. ' => ' .$schedule->date . ' ' . $schedule->time. ' na sua agenda.',
                 'button_label' => 'Visualizar agendamento',
                 'button_action' => '/dashboard/empresas/mostrar/' . $company->id . '/schedule/' . $schedule->id
             ];
@@ -153,13 +154,14 @@ class CreateCompanyNotification
         if($data['type'] == 'reschedule_by_professional'){
 
             $schedule = $data['payload']['schedule'];
+            $old_schedule = $data['payload']['old_schedule'];
 
             $only = true;
             $professional_selected_id = $schedule->professional->id;
 
             $notification_data = [
                 'title' => 'Remarcação de agendamento',
-                'content' => \Auth::user()->full_name .' remarcou um agendamento do cliente '. $schedule->client->full_name .' de '. $schedule->category->name.  ' para ' . $schedule->date . ' ' . $schedule->time. ' na sua agenda.',
+                'content' => \Auth::user()->full_name .' remarcou um agendamento do cliente '. $schedule->client->full_name .' de '. $schedule->category->name.  ' no horário (antigo => novo) ' . $old_schedule->date . ' ' . $old_schedule->time. ' => ' .$schedule->date . ' ' . $schedule->time. ' na sua agenda.',
                 'button_label' => 'Visualizar agendamento',
                 'button_action' => '/dashboard/empresas/mostrar/' . $company->id . '/schedule/' . $schedule->id
             ];
@@ -176,7 +178,7 @@ class CreateCompanyNotification
 
             $notification_data = [
                 'title' => 'Cancelamento de horário',
-                'content' => $schedule->client->full_name .' cancelou o agendamento de '. $schedule->category->name. ' marcado para ' . $schedule->date . ' ' . $schedule->time . ' na sua agenda.',
+                'content' => 'O cliente ' .$schedule->client->full_name .' cancelou o agendamento de '. $schedule->category->name. ' marcado para ' . $schedule->date . ' ' . $schedule->time . ' na sua agenda.',
                 'button_label' => 'Visualizar agendamento',
                 'button_action' => '/dashboard/empresas/mostrar/' . $company->id . '/schedule/' . $schedule->id
             ];
@@ -221,13 +223,14 @@ class CreateCompanyNotification
         */
         if($data['type'] == 'single_reschedule'){
             $single_schedule = $data['payload']['single_schedule'];
+            $old_schedule = $data['payload']['old_schedule'];
 
             $only = true;
             $professional_selected_id = $single_schedule->professional->id;
 
             $notification_data = [
                 'title' => 'Remarcação de agendamento',
-                'content' => $single_schedule->client->full_name . ' remarcou um agendamento de '. $single_schedule->category->name.  ' para ' . $single_schedule->date . ' ' . $single_schedule->time. ' na sua agenda.',
+                'content' => $single_schedule->client->full_name . ' remarcou um agendamento de '. $single_schedule->category->name.  ' no horário (antigo => novo) ' . $old_schedule->date . ' ' . $old_schedule->time. ' => ' .$single_schedule->date . ' ' . $single_schedule->time. ' na sua agenda.',
                 'button_label' => 'Visualizar agendamento',
                 'button_action' => '/dashboard/empresas/mostrar/' . $company->id . '/single-schedule/' . $single_schedule->id
             ];
@@ -238,13 +241,14 @@ class CreateCompanyNotification
         */
         if($data['type'] == 'single_reschedule_by_professional'){
             $single_schedule = $data['payload']['single_schedule'];
+            $old_schedule = $data['payload']['old_schedule'];
 
             $only = true;
             $professional_selected_id = $single_schedule->professional->id;
 
             $notification_data = [
                 'title' => 'Remarcação de agendamento',
-                'content' => \Auth::user()->full_name .' remarcou um agendamento do cliente '. $single_schedule->client->full_name .' de '. $single_schedule->category->name.  ' para ' . $single_schedule->date . ' ' . $single_schedule->time. ' na sua agenda.',
+                'content' => \Auth::user()->full_name .' remarcou um agendamento do cliente '. $single_schedule->client->full_name .' de '. $single_schedule->category->name.  ' no horário (antigo => novo) ' . $old_schedule->date . ' ' . $old_schedule->time. ' => ' .$single_schedule->date . ' ' . $single_schedule->time. ' na sua agenda.',
                 'button_label' => 'Visualizar agendamento',
                 'button_action' => '/dashboard/empresas/mostrar/' . $company->id . '/single-schedule/' . $single_schedule->id
             ];
