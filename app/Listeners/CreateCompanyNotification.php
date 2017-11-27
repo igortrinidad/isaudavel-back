@@ -223,7 +223,7 @@ class CreateCompanyNotification
         */
         if($data['type'] == 'single_reschedule'){
             $single_schedule = $data['payload']['single_schedule'];
-            $old_schedule = $data['payload']['old_schedule'];
+            $old_schedule = $data['payload']['old_single_schedule'];
 
             $only = true;
             $professional_selected_id = $single_schedule->professional->id;
@@ -241,7 +241,7 @@ class CreateCompanyNotification
         */
         if($data['type'] == 'single_reschedule_by_professional'){
             $single_schedule = $data['payload']['single_schedule'];
-            $old_schedule = $data['payload']['old_schedule'];
+            $old_schedule = $data['payload']['old_single_schedule'];
 
             $only = true;
             $professional_selected_id = $single_schedule->professional->id;
