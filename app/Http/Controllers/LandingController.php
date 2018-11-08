@@ -825,10 +825,12 @@ class LandingController extends Controller
         $data['messageFour'] = 'Mensagem: ' . $request['message'];
         $data['messageSubject'] = 'Contato iSaudavel';
 
+        /*
         \Mail::send('emails.standart-with-btn',['data' => $data], function ($message) use ($data){
             $message->from('no-reply@isaudavel.com', 'Landing iSaudavel');
             $message->to('contato@maisbartenders.com.br', 'iSaudavel')->subject($data['messageSubject']);
         });
+        */
 
         //Email
         $data = [];
